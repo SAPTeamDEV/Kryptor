@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NETCore.Encrypt;
 using NETCore.Encrypt.Extensions;
@@ -35,7 +36,16 @@ namespace Kryptor
         /// </returns>
         public string Encrypt(string data)
         {
-            var chunks = data.Divide(256);
+            var _chunks = data.ToCharArray().Slice<char>(256);
+            string[] chunks = new string[Math.Max(data.Length, 256) / 256];
+
+            int i = 0;
+
+            foreach (var chunk in _chunks)
+            {
+                chunks[i++] = new string(chunk).Trim('\0');
+            }
+
             var ciphers = Encrypt(chunks);
 
             string cipher = data.SHA256();
@@ -53,6 +63,38 @@ namespace Kryptor
                 yield return EncryptProvider.AESEncrypt(EncryptProvider.Base64Encrypt(chunk), keystore[i++]);
             }
         }
+
+        /*
+        /// <summary>
+        /// Encrypts the specified data using the Kryptor Encryption Standard (KES).
+        /// </summary>
+        /// <param name="data">
+        /// The data to encrypt.
+        /// </param>
+        /// <returns>
+        /// The encrypted data.
+        /// </returns>
+        public string Encrypt(byte[] data)
+        {
+            var chunks = data.Slice<byte>(256);
+            var ciphers = Encrypt(chunks);
+
+            string cipher = data.SHA256();
+            cipher += string.Join("\\", ciphers);
+
+            return EncryptProvider.Base64Encrypt(cipher);
+        }
+
+        IEnumerable<string> Encrypt(IEnumerable<string> data)
+        {
+            int i = 0;
+
+            foreach (var chunk in data)
+            {
+                yield return EncryptProvider.AESEncrypt(EncryptProvider.Base64Encrypt(chunk), keystore[i++]);
+            }
+        }
+        */
 
         /// <summary>
         /// Decrypts the specified data using the Kryptor Encryption Standard (KES).
