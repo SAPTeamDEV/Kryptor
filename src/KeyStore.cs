@@ -60,7 +60,7 @@ namespace Kryptor
         /// <returns>
         /// The new <see cref="KeyStore"/> instance.
         /// </returns>
-        public static KeyStore Generate(int count = 5, int keySize = 256)
+        public static KeyStore Generate(int count = 128, int keySize = 256)
         {
             string[] keys = new string[count];
             for (int i = 0; i < count; i++)
