@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-
-using NETCore.Encrypt;
 
 namespace Kryptor
 {
@@ -114,7 +111,7 @@ namespace Kryptor
         /// </returns>
         public static KeyStore FromString(string s)
         {
-            return new KeyStore(s.Split(';'));
+            return new KeyStore(s.Trim(new char[] {'\n', '\r'}).Split(';'));
         }
     }
 }

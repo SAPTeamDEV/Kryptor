@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
-
-using NETCore.Encrypt.Shared;
 
 namespace Kryptor
 {
@@ -29,7 +26,7 @@ namespace Kryptor
                 T[] slice = new T[actualSize];
                 Array.Copy(source, i, slice, 0, actualSize);
                 yield return slice;
-            }    
+            }
         }
 
         /// <summary>
@@ -57,8 +54,7 @@ namespace Kryptor
         {
             using (SHA256 sha256 = SHA256.Create())
             {
-                byte[] bytes_sha256_out = sha256.ComputeHash(src);
-                return bytes_sha256_out;
+                return sha256.ComputeHash(src);
             }
         }
 
@@ -90,15 +86,15 @@ namespace Kryptor
 
         public static string ToReadable(this int x)
         {
-            if (x > 1073741824)
+            if (x >= 1073741824)
             {
                 return $"{string.Format("{0:0.00}", (double)x / 1073741824)} GiB";
             }
-            if (x > 1048576)
+            if (x >= 1048576)
             {
                 return $"{string.Format("{0:0.00}", (double)x / 1048576)} MiB";
             }
-            if (x > 1024)
+            if (x >= 1024)
             {
                 return $"{string.Format("{0:0.00}", (decimal)x / 1024)} KiB";
             }
