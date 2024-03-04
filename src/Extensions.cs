@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
+
+using NETCore.Encrypt.Shared;
 
 namespace Kryptor
 {
-    internal static class Extensions
+    public static class Extensions
     {
         /// <summary>
         /// Divides a string into chunks of a specified size.
@@ -22,10 +25,71 @@ namespace Kryptor
         {
             for (int i = 0; i < source.Length; i += maxChunkSize)
             {
-                T[] slice = new T[maxChunkSize];
-                Array.Copy(source, i, slice, 0, Math.Min(source.Length - i, maxChunkSize));
+                var actualSize = Math.Min(source.Length - i, maxChunkSize);
+                T[] slice = new T[actualSize];
+                Array.Copy(source, i, slice, 0, actualSize);
                 yield return slice;
             }    
+        }
+
+        /// <summary>
+        /// SHA256 encrypt
+        /// </summary>
+        /// <param name="srcString">The string to be encrypted</param>
+        /// <returns></returns>
+        public static string Sha256(this byte[] src)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes_sha256_out = sha256.ComputeHash(src);
+                string str_sha256_out = BitConverter.ToString(bytes_sha256_out);
+                str_sha256_out = str_sha256_out.Replace("-", "");
+                return str_sha256_out;
+            }
+        }
+
+        public static byte[] CheckPads(this byte[] src)
+        {
+            List<byte> buf = new List<byte>();
+            List<byte> sus = new List<byte>();
+
+            foreach (var b in src)
+            {
+                if (b > 0)
+                {
+                    if (sus.Count > 0)
+                    {
+                        buf.AddRange(sus);
+                        sus.Clear();
+                    }
+
+                    buf.Add(b);
+                }
+                else
+                {
+                    sus.Add(0);
+                }
+            }
+
+            return buf.ToArray();
+        }
+
+        public static string ToReadable(this int x)
+        {
+            if (x > 1073741824)
+            {
+                return $"{string.Format("{0:0.00}", (double)x / 1073741824)} GiB";
+            }
+            if (x > 1048576)
+            {
+                return $"{string.Format("{0:0.00}", (double)x / 1048576)} MiB";
+            }
+            if (x > 1024)
+            {
+                return $"{string.Format("{0:0.00}", (decimal)x / 1024)} KiB";
+            }
+
+            return $"{x} Bytes";
         }
 
         /// <summary>
