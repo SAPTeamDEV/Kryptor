@@ -13,7 +13,9 @@ namespace Kryptor
     public class KESProvider
     {
         KeyStore keystore;
-        const int ChUNK_SIZE = 863;
+        const int Factor = 16;
+        const int ChUNK_SIZE = Factor * 16 - 1;
+        const int DELIMITER_SIZE = ((ChUNK_SIZE / 16) + 1) * 16;
         const char CHUNK_DELIMITER = ';';
 
         /// <summary>
@@ -122,13 +124,11 @@ namespace Kryptor
             var cipher = data.Sha256();
             cipher += string.Join(CHUNK_DELIMITER, ciphers);
 
-            /*
             Console.WriteLine("Encryption Stage:");
             Console.WriteLine($"{data.Length} bytes");
-            Console.WriteLine($"Number of Chuncks: {chunks.Count()}, last Cunck Size: {chunks.Last().Length}");
+            Console.WriteLine($"Number of Chuncks: {chunks.Count()}, last Chunc Size: {chunks.Last().Length}");
             Console.WriteLine($"Total Segments: {ciphers.Count()}");
             Console.WriteLine($"Raw Output Size: {cipher.Length}");
-            */
 
             // return EncryptProvider.Base64Encrypt(cipher);
             return cipher;
@@ -142,7 +142,7 @@ namespace Kryptor
             {
                 var b = ExtraEncryptProvider.AESEncrypt(chunk, keystore[i++]);
                 var b64 = Convert.ToBase64String(b);
-                // Console.WriteLine($"Index: {i}, Chunck Size: {chunk.Length}, Encrypted Size: {b.Length}, b64 Length: {b64.Length}");
+                Console.WriteLine($"Index: {i}, Chunck Size: {chunk.Length}, Encrypted Size: {b.Length}, b64 Length: {b64.Length}");
                 yield return b64;
             }
         }
@@ -184,6 +184,114 @@ namespace Kryptor
             foreach (var cipher in ciphers)
             {
                 byte[] b = ExtraEncryptProvider.AESDecrypt(Convert.FromBase64String(cipher), keystore[i++]);
+                // b = b.CheckPads();
+                count += b.Length;
+                t[j++] = b;
+            }
+
+            byte[] buffer = new byte[count];
+            int ii = 0;
+
+            foreach (var bt in t)
+            {
+                bt.CopyTo(buffer, ii);
+                ii += bt.Length;
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// Encrypts the specified data using the Kryptor Encryption Standard (KES).
+        /// </summary>
+        /// <param name="data">
+        /// The data to encrypt.
+        /// </param>
+        /// <returns>
+        /// The encrypted data.
+        /// </returns>
+        public byte[] Encrypt2(byte[] data, int size = ChUNK_SIZE)
+        {
+            var chunks = data.Slice<byte>(size);
+
+            var ciphers = tEncrypt2(chunks);
+            var cipher = data.RawSha256();
+            cipher = cipher.Concat(ciphers).ToArray();
+
+            Console.WriteLine("Encryption Stage:");
+            Console.WriteLine($"{data.Length} bytes");
+            Console.WriteLine($"Number of Chuncks: {chunks.Count()}, last Chunc Size: {chunks.Last().Length}");
+            Console.WriteLine($"Total Segments: {ciphers.Count()}");
+            Console.WriteLine($"Raw Output Size: {cipher.Length}");
+
+            // return EncryptProvider.Base64Encrypt(cipher);
+            return cipher;
+        }
+
+        byte[] tEncrypt2(IEnumerable<byte[]> data)
+        {
+            byte[][] t = new byte[data.Count()][];
+            int count = 0;
+            int i = 0;
+            int j = 0;
+
+            foreach (var chunk in data)
+            {
+                var b = ExtraEncryptProvider.AESEncrypt(chunk, keystore[i++]);
+                Console.WriteLine($"Index: {i}, Chunk Size: {chunk.Length}, Encrypted Size: {b.Length}");
+                count += b.Length;
+                t[j++] = b;
+            }
+
+            byte[] buffer = new byte[count];
+            int ii = 0;
+
+            foreach (var bt in t)
+            {
+                bt.CopyTo(buffer, ii);
+                ii += bt.Length;
+            }
+
+            return buffer;
+        }
+
+        /// <summary>
+        /// Decrypts the specified data using the Kryptor Encryption Standard (KES).
+        /// </summary>
+        /// <param name="data">
+        /// The data to decrypt.
+        /// </param>
+        /// <returns>
+        /// The decrypted data.
+        /// </returns>
+        /// <exception cref="Exception">
+        /// Thrown when the hash of the decrypted data does not match the hash in the input data.
+        /// </exception>
+        public byte[] DecryptByte2(byte[] data)
+        {
+            var ciphers = data[32..].Slice<byte>(DELIMITER_SIZE);
+            var hash = BitConverter.ToString(data[..32]);
+
+            var decrypted = DecryptByte2(ciphers);
+
+            if (BitConverter.ToString(decrypted.RawSha256()) != hash)
+            {
+                throw new Exception("Hash mismatch");
+            }
+
+            return decrypted;
+        }
+
+        byte[] DecryptByte2(IEnumerable<byte[]> ciphers)
+        {
+            byte[][] t = new byte[ciphers.Count()][];
+            int count = 0;
+            int i = 0;
+            int j = 0;
+
+            foreach (var cipher in ciphers)
+            {
+                byte[] b = ExtraEncryptProvider.AESDecrypt(cipher, keystore[i++]);
                 // b = b.CheckPads();
                 count += b.Length;
                 t[j++] = b;

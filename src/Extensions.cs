@@ -48,6 +48,20 @@ namespace Kryptor
             }
         }
 
+        /// <summary>
+        /// SHA256 encrypt
+        /// </summary>
+        /// <param name="srcString">The string to be encrypted</param>
+        /// <returns></returns>
+        public static byte[] RawSha256(this byte[] src)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes_sha256_out = sha256.ComputeHash(src);
+                return bytes_sha256_out;
+            }
+        }
+
         public static byte[] CheckPads(this byte[] src)
         {
             List<byte> buf = new List<byte>();
