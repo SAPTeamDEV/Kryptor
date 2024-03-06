@@ -1,5 +1,10 @@
 Kryptor
 =========================================
+
+[![Gawe CI](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/main.yml)
+[![NuGet](https://img.shields.io/nuget/v/SAPTeam.Kryptor)](https://www.nuget.org/packages/SAPTeam.Kryptor)
+[![NuGet](https://img.shields.io/nuget/dt/SAPTeam.Kryptor)](https://www.nuget.org/packages/SAPTeam.Kryptor)
+
 Kryptor is a **key-based encryption engine** that currently uses the **KES** encryption algorithm to encrypt and decrypt data.
 
 What is the KES?
