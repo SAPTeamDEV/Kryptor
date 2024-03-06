@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Kryptor
+namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Stores keys for the <see cref="KESProvider"/> class.
@@ -25,7 +25,7 @@ namespace Kryptor
             {
                 if (index >= Keys.Length)
                 {
-                    index -= ((index / Keys.Length) * Keys.Length);
+                    index -= index / Keys.Length * Keys.Length;
                 }
 
                 return Keys[index];
@@ -111,7 +111,7 @@ namespace Kryptor
         /// </returns>
         public static KeyStore FromString(string s)
         {
-            return new KeyStore(s.Trim(new char[] {'\n', '\r'}).Split(';'));
+            return new KeyStore(s.Trim(new char[] { '\n', '\r' }).Split(';'));
         }
     }
 }

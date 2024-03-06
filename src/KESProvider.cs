@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using NETCore.Encrypt;
-using NETCore.Encrypt.Extensions;
-using NETCore.Encrypt.Shared;
-
-namespace Kryptor
+namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Provides methods to encrypt and decrypt data using the Kryptor Encryption Standard (KES).
@@ -23,7 +19,7 @@ namespace Kryptor
         /// <summary>
         /// Max size of buffer data for encryption
         /// </summary>
-        public const int BufferBlockSize = ((BlockSize / ChunkSize) - 1) * BufferChunkSize;
+        public const int BufferBlockSize = (BlockSize / ChunkSize - 1) * BufferChunkSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KESProvider"/> class.
@@ -45,11 +41,11 @@ namespace Kryptor
                     int blockSize = BufferBlockSize;
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
-                        var actualSize = Math.Min(f.Length - i, blockSize);
+                        int actualSize = (int)Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
-                        f.Read(slice);
+                        f.Read(slice, 0, slice.Length);
                         var eSlice = EncryptBlock(slice);
-                        f2.Write(eSlice);
+                        f2.Write(eSlice, 0, eSlice.Length);
                     }
                 }
             }
@@ -66,9 +62,9 @@ namespace Kryptor
                     {
                         var actualSize = Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
-                        f.Read(slice);
+                        f.Read(slice, 0, slice.Length);
                         var eSlice = DecryptBlock(slice);
-                        f2.Write(eSlice);
+                        f2.Write(eSlice, 0, eSlice.Length);
                     }
                 }
             }
@@ -147,7 +143,7 @@ namespace Kryptor
 
             var chunks = bytes.Slice<byte>(ChunkSize).ToArray();
             var hash = chunks[0];
-            var encrypted = chunks[1..];
+            var encrypted = chunks.Skip(1);
 
             var decrypted = Decrypt(encrypted);
 

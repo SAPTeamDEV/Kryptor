@@ -1,11 +1,12 @@
-﻿using System;
+﻿// Some parts of this file copied from NETCore.Encrypt project
+// https://github.com/myloveCc/NETCore.Encrypt
+
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-using NETCore.Encrypt.Shared;
-
-namespace Kryptor
+namespace SAPTeam.Kryptor
 {
     internal class ExtraEncryptProvider
     {
@@ -41,7 +42,7 @@ namespace Kryptor
                             cryptoStream.FlushFinalBlock();
                             return memory.ToArray();
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             return null;
                         }
@@ -83,7 +84,7 @@ namespace Kryptor
                             using (MemoryStream tempMemory = new MemoryStream())
                             {
                                 byte[] buffer = new byte[1024];
-                                Int32 readBytes = 0;
+                                int readBytes = 0;
                                 while ((readBytes = decryptor.Read(buffer, 0, buffer.Length)) > 0)
                                 {
                                     tempMemory.Write(buffer, 0, readBytes);
