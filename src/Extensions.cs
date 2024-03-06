@@ -4,12 +4,15 @@ using System.Security.Cryptography;
 
 namespace SAPTeam.Kryptor
 {
+    /// <summary>
+    /// Provides extension methods for various types.
+    /// </summary>
     public static class Extensions
     {
         /// <summary>
         /// Divides a string into chunks of a specified size.
         /// </summary>
-        /// <param name="str">
+        /// <param name="source">
         /// The string to divide.
         /// </param>
         /// <param name="maxChunkSize">
@@ -32,7 +35,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// SHA256 encrypt
         /// </summary>
-        /// <param name="srcString">The string to be encrypted</param>
+        /// <param name="src">The string to be encrypted</param>
         /// <returns></returns>
         public static string Sha256(this byte[] src)
         {
@@ -48,7 +51,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// SHA256 encrypt
         /// </summary>
-        /// <param name="srcString">The string to be encrypted</param>
+        /// <param name="src">The string to be encrypted</param>
         /// <returns></returns>
         public static byte[] RawSha256(this byte[] src)
         {
@@ -56,50 +59,6 @@ namespace SAPTeam.Kryptor
             {
                 return sha256.ComputeHash(src);
             }
-        }
-
-        public static byte[] CheckPads(this byte[] src)
-        {
-            List<byte> buf = new List<byte>();
-            List<byte> sus = new List<byte>();
-
-            foreach (var b in src)
-            {
-                if (b > 0)
-                {
-                    if (sus.Count > 0)
-                    {
-                        buf.AddRange(sus);
-                        sus.Clear();
-                    }
-
-                    buf.Add(b);
-                }
-                else
-                {
-                    sus.Add(0);
-                }
-            }
-
-            return buf.ToArray();
-        }
-
-        public static string ToReadable(this int x)
-        {
-            if (x >= 1073741824)
-            {
-                return $"{string.Format("{0:0.00}", (double)x / 1073741824)} GiB";
-            }
-            if (x >= 1048576)
-            {
-                return $"{string.Format("{0:0.00}", (double)x / 1048576)} MiB";
-            }
-            if (x >= 1024)
-            {
-                return $"{string.Format("{0:0.00}", (decimal)x / 1024)} KiB";
-            }
-
-            return $"{x} Bytes";
         }
 
         /// <summary>

@@ -8,14 +8,14 @@ using System.Text;
 
 namespace SAPTeam.Kryptor
 {
-    internal class ExtraEncryptProvider
+    internal class AESEncryptProvider
     {
         /// <summary>
-        /// AES encrypt ( no IV)
+        /// Encrypts data with AES-ECB method
         /// </summary>
         /// <param name="data">Raw data</param>
-        /// <param name="key">Key, requires 32 bits</param>
-        /// <returns>Encrypted string</returns>
+        /// <param name="key">Key, requires 256 bits</param>
+        /// <returns>Encrypted bytes</returns>
         public static byte[] AESEncrypt(byte[] data, string key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
@@ -52,11 +52,11 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// AES decrypt( no IV)
+        /// Decrypts data with AES-ECB method
         /// </summary>
         /// <param name="data">Encrypted data</param>
-        /// <param name="key">Key, requires 32 bits</param>
-        /// <returns>Decrypted string</returns>
+        /// <param name="key">Key, requires 256 bits</param>
+        /// <returns>Decrypted bytes</returns>
         public static byte[] AESDecrypt(byte[] data, string key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));

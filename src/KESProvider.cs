@@ -32,6 +32,15 @@ namespace SAPTeam.Kryptor
             this.keystore = keystore;
         }
 
+        /// <summary>
+        /// Encrypts the given file and writes the encrypted data to the specified destination.
+        /// </summary>
+        /// <param name="path">
+        /// The path of the file to encrypt.
+        /// </param>
+        /// <param name="destination">
+        /// The path of the file to write the encrypted data to.
+        /// </param>
         public void EncryptFile(string path, string destination)
         {
             using (var f = File.OpenRead(path))
@@ -51,6 +60,15 @@ namespace SAPTeam.Kryptor
             }
         }
 
+        /// <summary>
+        /// Decrypts the given file and writes the decrypted data to the specified destination.
+        /// </summary>
+        /// <param name="path">
+        /// The path of the file to decrypt.
+        /// </param>
+        /// <param name="destination">
+        /// The path of the file to write the decrypted data to.
+        /// </param>
         public void DecryptFile(string path, string destination)
         {
             using (var f = File.OpenRead(path))
@@ -95,6 +113,15 @@ namespace SAPTeam.Kryptor
 
         }
 
+        /// <summary>
+        /// Encrypts the input data using the Kryptor Encryption Standard (KES).
+        /// </summary>
+        /// <param name="data">
+        /// The data to encrypt.
+        /// </param>
+        /// <returns>
+        /// The encrypted data.
+        /// </returns>
         byte[] Encrypt(IEnumerable<byte[]> data)
         {
             byte[][] t = new byte[data.Count()][];
@@ -104,7 +131,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in data)
             {
-                var b = ExtraEncryptProvider.AESEncrypt(chunk, keystore[i++]);
+                var b = AESEncryptProvider.AESEncrypt(chunk, keystore[i++]);
                 count += b.Length;
                 t[j++] = b;
             }
@@ -155,6 +182,15 @@ namespace SAPTeam.Kryptor
             return decrypted;
         }
 
+        /// <summary>
+        /// Decrypts the input data using the Kryptor Encryption Standard (KES).
+        /// </summary>
+        /// <param name="ciphers">
+        /// The data to decrypt.
+        /// </param>
+        /// <returns>
+        /// The decrypted data.
+        /// </returns>
         byte[] Decrypt(IEnumerable<byte[]> ciphers)
         {
             byte[][] t = new byte[ciphers.Count()][];
@@ -164,7 +200,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var cipher in ciphers)
             {
-                byte[] b = ExtraEncryptProvider.AESDecrypt(cipher, keystore[i++]);
+                byte[] b = AESEncryptProvider.AESDecrypt(cipher, keystore[i++]);
                 count += b.Length;
                 t[j++] = b;
             }

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace SAPTeam.Kryptor
 {
-    public class Check
+    internal class Check
     {
         internal Check()
         {
