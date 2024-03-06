@@ -6,12 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{47756D11-1FA0-4205-AD3C-97D2AD483197}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		version.json = version.json
+		src\version.json = src\version.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kryptor", "src\Kryptor.csproj", "{A762E441-69BE-4C92-87F9-31800DF438BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{5739119A-D4A3-4AF7-87A2-7FA641DEACE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{5739119A-D4A3-4AF7-87A2-7FA641DEACE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

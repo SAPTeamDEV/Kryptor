@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <AssemblyName>Kryptor</AssemblyName>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <AssemblyName>SAPTeam.Kryptor</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <PackageId>$(AssemblyName)</PackageId>
     
@@ -13,8 +13,8 @@
     <Authors>Aeliux</Authors>
     <Company>SAP Team</Company>
     <Description>This library allows you to encrypt data with keystore-based mechanisms.</Description>
-    <PackageTags>AES;RSA;keystore;encrypt</PackageTags>
-    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt</PackageTags>
+    <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -22,12 +22,21 @@
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Deterministic>True</Deterministic>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Kryptor.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
    </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
     
     <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="NETCore.Encrypt" Version="2.1.1" />
     </ItemGroup>
   
 </Project>
