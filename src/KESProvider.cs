@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class KESProvider
     {
-        KeyStore keystore;
+        KESKeyStore keystore;
 
         const int ChunkSize = 32;
         const int BufferChunkSize = ChunkSize - 1;
@@ -27,7 +27,7 @@ namespace SAPTeam.Kryptor
         /// <param name="keystore">
         /// The keystore to use for encryption and decryption.
         /// </param>
-        public KESProvider(KeyStore keystore)
+        public KESProvider(KESKeyStore keystore)
         {
             this.keystore = keystore;
         }
