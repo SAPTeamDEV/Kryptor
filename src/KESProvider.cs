@@ -144,25 +144,21 @@ namespace SAPTeam.Kryptor
         /// </returns>
         byte[] Encrypt(IEnumerable<byte[]> data)
         {
-            byte[][] t = new byte[data.Count()][];
-            int count = 0;
+            int cc = 0;
+            foreach (var chunk in data)
+            {
+                cc += ((chunk.Length / 16) + 1) * 16;
+            }
+
+            byte[] buffer = new byte[cc];
+            int index = 0;
             int i = 0;
-            int j = 0;
 
             foreach (var chunk in data)
             {
                 var b = AESEncryptProvider.AESEncrypt(chunk, keystore[i++]);
-                count += b.Length;
-                t[j++] = b;
-            }
-
-            byte[] buffer = new byte[count];
-            int ii = 0;
-
-            foreach (var bt in t)
-            {
-                bt.CopyTo(buffer, ii);
-                ii += bt.Length;
+                b.CopyTo(buffer, index);
+                index += b.Length;
             }
 
             return buffer;
