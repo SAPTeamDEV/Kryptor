@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -60,7 +61,7 @@ namespace SAPTeam.Kryptor
         /// <param name="destination">
         /// The path of the file to write the encrypted data to.
         /// </param>
-        public void EncryptFile(string path, string destination)
+        public async Task EncryptFileAsync(string path, string destination)
         {
             using (var f = File.OpenRead(path))
             {
@@ -71,9 +72,9 @@ namespace SAPTeam.Kryptor
                     {
                         int actualSize = (int)Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
-                        f.Read(slice, 0, slice.Length);
+                        await f.ReadAsync(slice, 0, slice.Length);
                         var eSlice = EncryptBlock(slice);
-                        f2.Write(eSlice, 0, eSlice.Length);
+                        await f2.WriteAsync(eSlice, 0, eSlice.Length);
                     }
                 }
             }
@@ -88,7 +89,7 @@ namespace SAPTeam.Kryptor
         /// <param name="destination">
         /// The path of the file to write the decrypted data to.
         /// </param>
-        public void DecryptFile(string path, string destination)
+        public async Task DecryptFileAsync(string path, string destination)
         {
             using (var f = File.OpenRead(path))
             {
@@ -99,9 +100,9 @@ namespace SAPTeam.Kryptor
                     {
                         var actualSize = Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
-                        f.Read(slice, 0, slice.Length);
+                        await f.ReadAsync(slice, 0, slice.Length);
                         var eSlice = DecryptBlock(slice);
-                        f2.Write(eSlice, 0, eSlice.Length);
+                        await f2.WriteAsync(eSlice, 0, eSlice.Length);
                     }
                 }
             }
