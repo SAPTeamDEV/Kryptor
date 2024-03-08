@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace SAPTeam.Kryptor
@@ -54,44 +55,32 @@ namespace SAPTeam.Kryptor
         /// <param name="count">
         /// The number of keys to generate.
         /// </param>
-        /// <param name="keySize">
-        /// The size of the keys to generate.
-        /// </param>
         /// <returns>
         /// The new <see cref="KESKeyStore"/> instance.
         /// </returns>
-        public static KESKeyStore Generate(int count = 128, int keySize = 256)
+        public static KESKeyStore Generate(int count = 128)
         {
             string[] keys = new string[count];
             for (int i = 0; i < count; i++)
             {
-                keys[i] = GetRandomStr(keySize / 8);
+                keys[i] = Convert.ToBase64String(GetRandomKey(255));
             }
 
             return new KESKeyStore(keys);
         }
 
-        private static string GetRandomStr(int length)
+        private static byte[] GetRandomKey(int length)
         {
-            char[] arrChar = new char[]{
-           'a','b','d','c','e','f','g','h','i','j','k','l','m','n','p','r','q','s','t','u','v','w','z','y','x',
-           '0','1','2','3','4','5','6','7','8','9',
-           'A','B','C','D','E','F','G','H','I','J','K','L','M','N','Q','P','R','T','S','V','U','W','X','Y','Z'
-          };
-
-            StringBuilder num = new StringBuilder();
+            byte[] buffer = new byte[length];
 
             if (random == null)
             {
                 random = new Random();
             }
 
-            for (int i = 0; i < length; i++)
-            {
-                num.Append(arrChar[random.Next(0, arrChar.Length)].ToString());
-            }
+            random.NextBytes(buffer);
 
-            return num.ToString();
+            return buffer;
         }
 
         /// <inheritdoc/>
