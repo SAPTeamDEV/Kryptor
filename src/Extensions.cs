@@ -37,46 +37,12 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <param name="src">The string to be encrypted</param>
         /// <returns></returns>
-        public static string Sha256(this byte[] src)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes_sha256_out = sha256.ComputeHash(src);
-                string str_sha256_out = BitConverter.ToString(bytes_sha256_out);
-                str_sha256_out = str_sha256_out.Replace("-", "");
-                return str_sha256_out;
-            }
-        }
-
-        /// <summary>
-        /// SHA256 encrypt
-        /// </summary>
-        /// <param name="src">The string to be encrypted</param>
-        /// <returns></returns>
         public static byte[] RawSha256(this byte[] src)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
                 return sha256.ComputeHash(src);
             }
-        }
-
-        /// <summary>
-        /// Divides a string into chunks of a specified size.
-        /// </summary>
-        /// <param name="str">
-        /// The string to divide.
-        /// </param>
-        /// <param name="maxChunkSize">
-        /// The maximum size of each chunk.
-        /// </param>
-        /// <returns>
-        /// An <see cref="IEnumerable{T}"/> of strings, each containing a chunk of the original string.
-        /// </returns>
-        static public IEnumerable<string> Divide(this string str, int maxChunkSize)
-        {
-            for (int i = 0; i < str.Length; i += maxChunkSize)
-                yield return str.Substring(i, Math.Min(maxChunkSize, str.Length - i));
         }
     }
 }

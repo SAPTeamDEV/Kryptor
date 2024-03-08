@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor
         /// <param name="data">Raw data</param>
         /// <param name="key">Key, requires 256 bits</param>
         /// <returns>Encrypted bytes</returns>
-        public static byte[] AESEncrypt(byte[] data, string key)
+        public static byte[] AESEncrypt(byte[] data, byte[] key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
             Check.Argument.IsNotEmpty(key, nameof(key));
@@ -26,26 +26,16 @@ namespace SAPTeam.Kryptor
             {
                 using (Aes aes = Aes.Create())
                 {
-                    byte[] bKey = new byte[32];
-                    Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
-
                     aes.Mode = CipherMode.ECB;
                     aes.Padding = PaddingMode.PKCS7;
                     aes.KeySize = 256;
-                    aes.Key = bKey;
+                    aes.Key = key;
 
                     using (CryptoStream cryptoStream = new CryptoStream(memory, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        try
-                        {
-                            cryptoStream.Write(data, 0, data.Length);
-                            cryptoStream.FlushFinalBlock();
-                            return memory.ToArray();
-                        }
-                        catch (Exception)
-                        {
-                            return null;
-                        }
+                        cryptoStream.Write(data, 0, data.Length);
+                        cryptoStream.FlushFinalBlock();
+                        return memory.ToArray();
                     }
                 }
             }
@@ -57,14 +47,11 @@ namespace SAPTeam.Kryptor
         /// <param name="data">Encrypted data</param>
         /// <param name="key">Key, requires 256 bits</param>
         /// <returns>Decrypted bytes</returns>
-        public static byte[] AESDecrypt(byte[] data, string key)
+        public static byte[] AESDecrypt(byte[] data, byte[] key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
             Check.Argument.IsNotEmpty(key, nameof(key));
             Check.Argument.IsEqualLength(key.Length, 32, nameof(key));
-
-            byte[] bKey = new byte[32];
-            Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
 
             try
             {
@@ -77,7 +64,7 @@ namespace SAPTeam.Kryptor
                         aes.Mode = CipherMode.ECB;
                         aes.Padding = PaddingMode.PKCS7;
                         aes.KeySize = 256;
-                        aes.Key = bKey;
+                        aes.Key = key;
 
                         using (CryptoStream decryptor = new CryptoStream(memory, aes.CreateDecryptor(), CryptoStreamMode.Read))
                         {
@@ -99,7 +86,7 @@ namespace SAPTeam.Kryptor
             }
             catch
             {
-                return null;
+                throw new InvalidDataException("Key is invalid");
             }
         }
     }

@@ -12,14 +12,20 @@ namespace SAPTeam.Kryptor
     {
         KESKeyStore keystore;
 
-        const int ChunkSize = 32;
-        const int BufferChunkSize = ChunkSize - 1;
-        const int BlockSize = 1048576;
+        const int DecChunkSize = 32;
+        const int EncChunkSize = DecChunkSize - 1;
+        const int DecBlockSize = 1048576;
+        const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
 
         /// <summary>
-        /// Max size of buffer data for encryption
+        /// Gets max input buffer size for <see cref="DecryptBlock(byte[])"/>.
         /// </summary>
-        public const int BufferBlockSize = (BlockSize / ChunkSize - 1) * BufferChunkSize;
+        public int DecryptionBlockSize { get; } = DecBlockSize;
+
+        /// <summary>
+        /// Gets max input buffer size for <see cref="EncryptBlock(byte[])"/>.
+        /// </summary>
+        public int EncryptionBlockSize { get; } = EncBlockSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KESProvider"/> class.
@@ -27,9 +33,22 @@ namespace SAPTeam.Kryptor
         /// <param name="keystore">
         /// The keystore to use for encryption and decryption.
         /// </param>
-        public KESProvider(KESKeyStore keystore)
+        /// <param name="MaxBlockSize">
+        /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
+        /// </param>
+        public KESProvider(KESKeyStore keystore, int MaxBlockSize = default)
         {
             this.keystore = keystore;
+
+            if (MaxBlockSize > 0)
+            {
+                if (MaxBlockSize % DecChunkSize != 0)
+                {
+                    throw new ArgumentException("maxBlockSize must be a multiple of " + DecChunkSize);
+                }
+
+                DecryptionBlockSize = MaxBlockSize;
+            }
         }
 
         /// <summary>
@@ -47,7 +66,7 @@ namespace SAPTeam.Kryptor
             {
                 using (var f2 = File.OpenWrite(destination))
                 {
-                    int blockSize = BufferBlockSize;
+                    int blockSize = EncryptionBlockSize;
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
                         int actualSize = (int)Math.Min(f.Length - i, blockSize);
@@ -75,7 +94,7 @@ namespace SAPTeam.Kryptor
             {
                 using (var f2 = File.OpenWrite(destination))
                 {
-                    int blockSize = BlockSize;
+                    int blockSize = DecryptionBlockSize;
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
                         var actualSize = Math.Min(f.Length - i, blockSize);
@@ -100,12 +119,12 @@ namespace SAPTeam.Kryptor
         public byte[] EncryptBlock(byte[] bytes)
         {
             Check.Argument.IsNotEmpty(bytes, nameof(bytes));
-            if (bytes.Length > BufferBlockSize)
+            if (bytes.Length > EncryptionBlockSize)
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{BufferBlockSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{EncryptionBlockSize}");
             }
 
-            byte[] ciphers = Encrypt(bytes.Slice<byte>(BufferChunkSize));
+            byte[] ciphers = Encrypt(bytes.Slice<byte>(EncChunkSize));
 
             return bytes.RawSha256()
                                  .Concat(ciphers)
@@ -163,12 +182,12 @@ namespace SAPTeam.Kryptor
         public byte[] DecryptBlock(byte[] bytes)
         {
             Check.Argument.IsNotEmpty(bytes, nameof(bytes));
-            if (bytes.Length > BlockSize)
+            if (bytes.Length > DecryptionBlockSize)
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{BlockSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{DecryptionBlockSize}");
             }
 
-            var chunks = bytes.Slice<byte>(ChunkSize).ToArray();
+            var chunks = bytes.Slice<byte>(DecChunkSize).ToArray();
             var hash = chunks[0];
             var encrypted = chunks.Skip(1);
 
@@ -176,7 +195,7 @@ namespace SAPTeam.Kryptor
 
             if (BitConverter.ToString(decrypted.RawSha256()) != BitConverter.ToString(hash))
             {
-                throw new Exception("Hash mismatch");
+                throw new InvalidDataException("Hash mismatch");
             }
 
             return decrypted;

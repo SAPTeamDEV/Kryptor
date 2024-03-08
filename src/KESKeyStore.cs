@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace SAPTeam.Kryptor
     public struct KESKeyStore
     {
         private static Random random;
+        readonly int keystoreLength;
 
         /// <summary>
         /// Gets the key at the specified index.
@@ -20,23 +22,23 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The key at the specified index.
         /// </returns>
-        public string this[int index]
+        public byte[] this[int index]
         {
             get
             {
-                if (index >= Keys.Length)
+                if (index >= keystoreLength)
                 {
-                    index -= index / Keys.Length * Keys.Length;
+                    index -= (index / keystoreLength) * keystoreLength;
                 }
 
-                return Keys[index];
+                return Keys.ElementAt(index);
             }
         }
 
         /// <summary>
         /// The keys to store.
         /// </summary>
-        public string[] Keys { get; set; }
+        public IEnumerable<byte[]> Keys { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KESKeyStore"/> struct.
@@ -44,9 +46,10 @@ namespace SAPTeam.Kryptor
         /// <param name="keys">
         /// The keys to store.
         /// </param>
-        public KESKeyStore(string[] keys)
+        public KESKeyStore(IEnumerable<byte[]> keys)
         {
             Keys = keys;
+            keystoreLength = Keys.Count();
         }
 
         /// <summary>
@@ -60,10 +63,10 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static KESKeyStore Generate(int count = 128)
         {
-            string[] keys = new string[count];
+            byte[][] keys = new byte[count][];
             for (int i = 0; i < count; i++)
             {
-                keys[i] = Convert.ToBase64String(GetRandomKey(255));
+                keys[i] = GetRandomKey(32);
             }
 
             return new KESKeyStore(keys);
@@ -86,7 +89,7 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         public override string ToString()
         {
-            return string.Join(";", Keys);
+            return string.Join(";", Keys.Select(x => Convert.ToBase64String(x)));
         }
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static KESKeyStore FromString(string s)
         {
-            return new KESKeyStore(s.Trim(new char[] { '\n', '\r' }).Split(';'));
+            return new KESKeyStore(s.Trim(new char[] { '\n', '\r', '\0' }).Split(';').Select(x => Convert.FromBase64String(x)));
         }
     }
 }
