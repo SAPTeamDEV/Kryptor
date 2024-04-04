@@ -10,7 +10,7 @@
     <AssemblyTitle>Kryptor</AssemblyTitle>
     <Version>1.0</Version>
     <Product>The Key-Based Encryption Engine.</Product>
-    <Authors>Aeliux</Authors>
+    <Authors>Alireza Poodineh</Authors>
     <Company>SAP Team</Company>
     <Description>This library allows you to encrypt data with keystore-based mechanisms.</Description>
     <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt</PackageTags>
@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

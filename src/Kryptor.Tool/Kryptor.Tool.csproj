@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <AssemblyName>SAPTeam.Kryptor.Tool</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
+    <PackageId>$(AssemblyName)</PackageId>
+    
+    <Title>Kryptor CLI</Title>
+    <AssemblyTitle>Kryptor CLI</AssemblyTitle>
+    <Version>1.0</Version>
+    <Product>Kryptor Command-Line Interface.</Product>
+    <Authors>Alireza Poodineh</Authors>
+    <Company>SAP Team</Company>
+    <Description>Command-Line Interface for Kryptor encryption engine.</Description>
+    <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
+    <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Deterministic>True</Deterministic>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+   </PropertyGroup>
+    
+    <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All"/>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  
+</Project>
