@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
@@ -17,6 +19,10 @@ namespace SAPTeam.Kryptor
         const int EncChunkSize = DecChunkSize - 1;
         const int DecBlockSize = 1048576;
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
+
+        public delegate void ProgressCallback(int progress);
+
+        public event ProgressCallback OnProgress;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="DecryptBlock(byte[])"/>.
@@ -68,6 +74,9 @@ namespace SAPTeam.Kryptor
                 using (var f2 = File.OpenWrite(destination))
                 {
                     int blockSize = EncryptionBlockSize;
+                    double step = (double)((double)blockSize / f.Length) * 100;
+                    int counter = 1;
+
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
                         int actualSize = (int)Math.Min(f.Length - i, blockSize);
@@ -75,6 +84,9 @@ namespace SAPTeam.Kryptor
                         await f.ReadAsync(slice, 0, slice.Length);
                         var eSlice = EncryptBlock(slice);
                         await f2.WriteAsync(eSlice, 0, eSlice.Length);
+                        int prog = (int)Math.Round(step * counter);
+                        OnProgress?.Invoke(Math.Min(prog, 100));
+                        counter++;
                     }
                 }
             }
@@ -96,6 +108,9 @@ namespace SAPTeam.Kryptor
                 using (var f2 = File.OpenWrite(destination))
                 {
                     int blockSize = DecryptionBlockSize;
+                    double step = (double)((double)blockSize / f.Length) * 100;
+                    int counter = 1;
+
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
                         var actualSize = Math.Min(f.Length - i, blockSize);
@@ -103,6 +118,9 @@ namespace SAPTeam.Kryptor
                         await f.ReadAsync(slice, 0, slice.Length);
                         var eSlice = DecryptBlock(slice);
                         await f2.WriteAsync(eSlice, 0, eSlice.Length);
+                        int prog = (int)Math.Round(step * counter);
+                        OnProgress?.Invoke(Math.Min(prog, 100));
+                        counter++;
                     }
                 }
             }

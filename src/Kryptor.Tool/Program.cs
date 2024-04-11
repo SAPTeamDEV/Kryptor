@@ -16,6 +16,8 @@ if (opt.Encrypt)
     KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(opt.KeyStore));
     Console.WriteLine($"Keystore Fingerprint: {BitConverter.ToString(ks.Fingerprint)}");
     KESProvider kp = new(ks);
+    kp.OnProgress += Utils.ShowProgress;
+
     foreach (var file in opt.File)
     {
         Console.WriteLine($"Encrypting {Path.GetFileName(file)}");
@@ -28,6 +30,8 @@ else if (opt.Decrypt)
     KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(opt.KeyStore));
     Console.WriteLine($"Keystore Fingerprint: {BitConverter.ToString(ks.Fingerprint)}");
     KESProvider kp = new(ks);
+    kp.OnProgress += Utils.ShowProgress;
+
     foreach (var file in opt.File)
     {
         Console.WriteLine($"Decrypting {Path.GetFileName(file)}");
