@@ -22,7 +22,6 @@ namespace SAPTeam.Kryptor
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
 
         static byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
-        static int HeaderSize = 280;
 
         /// <summary>
         /// Delegate for OnProgress event.
@@ -71,10 +70,13 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        public static (byte[] signature, string fileName) ReadHeader(Stream f)
+        public static (int pos, byte[] signature, string fileName) ReadHeader(Stream stream)
         {
-            byte[] buffer = new byte[HeaderSize];
-            f.Read(buffer, 0, buffer.Length);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Get first 512B to search for header.
+            byte[] buffer = new byte[Math.Min(512, stream.Length)];
+            stream.Read(buffer, 0, buffer.Length);
 
             int loc = buffer.LocatePattern(HeaderPattern);
             var data = buffer.Take(loc).ToArray();
@@ -82,7 +84,9 @@ namespace SAPTeam.Kryptor
             byte[] signature = data.Take(16).ToArray();
             byte[] name = data.Skip(16).ToArray();
 
-            return (signature, Encoding.UTF8.GetString(name));
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return (loc + HeaderPattern.Length, signature, Encoding.UTF8.GetString(name));
         }
 
         /// <summary>
@@ -94,35 +98,30 @@ namespace SAPTeam.Kryptor
         /// <param name="destination">
         /// The path of the file to write the encrypted data to.
         /// </param>
-        public async Task EncryptFileAsync(string path, string destination)
+        public async Task EncryptFileAsync(FileStream source, FileStream dest)
         {
-            using (var f = File.OpenRead(path))
+            List<byte>header = new List<byte>();
+            header.AddRange(keystore.Fingerprint);
+            header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
+            header.AddRange(HeaderPattern);
+            byte[] hArray = header.ToArray();
+
+            await dest.WriteAsync(hArray, 0, hArray.Length);
+
+            int blockSize = EncryptionBlockSize;
+            double step = (double)((double)blockSize / source.Length) * 100;
+            int counter = 1;
+
+            for (long i = 0; i < source.Length; i += blockSize)
             {
-                using (var f2 = File.OpenWrite(destination))
-                {
-                    byte[] header = new byte[HeaderSize];
-                    keystore.Fingerprint.CopyTo(header, 0);
-                    byte[] nameBytes = Encoding.UTF8.GetBytes(Path.GetFileName(path));
-                    nameBytes.CopyTo(header, 16);
-                    HeaderPattern.CopyTo(header, 16 + nameBytes.Length);
-                    await f2.WriteAsync(header, 0, header.Length);
-
-                    int blockSize = EncryptionBlockSize;
-                    double step = (double)((double)blockSize / f.Length) * 100;
-                    int counter = 1;
-
-                    for (long i = 0; i < f.Length; i += blockSize)
-                    {
-                        int actualSize = (int)Math.Min(f.Length - i, blockSize);
-                        byte[] slice = new byte[actualSize];
-                        await f.ReadAsync(slice, 0, slice.Length);
-                        var eSlice = await EncryptBlockAsync(slice);
-                        await f2.WriteAsync(eSlice, 0, eSlice.Length);
-                        int prog = (int)Math.Round(step * counter);
-                        OnProgress?.Invoke(Math.Min(prog, 100));
-                        counter++;
-                    }
-                }
+                int actualSize = (int)Math.Min(source.Length - i, blockSize);
+                byte[] slice = new byte[actualSize];
+                await source.ReadAsync(slice, 0, slice.Length);
+                var eSlice = await EncryptBlockAsync(slice);
+                await dest.WriteAsync(eSlice, 0, eSlice.Length);
+                int prog = (int)Math.Round(step * counter);
+                OnProgress?.Invoke(Math.Min(prog, 100));
+                counter++;
             }
         }
 
@@ -132,41 +131,24 @@ namespace SAPTeam.Kryptor
         /// <param name="path">
         /// The path of the file to decrypt.
         /// </param>
-        public async Task DecryptFileAsync(string path)
+        public async Task DecryptFileAsync(FileStream source, FileStream dest)
         {
-            using (var f = File.OpenRead(path))
+            source.Seek(ReadHeader(source).pos, SeekOrigin.Begin);
+
+            int blockSize = DecryptionBlockSize;
+            double step = (double)((double)blockSize / source.Length) * 100;
+            int counter = 1;
+
+            for (long i = 0; i < source.Length; i += blockSize)
             {
-                string origName = ReadHeader(f).fileName;
-                string destination = Path.Combine(Directory.GetParent(path).FullName, origName);
-                int suffix = 2;
-
-                while (File.Exists(destination))
-                {
-                    string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}).{Path.GetExtension(destination)}";
-                    if (!File.Exists(Path.Combine(Directory.GetParent(path).FullName, tempName)))
-                    {
-                        destination = Path.Combine(Directory.GetParent(path).FullName, tempName);
-                    }
-                }
-
-                using (var f2 = File.OpenWrite(destination))
-                {
-                    int blockSize = DecryptionBlockSize;
-                    double step = (double)((double)blockSize / f.Length) * 100;
-                    int counter = 1;
-
-                    for (long i = 0; i < f.Length; i += blockSize)
-                    {
-                        var actualSize = Math.Min(f.Length - f.Position, blockSize);
-                        byte[] slice = new byte[actualSize];
-                        await f.ReadAsync(slice, 0, slice.Length);
-                        var eSlice = await DecryptBlockAsync(slice);
-                        await f2.WriteAsync(eSlice, 0, eSlice.Length);
-                        int prog = (int)Math.Round(step * counter);
-                        OnProgress?.Invoke(Math.Min(prog, 100));
-                        counter++;
-                    }
-                }
+                var actualSize = Math.Min(source.Length - source.Position, blockSize);
+                byte[] slice = new byte[actualSize];
+                await source.ReadAsync(slice, 0, slice.Length);
+                var eSlice = await DecryptBlockAsync(slice);
+                await dest.WriteAsync(eSlice, 0, eSlice.Length);
+                int prog = (int)Math.Round(step * counter);
+                OnProgress?.Invoke(Math.Min(prog, 100));
+                counter++;
             }
         }
 

@@ -46,7 +46,14 @@ if (opt.Encrypt)
     foreach (var file in opt.File)
     {
         Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
-        await kp.EncryptFileAsync(file, file + ".kef");
+
+        using (var f = File.OpenRead(file))
+        {
+            using (var f2 = File.OpenWrite(file + ".kef"))
+            {
+                await kp.EncryptFileAsync(f, f2);
+            }
+        }
     }
 }
 else if (opt.Decrypt)
@@ -75,7 +82,31 @@ else if (opt.Decrypt)
         Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
         try
         {
-            await kp.DecryptFileAsync(file);
+            using (var f = File.OpenRead(file))
+            {
+                var header = KESProvider.ReadHeader(f);
+                string fingerprint = BitConverter.ToString(header.signature);
+                Echo(new Colorize($"Encrypted File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
+
+                if (fingerprint != BitConverter.ToString(ks.Fingerprint))
+                {
+                    Echo(new Colorize("[Failed:] Fingerprints does not match.", ConsoleColor.Red));
+                    exCode = 0xFE;
+                }
+                else
+                {
+                    string origName = header.fileName;
+                    string resolvedName = Helper.GetNewFileName(file, origName);
+
+                    using (var f2 = File.OpenWrite(resolvedName))
+                    {
+                        await kp.DecryptFileAsync(f, f2);
+                    }
+
+                    ClearLine(true);
+                    Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
+                }
+            }
         }
         catch (InvalidDataException)
         {
