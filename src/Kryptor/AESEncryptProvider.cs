@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -16,7 +17,7 @@ namespace SAPTeam.Kryptor
         /// <param name="data">Raw data</param>
         /// <param name="key">Key, requires 256 bits</param>
         /// <returns>Encrypted bytes</returns>
-        public static byte[] AESEncrypt(byte[] data, byte[] key)
+        public static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
             Check.Argument.IsNotEmpty(key, nameof(key));
@@ -33,7 +34,7 @@ namespace SAPTeam.Kryptor
 
                     using (CryptoStream cryptoStream = new CryptoStream(memory, aes.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        cryptoStream.Write(data, 0, data.Length);
+                        await cryptoStream.WriteAsync(data, 0, data.Length);
                         cryptoStream.FlushFinalBlock();
                         return memory.ToArray();
                     }
@@ -47,7 +48,7 @@ namespace SAPTeam.Kryptor
         /// <param name="data">Encrypted data</param>
         /// <param name="key">Key, requires 256 bits</param>
         /// <returns>Decrypted bytes</returns>
-        public static byte[] AESDecrypt(byte[] data, byte[] key)
+        public static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
             Check.Argument.IsNotEmpty(key, nameof(key));
@@ -74,7 +75,7 @@ namespace SAPTeam.Kryptor
                                 int readBytes = 0;
                                 while ((readBytes = decryptor.Read(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    tempMemory.Write(buffer, 0, readBytes);
+                                    await tempMemory.WriteAsync(buffer, 0, readBytes);
                                 }
 
                                 decryptedData = tempMemory.ToArray();

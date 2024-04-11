@@ -14,17 +14,17 @@ namespace Kryptor.Tests
         byte[] testBytes = new byte[16] { 53, 15, 79, 254, 74, 156, 59, 88, 1, 0, 255, 65, 198, 36, 59, 214 };
 
         [Fact]
-        public void EncryptDecryptTest()
+        public async void EncryptDecryptTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
             KESProvider kp = new KESProvider(ks);
 
-            byte[] enc = kp.EncryptBlock(Encoding.UTF8.GetBytes(testText));
-            byte[] output = kp.DecryptBlock(enc);
+            byte[] enc = await kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(testText));
+            byte[] output = await kp.DecryptBlockAsync(enc);
             Assert.Equal(testText, Encoding.UTF8.GetString(output));
 
-            byte[] enc2 = kp.EncryptBlock(testBytes);
-            byte[] output2 = kp.DecryptBlock(enc2);
+            byte[] enc2 =await kp.EncryptBlockAsync(testBytes);
+            byte[] output2 = await kp.DecryptBlockAsync(enc2);
             Assert.Equal(testBytes,output2);
         }
 
@@ -41,7 +41,7 @@ namespace Kryptor.Tests
         }
 
         [Fact]
-        public void InvalidKeystoreTest()
+        public async void InvalidKeystoreTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
             KESProvider kp = new KESProvider(ks);
@@ -49,30 +49,30 @@ namespace Kryptor.Tests
             KESKeyStore ks2 = KESKeyStore.Generate(128);
             KESProvider kp2 = new KESProvider(ks2);
 
-            byte[] enc = kp.EncryptBlock(testBytes);
-            Assert.Throws<InvalidDataException>(() => kp2.DecryptBlock(enc));
+            byte[] enc = await kp.EncryptBlockAsync(testBytes);
+            await Assert.ThrowsAsync<InvalidDataException>(async () => await kp2.DecryptBlockAsync(enc));
         }
 
         [Fact]
-        public void EncryptOverflow()
+        public async void EncryptOverflow()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
             KESProvider kp = new KESProvider(ks, 1048576);
 
             byte[] buffer = new byte[kp.EncryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);
-            Assert.Throws<ArgumentException>(() => kp.EncryptBlock(buffer));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await kp.EncryptBlockAsync(buffer));
         }
 
         [Fact]
-        public void DecryptOverflow()
+        public async void DecryptOverflow()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
             KESProvider kp = new KESProvider(ks, 1048576);
 
             byte[] buffer = new byte[kp.DecryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);
-            Assert.Throws<ArgumentException>(() => kp.DecryptBlock(buffer));
+            await Assert.ThrowsAsync<ArgumentException>(async () => await kp.DecryptBlockAsync(buffer));
         }
     }
 }

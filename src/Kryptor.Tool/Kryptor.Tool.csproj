@@ -30,6 +30,14 @@
     <PackAsTool>True</PackAsTool>
     <ToolCommandName>Kryptor</ToolCommandName>
    </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8618;NU1701</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8618;NU1701</NoWarn>
+  </PropertyGroup>
     
     <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />

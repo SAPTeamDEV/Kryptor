@@ -20,17 +20,26 @@ namespace SAPTeam.Kryptor
         const int DecBlockSize = 1048576;
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
 
+        /// <summary>
+        /// Delegate for OnProgress event.
+        /// </summary>
+        /// <param name="progress">
+        /// The progress of the operation.
+        /// </param>
         public delegate void ProgressCallback(int progress);
 
+        /// <summary>
+        /// Called when a part of file is encrypted or decrypted.
+        /// </summary>
         public event ProgressCallback OnProgress;
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="DecryptBlock(byte[])"/>.
+        /// Gets max input buffer size for <see cref="DecryptBlockAsync(byte[])"/>.
         /// </summary>
         public int DecryptionBlockSize { get; } = DecBlockSize;
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="EncryptBlock(byte[])"/>.
+        /// Gets max input buffer size for <see cref="EncryptBlockAsync(byte[])"/>.
         /// </summary>
         public int EncryptionBlockSize { get; } = EncBlockSize;
 
@@ -82,7 +91,7 @@ namespace SAPTeam.Kryptor
                         int actualSize = (int)Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
                         await f.ReadAsync(slice, 0, slice.Length);
-                        var eSlice = EncryptBlock(slice);
+                        var eSlice = await EncryptBlockAsync(slice);
                         await f2.WriteAsync(eSlice, 0, eSlice.Length);
                         int prog = (int)Math.Round(step * counter);
                         OnProgress?.Invoke(Math.Min(prog, 100));
@@ -116,7 +125,7 @@ namespace SAPTeam.Kryptor
                         var actualSize = Math.Min(f.Length - i, blockSize);
                         byte[] slice = new byte[actualSize];
                         await f.ReadAsync(slice, 0, slice.Length);
-                        var eSlice = DecryptBlock(slice);
+                        var eSlice = await DecryptBlockAsync(slice);
                         await f2.WriteAsync(eSlice, 0, eSlice.Length);
                         int prog = (int)Math.Round(step * counter);
                         OnProgress?.Invoke(Math.Min(prog, 100));
@@ -135,7 +144,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The encrypted data.
         /// </returns>
-        public byte[] EncryptBlock(byte[] bytes)
+        public async Task<byte[]> EncryptBlockAsync(byte[] bytes)
         {
             Check.Argument.IsNotEmpty(bytes, nameof(bytes));
             if (bytes.Length > EncryptionBlockSize)
@@ -144,7 +153,7 @@ namespace SAPTeam.Kryptor
             }
 
             return bytes.RawSha256()
-                                 .Concat(Encrypt(bytes.Slice<byte>(EncChunkSize)))
+                                 .Concat(await EncryptAsync(bytes.Slice<byte>(EncChunkSize)))
                                  .ToArray();
 
         }
@@ -158,17 +167,20 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The encrypted data.
         /// </returns>
-        IEnumerable<byte> Encrypt(IEnumerable<byte[]> data)
+        async Task<byte[]> EncryptAsync(IEnumerable<byte[]> data)
         {
+            List<byte> result = new List<byte>();
             int i = 0;
 
             foreach (var chunk in data)
             {
-                foreach (var b in AESEncryptProvider.AESEncrypt(chunk, keystore[i++]))
+                foreach (var b in await AESEncryptProvider.EncryptAsync(chunk, keystore[i++]))
                 {
-                    yield return b;
+                    result.Add(b);
                 }
             }
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -183,7 +195,7 @@ namespace SAPTeam.Kryptor
         /// <exception cref="Exception">
         /// Thrown when the hash of the decrypted data does not match the hash in the input data.
         /// </exception>
-        public byte[] DecryptBlock(byte[] bytes)
+        public async Task<byte[]> DecryptBlockAsync(byte[] bytes)
         {
             Check.Argument.IsNotEmpty(bytes, nameof(bytes));
             if (bytes.Length > DecryptionBlockSize)
@@ -195,7 +207,7 @@ namespace SAPTeam.Kryptor
             var hash = chunks[0];
             var encrypted = chunks.Skip(1);
 
-            var decrypted = Decrypt(encrypted).ToArray();
+            var decrypted = await DecryptAsync(encrypted);
 
             if (BitConverter.ToString(decrypted.RawSha256()) != BitConverter.ToString(hash))
             {
@@ -214,17 +226,20 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The decrypted data.
         /// </returns>
-        IEnumerable<byte> Decrypt(IEnumerable<byte[]> ciphers)
+        async Task<byte[]> DecryptAsync(IEnumerable<byte[]> ciphers)
         {
+            List<byte> result = new List<byte>();
             int i = 0;
 
             foreach (var cipher in ciphers)
             {
-                foreach (var b in AESEncryptProvider.AESDecrypt(cipher, keystore[i++]))
+                foreach (var b in await AESEncryptProvider.DecryptAsync(cipher, keystore[i++]))
                 {
-                    yield return b;
+                    result.Add(b);
                 }
             }
+
+            return result.ToArray();
         }
     }
 }
