@@ -46,6 +46,16 @@ namespace SAPTeam.Kryptor
             }
         }
 
+        /// <summary>
+        /// Finds given pattern in a byte array.
+        /// </summary>
+        /// <param name="src">
+        /// Source byte array.
+        /// </param>
+        /// <param name="pattern">
+        /// The pattern to be searched.
+        /// </param>
+        /// <returns>Start index of first occurrence.</returns>
         public static int LocatePattern(this byte[] src, byte[] pattern)
         {
             for (int i = 0; i < src.Length; i++)

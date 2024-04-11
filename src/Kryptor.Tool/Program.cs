@@ -91,7 +91,7 @@ else if (opt.Decrypt)
             using (var f = File.OpenRead(file))
             {
                 var header = KESProvider.ReadHeader(f);
-                string fingerprint = BitConverter.ToString(header.signature);
+                string fingerprint = BitConverter.ToString(header.fingerprint);
                 Echo(new Colorize($"Encrypted File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
 
                 if (fingerprint != BitConverter.ToString(ks.Fingerprint))

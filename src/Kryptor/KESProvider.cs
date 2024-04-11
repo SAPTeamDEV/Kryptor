@@ -77,7 +77,13 @@ namespace SAPTeam.Kryptor
             this.continuous = continuous;
         }
 
-        public static (int pos, byte[] signature, string fileName) ReadHeader(Stream stream)
+        /// <summary>
+        /// Reads the header of a kef file.
+        /// </summary>
+        /// <param name="stream">
+        /// File stream of source file with read ability.
+        /// </param>
+        public static (int end, byte[] fingerprint, string fileName) ReadHeader(Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -97,13 +103,13 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Encrypts the given file and writes the encrypted data to the specified destination.
+        /// Encrypts the given data and writes the encrypted data to the specified file stream.
         /// </summary>
-        /// <param name="path">
-        /// The path of the file to encrypt.
+        /// <param name="source">
+        /// File stream of source filr with read ability.
         /// </param>
-        /// <param name="destination">
-        /// The path of the file to write the encrypted data to.
+        /// <param name="dest">
+        /// File stream of destination file with write ability.
         /// </param>
         public async Task EncryptFileAsync(FileStream source, FileStream dest)
         {
@@ -133,14 +139,17 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Decrypts the given file and writes the decrypted data to the specified destination.
+        /// Decrypts the given data and writes the decrypted data to the specified file stream.
         /// </summary>
-        /// <param name="path">
-        /// The path of the file to decrypt.
+        /// <param name="source">
+        /// File stream of source filr with read ability.
+        /// </param>
+        /// <param name="dest">
+        /// File stream of destination file with write ability.
         /// </param>
         public async Task DecryptFileAsync(FileStream source, FileStream dest)
         {
-            source.Seek(ReadHeader(source).pos, SeekOrigin.Begin);
+            source.Seek(ReadHeader(source).end, SeekOrigin.Begin);
 
             int blockSize = DecryptionBlockSize;
             double step = (double)((double)blockSize / source.Length) * 100;
@@ -257,7 +266,6 @@ namespace SAPTeam.Kryptor
         async Task<byte[]> DecryptAsync(IEnumerable<byte[]> ciphers)
         {
             List<byte> result = new List<byte>();
-            int i = 0;
 
             foreach (var cipher in ciphers)
             {

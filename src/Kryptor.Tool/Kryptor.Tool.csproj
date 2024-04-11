@@ -32,11 +32,11 @@
    </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;8618;NU1701</NoWarn>
+    <NoWarn>1701;1702;8618;NU1701;8602;8604</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;8618;NU1701</NoWarn>
+    <NoWarn>1701;1702;8618;NU1701;8602;8604</NoWarn>
   </PropertyGroup>
     
     <ItemGroup>
