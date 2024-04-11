@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace SAPTeam.Kryptor
@@ -36,9 +37,14 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// The keys to store.
+        /// Gets the keys to store.
         /// </summary>
-        public IEnumerable<byte[]> Keys { get; set; }
+        public IEnumerable<byte[]> Keys { get; }
+
+        /// <summary>
+        /// Gets the unique fingerprint of this keystore.
+        /// </summary>
+        public byte[] Fingerprint { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KESKeyStore"/> struct.
@@ -50,6 +56,19 @@ namespace SAPTeam.Kryptor
         {
             Keys = keys;
             keystoreLength = Keys.Count();
+
+            Fingerprint = new MD5CryptoServiceProvider().ComputeHash(YieldKeys(keys).ToArray());
+        }
+
+        static IEnumerable<byte> YieldKeys(IEnumerable<byte[]> keys)
+        {
+            foreach (var key in keys)
+            {
+                foreach(var value in key)
+                {
+                    yield return value;
+                }
+            }
         }
 
         /// <summary>
