@@ -24,11 +24,8 @@ namespace SAPTeam.Kryptor.Tool
 
             while (File.Exists(destination))
             {
-                string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}).{Path.GetExtension(destination)}";
-                if (tempName.EndsWith('.'))
-                {
-                    tempName = tempName.Substring(0, tempName.Length - 1);
-                }
+                string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}){Path.GetExtension(destination)}";
+
                 if (!File.Exists(Path.Combine(Directory.GetParent(path).FullName, tempName)))
                 {
                     destination = Path.Combine(Directory.GetParent(path).FullName, tempName);

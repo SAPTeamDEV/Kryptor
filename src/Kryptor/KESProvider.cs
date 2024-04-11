@@ -14,7 +14,9 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class KESProvider
     {
-        KESKeyStore keystore;
+        readonly KESKeyStore keystore;
+        readonly bool continuous = false;
+        int index = 0;
 
         const int DecChunkSize = 32;
         const int EncChunkSize = DecChunkSize - 1;
@@ -52,22 +54,27 @@ namespace SAPTeam.Kryptor
         /// <param name="keystore">
         /// The keystore to use for encryption and decryption.
         /// </param>
-        /// <param name="MaxBlockSize">
+        /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public KESProvider(KESKeyStore keystore, int MaxBlockSize = default)
+        /// <param name="continuous">
+        /// Use Continuous encryption method.
+        /// </param>
+        public KESProvider(KESKeyStore keystore, int maxBlockSize = default, bool continuous = false)
         {
             this.keystore = keystore;
 
-            if (MaxBlockSize > 0)
+            if (maxBlockSize > 0)
             {
-                if (MaxBlockSize % DecChunkSize != 0)
+                if (maxBlockSize % DecChunkSize != 0)
                 {
                     throw new ArgumentException("maxBlockSize must be a multiple of " + DecChunkSize);
                 }
 
-                DecryptionBlockSize = MaxBlockSize;
+                DecryptionBlockSize = maxBlockSize;
             }
+
+            this.continuous = continuous;
         }
 
         public static (int pos, byte[] signature, string fileName) ReadHeader(Stream stream)
@@ -187,14 +194,18 @@ namespace SAPTeam.Kryptor
         async Task<byte[]> EncryptAsync(IEnumerable<byte[]> data)
         {
             List<byte> result = new List<byte>();
-            int i = 0;
 
             foreach (var chunk in data)
             {
-                foreach (var b in await AESEncryptProvider.EncryptAsync(chunk, keystore[i++]))
+                foreach (var b in await AESEncryptProvider.EncryptAsync(chunk, keystore[index++]))
                 {
                     result.Add(b);
                 }
+            }
+
+            if (!continuous)
+            {
+                index = 0;
             }
 
             return result.ToArray();
@@ -250,13 +261,26 @@ namespace SAPTeam.Kryptor
 
             foreach (var cipher in ciphers)
             {
-                foreach (var b in await AESEncryptProvider.DecryptAsync(cipher, keystore[i++]))
+                foreach (var b in await AESEncryptProvider.DecryptAsync(cipher, keystore[index++]))
                 {
                     result.Add(b);
                 }
             }
 
+            if (!continuous)
+            {
+                index = 0;
+            }
+
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Resets counter in Continuous mode.
+        /// </summary>
+        public void ResetCounter()
+        {
+            index = 0;
         }
     }
 }

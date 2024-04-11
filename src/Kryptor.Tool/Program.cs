@@ -40,7 +40,7 @@ if (opt.Encrypt)
         return 0xFF;
     }
 
-    KESProvider kp = new(ks);
+    KESProvider kp = new(ks, continuous: true);
     kp.OnProgress += Helper.ShowProgress;
 
     foreach (var file in opt.File)
@@ -49,10 +49,16 @@ if (opt.Encrypt)
 
         using (var f = File.OpenRead(file))
         {
-            using (var f2 = File.OpenWrite(file + ".kef"))
+            string resolvedName = Helper.GetNewFileName(file, file + ".kef");
+
+            using (var f2 = File.OpenWrite(resolvedName))
             {
                 await kp.EncryptFileAsync(f, f2);
+                kp.ResetCounter();
             }
+
+            ClearLine(true);
+            Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
         }
     }
 }
@@ -74,7 +80,7 @@ else if (opt.Decrypt)
         return 0xFF;
     }
 
-    KESProvider kp = new(ks);
+    KESProvider kp = new(ks, continuous: true);
     kp.OnProgress += Helper.ShowProgress;
 
     foreach (var file in opt.File)
@@ -101,6 +107,7 @@ else if (opt.Decrypt)
                     using (var f2 = File.OpenWrite(resolvedName))
                     {
                         await kp.DecryptFileAsync(f, f2);
+                        kp.ResetCounter();
                     }
 
                     ClearLine(true);
@@ -110,6 +117,7 @@ else if (opt.Decrypt)
         }
         catch (InvalidDataException)
         {
+            ClearLine(true);
             Echo(new Colorize("[Failed:] Cannot decrypt file.", ConsoleColor.Red));
             exCode = 0xFF;
         }
