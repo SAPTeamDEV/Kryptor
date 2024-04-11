@@ -8,7 +8,7 @@ using SAPTeam.CommonTK.Console;
 
 namespace SAPTeam.Kryptor.Tool
 {
-    internal static class Utils
+    internal static class Helper
     {
         public static void ShowProgress(int progress)
         {
