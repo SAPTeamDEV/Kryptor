@@ -23,9 +23,9 @@ namespace Kryptor.Tests
             byte[] output = await kp.DecryptBlockAsync(enc);
             Assert.Equal(testText, Encoding.UTF8.GetString(output));
 
-            byte[] enc2 =await kp.EncryptBlockAsync(testBytes);
+            byte[] enc2 = await kp.EncryptBlockAsync(testBytes);
             byte[] output2 = await kp.DecryptBlockAsync(enc2);
-            Assert.Equal(testBytes,output2);
+            Assert.Equal(testBytes, output2);
         }
 
         [Fact]

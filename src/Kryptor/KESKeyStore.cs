@@ -64,7 +64,7 @@ namespace SAPTeam.Kryptor
         {
             foreach (var key in keys)
             {
-                foreach(var value in key)
+                foreach (var value in key)
                 {
                     yield return value;
                 }

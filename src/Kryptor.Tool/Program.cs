@@ -4,6 +4,8 @@ using SAPTeam.CommonTK.Console;
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Tool;
 
+int exCode = 0x0;
+
 var result = Parser.Default.ParseArguments<Arguments>(args);
 if (result == null || result.Value == null)
 {
@@ -22,7 +24,22 @@ Arguments opt = result.Value;
 
 if (opt.Encrypt)
 {
-    KESKeyStore ks = ReadKeystore(opt);
+    if (!IsValid(opt))
+    {
+        return 0x2;
+    }
+
+    KESKeyStore ks;
+    try
+    {
+        ks = ReadKeystore(opt);
+    }
+    catch (FormatException)
+    {
+        Echo(new Colorize("[Error:] Cannot open keystore.", ConsoleColor.Red));
+        return 0xFF;
+    }
+
     KESProvider kp = new(ks);
     kp.OnProgress += Helper.ShowProgress;
 
@@ -34,14 +51,37 @@ if (opt.Encrypt)
 }
 else if (opt.Decrypt)
 {
-    KESKeyStore ks = ReadKeystore(opt);
+    if (!IsValid(opt))
+    {
+        return 0x2;
+    }
+
+    KESKeyStore ks;
+    try
+    {
+        ks = ReadKeystore(opt);
+    }
+    catch (FormatException)
+    {
+        Echo(new Colorize("[Error:] Cannot open keystore.", ConsoleColor.Red));
+        return 0xFF;
+    }
+
     KESProvider kp = new(ks);
     kp.OnProgress += Helper.ShowProgress;
 
     foreach (var file in opt.File)
     {
         Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
-        await kp.DecryptFileAsync(file, file + ".decrypted");
+        try
+        {
+            await kp.DecryptFileAsync(file, file + ".decrypted");
+        }
+        catch (InvalidDataException)
+        {
+            Echo(new Colorize("[Failed:] Cannot decrypt file.", ConsoleColor.Red));
+            exCode = 0xFF;
+        }
     }
 }
 else if (opt.Generate)
@@ -54,7 +94,7 @@ else if (opt.Generate)
     Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
 }
 
-return 0x0;
+return exCode;
 
 static KESKeyStore ReadKeystore(Arguments opt)
 {
@@ -62,4 +102,15 @@ static KESKeyStore ReadKeystore(Arguments opt)
     KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(opt.KeyStore));
     Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
     return ks;
+}
+
+static bool IsValid(Arguments opt)
+{
+    if (string.IsNullOrEmpty(opt.KeyStore) || opt.File.Count() == 0)
+    {
+        Echo(new Colorize("[Error:] You must specify keystore and at least one file.", ConsoleColor.Red));
+        return false;
+    }
+
+    return true;
 }
