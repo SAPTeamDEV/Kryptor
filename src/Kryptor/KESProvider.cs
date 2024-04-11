@@ -124,6 +124,7 @@ namespace SAPTeam.Kryptor
             int blockSize = EncryptionBlockSize;
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
+            int lastProg = -1;
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
@@ -133,7 +134,11 @@ namespace SAPTeam.Kryptor
                 var eSlice = await EncryptBlockAsync(slice);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
-                OnProgress?.Invoke(Math.Min(prog, 100));
+                if (prog != lastProg)
+                {
+                    OnProgress?.Invoke(Math.Min(prog, 100));
+                    lastProg = prog;
+                }
                 counter++;
             }
         }
@@ -154,6 +159,7 @@ namespace SAPTeam.Kryptor
             int blockSize = DecryptionBlockSize;
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
+            int lastProg = -1;
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
@@ -163,7 +169,11 @@ namespace SAPTeam.Kryptor
                 var eSlice = await DecryptBlockAsync(slice);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
-                OnProgress?.Invoke(Math.Min(prog, 100));
+                if (prog != lastProg)
+                {
+                    OnProgress?.Invoke(Math.Min(prog, 100));
+                    lastProg = prog;
+                }
                 counter++;
             }
         }
