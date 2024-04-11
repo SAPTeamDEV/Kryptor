@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace SAPTeam.Kryptor
@@ -43,6 +44,19 @@ namespace SAPTeam.Kryptor
             {
                 return sha256.ComputeHash(src);
             }
+        }
+
+        public static int LocatePattern(this byte[] src, byte[] pattern)
+        {
+            for (int i = 0; i < src.Length; i++)
+            {
+                if (src.Skip(i).Take(pattern.Length).SequenceEqual(pattern))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
@@ -19,6 +20,9 @@ namespace SAPTeam.Kryptor
         const int EncChunkSize = DecChunkSize - 1;
         const int DecBlockSize = 1048576;
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
+
+        static byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
+        static int HeaderSize = 280;
 
         /// <summary>
         /// Delegate for OnProgress event.
@@ -67,6 +71,20 @@ namespace SAPTeam.Kryptor
             }
         }
 
+        public static (byte[] signature, string fileName) ReadHeader(Stream f)
+        {
+            byte[] buffer = new byte[HeaderSize];
+            f.Read(buffer, 0, buffer.Length);
+
+            int loc = buffer.LocatePattern(HeaderPattern);
+            var data = buffer.Take(loc).ToArray();
+
+            byte[] signature = data.Take(16).ToArray();
+            byte[] name = data.Skip(16).ToArray();
+
+            return (signature, Encoding.UTF8.GetString(name));
+        }
+
         /// <summary>
         /// Encrypts the given file and writes the encrypted data to the specified destination.
         /// </summary>
@@ -82,6 +100,13 @@ namespace SAPTeam.Kryptor
             {
                 using (var f2 = File.OpenWrite(destination))
                 {
+                    byte[] header = new byte[HeaderSize];
+                    keystore.Fingerprint.CopyTo(header, 0);
+                    byte[] nameBytes = Encoding.UTF8.GetBytes(Path.GetFileName(path));
+                    nameBytes.CopyTo(header, 16);
+                    HeaderPattern.CopyTo(header, 16 + nameBytes.Length);
+                    await f2.WriteAsync(header, 0, header.Length);
+
                     int blockSize = EncryptionBlockSize;
                     double step = (double)((double)blockSize / f.Length) * 100;
                     int counter = 1;
@@ -107,13 +132,23 @@ namespace SAPTeam.Kryptor
         /// <param name="path">
         /// The path of the file to decrypt.
         /// </param>
-        /// <param name="destination">
-        /// The path of the file to write the decrypted data to.
-        /// </param>
-        public async Task DecryptFileAsync(string path, string destination)
+        public async Task DecryptFileAsync(string path)
         {
             using (var f = File.OpenRead(path))
             {
+                string origName = ReadHeader(f).fileName;
+                string destination = Path.Combine(Directory.GetParent(path).FullName, origName);
+                int suffix = 2;
+
+                while (File.Exists(destination))
+                {
+                    string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}).{Path.GetExtension(destination)}";
+                    if (!File.Exists(Path.Combine(Directory.GetParent(path).FullName, tempName)))
+                    {
+                        destination = Path.Combine(Directory.GetParent(path).FullName, tempName);
+                    }
+                }
+
                 using (var f2 = File.OpenWrite(destination))
                 {
                     int blockSize = DecryptionBlockSize;
@@ -122,7 +157,7 @@ namespace SAPTeam.Kryptor
 
                     for (long i = 0; i < f.Length; i += blockSize)
                     {
-                        var actualSize = Math.Min(f.Length - i, blockSize);
+                        var actualSize = Math.Min(f.Length - f.Position, blockSize);
                         byte[] slice = new byte[actualSize];
                         await f.ReadAsync(slice, 0, slice.Length);
                         var eSlice = await DecryptBlockAsync(slice);

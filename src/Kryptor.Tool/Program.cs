@@ -75,7 +75,7 @@ else if (opt.Decrypt)
         Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
         try
         {
-            await kp.DecryptFileAsync(file, file + ".decrypted");
+            await kp.DecryptFileAsync(file);
         }
         catch (InvalidDataException)
         {
