@@ -21,8 +21,11 @@ namespace SAPTeam.Kryptor.Tool
         [Option('g', "generate", SetName = "generate", Required = true, HelpText = "Generates a new keystore file.")]
         public bool Generate { get; set; }
 
-        [Option('k', "keystore-size", SetName = "generate", Default = 256, HelpText = "Specifies the number of keys to be generated for new keystore (Usable with -g). Default value is 256.")]
+        [Option('k', "keystore-size", SetName = "generate", Default = 256, HelpText = "Usable with -g, Specifies the number of keys to be generated for new keystore.")]
         public int KeyStoreSize { get; set; }
+
+        [Option('c', "continuous", HelpText = "Usable with -e and -d, Use more secure continuous encryption/decryption method.")]
+        public bool Continuous { get; set; }
 
         [Value(0, Hidden = true)]
         public string KeyStore { get; set; }

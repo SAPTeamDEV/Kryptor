@@ -40,7 +40,7 @@ if (opt.Encrypt)
         return 0xFF;
     }
 
-    KESProvider kp = new(ks, continuous: true);
+    KESProvider kp = new(ks, continuous: opt.Continuous);
     kp.OnProgress += Helper.ShowProgress;
 
     foreach (var file in opt.File)
@@ -80,7 +80,7 @@ else if (opt.Decrypt)
         return 0xFF;
     }
 
-    KESProvider kp = new(ks, continuous: true);
+    KESProvider kp = new(ks, continuous: opt.Continuous);
     kp.OnProgress += Helper.ShowProgress;
 
     foreach (var file in opt.File)
