@@ -125,10 +125,8 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{EncryptionBlockSize}");
             }
 
-            byte[] ciphers = Encrypt(bytes.Slice<byte>(EncChunkSize));
-
             return bytes.RawSha256()
-                                 .Concat(ciphers)
+                                 .Concat(Encrypt(bytes.Slice<byte>(EncChunkSize)))
                                  .ToArray();
 
         }
@@ -142,26 +140,17 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The encrypted data.
         /// </returns>
-        byte[] Encrypt(IEnumerable<byte[]> data)
+        IEnumerable<byte> Encrypt(IEnumerable<byte[]> data)
         {
-            int cc = 0;
-            foreach (var chunk in data)
-            {
-                cc += ((chunk.Length / 16) + 1) * 16;
-            }
-
-            byte[] buffer = new byte[cc];
-            int index = 0;
             int i = 0;
 
             foreach (var chunk in data)
             {
-                var b = AESEncryptProvider.AESEncrypt(chunk, keystore[i++]);
-                b.CopyTo(buffer, index);
-                index += b.Length;
+                foreach (var b in AESEncryptProvider.AESEncrypt(chunk, keystore[i++]))
+                {
+                    yield return b;
+                }
             }
-
-            return buffer;
         }
 
         /// <summary>
@@ -188,7 +177,7 @@ namespace SAPTeam.Kryptor
             var hash = chunks[0];
             var encrypted = chunks.Skip(1);
 
-            var decrypted = Decrypt(encrypted);
+            var decrypted = Decrypt(encrypted).ToArray();
 
             if (BitConverter.ToString(decrypted.RawSha256()) != BitConverter.ToString(hash))
             {
@@ -207,30 +196,17 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The decrypted data.
         /// </returns>
-        byte[] Decrypt(IEnumerable<byte[]> ciphers)
+        IEnumerable<byte> Decrypt(IEnumerable<byte[]> ciphers)
         {
-            byte[][] t = new byte[ciphers.Count()][];
-            int count = 0;
             int i = 0;
-            int j = 0;
 
             foreach (var cipher in ciphers)
             {
-                byte[] b = AESEncryptProvider.AESDecrypt(cipher, keystore[i++]);
-                count += b.Length;
-                t[j++] = b;
+                foreach (var b in AESEncryptProvider.AESDecrypt(cipher, keystore[i++]))
+                {
+                    yield return b;
+                }
             }
-
-            byte[] buffer = new byte[count];
-            int ii = 0;
-
-            foreach (var bt in t)
-            {
-                bt.CopyTo(buffer, ii);
-                ii += bt.Length;
-            }
-
-            return buffer;
         }
     }
 }
