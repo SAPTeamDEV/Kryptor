@@ -43,8 +43,9 @@ else if (opt.Generate)
     Console.WriteLine($"Generating keystore with {opt.KeyStoreSize} keys");
     KESKeyStore ks = KESKeyStore.Generate(opt.KeyStoreSize);
     Console.WriteLine($"Keystore Fingerprint: {BitConverter.ToString(ks.Fingerprint)}");
-    File.WriteAllText(opt.KeyStore, ks.ToString());
-    Console.WriteLine($"Keystore is saved to {opt.KeyStore}");
+    var fName = !string.IsNullOrEmpty(opt.KeyStore) ? opt.KeyStore : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
+    File.WriteAllText(fName, ks.ToString());
+    Console.WriteLine($"Keystore is saved to {fName}");
 }
 
 return 0x0;
