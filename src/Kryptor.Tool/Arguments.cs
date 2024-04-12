@@ -24,8 +24,11 @@ namespace SAPTeam.Kryptor.Tool
         [Option('k', "keystore-size", SetName = "generate", Default = 256, HelpText = "Usable with -g, Specifies the number of keys to be generated for new keystore.")]
         public int KeyStoreSize { get; set; }
 
-        [Option('c', "continuous", HelpText = "Usable with -e and -d, Use more secure continuous encryption/decryption method.")]
+        [Option('c', "continuous", HelpText = "Usable with -e or -d, Use more secure continuous encryption/decryption method.")]
         public bool Continuous { get; set; }
+
+        [Option('b', "block-size", Default = 1048576, HelpText = $"Usable with -e or -d, Changes the block size for encryption and decryption. Block size must be divisible by 32. in large files, bigger block size could speed up the process.")]
+        public int BlockSize { get; set; }
 
         [Value(0, Hidden = true)]
         public string KeyStore { get; set; }

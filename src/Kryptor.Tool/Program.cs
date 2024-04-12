@@ -17,7 +17,7 @@ if (opt.Encrypt || opt.Decrypt)
 {
     KESKeyStore ks = ReadKeystore(opt.KeyStore);
 
-    KESProvider kp = new(ks, continuous: opt.Continuous);
+    KESProvider kp = new(ks, maxBlockSize: opt.BlockSize, continuous: opt.Continuous);
     kp.OnProgress += Helper.ShowProgress;
 
     if (opt.Encrypt)
@@ -173,9 +173,18 @@ KESKeyStore ReadKeystore(string keystore)
 
 void IsValid()
 {
-    if ((opt.Encrypt || opt.Decrypt) && (string.IsNullOrEmpty(opt.KeyStore) || opt.File.Count() == 0))
+    if (opt.Encrypt || opt.Decrypt)
     {
-        Echo(new Colorize("[Error:] You must specify keystore and at least one file.", ConsoleColor.Red));
-        Environment.Exit(2);
+        if (string.IsNullOrEmpty(opt.KeyStore) || !opt.File.Any())
+        {
+            Echo(new Colorize("[Error:] You must specify keystore and at least one file.", ConsoleColor.Red));
+            Environment.Exit(2);
+        }
+
+        if (!KESProvider.ValidateBlockSize(opt.BlockSize))
+        {
+            Echo(new Colorize("[Error:] Block size must be multiple of 32.", ConsoleColor.Red));
+            Environment.Exit(2);
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace SAPTeam.Kryptor
 
             if (maxBlockSize > 0)
             {
-                if (maxBlockSize % DecChunkSize != 0)
+                if (!ValidateBlockSize(maxBlockSize))
                 {
                     throw new ArgumentException("maxBlockSize must be a multiple of " + DecChunkSize);
                 }
@@ -75,6 +75,23 @@ namespace SAPTeam.Kryptor
             }
 
             this.continuous = continuous;
+        }
+
+        /// <summary>
+        /// Validates the divisibility of the given block size.
+        /// </summary>
+        /// <param name="bs">
+        /// The block size.
+        /// </param>
+        /// <returns></returns>
+        public static bool ValidateBlockSize(int bs)
+        {
+            if (bs % DecChunkSize != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
