@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +14,8 @@ namespace SAPTeam.Kryptor.Tool
     {
         public static void ShowProgress(int progress)
         {
-            ClearLine(true);
-            Echo(new Colorize($"[{progress}%] done", progress < 100 ? ConsoleColor.Yellow : ConsoleColor.Green), false);
+            ClearLine();
+            Echo(new Colorize($"[{progress}%] done", progress < 100 ? ConsoleColor.Yellow : ConsoleColor.Green));
         }
 
         public static string GetNewFileName(string path, string origName)
@@ -33,6 +34,12 @@ namespace SAPTeam.Kryptor.Tool
             }
 
             return destination;
+        }
+
+        public static string GetVersionString(Assembly assembly)
+        {
+            var ver = new Version(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+            return string.Join('.', ver.Major, ver.Minor, ver.Build);
         }
     }
 }
