@@ -72,6 +72,7 @@ namespace SAPTeam.Kryptor
                 }
 
                 DecryptionBlockSize = maxBlockSize;
+                EncryptionBlockSize = (DecryptionBlockSize / DecChunkSize - 1) * EncChunkSize;
             }
 
             this.continuous = continuous;
