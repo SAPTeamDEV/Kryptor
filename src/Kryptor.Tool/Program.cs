@@ -52,7 +52,7 @@ return Environment.ExitCode;
 
 async Task Encrypt(string file, KESProvider kp)
 {
-    Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
+    Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
     if (!CheckFile(file))
     {
@@ -73,7 +73,7 @@ async Task Encrypt(string file, KESProvider kp)
 
 async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
 {
-    Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
+    Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
     if (!CheckFile(file))
     {
