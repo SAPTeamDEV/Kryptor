@@ -7,10 +7,10 @@ using SAPTeam.Kryptor.Tool;
 Arguments opt = GetArguments();
 IsValid();
 
-string appVer = Helper.GetVersionString(Assembly.GetAssembly(typeof(Program)));
+string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
 Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
 
-string engVer = Helper.GetVersionString(Assembly.GetAssembly(typeof(KESProvider)));
+string engVer = GetVersionString(Assembly.GetAssembly(typeof(KESProvider)));
 Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
@@ -18,12 +18,13 @@ if (opt.Encrypt || opt.Decrypt)
     KESKeyStore ks = ReadKeystore(opt.KeyStore);
 
     KESProvider kp = new(ks, maxBlockSize: opt.BlockSize, continuous: opt.Continuous);
-    kp.OnProgress += Helper.ShowProgress;
+    kp.OnProgress += ShowProgress;
 
     if (opt.Encrypt)
     {
         foreach (var file in opt.File)
         {
+            Holder.ProcessTime = DateTime.Now;
             await Encrypt(file, kp);
         }
     }
@@ -31,6 +32,7 @@ if (opt.Encrypt || opt.Decrypt)
     {
         foreach (var file in opt.File)
         {
+            Holder.ProcessTime = DateTime.Now;
             await Decrypt(file, kp, BitConverter.ToString(ks.Fingerprint));
         }
     }
@@ -60,14 +62,13 @@ async Task Encrypt(string file, KESProvider kp)
     }
 
     using var f = File.OpenRead(file);
-    string resolvedName = Helper.GetNewFileName(file, file + ".kef");
+    string resolvedName = GetNewFileName(file, file + ".kef");
 
     Echo("Openning file stream");
     using var f2 = File.OpenWrite(resolvedName);
 
     await kp.EncryptFileAsync(f, f2);
 
-    ClearLine();
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
 
@@ -97,14 +98,13 @@ async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
         }
 
         string origName = header.fileName;
-        string resolvedName = Helper.GetNewFileName(file, origName);
+        string resolvedName = GetNewFileName(file, origName);
 
         Echo("Openning file stream");
         using var f2 = File.OpenWrite(resolvedName);
 
         await kp.DecryptFileAsync(f, f2);
 
-        ClearLine();
         Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
     }
     catch (InvalidDataException)
@@ -187,4 +187,34 @@ void IsValid()
             Environment.Exit(2);
         }
     }
+}
+
+void ShowProgress(int progress)
+{
+    ClearLine();
+    Echo(new Colorize(progress < 100 ? $"[{progress}%] done" : $"[{progress}%] done in {DateTime.Now - Holder.ProcessTime}", progress < 100 ? ConsoleColor.Yellow : ConsoleColor.Green));
+}
+
+string GetNewFileName(string path, string origName)
+{
+    string destination = Path.Combine(Directory.GetParent(path).FullName, origName);
+    int suffix = 2;
+
+    while (File.Exists(destination))
+    {
+        string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}){Path.GetExtension(destination)}";
+
+        if (!File.Exists(Path.Combine(Directory.GetParent(path).FullName, tempName)))
+        {
+            destination = Path.Combine(Directory.GetParent(path).FullName, tempName);
+        }
+    }
+
+    return destination;
+}
+
+string GetVersionString(Assembly assembly)
+{
+    var ver = new Version(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+    return string.Join('.', ver.Major, ver.Minor, ver.Build);
 }
