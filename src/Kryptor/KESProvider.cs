@@ -113,6 +113,8 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task EncryptFileAsync(FileStream source, FileStream dest)
         {
+            index = 0;
+
             List<byte>header = new List<byte>();
             header.AddRange(keystore.Fingerprint);
             header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
@@ -141,6 +143,8 @@ namespace SAPTeam.Kryptor
                 }
                 counter++;
             }
+
+            index = 0;
         }
 
         /// <summary>
@@ -154,6 +158,8 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task DecryptFileAsync(FileStream source, FileStream dest)
         {
+            index = 0;
+
             source.Seek(ReadHeader(source).end, SeekOrigin.Begin);
 
             int blockSize = DecryptionBlockSize;
@@ -176,6 +182,8 @@ namespace SAPTeam.Kryptor
                 }
                 counter++;
             }
+
+            index = 0;
         }
 
         /// <summary>
@@ -291,14 +299,6 @@ namespace SAPTeam.Kryptor
             }
 
             return result.ToArray();
-        }
-
-        /// <summary>
-        /// Resets counter in Continuous mode.
-        /// </summary>
-        public void ResetCounter()
-        {
-            index = 0;
         }
     }
 }

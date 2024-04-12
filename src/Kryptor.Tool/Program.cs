@@ -54,7 +54,6 @@ if (opt.Encrypt)
             using (var f2 = File.OpenWrite(resolvedName))
             {
                 await kp.EncryptFileAsync(f, f2);
-                kp.ResetCounter();
             }
 
             ClearLine(true);
@@ -107,7 +106,6 @@ else if (opt.Decrypt)
                     using (var f2 = File.OpenWrite(resolvedName))
                     {
                         await kp.DecryptFileAsync(f, f2);
-                        kp.ResetCounter();
                     }
 
                     ClearLine(true);
