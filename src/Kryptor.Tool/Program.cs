@@ -4,7 +4,8 @@ using SAPTeam.CommonTK.Console;
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Tool;
 
-Arguments opt = GetArguments(args);
+Arguments opt = GetArguments();
+IsValid();
 
 string appVer = Helper.GetVersionString(Assembly.GetAssembly(typeof(Program)));
 Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
@@ -14,9 +15,7 @@ Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
-    IsValid(opt);
-
-    KESKeyStore ks = ReadKeystore(opt);
+    KESKeyStore ks = ReadKeystore(opt.KeyStore);
 
     KESProvider kp = new(ks, continuous: opt.Continuous);
     kp.OnProgress += Helper.ShowProgress;
@@ -55,6 +54,11 @@ async Task Encrypt(string file, KESProvider kp)
 {
     Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
 
+    if (!CheckFile(file))
+    {
+        return;
+    }
+
     using var f = File.OpenRead(file);
     string resolvedName = Helper.GetNewFileName(file, file + ".kef");
 
@@ -63,13 +67,18 @@ async Task Encrypt(string file, KESProvider kp)
 
     await kp.EncryptFileAsync(f, f2);
 
-    ClearLine(true);
+    ClearLine();
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
 
 async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
 {
     Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Green));
+
+    if (!CheckFile(file))
+    {
+        return;
+    }
 
     try
     {
@@ -103,9 +112,14 @@ async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
         Echo(new Colorize("[Failed:] Cannot decrypt file.", ConsoleColor.Red));
         Environment.ExitCode = 0xFF;
     }
+    catch (ArgumentException)
+    {
+        Echo(new Colorize("[Failed:] Cannot decrypt file, File maybe corrupted!", ConsoleColor.Red));
+        Environment.ExitCode = 0xFF;
+    }
 }
 
-Arguments GetArguments(string[] args)
+Arguments GetArguments()
 {
     var result = Parser.Default.ParseArguments<Arguments>(args);
 
@@ -120,12 +134,31 @@ Arguments GetArguments(string[] args)
     }
 }
 
-KESKeyStore ReadKeystore(Arguments opt)
+bool CheckFile(string file)
 {
+    if (!File.Exists(file))
+    {
+        Echo(new Colorize("[Skipped:] File not found", ConsoleColor.DarkGray));
+        Environment.ExitCode = 0xFF;
+        return false;
+    }
+
+    return true;
+}
+
+KESKeyStore ReadKeystore(string keystore)
+{
+    if (!File.Exists(keystore))
+    {
+        Echo(new Colorize("[Error:] Keystore not found.", ConsoleColor.Red));
+        Environment.Exit(3);
+        return default;
+    }
+
     try
     {
-        Echo(new Colorize($"Reading keystore: [{Path.GetFileName(opt.KeyStore)}]", ConsoleColor.DarkYellow));
-        KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(opt.KeyStore));
+        Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
+        KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(keystore));
 
         Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
         return ks;
@@ -138,9 +171,9 @@ KESKeyStore ReadKeystore(Arguments opt)
     }
 }
 
-void IsValid(Arguments opt)
+void IsValid()
 {
-    if (string.IsNullOrEmpty(opt.KeyStore) || opt.File.Count() == 0)
+    if ((opt.Encrypt || opt.Decrypt) && (string.IsNullOrEmpty(opt.KeyStore) || opt.File.Count() == 0))
     {
         Echo(new Colorize("[Error:] You must specify keystore and at least one file.", ConsoleColor.Red));
         Environment.Exit(2);
