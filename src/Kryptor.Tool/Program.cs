@@ -43,7 +43,7 @@ if (opt.Encrypt || opt.Decrypt)
         foreach (var file in opt.File)
         {
             Holder.ProcessTime = DateTime.Now;
-            await Decrypt(file, kp, BitConverter.ToString(ks.Fingerprint));
+            await Decrypt(file, kp, ks.Fingerprint.FormatFingerprint());
         }
     }
 }
@@ -88,7 +88,7 @@ async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
         using var f = File.OpenRead(file);
 
         var header = KESProvider.ReadHeader(f);
-        string fingerprint = BitConverter.ToString(header.fingerprint);
+        string fingerprint = header.fingerprint.FormatFingerprint();
 
         Echo(new Colorize($"File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
 
@@ -162,7 +162,7 @@ KESKeyStore ReadKeystore(string keystore)
         Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
         KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(keystore));
 
-        Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
+        Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
         return ks;
     }
     catch (FormatException)
@@ -246,7 +246,7 @@ KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 256)
     Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
     KESKeyStore ks = KESKeyStore.Generate(keystoreSize);
 
-    Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
+    Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 
     var fName = !string.IsNullOrEmpty(name) ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
     File.WriteAllText(fName, ks.ToString());

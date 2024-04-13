@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <param name="src">The string to be encrypted</param>
         /// <returns></returns>
-        public static byte[] RawSha256(this byte[] src)
+        public static byte[] Sha256(this byte[] src)
         {
             using (SHA256 sha256 = SHA256.Create())
             {
@@ -67,6 +67,17 @@ namespace SAPTeam.Kryptor
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Converts bytes to hex with Fingerprint format.
+        /// </summary>
+        /// <param name="src">
+        /// The source data.
+        /// </param>
+        public static string FormatFingerprint(this byte[] src)
+        {
+            return BitConverter.ToString(src).Replace("-", ":");
         }
     }
 }

@@ -223,7 +223,7 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{EncryptionBlockSize}");
             }
 
-            return bytes.RawSha256()
+            return bytes.Sha256()
                                  .Concat(await EncryptAsync(bytes.Slice<byte>(EncChunkSize)))
                                  .ToArray();
 
@@ -284,7 +284,7 @@ namespace SAPTeam.Kryptor
 
             var decrypted = await DecryptAsync(encrypted);
 
-            if (BitConverter.ToString(decrypted.RawSha256()) != BitConverter.ToString(hash))
+            if (BitConverter.ToString(decrypted.Sha256()) != BitConverter.ToString(hash))
             {
                 throw new InvalidDataException("Hash mismatch");
             }
