@@ -145,6 +145,7 @@ namespace SAPTeam.Kryptor
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
+            OnProgress?.Invoke(0);
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
@@ -184,6 +185,7 @@ namespace SAPTeam.Kryptor
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
+            OnProgress?.Invoke(0);
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
