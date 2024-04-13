@@ -27,6 +27,9 @@ namespace SAPTeam.Kryptor.Tool
         [Option('c', "continuous", HelpText = "Usable with -e or -d, Use more secure continuous encryption/decryption method.")]
         public bool Continuous { get; set; }
 
+        [Option('C', "create-key", HelpText = "Usable with -e, Creates new keystore for each files.")]
+        public bool CreateKey { get; set; }
+
         [Option('b', "block-size", Default = 1048576, HelpText = $"Usable with -e or -d, Changes the block size for encryption and decryption. Block size must be divisible by 32. in large files, bigger block size may reduce time and output size.")]
         public int BlockSize { get; set; }
 

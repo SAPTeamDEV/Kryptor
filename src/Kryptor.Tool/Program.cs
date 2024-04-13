@@ -15,15 +15,25 @@ Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
-    KESKeyStore ks = ReadKeystore(opt.KeyStore);
+    KESKeyStore ks = default;
+    KESProvider kp = default;
 
-    KESProvider kp = new(ks, maxBlockSize: opt.BlockSize, continuous: opt.Continuous);
-    kp.OnProgress += ShowProgress;
+    if (opt.Decrypt || !opt.CreateKey)
+    {
+        ks = ReadKeystore(opt.KeyStore);
+        kp = GetProvider(opt, ks);
+    }
 
     if (opt.Encrypt)
     {
         foreach (var file in opt.File)
         {
+            if (opt.CreateKey)
+            {
+                ks = GenerateKeystore();
+                kp = GetProvider(opt, ks);
+            }
+
             Holder.ProcessTime = DateTime.Now;
             await Encrypt(file, kp);
         }
@@ -39,15 +49,7 @@ if (opt.Encrypt || opt.Decrypt)
 }
 else if (opt.Generate)
 {
-    Echo(new Colorize($"Generating keystore with [{opt.KeyStoreSize}] keys", ConsoleColor.Cyan));
-    KESKeyStore ks = KESKeyStore.Generate(opt.KeyStoreSize);
-
-    Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
-
-    var fName = !string.IsNullOrEmpty(opt.KeyStore) ? opt.KeyStore : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
-    File.WriteAllText(fName, ks.ToString());
-
-    Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
+    GenerateKeystore(opt.KeyStore, opt.KeyStoreSize);
 }
 
 return Environment.ExitCode;
@@ -175,9 +177,29 @@ void IsValid()
 {
     if (opt.Encrypt || opt.Decrypt)
     {
-        if (string.IsNullOrEmpty(opt.KeyStore) || !opt.File.Any())
+        if (!opt.CreateKey)
         {
-            Echo(new Colorize("[Error:] You must specify keystore and at least one file.", ConsoleColor.Red));
+            if (string.IsNullOrEmpty(opt.KeyStore))
+            {
+                Echo(new Colorize("[Error:] You must specify keysore file name.", ConsoleColor.Red));
+                Environment.Exit(2);
+            }
+        }
+        else if (!string.IsNullOrEmpty(opt.KeyStore))
+        {
+            if (opt.File != null)
+            {
+                opt.File = new string[] { opt.KeyStore }.Concat(opt.File);
+            }
+            else
+            {
+                opt.File = new string[] { opt.KeyStore };
+            }
+        }
+
+        if (opt.File == null || !opt.File.Any())
+        {
+            Echo(new Colorize("[Error:] You must specify at least one file.", ConsoleColor.Red));
             Environment.Exit(2);
         }
 
@@ -217,4 +239,25 @@ string GetVersionString(Assembly assembly)
 {
     var ver = new Version(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
     return string.Join('.', ver.Major, ver.Minor, ver.Build);
+}
+
+KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 256)
+{
+    Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
+    KESKeyStore ks = KESKeyStore.Generate(keystoreSize);
+
+    Echo(new Colorize($"Keystore Fingerprint: [{BitConverter.ToString(ks.Fingerprint)}]", ConsoleColor.Blue));
+
+    var fName = !string.IsNullOrEmpty(name) ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
+    File.WriteAllText(fName, ks.ToString());
+
+    Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
+    return ks;
+}
+
+KESProvider GetProvider(Arguments opt, KESKeyStore ks)
+{
+    KESProvider kp = new(ks, maxBlockSize: opt.BlockSize, continuous: opt.Continuous);
+    kp.OnProgress += ShowProgress;
+    return kp;
 }
