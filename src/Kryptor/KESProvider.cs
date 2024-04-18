@@ -23,7 +23,12 @@ namespace SAPTeam.Kryptor
         const int DecBlockSize = 1048576;
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
 
-        static byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
+        static readonly byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
+
+        /// <summary>
+        /// Gets an empty provider.
+        /// </summary>
+        static public KESProvider Empty { get; }
 
         /// <summary>
         /// Delegate for OnProgress event.
@@ -225,7 +230,7 @@ namespace SAPTeam.Kryptor
 
             List<byte> result = new List<byte>(bytes.Sha256());
 
-            foreach (var chunk in bytes.Slice<byte>(EncChunkSize))
+            foreach (var chunk in bytes.Chunk(EncChunkSize))
             {
                 result.AddRange(await AESEncryptProvider.EncryptAsync(chunk, keystore[index++]));
             }
@@ -258,7 +263,7 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{DecryptionBlockSize}");
             }
 
-            var chunks = bytes.Slice<byte>(DecChunkSize).ToArray();
+            var chunks = bytes.Chunk(DecChunkSize).ToArray();
             var hash = chunks[0];
 
             List<byte> result = new List<byte>();

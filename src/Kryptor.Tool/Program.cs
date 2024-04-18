@@ -16,7 +16,7 @@ Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 if (opt.Encrypt || opt.Decrypt)
 {
     KESKeyStore ks = default;
-    KESProvider kp = default;
+    KESProvider kp = KESProvider.Empty;
 
     if (opt.Decrypt || !opt.CreateKey)
     {
@@ -160,7 +160,7 @@ KESKeyStore ReadKeystore(string keystore)
     try
     {
         Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
-        KESKeyStore ks = KESKeyStore.FromString(File.ReadAllText(keystore));
+        KESKeyStore ks = new KESKeyStore(File.ReadAllBytes(keystore));
 
         Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
         return ks;
@@ -241,15 +241,20 @@ string GetVersionString(Assembly assembly)
     return string.Join('.', ver.Major, ver.Minor, ver.Build);
 }
 
-KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 256)
+KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
 {
+    if (keystoreSize == 0)
+    {
+        keystoreSize = KESKeyStore.GetRandomOddNumber();
+    }
+
     Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
     KESKeyStore ks = KESKeyStore.Generate(keystoreSize);
 
     Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 
     var fName = !string.IsNullOrEmpty(name) ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
-    File.WriteAllText(fName, ks.ToString());
+    File.WriteAllBytes(fName, ks.Raw);
 
     Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
     return ks;

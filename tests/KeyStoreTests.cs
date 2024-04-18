@@ -16,10 +16,10 @@ namespace Kryptor.Tests
         public void KeyConvertTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            string b64Key = ks.ToString();
-            KESKeyStore ks2 = KESKeyStore.FromString(b64Key);
+            byte[] raw = ks.Raw;
+            KESKeyStore ks2 = new KESKeyStore(raw);
 
-            Assert.Equal(b64Key, ks2.ToString());
+            Assert.Equal(raw, ks2.Raw);
             Assert.Equal(ks.Keys, ks2.Keys);
         }
 
@@ -40,6 +40,24 @@ namespace Kryptor.Tests
             Assert.NotEqual(ks[10], ks[137]);
             Assert.NotEqual(ks[50], ks[177]);
             Assert.NotEqual(ks[127], ks[254]);
+
+            // Negative indexes
+            Assert.Equal(ks[0], ks[-128]);
+            Assert.Equal(ks[1], ks[-129]);
+            Assert.Equal(ks[10], ks[-138]);
+            Assert.Equal(ks[50], ks[-178]);
+            Assert.Equal(ks[90], ks[-218]);
+            Assert.Equal(ks[127], ks[-255]);
+
+            Assert.Equal(ks[127], ks[-1]);
+            Assert.Equal(ks[1], ks[-127]);
+            Assert.Equal(ks[126], ks[-2]);
+
+            Assert.NotEqual(ks[0], ks[-127]);
+            Assert.NotEqual(ks[1], ks[-128]);
+            Assert.NotEqual(ks[10], ks[-137]);
+            Assert.NotEqual(ks[50], ks[-177]);
+            Assert.NotEqual(ks[127], ks[-254]);
         }
     }
 }
