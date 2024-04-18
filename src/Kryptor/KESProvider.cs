@@ -223,31 +223,11 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{EncryptionBlockSize}");
             }
 
-            return bytes.Sha256()
-                                 .Concat(await EncryptAsync(bytes.Slice<byte>(EncChunkSize)))
-                                 .ToArray();
+            List<byte> result = new List<byte>(bytes.Sha256());
 
-        }
-
-        /// <summary>
-        /// Encrypts the input data using the Kryptor Encryption Standard (KES).
-        /// </summary>
-        /// <param name="data">
-        /// The data to encrypt.
-        /// </param>
-        /// <returns>
-        /// The encrypted data.
-        /// </returns>
-        async Task<byte[]> EncryptAsync(IEnumerable<byte[]> data)
-        {
-            List<byte> result = new List<byte>();
-
-            foreach (var chunk in data)
+            foreach (var chunk in bytes.Slice<byte>(EncChunkSize))
             {
-                foreach (var b in await AESEncryptProvider.EncryptAsync(chunk, keystore[index++]))
-                {
-                    result.Add(b);
-                }
+                result.AddRange(await AESEncryptProvider.EncryptAsync(chunk, keystore[index++]));
             }
 
             if (!continuous)
@@ -280,37 +260,12 @@ namespace SAPTeam.Kryptor
 
             var chunks = bytes.Slice<byte>(DecChunkSize).ToArray();
             var hash = chunks[0];
-            var encrypted = chunks.Skip(1);
 
-            var decrypted = await DecryptAsync(encrypted);
-
-            if (BitConverter.ToString(decrypted.Sha256()) != BitConverter.ToString(hash))
-            {
-                throw new InvalidDataException("Hash mismatch");
-            }
-
-            return decrypted;
-        }
-
-        /// <summary>
-        /// Decrypts the input data using the Kryptor Encryption Standard (KES).
-        /// </summary>
-        /// <param name="ciphers">
-        /// The data to decrypt.
-        /// </param>
-        /// <returns>
-        /// The decrypted data.
-        /// </returns>
-        async Task<byte[]> DecryptAsync(IEnumerable<byte[]> ciphers)
-        {
             List<byte> result = new List<byte>();
 
-            foreach (var cipher in ciphers)
+            foreach (var cipher in chunks.Skip(1))
             {
-                foreach (var b in await AESEncryptProvider.DecryptAsync(cipher, keystore[index++]))
-                {
-                    result.Add(b);
-                }
+                result.AddRange(await AESEncryptProvider.DecryptAsync(cipher, keystore[index++]));
             }
 
             if (!continuous)
@@ -318,7 +273,14 @@ namespace SAPTeam.Kryptor
                 index = 0;
             }
 
-            return result.ToArray();
+            var array = result.ToArray();
+
+            if (!hash.SequenceEqual(array.Sha256()))
+            {
+                throw new InvalidDataException("Hash mismatch");
+            }
+
+            return array;
         }
     }
 }
