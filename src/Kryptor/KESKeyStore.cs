@@ -7,7 +7,7 @@ using System.Text;
 namespace SAPTeam.Kryptor
 {
     /// <summary>
-    /// Stores keys for the <see cref="KESProvider"/> class.
+    /// Stores keys for the <see cref="KES"/> class.
     /// </summary>
     public struct KESKeyStore
     {

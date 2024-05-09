@@ -10,18 +10,18 @@ IsValid();
 string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
 Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
 
-string engVer = GetVersionString(Assembly.GetAssembly(typeof(KESProvider)));
+string engVer = GetVersionString(Assembly.GetAssembly(typeof(KES)));
 Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
     KESKeyStore ks = default;
-    KESProvider kp = KESProvider.Empty;
+    KES kp = GetProvider(opt);
 
     if (opt.Decrypt || !opt.CreateKey)
     {
         ks = ReadKeystore(opt.KeyStore);
-        kp = GetProvider(opt, ks);
+        kp.KeyStore = ks;
     }
 
     if (opt.Encrypt)
@@ -31,7 +31,7 @@ if (opt.Encrypt || opt.Decrypt)
             if (opt.CreateKey)
             {
                 ks = GenerateKeystore();
-                kp = GetProvider(opt, ks);
+                kp.KeyStore = ks;
             }
 
             Holder.ProcessTime = DateTime.Now;
@@ -54,7 +54,7 @@ else if (opt.Generate)
 
 return Environment.ExitCode;
 
-async Task Encrypt(string file, KESProvider kp)
+async Task Encrypt(string file, KES kp)
 {
     Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -74,7 +74,7 @@ async Task Encrypt(string file, KESProvider kp)
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
 
-async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
+async Task Decrypt(string file, KES kp, string ksFingerprint)
 {
     Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -87,7 +87,7 @@ async Task Decrypt(string file, KESProvider kp, string ksFingerprint)
     {
         using var f = File.OpenRead(file);
 
-        var header = KESProvider.ReadHeader(f);
+        var header = KES.ReadHeader(f);
         string fingerprint = header.fingerprint.FormatFingerprint();
 
         Echo(new Colorize($"File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
@@ -203,7 +203,7 @@ void IsValid()
             Environment.Exit(2);
         }
 
-        if (!KESProvider.ValidateBlockSize(opt.BlockSize))
+        if (!KES.ValidateBlockSize(opt.BlockSize))
         {
             Echo(new Colorize("[Error:] Block size must be multiple of 32.", ConsoleColor.Red));
             Environment.Exit(2);
@@ -260,9 +260,9 @@ KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     return ks;
 }
 
-KESProvider GetProvider(Arguments opt, KESKeyStore ks)
+KES GetProvider(Arguments opt)
 {
-    KESProvider kp = new(ks, maxBlockSize: opt.BlockSize, continuous: opt.Continuous);
+    KES kp = new(continuous: opt.Continuous, maxBlockSize: opt.BlockSize);
     kp.OnProgress += ShowProgress;
     return kp;
 }

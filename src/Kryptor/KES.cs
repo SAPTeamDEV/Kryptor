@@ -12,36 +12,16 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Provides methods to encrypt and decrypt data using the Kryptor Encryption Standard (KES).
     /// </summary>
-    public class KESProvider
+    public class KES
     {
-        readonly KESKeyStore keystore;
-        readonly bool continuous = false;
         int index = 0;
+
+        #region Size Parameters
 
         const int DecChunkSize = 32;
         const int EncChunkSize = DecChunkSize - 1;
         const int DecBlockSize = 1048576;
         const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
-
-        static readonly byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
-
-        /// <summary>
-        /// Gets an empty provider.
-        /// </summary>
-        static public KESProvider Empty { get; }
-
-        /// <summary>
-        /// Delegate for OnProgress event.
-        /// </summary>
-        /// <param name="progress">
-        /// The progress of the operation.
-        /// </param>
-        public delegate void ProgressCallback(int progress);
-
-        /// <summary>
-        /// Called when a part of file is encrypted or decrypted.
-        /// </summary>
-        public event ProgressCallback OnProgress;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="DecryptBlockAsync(byte[])"/>.
@@ -53,22 +33,53 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int EncryptionBlockSize { get; } = EncBlockSize;
 
+        #endregion
+
+        static readonly byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="KESProvider"/> class.
+        /// Gets or sets the keystore for crypto operations.
         /// </summary>
-        /// <param name="keystore">
-        /// The keystore to use for encryption and decryption.
+        public KESKeyStore KeyStore { get; set; }
+
+        /// <summary>
+        /// Gets or sets the configuration of continuous encryption method.
+        /// </summary>
+        public bool Continuous { get; set; }
+
+        /// <summary>
+        /// Called when a part of file is encrypted or decrypted.
+        /// </summary>
+        public event Action<int> OnProgress;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KES"/> class.
+        /// </summary>
+        /// <param name="keyStore">
+        /// The keystore for crypto operations.
+        /// </param>
+        /// <param name="continuous">
+        /// Use continuous encryption method.
         /// </param>
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        /// <param name="continuous">
-        /// Use Continuous encryption method.
-        /// </param>
-        public KESProvider(KESKeyStore keystore, int maxBlockSize = default, bool continuous = false)
+        public KES(KESKeyStore keyStore, bool continuous = false, int maxBlockSize = default) : this(continuous, maxBlockSize)
         {
-            this.keystore = keystore;
+            KeyStore = keyStore;
+        }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KES"/> class.
+        /// </summary>
+        /// <param name="continuous">
+        /// Use continuous encryption method.
+        /// </param>
+        /// <param name="maxBlockSize">
+        /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
+        /// </param>
+        public KES(bool continuous = false, int maxBlockSize = default)
+        {
             if (maxBlockSize > 0)
             {
                 if (!ValidateBlockSize(maxBlockSize))
@@ -80,7 +91,7 @@ namespace SAPTeam.Kryptor
                 EncryptionBlockSize = (DecryptionBlockSize / DecChunkSize - 1) * EncChunkSize;
             }
 
-            this.continuous = continuous;
+            Continuous = continuous;
         }
 
         /// <summary>
@@ -138,8 +149,8 @@ namespace SAPTeam.Kryptor
         {
             index = 0;
 
-            List<byte>header = new List<byte>();
-            header.AddRange(keystore.Fingerprint);
+            List<byte> header = new List<byte>();
+            header.AddRange(KeyStore.Fingerprint);
             header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
             header.AddRange(HeaderPattern);
             byte[] hArray = header.ToArray();
@@ -232,10 +243,10 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in bytes.Chunk(EncChunkSize))
             {
-                result.AddRange(await AESEncryptProvider.EncryptAsync(chunk, keystore[index++]));
+                result.AddRange(await AESEncryptProvider.EncryptAsync(chunk, KeyStore[index++]));
             }
 
-            if (!continuous)
+            if (!Continuous)
             {
                 index = 0;
             }
@@ -270,10 +281,10 @@ namespace SAPTeam.Kryptor
 
             foreach (var cipher in chunks.Skip(1))
             {
-                result.AddRange(await AESEncryptProvider.DecryptAsync(cipher, keystore[index++]));
+                result.AddRange(await AESEncryptProvider.DecryptAsync(cipher, KeyStore[index++]));
             }
 
-            if (!continuous)
+            if (!Continuous)
             {
                 index = 0;
             }
