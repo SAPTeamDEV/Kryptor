@@ -17,7 +17,7 @@ namespace Kryptor.Tests
         public async void EncryptDecryptTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            KES kp = new KES(ks);
+            KES kp = new KES(new StandaloneKeyCryptoProvider(ks));
 
             byte[] enc = await kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(testText));
             byte[] output = await kp.DecryptBlockAsync(enc);
@@ -32,22 +32,22 @@ namespace Kryptor.Tests
         public void BlockSizeTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            KES kp = new KES(ks, maxBlockSize: 1048576);
+            KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             Assert.Equal(1048576, kp.DecryptionBlockSize);
             Assert.Equal((1048576 / 32 - 1) * 31, kp.EncryptionBlockSize);
 
-            Assert.Throws<ArgumentException>(() => new KES(ks, maxBlockSize: 127));
+            Assert.Throws<ArgumentException>(() => new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 127));
         }
 
         [Fact]
         public async void InvalidKeystoreTest()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            KES kp = new KES(ks);
+            KES kp = new KES(new StandaloneKeyCryptoProvider(ks));
 
             KESKeyStore ks2 = KESKeyStore.Generate(128);
-            KES kp2 = new KES(ks2);
+            KES kp2 = new KES(new StandaloneKeyCryptoProvider(ks2));
 
             byte[] enc = await kp.EncryptBlockAsync(testBytes);
             await Assert.ThrowsAsync<InvalidDataException>(async () => await kp2.DecryptBlockAsync(enc));
@@ -57,7 +57,7 @@ namespace Kryptor.Tests
         public async void EncryptOverflow()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            KES kp = new KES(ks, maxBlockSize: 1048576);
+            KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.EncryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);
@@ -68,7 +68,7 @@ namespace Kryptor.Tests
         public async void DecryptOverflow()
         {
             KESKeyStore ks = KESKeyStore.Generate(128);
-            KES kp = new KES(ks, maxBlockSize: 1048576);
+            KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.DecryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);

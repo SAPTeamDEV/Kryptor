@@ -16,12 +16,13 @@ Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 if (opt.Encrypt || opt.Decrypt)
 {
     KESKeyStore ks = default;
-    KES kp = GetProvider(opt);
+    KES kp = InitKES(opt);
 
     if (opt.Decrypt || !opt.CreateKey)
     {
         ks = ReadKeystore(opt.KeyStore);
-        kp.KeyStore = ks;
+        StandaloneKeyCryptoProvider skcp = new StandaloneKeyCryptoProvider(ks, opt.Continuous);
+        kp.Provider = skcp;
     }
 
     if (opt.Encrypt)
@@ -31,7 +32,8 @@ if (opt.Encrypt || opt.Decrypt)
             if (opt.CreateKey)
             {
                 ks = GenerateKeystore();
-                kp.KeyStore = ks;
+                StandaloneKeyCryptoProvider skcp = new StandaloneKeyCryptoProvider(ks, opt.Continuous);
+                kp.Provider = skcp;
             }
 
             Holder.ProcessTime = DateTime.Now;
@@ -260,9 +262,9 @@ KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     return ks;
 }
 
-KES GetProvider(Arguments opt)
+KES InitKES(Arguments opt)
 {
-    KES kp = new(continuous: opt.Continuous, maxBlockSize: opt.BlockSize);
+    KES kp = new(maxBlockSize: opt.BlockSize);
     kp.OnProgress += ShowProgress;
     return kp;
 }

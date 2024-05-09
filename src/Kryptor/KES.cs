@@ -15,37 +15,60 @@ namespace SAPTeam.Kryptor
     public class KES
     {
         int index = 0;
+        private ICryptoProvider provider;
 
         #region Size Parameters
 
-        const int DecChunkSize = 32;
-        const int EncChunkSize = DecChunkSize - 1;
-        const int DecBlockSize = 1048576;
-        const int EncBlockSize = (DecBlockSize / DecChunkSize - 1) * EncChunkSize;
+        /// <summary>
+        /// Gets the Default Decryption Chunk Size. (Only For Advanced Usages)
+        /// </summary>
+        public const int DefaultDecryptionChunkSize = 32;
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="DecryptBlockAsync(byte[])"/>.
+        /// Gets the Default Encryption Chunk Size. (Only For Advanced Usages)
         /// </summary>
-        public int DecryptionBlockSize { get; } = DecBlockSize;
+        public const int DefaultEncryptionChunkSize = DefaultDecryptionChunkSize - 1;
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="EncryptBlockAsync(byte[])"/>.
+        /// Gets the Default Decryption Block Size. (Only For Advanced Usages)
         /// </summary>
-        public int EncryptionBlockSize { get; } = EncBlockSize;
+        public const int DefaultDecryptionBlockSize = 1048576;
+
+        /// <summary>
+        /// Gets the Default Encryption Block Size. (Only For Advanced Usages)
+        /// </summary>
+        public const int DefaultEncryptionBlockSize = (DefaultDecryptionBlockSize / DefaultDecryptionChunkSize - 1) * DefaultEncryptionChunkSize;
+
+        /// <summary>
+        /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync(byte[])"/>.
+        /// </summary>
+        public int DecryptionBlockSize { get; } = DefaultDecryptionBlockSize;
+
+        /// <summary>
+        /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync(byte[])"/>.
+        /// </summary>
+        public int EncryptionBlockSize { get; } = DefaultEncryptionBlockSize;
 
         #endregion
 
         static readonly byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
 
         /// <summary>
-        /// Gets or sets the keystore for crypto operations.
+        /// Gets or sets the crypto provider.
         /// </summary>
-        public KESKeyStore KeyStore { get; set; }
+        public ICryptoProvider Provider
+        {
+            get => provider;
+            set
+            {
+                if (value is CryptoProvider cp && cp.Parent != this)
+                {
+                    cp.Parent = this;
+                }
 
-        /// <summary>
-        /// Gets or sets the configuration of continuous encryption method.
-        /// </summary>
-        public bool Continuous { get; set; }
+                provider = value;
+            }
+        }
 
         /// <summary>
         /// Called when a part of file is encrypted or decrypted.
@@ -55,43 +78,35 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Initializes a new instance of the <see cref="KES"/> class.
         /// </summary>
-        /// <param name="keyStore">
-        /// The keystore for crypto operations.
-        /// </param>
-        /// <param name="continuous">
-        /// Use continuous encryption method.
+        /// <param name="provider">
+        /// The crypto provider.
         /// </param>
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public KES(KESKeyStore keyStore, bool continuous = false, int maxBlockSize = default) : this(continuous, maxBlockSize)
+        public KES(ICryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
         {
-            KeyStore = keyStore;
+            Provider = provider;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KES"/> class.
         /// </summary>
-        /// <param name="continuous">
-        /// Use continuous encryption method.
-        /// </param>
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public KES(bool continuous = false, int maxBlockSize = default)
+        public KES(int maxBlockSize = default)
         {
             if (maxBlockSize > 0)
             {
                 if (!ValidateBlockSize(maxBlockSize))
                 {
-                    throw new ArgumentException("maxBlockSize must be a multiple of " + DecChunkSize);
+                    throw new ArgumentException("maxBlockSize must be a multiple of " + DefaultDecryptionChunkSize);
                 }
 
                 DecryptionBlockSize = maxBlockSize;
-                EncryptionBlockSize = (DecryptionBlockSize / DecChunkSize - 1) * EncChunkSize;
+                EncryptionBlockSize = (DecryptionBlockSize / DefaultDecryptionChunkSize - 1) * DefaultEncryptionChunkSize;
             }
-
-            Continuous = continuous;
         }
 
         /// <summary>
@@ -103,7 +118,7 @@ namespace SAPTeam.Kryptor
         /// <returns></returns>
         public static bool ValidateBlockSize(int bs)
         {
-            if (bs % DecChunkSize != 0)
+            if (bs % DefaultDecryptionChunkSize != 0)
             {
                 return false;
             }
@@ -150,7 +165,7 @@ namespace SAPTeam.Kryptor
             index = 0;
 
             List<byte> header = new List<byte>();
-            header.AddRange(KeyStore.Fingerprint);
+            header.AddRange(Provider.KeyStore.Fingerprint);
             header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
             header.AddRange(HeaderPattern);
             byte[] hArray = header.ToArray();
@@ -168,7 +183,7 @@ namespace SAPTeam.Kryptor
                 int actualSize = (int)Math.Min(source.Length - i, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await EncryptBlockAsync(slice);
+                var eSlice = await Provider.EncryptBlockAsync(slice);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
                 if (prog != lastProg)
@@ -208,7 +223,7 @@ namespace SAPTeam.Kryptor
                 var actualSize = Math.Min(source.Length - source.Position, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await DecryptBlockAsync(slice);
+                var eSlice = await Provider.DecryptBlockAsync(slice);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
                 if (prog != lastProg)
@@ -223,80 +238,23 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Encrypts the input data using the Kryptor Encryption Standard (KES).
+        /// Encrypts block of data asynchronously.
         /// </summary>
-        /// <param name="bytes">
-        /// The data to encrypt.
-        /// </param>
-        /// <returns>
-        /// The encrypted data.
-        /// </returns>
-        public async Task<byte[]> EncryptBlockAsync(byte[] bytes)
+        /// <param name="data">The raw data block.</param>
+        /// <returns>Encrypted data block.</returns>
+        public async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
-            Check.Argument.IsNotEmpty(bytes, nameof(bytes));
-            if (bytes.Length > EncryptionBlockSize)
-            {
-                throw new ArgumentException($"Max allowed size for input buffer is :{EncryptionBlockSize}");
-            }
-
-            List<byte> result = new List<byte>(bytes.Sha256());
-
-            foreach (var chunk in bytes.Chunk(EncChunkSize))
-            {
-                result.AddRange(await AESEncryptProvider.EncryptAsync(chunk, KeyStore[index++]));
-            }
-
-            if (!Continuous)
-            {
-                index = 0;
-            }
-
-            return result.ToArray();
+            return await Provider.EncryptBlockAsync(data);
         }
 
         /// <summary>
-        /// Decrypts the input data using the Kryptor Encryption Standard (KES).
+        /// Decrypts block of data asynchronously.
         /// </summary>
-        /// <param name="bytes">
-        /// The data to decrypt.
-        /// </param>
-        /// <returns>
-        /// The decrypted data.
-        /// </returns>
-        /// <exception cref="Exception">
-        /// Thrown when the hash of the decrypted data does not match the hash in the input data.
-        /// </exception>
-        public async Task<byte[]> DecryptBlockAsync(byte[] bytes)
+        /// <param name="data">The raw encrypted data block.</param>
+        /// <returns>Decrypted data block.</returns>
+        public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
-            Check.Argument.IsNotEmpty(bytes, nameof(bytes));
-            if (bytes.Length > DecryptionBlockSize)
-            {
-                throw new ArgumentException($"Max allowed size for input buffer is :{DecryptionBlockSize}");
-            }
-
-            var chunks = bytes.Chunk(DecChunkSize).ToArray();
-            var hash = chunks[0];
-
-            List<byte> result = new List<byte>();
-
-            foreach (var cipher in chunks.Skip(1))
-            {
-                result.AddRange(await AESEncryptProvider.DecryptAsync(cipher, KeyStore[index++]));
-            }
-
-            if (!Continuous)
-            {
-                index = 0;
-            }
-
-            var array = result.ToArray();
-
-            if (!hash.SequenceEqual(array.Sha256()))
-            {
-                throw new InvalidDataException("Hash mismatch");
-            }
-
-            return array;
+            return await Provider.DecryptBlockAsync(data);
         }
     }
 }
