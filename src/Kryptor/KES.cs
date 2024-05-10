@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor
     public class KES
     {
         int index = 0;
-        private ICryptoProvider provider;
+        private CryptoProvider provider;
 
         #region Size Parameters
 
@@ -56,14 +56,14 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets or sets the crypto provider.
         /// </summary>
-        public ICryptoProvider Provider
+        public CryptoProvider Provider
         {
             get => provider;
             set
             {
-                if (value is CryptoProvider cp && cp.Parent != this)
+                if (value.Parent != this)
                 {
-                    cp.Parent = this;
+                    value.Parent = this;
                 }
 
                 provider = value;
@@ -84,7 +84,7 @@ namespace SAPTeam.Kryptor
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public KES(ICryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
+        public KES(CryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
         {
             Provider = provider;
         }

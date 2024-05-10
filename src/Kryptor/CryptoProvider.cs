@@ -11,23 +11,33 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Represents the abstract base class for KES Crypto Providers.
     /// </summary>
-    public abstract class CryptoProvider : ICryptoProvider
+    public abstract class CryptoProvider
     {
         /// <summary>
         /// Gets the index of the key in the keystore.
         /// </summary>
         protected int index = 0;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the keystore for crypto operations.
+        /// </summary>
         public KESKeyStore KeyStore { get; protected set; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the configuration of continuous encryption method.
+        /// </summary>
         public bool Continuous { get; protected set; }
-        
-        /// <inheritdoc/>
+
+        /// <summary>
+        /// Gets the parent <see cref="KES"/> instance.
+        /// </summary>
         public KES Parent { get; internal set; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Encrypts block of data asynchronously.
+        /// </summary>
+        /// <param name="data">The raw data block.</param>
+        /// <returns>Encrypted data block.</returns>
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
@@ -51,7 +61,11 @@ namespace SAPTeam.Kryptor
             return result.ToArray();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Decrypts block of data asynchronously.
+        /// </summary>
+        /// <param name="data">The raw encrypted data block.</param>
+        /// <returns>Decrypted data block.</returns>
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
             Check.Argument.IsNotEmpty(data, nameof(data));
