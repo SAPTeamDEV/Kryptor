@@ -16,7 +16,7 @@ namespace Kryptor.Tests
         [Fact]
         public async void EncryptDecryptTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks));
 
             byte[] enc = await kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(testText));
@@ -31,7 +31,7 @@ namespace Kryptor.Tests
         [Fact]
         public void BlockSizeTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             Assert.Equal(1048576, kp.DecryptionBlockSize);
@@ -43,10 +43,10 @@ namespace Kryptor.Tests
         [Fact]
         public async void InvalidKeystoreTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks));
 
-            KESKeyStore ks2 = KESKeyStore.Generate(128);
+            KeyStore ks2 = KeyStore.Generate(128);
             KES kp2 = new KES(new StandaloneKeyCryptoProvider(ks2));
 
             byte[] enc = await kp.EncryptBlockAsync(testBytes);
@@ -56,7 +56,7 @@ namespace Kryptor.Tests
         [Fact]
         public async void EncryptOverflow()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.EncryptionBlockSize + 1];
@@ -67,7 +67,7 @@ namespace Kryptor.Tests
         [Fact]
         public async void DecryptOverflow()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.DecryptionBlockSize + 1];

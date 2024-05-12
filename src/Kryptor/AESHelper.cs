@@ -7,9 +7,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+using EnsureThat;
+
 namespace SAPTeam.Kryptor
 {
-    internal class AESEncryptProvider
+    internal class AESHelper
     {
         /// <summary>
         /// Encrypts data with AES-ECB method
@@ -19,9 +21,9 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted bytes</returns>
         public static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
         {
-            Check.Argument.IsNotEmpty(data, nameof(data));
-            Check.Argument.IsNotEmpty(key, nameof(key));
-            Check.Argument.IsEqualLength(key.Length, 32, nameof(key));
+            Ensure.Enumerable.HasItems(data, nameof(data));
+            Ensure.Enumerable.HasItems(key, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
 
             using (MemoryStream memory = new MemoryStream())
             {
@@ -50,9 +52,9 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted bytes</returns>
         public static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
         {
-            Check.Argument.IsNotEmpty(data, nameof(data));
-            Check.Argument.IsNotEmpty(key, nameof(key));
-            Check.Argument.IsEqualLength(key.Length, 32, nameof(key));
+            Ensure.Enumerable.HasItems(data, nameof(data));
+            Ensure.Enumerable.HasItems(key, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
 
             try
             {

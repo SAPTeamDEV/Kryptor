@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+using EnsureThat;
+
 namespace SAPTeam.Kryptor
 {
     /// <summary>
@@ -21,7 +23,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the keystore for crypto operations.
         /// </summary>
-        public KESKeyStore KeyStore { get; protected set; }
+        public KeyStore KeyStore { get; protected set; }
 
         /// <summary>
         /// Gets the configuration of continuous encryption method.
@@ -40,7 +42,7 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
-            Check.Argument.IsNotEmpty(data, nameof(data));
+            Ensure.Enumerable.HasItems(data, nameof(data));
             if (data.Length > Parent.EncryptionBlockSize)
             {
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBlockSize}");
@@ -68,7 +70,7 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted data block.</returns>
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
-            Check.Argument.IsNotEmpty(data, nameof(data));
+            Ensure.Enumerable.HasItems(data, nameof(data));
             if (data.Length > Parent.DecryptionBlockSize)
             {
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBlockSize}");

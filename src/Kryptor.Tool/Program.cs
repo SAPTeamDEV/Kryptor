@@ -15,7 +15,7 @@ Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
-    KESKeyStore ks = default;
+    KeyStore ks = default;
     KES kp = InitKES(opt);
 
     if (opt.Decrypt || !opt.CreateKey)
@@ -150,7 +150,7 @@ bool CheckFile(string file)
     return true;
 }
 
-KESKeyStore ReadKeystore(string keystore)
+KeyStore ReadKeystore(string keystore)
 {
     if (!File.Exists(keystore))
     {
@@ -162,7 +162,7 @@ KESKeyStore ReadKeystore(string keystore)
     try
     {
         Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
-        KESKeyStore ks = new KESKeyStore(File.ReadAllBytes(keystore));
+        KeyStore ks = new KeyStore(File.ReadAllBytes(keystore));
 
         Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
         return ks;
@@ -243,15 +243,15 @@ string GetVersionString(Assembly assembly)
     return string.Join('.', ver.Major, ver.Minor, ver.Build);
 }
 
-KESKeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
+KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
 {
     if (keystoreSize == 0)
     {
-        keystoreSize = KESKeyStore.GetRandomOddNumber();
+        keystoreSize = KeyStore.GetRandomOddNumber();
     }
 
     Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
-    KESKeyStore ks = KESKeyStore.Generate(keystoreSize);
+    KeyStore ks = KeyStore.Generate(keystoreSize);
 
     Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 

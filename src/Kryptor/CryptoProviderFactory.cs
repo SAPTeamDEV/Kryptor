@@ -26,7 +26,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// A <see cref="CryptoProvider"/> object to use with KES engine.
         /// </returns>
-        public CryptoProvider Create(CryptoTypes cryptoType, KESKeyStore keyStore, bool continuous = false)
+        public CryptoProvider Create(CryptoTypes cryptoType, KeyStore keyStore, bool continuous = false)
         {
             switch (cryptoType)
             {
@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// A <see cref="CryptoProvider"/> object to use with KES engine.
         /// </returns>
-        public CryptoProvider Create(int cryptoType, KESKeyStore keyStore, bool continuous = false)
+        public CryptoProvider Create(int cryptoType, KeyStore keyStore, bool continuous = false)
         {
             return Create((CryptoTypes)cryptoType, keyStore, continuous);
         }

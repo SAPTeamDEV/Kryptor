@@ -9,7 +9,7 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Stores keys for the <see cref="KES"/> class.
     /// </summary>
-    public struct KESKeyStore
+    public struct KeyStore
     {
         private static Random random = new Random();
         readonly int count;
@@ -59,12 +59,12 @@ namespace SAPTeam.Kryptor
         public byte[] Fingerprint { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KESKeyStore"/> struct.
+        /// Initializes a new instance of the <see cref="KeyStore"/> struct.
         /// </summary>
         /// <param name="bytes">
         /// The keys to store.
         /// </param>
-        public KESKeyStore(byte[] bytes)
+        public KeyStore(byte[] bytes)
         {
             Raw = bytes;
             Keys = Raw.Chunk(32);
@@ -74,15 +74,15 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Generates a new <see cref="KESKeyStore"/> instance.
+        /// Generates a new <see cref="KeyStore"/> instance.
         /// </summary>
         /// <param name="count">
         /// The number of keys to generate.
         /// </param>
         /// <returns>
-        /// The new <see cref="KESKeyStore"/> instance.
+        /// The new <see cref="KeyStore"/> instance.
         /// </returns>
-        public static KESKeyStore Generate(int count = 0)
+        public static KeyStore Generate(int count = 0)
         {
             if (count <= 0)
             {
@@ -96,7 +96,7 @@ namespace SAPTeam.Kryptor
             {
                 var k = GetRandomKey(32);
 
-                // Ignore kets with 10 or more duplicated items.
+                // Ignore keys with 10 or more duplicated items.
                 if (result.All((b) => b.Intersect(k).Count() < 10) || tries > 100)
                 {
                     result.Add(k);
@@ -109,7 +109,7 @@ namespace SAPTeam.Kryptor
                 }
             }
 
-            return new KESKeyStore(result.SelectMany((k) => k).ToArray());
+            return new KeyStore(result.SelectMany((k) => k).ToArray());
         }
 
         /// <summary>

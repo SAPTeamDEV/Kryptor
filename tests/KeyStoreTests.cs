@@ -7,7 +7,7 @@ namespace Kryptor.Tests
         [Fact]
         public void KeyGeneratorTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
 
             Assert.All<byte[]>(ks.Keys, x => Assert.Equal(32, x.Length));
         }
@@ -15,9 +15,9 @@ namespace Kryptor.Tests
         [Fact]
         public void KeyConvertTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
             byte[] raw = ks.Raw;
-            KESKeyStore ks2 = new KESKeyStore(raw);
+            KeyStore ks2 = new KeyStore(raw);
 
             Assert.Equal(raw, ks2.Raw);
             Assert.Equal(ks.Keys, ks2.Keys);
@@ -26,7 +26,7 @@ namespace Kryptor.Tests
         [Fact]
         public void IndexHandlerTest()
         {
-            KESKeyStore ks = KESKeyStore.Generate(128);
+            KeyStore ks = KeyStore.Generate(128);
 
             // Some random key access
             Assert.Equal(ks[0], ks[128]);

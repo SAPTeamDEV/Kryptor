@@ -21,7 +21,7 @@ namespace SAPTeam.Kryptor
         /// <param name="continuous">
         /// Whether to use continuous encryption method.
         /// </param>
-        public StandaloneKeyCryptoProvider(KESKeyStore keyStore, bool continuous = false)
+        public StandaloneKeyCryptoProvider(KeyStore keyStore, bool continuous = false)
         {
             KeyStore = keyStore;
             Continuous = continuous;
@@ -30,13 +30,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected async override Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk)
         {
-            return await AESEncryptProvider.EncryptAsync(chunk, KeyStore[index++]);
+            return await AESHelper.EncryptAsync(chunk, KeyStore[index++]);
         }
 
         /// <inheritdoc/>
         protected async override Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher)
         {
-            return await AESEncryptProvider.DecryptAsync(cipher, KeyStore[index++]);
+            return await AESHelper.DecryptAsync(cipher, KeyStore[index++]);
         }
     }
 }
