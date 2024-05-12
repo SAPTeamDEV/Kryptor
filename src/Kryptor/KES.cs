@@ -14,7 +14,6 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class KES
     {
-        int index = 0;
         private CryptoProvider provider;
 
         #region Size Parameters
@@ -162,7 +161,7 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task EncryptFileAsync(FileStream source, FileStream dest)
         {
-            index = 0;
+            Provider.ResetIndex();
 
             List<byte> header = new List<byte>();
             header.AddRange(Provider.KeyStore.Fingerprint);
@@ -194,7 +193,7 @@ namespace SAPTeam.Kryptor
                 counter++;
             }
 
-            index = 0;
+            Provider.ResetIndex();
         }
 
         /// <summary>
@@ -208,7 +207,7 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task DecryptFileAsync(FileStream source, FileStream dest)
         {
-            index = 0;
+            Provider.ResetIndex();
 
             source.Seek(ReadHeader(source).end, SeekOrigin.Begin);
 
@@ -234,7 +233,7 @@ namespace SAPTeam.Kryptor
                 counter++;
             }
 
-            index = 0;
+            Provider.ResetIndex();
         }
 
         /// <summary>

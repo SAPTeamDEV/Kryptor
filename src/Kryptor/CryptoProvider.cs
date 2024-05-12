@@ -114,5 +114,10 @@ namespace SAPTeam.Kryptor
         /// <param name="chunk">The raw encrypted data chunk.</param>
         /// <returns>Decrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk);
+
+        internal void ResetIndex()
+        {
+            index = 0;
+        }
     }
 }
