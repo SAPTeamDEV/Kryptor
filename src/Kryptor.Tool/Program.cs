@@ -245,17 +245,33 @@ string GetVersionString(Assembly assembly)
 
 KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
 {
+    KeyStore ks;
+    bool useGenerica = false;
+
     if (keystoreSize == 0)
     {
         keystoreSize = KeyStore.GetRandomOddNumber();
     }
 
-    Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
-    KeyStore ks = KeyStore.Generate(keystoreSize);
+    Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan), false);
+
+    if (name.StartsWith("generica:"))
+    {
+        useGenerica = true;
+        Echo(" using Generica");
+        Generica gen = new Generica(name.Split(':')[1]);
+        byte[] buffer = new byte[keystoreSize * 32];
+        gen.Generate(buffer);
+        ks = new KeyStore(buffer);
+    }
+    else
+    {
+        ks = KeyStore.Generate(keystoreSize);
+    }
 
     Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 
-    var fName = !string.IsNullOrEmpty(name) ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
+    var fName = !string.IsNullOrEmpty(name) && !useGenerica ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
     File.WriteAllBytes(fName, ks.Raw);
 
     Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
