@@ -152,17 +152,34 @@ bool CheckFile(string file)
 
 KeyStore ReadKeystore(string keystore)
 {
-    if (!File.Exists(keystore))
+    bool useGenerica = keystore.StartsWith("generica:");
+
+    if (!File.Exists(keystore) && !useGenerica)
     {
         Echo(new Colorize("[Error:] Keystore not found.", ConsoleColor.Red));
         Environment.Exit(3);
         return default;
     }
 
+    KeyStore ks;
+
     try
     {
-        Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
-        KeyStore ks = new KeyStore(File.ReadAllBytes(keystore));
+        if (useGenerica)
+        {
+            string gSeed = keystore.Split(':')[1];
+            int gSize = int.Parse(keystore.Split(':')[2]);
+            Echo(new Colorize($"Generica seed: [{gSeed}]:[{gSize}]", ConsoleColor.DarkYellow));
+            Generica gen = new Generica(gSeed);
+            byte[] buffer = new byte[gSize * 32];
+            gen.Generate(buffer);
+            ks = new KeyStore(buffer);
+        }
+        else
+        {
+            Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
+            ks = new KeyStore(File.ReadAllBytes(keystore));
+        }
 
         Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
         return ks;
