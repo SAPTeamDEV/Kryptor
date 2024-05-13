@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+
+using Newtonsoft.Json;
 
 namespace SAPTeam.Kryptor
 {
@@ -50,7 +53,7 @@ namespace SAPTeam.Kryptor
 
         #endregion
 
-        static readonly byte[] HeaderPattern = new byte[] { 59, 197, 2, 46, 83 };
+        static readonly byte[] HeaderPattern = new byte[] { 97, 3, 64, 159, 37, 46, 128 };
 
         /// <summary>
         /// Gets or sets the crypto provider.
@@ -136,7 +139,7 @@ namespace SAPTeam.Kryptor
             stream.Seek(0, SeekOrigin.Begin);
 
             // Get first 512B to search for header.
-            byte[] buffer = new byte[Math.Min(512, stream.Length)];
+            byte[] buffer = new byte[Math.Min(1024, stream.Length)];
             stream.Read(buffer, 0, buffer.Length);
 
             int loc = buffer.LocatePattern(HeaderPattern);
@@ -168,6 +171,20 @@ namespace SAPTeam.Kryptor
             header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
             header.AddRange(HeaderPattern);
             byte[] hArray = header.ToArray();
+
+            Header h = new Header()
+            {
+                CryptoType = CryptoTypes.SK,
+                Fingerprint = Provider.KeyStore.Fingerprint,
+                BlockSize = DecryptionBlockSize,
+                Continuous = Provider.Continuous,
+                OriginalName = source.Name,
+            };
+
+            StringWriter sw = new StringWriter();
+            JsonTextWriter jw = new JsonTextWriter(sw);
+            JsonSerializer.CreateDefault().Serialize(jw, h);
+            // File.WriteAllText(source.Name + ".json", sw.ToString());
 
             await dest.WriteAsync(hArray, 0, hArray.Length);
 
