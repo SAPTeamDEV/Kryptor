@@ -52,17 +52,21 @@ namespace SAPTeam.Kryptor
                 _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), 5).ToArray())),
                 _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, 't').PadLeft(_sCount * 5, 'Y'))),
                 _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
-            }.SelectMany(x => x).ToArray();
+            }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();
 
             byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)((x * 7) % 256)).ToArray());
             byte[] vf = _sha512.ComputeHash(hashes);
-            byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)((x * 11 / 4 * 6 + 5) % 256)).ToArray())).ToArray());
+            byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)(((x * 11 / 4 * 6) + 5) % 256)).ToArray())).ToArray());
 
             int i = 0;
 
             while(i < input.Length)
             {
-                vt = _sha384.ComputeHash(_sha512.ComputeHash(vt).Concat(vm.Take((i + 2) * 3 % 48)).ToArray());
+                vt = _sha384.ComputeHash(_sha512.ComputeHash(vt)
+                                                .Concat(_sha384.ComputeHash(new byte[] { (byte)(Math.Abs(input.Length - i) % 256) }))
+                                                .Concat(vf.Take(Math.Abs(input.Length - i) % 64))
+                                                .Concat(vm.Take((i + 2) * 3 % 48))
+                                                .ToArray());
 
                 Array.Copy(vt, 0, input, i, Math.Min(vt.Length, input.Length - i));
 
