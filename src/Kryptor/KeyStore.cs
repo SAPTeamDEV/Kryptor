@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -67,14 +68,14 @@ namespace SAPTeam.Kryptor
         public KeyStore(byte[] bytes)
         {
             Raw = bytes;
-            Keys = Raw.Chunk(32);
+            Keys = Raw.Chunk(32).Where(x => x.Length == 32);
             count = Keys.Count();
 
-            Fingerprint = new MD5CryptoServiceProvider().ComputeHash(Raw);
+            Fingerprint = Raw.Sha256().Take(16).ToArray();
         }
 
         /// <summary>
-        /// Generates a new <see cref="KeyStore"/> instance.
+        /// Initializes a new <see cref="KeyStore"/> instance with random key.
         /// </summary>
         /// <param name="count">
         /// The number of keys to generate.
