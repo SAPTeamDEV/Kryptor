@@ -31,12 +31,12 @@ namespace SAPTeam.Kryptor
         /// </param>
         public Generica(string seed)
         {
-            _seed = seed;
-            _sCount = seed.Length;
-
             _sha256 = SHA256.Create();
             _sha384 = SHA384.Create();
             _sha512 = SHA512.Create();
+
+            _seed = BitConverter.ToString(_sha512.ComputeHash(Encode(seed)));
+            _sCount = _seed.Length;
         }
 
         /// <summary>
@@ -47,18 +47,24 @@ namespace SAPTeam.Kryptor
         /// </param>
         public void Generate(byte[] input)
         {
-            byte[] v1 = _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), 5).ToArray()));
-            byte[] v2 = _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).First()).PadRight(32, '5').PadLeft(86, '9')));
-            byte[] v3 = _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))));
-
-            byte[] vf = _sha512.ComputeHash(v1.Concat(v2).Concat(v3).ToArray());
-            byte[] vt = _sha256.ComputeHash(vf);
-
-            for (int i = 0; i < input.Length; i++)
+            byte[] hashes = new byte[3][]
             {
-                vt = _sha256.ComputeHash(vt);
+                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), 5).ToArray())),
+                _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, 't').PadLeft(_sCount * 5, 'Y'))),
+                _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
+            }.SelectMany(x => x).ToArray();
 
-                vt.CopyTo(input, i);
+            byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)((x * 7) % 256)).ToArray());
+            byte[] vf = _sha512.ComputeHash(hashes);
+            byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)((x * 11 / 4 * 6 + 5) % 256)).ToArray())).ToArray());
+
+            int i = 0;
+
+            while(i < input.Length)
+            {
+                vt = _sha384.ComputeHash(_sha512.ComputeHash(vt).Concat(vm.Take((i + 2) * 3 % 48)).ToArray());
+
+                Array.Copy(vt, 0, input, i, Math.Min(vt.Length, input.Length - i));
 
                 i += vt.Length;
             }
