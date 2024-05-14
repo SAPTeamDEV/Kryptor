@@ -77,12 +77,12 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBlockSize}");
             }
 
-            var chunks = data.Chunk(KES.DefaultDecryptionChunkSize);
-            var hash = chunks.First();
+            var chunks = data.Skip(32).Chunk(KES.DefaultDecryptionChunkSize);
+            var hash = data.Take(32).ToArray();
 
             List<byte> result = new List<byte>();
 
-            foreach (var chunk in chunks.Skip(1))
+            foreach (var chunk in chunks)
             {
                 result.AddRange(await DecryptChunkAsync(chunk, hash));
             }
