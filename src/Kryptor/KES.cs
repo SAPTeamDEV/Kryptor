@@ -53,7 +53,10 @@ namespace SAPTeam.Kryptor
 
         #endregion
 
-        static readonly byte[] HeaderPattern = new byte[] { 97, 3, 64, 159, 37, 46, 128 };
+        /// <summary>
+        /// Gets the version of the encryptor api backend.
+        /// </summary>
+        public static Version Version => new Version(0, 8);
 
         /// <summary>
         /// Gets or sets the crypto provider.
@@ -128,63 +131,45 @@ namespace SAPTeam.Kryptor
             return true;
         }
 
-        /// <summary>
-        /// Reads the header of a kef file.
-        /// </summary>
-        /// <param name="stream">
-        /// File stream of source file with read ability.
-        /// </param>
-        public static (int end, byte[] fingerprint, string fileName) ReadHeader(Stream stream)
+        void ModifyHeader(Header header)
         {
-            stream.Seek(0, SeekOrigin.Begin);
+            header.Version = Version;
+            header.EngineVersion = new Version(Assembly.GetAssembly(typeof(KES)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
-            // Get first 512B to search for header.
-            byte[] buffer = new byte[Math.Min(1024, stream.Length)];
-            stream.Read(buffer, 0, buffer.Length);
-
-            int loc = buffer.LocatePattern(HeaderPattern);
-            var data = buffer.Take(loc).ToArray();
-
-            byte[] signature = data.Take(16).ToArray();
-            byte[] name = data.Skip(16).ToArray();
-
-            stream.Seek(0, SeekOrigin.Begin);
-
-            return (loc + HeaderPattern.Length, signature, Encoding.UTF8.GetString(name));
+            if ((int)header.DetailLevel > 1)
+            {
+                header.BlockSize = DecryptionBlockSize;
+            }
         }
 
         /// <summary>
-        /// Encrypts the given data and writes the encrypted data to the specified file stream.
+        /// Encrypts the given data stream and writes the encrypted data to the destination stream.
         /// </summary>
         /// <param name="source">
-        /// File stream of source filr with read ability.
+        /// The stream of the source data with read access.
         /// </param>
         /// <param name="dest">
-        /// File stream of destination file with write ability.
+        /// The stream of destination target with write access.
         /// </param>
-        public async Task EncryptFileAsync(FileStream source, FileStream dest)
+        /// <param name="header">
+        /// The header to write in the beginning of destination stream. if null, a new header will be created automatically.
+        /// </param>
+        public async Task EncryptAsync(Stream source, Stream dest, Header header = null)
         {
             Provider.ResetIndex();
 
-            List<byte> header = new List<byte>();
-            header.AddRange(Provider.KeyStore.Fingerprint);
-            header.AddRange(Encoding.UTF8.GetBytes(Path.GetFileName(source.Name)));
-            header.AddRange(HeaderPattern);
-            byte[] hArray = header.ToArray();
-
-            Header h = new Header()
+            if (header == null)
             {
-                CryptoType = CryptoTypes.SK,
-                Fingerprint = Provider.KeyStore.Fingerprint,
-                BlockSize = DecryptionBlockSize,
-                Continuous = Provider.Continuous,
-                OriginalName = source.Name,
-            };
+                header = new Header()
+                {
+                    DetailLevel = HeaderDetails.Normal
+                };
+            }
 
-            StringWriter sw = new StringWriter();
-            JsonTextWriter jw = new JsonTextWriter(sw);
-            JsonSerializer.CreateDefault().Serialize(jw, h);
-            // File.WriteAllText(source.Name + ".json", sw.ToString());
+            ModifyHeader(header);
+            Provider.ModifyHeader(header);
+
+            var hArray = header.CreatePayload();
 
             await dest.WriteAsync(hArray, 0, hArray.Length);
 
@@ -214,19 +199,31 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Decrypts the given data and writes the decrypted data to the specified file stream.
+        /// Decrypts the given data stream and writes the decrypted data to the destination data stream.
         /// </summary>
         /// <param name="source">
-        /// File stream of source filr with read ability.
+        /// The stream of encrypted data with read access.
         /// </param>
         /// <param name="dest">
-        /// File stream of destination file with write ability.
+        /// The stream of destination target with write access.
         /// </param>
-        public async Task DecryptFileAsync(FileStream source, FileStream dest)
+        public async Task DecryptAsync(Stream source, Stream dest)
         {
             Provider.ResetIndex();
 
-            source.Seek(ReadHeader(source).end, SeekOrigin.Begin);
+            Header header = Header.ReadHeader(source);
+
+            if (header.Version != null && header.Version != Version)
+            {
+                if (header.EngineVersion != null)
+                {
+                    throw new InvalidOperationException($"Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}");
+                }
+                else
+                {
+                    throw new InvalidOperationException("Encryptor api version is not supported.");
+                }
+            }
 
             int blockSize = DecryptionBlockSize;
             double step = (double)((double)blockSize / source.Length) * 100;

@@ -28,15 +28,29 @@ namespace SAPTeam.Kryptor
         }
 
         /// <inheritdoc/>
-        protected async override Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk)
+        protected async override Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
         {
             return await AESHelper.EncryptAsync(chunk, KeyStore[index++]);
         }
 
         /// <inheritdoc/>
-        protected async override Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher)
+        protected async override Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, byte[] hash)
         {
             return await AESHelper.DecryptAsync(cipher, KeyStore[index++]);
+        }
+        /// <inheritdoc/>
+        protected internal override void ModifyHeader(Header header)
+        {
+            if ((int)header.DetailLevel > 0)
+            {
+                header.Fingerprint = KeyStore.Fingerprint;
+            }
+
+            if ((int)header.DetailLevel > 1)
+            {
+                header.CryptoType = CryptoTypes.SK;
+                header.Continuous = Continuous;
+            }
         }
     }
 }

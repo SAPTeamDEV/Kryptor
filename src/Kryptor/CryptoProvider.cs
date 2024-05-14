@@ -48,11 +48,12 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBlockSize}");
             }
 
-            List<byte> result = new List<byte>(data.Sha256());
+            byte[] hash = data.Sha256();
+            List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(KES.DefaultEncryptionChunkSize))
             {
-                result.AddRange(await EncryptChunkAsync(chunk));
+                result.AddRange(await EncryptChunkAsync(chunk, hash));
             }
 
             if (!Continuous)
@@ -83,7 +84,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks.Skip(1))
             {
-                result.AddRange(await DecryptChunkAsync(chunk));
+                result.AddRange(await DecryptChunkAsync(chunk, hash));
             }
 
             if (!Continuous)
@@ -105,15 +106,25 @@ namespace SAPTeam.Kryptor
         /// Encrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw data chunk.</param>
+        /// <param name="hash">The SHA256 hash of the parent data block.</param>
         /// <returns>Encrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk);
+        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash);
 
         /// <summary>
         /// Decrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw encrypted data chunk.</param>
+        /// <param name="hash">The SHA256 hash of the parent data block.</param>
         /// <returns>Decrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk);
+        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, byte[] hash);
+
+        /// <summary>
+        /// Modifies the header to include crypto provider data.
+        /// </summary>
+        /// <param name="header">
+        /// The header to modify.
+        /// </param>
+        protected internal abstract void ModifyHeader(Header header);
 
         internal void ResetIndex()
         {

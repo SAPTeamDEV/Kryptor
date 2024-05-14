@@ -29,13 +29,13 @@ namespace SAPTeam.Kryptor
         /// <param name="seed">
         /// The seed to generate values.
         /// </param>
-        public Generica(string seed)
+        public Generica(byte[] seed)
         {
             _sha256 = SHA256.Create();
             _sha384 = SHA384.Create();
             _sha512 = SHA512.Create();
 
-            _seed = BitConverter.ToString(_sha512.ComputeHash(Encode(seed)));
+            _seed = BitConverter.ToString(_sha512.ComputeHash(seed));
             _sCount = _seed.Length;
         }
 
@@ -47,15 +47,26 @@ namespace SAPTeam.Kryptor
         /// </param>
         public void Generate(byte[] input)
         {
+            byte[] tl = new byte[5]
+            {
+                (byte)(input.Length * 6 % 256),
+                (byte)Math.Abs((input.Length - _sCount) % 256),
+                (byte)(input.Length * 124 % 256),
+                (byte)(input.Length * 75 % 128),
+                (byte)(input.Length * 13 % 64),
+            };
+
+            tl = _sha384.ComputeHash(tl);
+
             byte[] hashes = new byte[3][]
             {
-                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), 5).ToArray())),
-                _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, 't').PadLeft(_sCount * 5, 'Y'))),
+                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), Math.Max(input.Length % 10, 1)).ToArray())),
+                _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, Convert.ToString(_sha512.ComputeHash(tl))[5]).PadLeft(_sCount * 5, Convert.ToString(_sha384.ComputeHash(tl.Base64EncodeToByte()))[6]))),
                 _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
             }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();
 
             byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)((x * 7) % 256)).ToArray());
-            byte[] vf = _sha512.ComputeHash(hashes);
+            byte[] vf = _sha512.ComputeHash(hashes).Concat(_sha256.ComputeHash(ChangeCase(tl.Base64Encode()).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
             byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)(((x * 11 / 4 * 6) + 5) % 256)).ToArray())).ToArray());
 
             int i = 0;

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 using SAPTeam.CommonTK.Console;
 using SAPTeam.Kryptor;
@@ -68,10 +69,16 @@ async Task Encrypt(string file, KES kp)
     using var f = File.OpenRead(file);
     string resolvedName = GetNewFileName(file, file + ".kef");
 
-    Echo("Openning file stream");
+    Echo("Prepairing");
     using var f2 = File.OpenWrite(resolvedName);
 
-    await kp.EncryptFileAsync(f, f2);
+    var header = new Header()
+    {
+        DetailLevel = HeaderDetails.Normal,
+        OriginalName = Path.GetFileName(file)
+    };
+
+    await kp.EncryptAsync(f, f2);
 
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
@@ -89,25 +96,50 @@ async Task Decrypt(string file, KES kp, string ksFingerprint)
     {
         using var f = File.OpenRead(file);
 
-        var header = KES.ReadHeader(f);
-        string fingerprint = header.fingerprint.FormatFingerprint();
+        var header = Header.ReadHeader(f);
 
-        Echo(new Colorize($"File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
-
-        if (fingerprint != ksFingerprint)
+        if (header.Version == null)
         {
-            Echo(new Colorize("[Failed:] Fingerprints does not match.", ConsoleColor.Red));
-            Environment.ExitCode = 0xFE;
-            return;
+            Echo(new Colorize("[Warning:] Invalid header found, The decryption may be fail", ConsoleColor.Yellow));
         }
 
-        string origName = header.fileName;
+        if (header.Fingerprint != null)
+        {
+            string fingerprint = header.Fingerprint.FormatFingerprint();
+
+            Echo(new Colorize($"File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
+
+            if (fingerprint != ksFingerprint)
+            {
+                Echo(new Colorize("[Failed:] Fingerprints does not match.", ConsoleColor.Red));
+                Environment.ExitCode = 0xFE;
+                return;
+            }
+        }
+
+        if (header.Version != null && header.Version != KES.Version)
+        {
+            if (header.EngineVersion != null)
+            {
+                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}", ConsoleColor.Red));
+                Environment.ExitCode = 0xFE;
+                return;
+            }
+            else
+            {
+                Echo(new Colorize("[Failed:] Encryptor api version is not supported.", ConsoleColor.Red));
+                Environment.ExitCode = 0xFE;
+                return;
+            }
+        }
+
+        string origName = header.OriginalName;
         string resolvedName = GetNewFileName(file, origName);
 
-        Echo("Openning file stream");
+        Echo("Prepairing");
         using var f2 = File.OpenWrite(resolvedName);
 
-        await kp.DecryptFileAsync(f, f2);
+        await kp.DecryptAsync(f, f2);
 
         Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
     }
@@ -170,7 +202,7 @@ KeyStore ReadKeystore(string keystore)
             string gSeed = keystore.Split(':')[1];
             int gSize = int.Parse(keystore.Split(':')[2]);
             Echo(new Colorize($"Generica seed: [{gSeed}]:[{gSize}]", ConsoleColor.DarkYellow));
-            Generica gen = new Generica(gSeed);
+            Generica gen = new Generica(Encoding.UTF8.GetBytes(gSeed));
             byte[] buffer = new byte[gSize * 32];
             gen.Generate(buffer);
             ks = new KeyStore(buffer);
@@ -276,7 +308,7 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     {
         useGenerica = true;
         Echo(" using Generica");
-        Generica gen = new Generica(name.Split(':')[1]);
+        Generica gen = new Generica(Encoding.UTF8.GetBytes(name.Split(':')[1]));
         byte[] buffer = new byte[keystoreSize * 32];
         gen.Generate(buffer);
         ks = new KeyStore(buffer);
