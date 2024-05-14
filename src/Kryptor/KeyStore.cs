@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Cryptography;
-using System.Text;
+
+using EnsureThat;
 
 namespace SAPTeam.Kryptor
 {
@@ -13,7 +12,7 @@ namespace SAPTeam.Kryptor
     public struct KeyStore
     {
         private static Random random = new Random();
-        readonly int count;
+        private readonly int count;
 
         /// <summary>
         /// Gets the key at the specified index.
@@ -37,7 +36,7 @@ namespace SAPTeam.Kryptor
 
                 if (index >= count)
                 {
-                    index -= (index / count) * count;
+                    index -= index / count * count;
                 }
 
                 return Keys.ElementAt(index);
@@ -67,6 +66,8 @@ namespace SAPTeam.Kryptor
         /// </param>
         public KeyStore(byte[] bytes)
         {
+            Ensure.Enumerable.HasItems(bytes, nameof(bytes));
+
             Raw = bytes;
             Keys = Raw.Chunk(32).Where(x => x.Length == 32);
             count = Keys.Count();

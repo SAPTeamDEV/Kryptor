@@ -35,17 +35,9 @@ namespace System.Linq
         /// </exception>
         public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException("source");
-            }
-
-            if (size < 1)
-            {
-                throw new ArgumentOutOfRangeException("size");
-            }
-
-            return ChunkIterator(source, size);
+            return source == null
+                ? throw new ArgumentNullException("source")
+                : size < 1 ? throw new ArgumentOutOfRangeException("size") : ChunkIterator(source, size);
         }
 
         private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)

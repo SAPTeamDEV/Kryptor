@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
@@ -28,13 +25,13 @@ namespace SAPTeam.Kryptor
         }
 
         /// <inheritdoc/>
-        protected async override Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
+        protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
         {
             return await AESHelper.EncryptAsync(chunk, KeyStore[index++]);
         }
 
         /// <inheritdoc/>
-        protected async override Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, byte[] hash)
+        protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, byte[] hash)
         {
             return await AESHelper.DecryptAsync(cipher, KeyStore[index++]);
         }

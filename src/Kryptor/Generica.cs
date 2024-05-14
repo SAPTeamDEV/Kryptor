@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 using MoreLinq;
 using MoreLinq.Extensions;
@@ -16,12 +13,11 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class Generica
     {
-        readonly string _seed;
-        readonly int _sCount;
-
-        readonly SHA256 _sha256;
-        readonly SHA384 _sha384;
-        readonly SHA512 _sha512;
+        private readonly string _seed;
+        private readonly int _sCount;
+        private readonly SHA256 _sha256;
+        private readonly SHA384 _sha384;
+        private readonly SHA512 _sha512;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Generica"/> class.
@@ -65,13 +61,13 @@ namespace SAPTeam.Kryptor
                 _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
             }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();
 
-            byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)((x * 7) % 256)).ToArray());
+            byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)(x * 7 % 256)).ToArray());
             byte[] vf = _sha512.ComputeHash(hashes).Concat(_sha256.ComputeHash(ChangeCase(tl.Base64Encode()).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
             byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)(((x * 11 / 4 * 6) + 5) % 256)).ToArray())).ToArray());
 
             int i = 0;
 
-            while(i < input.Length)
+            while (i < input.Length)
             {
                 vt = _sha384.ComputeHash(_sha512.ComputeHash(vt)
                                                 .Concat(_sha384.ComputeHash(new byte[] { (byte)(Math.Abs(input.Length - i) % 256) }))
@@ -85,29 +81,22 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        string ChangeCase(string src)
+        private string ChangeCase(string src)
         {
             int c = 0;
 
             return new string(src.Select(x =>
             {
-                if (c++ % 2 == 0)
-                {
-                    return x.ToString().ToUpper()[0];
-                }
-                else
-                {
-                    return x;
-                }
+                return c++ % 2 == 0 ? x.ToString().ToUpper()[0] : x;
             }).ToArray());
         }
 
-        static byte[] Encode(char[] src)
+        private static byte[] Encode(char[] src)
         {
             return Encoding.UTF8.GetBytes(src);
         }
 
-        static byte[] Encode(string src)
+        private static byte[] Encode(string src)
         {
             return Encoding.UTF8.GetBytes(src);
         }

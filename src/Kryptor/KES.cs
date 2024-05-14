@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
-
-using Newtonsoft.Json;
 
 namespace SAPTeam.Kryptor
 {
@@ -39,7 +32,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the Default Encryption Block Size. (Only For Advanced Usages)
         /// </summary>
-        public const int DefaultEncryptionBlockSize = (DefaultDecryptionBlockSize / DefaultDecryptionChunkSize - 1) * DefaultEncryptionChunkSize;
+        public const int DefaultEncryptionBlockSize = ((DefaultDecryptionBlockSize / DefaultDecryptionChunkSize) - 1) * DefaultEncryptionChunkSize;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync(byte[])"/>.
@@ -110,7 +103,7 @@ namespace SAPTeam.Kryptor
                 }
 
                 DecryptionBlockSize = maxBlockSize;
-                EncryptionBlockSize = (DecryptionBlockSize / DefaultDecryptionChunkSize - 1) * DefaultEncryptionChunkSize;
+                EncryptionBlockSize = ((DecryptionBlockSize / DefaultDecryptionChunkSize) - 1) * DefaultEncryptionChunkSize;
             }
         }
 
@@ -123,15 +116,10 @@ namespace SAPTeam.Kryptor
         /// <returns></returns>
         public static bool ValidateBlockSize(int bs)
         {
-            if (bs % DefaultDecryptionChunkSize != 0)
-            {
-                return false;
-            }
-
-            return true;
+            return bs % DefaultDecryptionChunkSize == 0;
         }
 
-        void ModifyHeader(Header header)
+        private void ModifyHeader(Header header)
         {
             header.Version = Version;
             header.EngineVersion = new Version(Assembly.GetAssembly(typeof(KES)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);

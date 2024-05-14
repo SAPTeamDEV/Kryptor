@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SAPTeam.Kryptor
+﻿namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Specifies the level of details included in header.

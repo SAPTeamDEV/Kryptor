@@ -238,14 +238,7 @@ void IsValid()
         }
         else if (!string.IsNullOrEmpty(opt.KeyStore))
         {
-            if (opt.File != null)
-            {
-                opt.File = new string[] { opt.KeyStore }.Concat(opt.File);
-            }
-            else
-            {
-                opt.File = new string[] { opt.KeyStore };
-            }
+            opt.File = opt.File != null ? new string[] { opt.KeyStore }.Concat(opt.File) : (IEnumerable<string>)(new string[] { opt.KeyStore });
         }
 
         if (opt.File == null || !opt.File.Any())

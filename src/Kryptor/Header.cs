@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Newtonsoft.Json;
 
 namespace SAPTeam.Kryptor
 {
@@ -14,8 +10,8 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class Header
     {
-        static readonly byte[] StartHeaderPattern = new byte[] { 2, 97, 7, 64, 159, 37, 46, 128 };
-        static readonly byte[] EndHeaderPattern = new byte[] { 97, 7, 64, 159, 37, 46, 128, 3 };
+        private static readonly byte[] StartHeaderPattern = new byte[] { 2, 97, 7, 64, 159, 37, 46, 128 };
+        private static readonly byte[] EndHeaderPattern = new byte[] { 97, 7, 64, 159, 37, 46, 128, 3 };
 
         /// <summary>
         /// Gets or sets the version of the encryptor api backend.
@@ -45,17 +41,17 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets or sets the fingerprint of encrypted file.
         /// </summary>
-        public byte[] Fingerprint {  get; set; }
+        public byte[] Fingerprint { get; set; }
 
         /// <summary>
         /// Gets or sets the file block size.
         /// </summary>
-        public int BlockSize {  get; set; }
+        public int BlockSize { get; set; }
 
         /// <summary>
         /// Gets or sets the configuration of continuous method.
         /// </summary>
-        public bool Continuous {  get; set; }
+        public bool Continuous { get; set; }
 
         /// <summary>
         /// Gets or sets the extra header entries.
@@ -129,7 +125,7 @@ namespace SAPTeam.Kryptor
                     break;
                 }
             }
-            
+
             stream.Seek(startPos, SeekOrigin.Begin);
 
             var dataBuffer = new byte[endPos - startPos];

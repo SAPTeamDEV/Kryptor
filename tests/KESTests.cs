@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 using SAPTeam.Kryptor;
 
@@ -10,8 +6,8 @@ namespace Kryptor.Tests
 {
     public class KESTests
     {
-        string testText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/*-+=;";
-        byte[] testBytes = new byte[16] { 53, 15, 79, 254, 74, 156, 59, 88, 1, 0, 255, 65, 198, 36, 59, 214 };
+        private string testText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/*-+=;";
+        private byte[] testBytes = new byte[16] { 53, 15, 79, 254, 74, 156, 59, 88, 1, 0, 255, 65, 198, 36, 59, 214 };
 
         [Fact]
         public async void EncryptDecryptTest()
@@ -35,7 +31,7 @@ namespace Kryptor.Tests
             KES kp = new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             Assert.Equal(1048576, kp.DecryptionBlockSize);
-            Assert.Equal((1048576 / 32 - 1) * 31, kp.EncryptionBlockSize);
+            Assert.Equal(((1048576 / 32) - 1) * 31, kp.EncryptionBlockSize);
 
             Assert.Throws<ArgumentException>(() => new KES(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 127));
         }

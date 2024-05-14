@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 using EnsureThat;
@@ -94,12 +92,7 @@ namespace SAPTeam.Kryptor
 
             var array = result.ToArray();
 
-            if (!hash.SequenceEqual(array.Sha256()))
-            {
-                throw new InvalidDataException("Hash mismatch");
-            }
-
-            return array;
+            return !hash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
         }
 
         /// <summary>
