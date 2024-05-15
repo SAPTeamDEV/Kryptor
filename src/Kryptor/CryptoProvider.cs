@@ -29,6 +29,12 @@ namespace SAPTeam.Kryptor
         public bool Continuous { get; protected set; }
 
         /// <summary>
+        /// Gets the configuration of remove hash feature.
+        /// </summary>
+        public bool RemoveHash { get; protected set; }
+
+
+        /// <summary>
         /// Gets the parent <see cref="KES"/> instance.
         /// </summary>
         public KES Parent { get; internal set; }
@@ -46,7 +52,7 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBlockSize}");
             }
 
-            byte[] hash = data.Sha256();
+            byte[] hash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(KES.DefaultEncryptionChunkSize))
@@ -75,8 +81,19 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBlockSize}");
             }
 
-            var chunks = data.Skip(32).Chunk(KES.DefaultDecryptionChunkSize);
-            var hash = data.Take(32).ToArray();
+            byte[] hash;
+            IEnumerable<byte[]> chunks;
+
+            if (RemoveHash)
+            {
+                hash = Array.Empty<byte>();
+                chunks = data.Chunk(KES.DefaultDecryptionChunkSize);
+            }
+            else
+            {
+                hash = data.Take(32).ToArray();
+                chunks = data.Skip(32).Chunk(KES.DefaultDecryptionChunkSize);
+            }
 
             List<byte> result = new List<byte>();
 
@@ -92,14 +109,14 @@ namespace SAPTeam.Kryptor
 
             var array = result.ToArray();
 
-            return !hash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
+            return !RemoveHash && !hash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
         }
 
         /// <summary>
         /// Encrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw data chunk.</param>
-        /// <param name="hash">The SHA256 hash of the parent data block.</param>
+        /// <param name="hash">The SHA256 hash of the parent data block. if <see cref="RemoveHash"/> set to true, the array will be empty.</param>
         /// <returns>Encrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash);
 
@@ -107,7 +124,7 @@ namespace SAPTeam.Kryptor
         /// Decrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw encrypted data chunk.</param>
-        /// <param name="hash">The SHA256 hash of the parent data block.</param>
+        /// <param name="hash">The SHA256 hash of the parent data block. if <see cref="RemoveHash"/> set to true, the array will be empty.</param>
         /// <returns>Decrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, byte[] hash);
 
@@ -117,7 +134,19 @@ namespace SAPTeam.Kryptor
         /// <param name="header">
         /// The header to modify.
         /// </param>
-        protected internal abstract void ModifyHeader(Header header);
+        protected internal virtual void ModifyHeader(Header header)
+        {
+            if ((int)header.DetailLevel > 1)
+            {
+                header.Fingerprint = KeyStore.Fingerprint;
+            }
+
+            if ((int)header.DetailLevel > 2)
+            {
+                header.Continuous = Continuous;
+                header.RemoveHash = RemoveHash;
+            }
+        }
 
         internal void ResetIndex()
         {

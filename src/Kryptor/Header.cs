@@ -49,6 +49,11 @@ namespace SAPTeam.Kryptor
         public bool? Continuous { get; set; } = null;
 
         /// <summary>
+        /// Gets or sets the configuration of remove hash feature.
+        /// </summary>
+        public bool? RemoveHash { get; set; } = null;
+
+        /// <summary>
         /// Gets or sets the extra header entries.
         /// </summary>
         public Dictionary<string, string> Extra { get; set; }
@@ -141,7 +146,7 @@ namespace SAPTeam.Kryptor
                 {
                     detail++;
 
-                    if (header.BlockSize != null && header.Continuous != null)
+                    if (header.BlockSize != null && header.Continuous != null && header.RemoveHash != null)
                     {
                         detail++;
                     }

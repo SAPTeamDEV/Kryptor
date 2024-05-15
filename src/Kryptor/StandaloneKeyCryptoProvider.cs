@@ -44,15 +44,11 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected internal override void ModifyHeader(Header header)
         {
-            if ((int)header.DetailLevel > 1)
-            {
-                header.Fingerprint = KeyStore.Fingerprint;
-            }
+            base.ModifyHeader(header);
 
             if ((int)header.DetailLevel > 2)
             {
                 header.CryptoType = CryptoTypes.SK;
-                header.Continuous = Continuous;
             }
         }
 
