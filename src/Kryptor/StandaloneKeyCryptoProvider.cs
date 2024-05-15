@@ -1,5 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+
+using EnsureThat;
 
 namespace SAPTeam.Kryptor
 {
@@ -27,14 +32,16 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
         {
-            return await AESHelper.EncryptAsync(chunk, KeyStore[index++]);
+            byte[] result = await EncryptAsync(chunk, KeyStore[index++]);
+            return result;
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, byte[] hash)
         {
-            return await AESHelper.DecryptAsync(cipher, KeyStore[index++]);
+            return await DecryptAsync(cipher, KeyStore[index++]);
         }
+
         /// <inheritdoc/>
         protected internal override void ModifyHeader(Header header)
         {
@@ -47,6 +54,65 @@ namespace SAPTeam.Kryptor
             {
                 header.CryptoType = CryptoTypes.SK;
                 header.Continuous = Continuous;
+            }
+        }
+
+        static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
+        {
+            Ensure.Enumerable.HasItems(data, nameof(data));
+            Ensure.Enumerable.HasItems(key, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = key;
+                aesAlg.Mode = CipherMode.ECB; // Use ECB mode
+                aesAlg.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        await csEncrypt.WriteAsync(data, 0, data.Length);
+                    }
+                    return msEncrypt.ToArray();
+                }
+            }
+        }
+
+        static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
+        {
+            Ensure.Enumerable.HasItems(data, nameof(data));
+            Ensure.Enumerable.HasItems(key, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+
+            using (Aes aesAlg = Aes.Create())
+            {
+                aesAlg.Key = key;
+                aesAlg.Mode = CipherMode.ECB; // Use ECB mode
+                aesAlg.Padding = PaddingMode.PKCS7;
+
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                using (MemoryStream msDecrypt = new MemoryStream(data))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (MemoryStream tempMemory = new MemoryStream())
+                        {
+                            byte[] buffer = new byte[1024];
+                            int readBytes = 0;
+                            while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                await tempMemory.WriteAsync(buffer, 0, readBytes);
+                            }
+
+                            return tempMemory.ToArray();
+                        }
+                    }
+                }
             }
         }
     }
