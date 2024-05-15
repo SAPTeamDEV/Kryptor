@@ -79,6 +79,28 @@ namespace SAPTeam.Kryptor
         /// <param name="provider">
         /// The crypto provider.
         /// </param>
+        /// <param name="header">
+        /// The header to initialize <see cref="KES"/>.
+        /// </param>
+        public KES(CryptoProvider provider, Header header) : this(header)
+        {
+            Provider = provider;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KES"/> class.
+        /// </summary>
+        /// <param name="header">
+        /// The header to initialize <see cref="KES"/>.
+        /// </param>
+        public KES(Header header) : this((int)header.BlockSize) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KES"/> class.
+        /// </summary>
+        /// <param name="provider">
+        /// The crypto provider.
+        /// </param>
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
