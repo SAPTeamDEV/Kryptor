@@ -121,12 +121,15 @@ namespace SAPTeam.Kryptor
 
         private void ModifyHeader(Header header)
         {
-            header.Version = Version;
-            header.EngineVersion = new Version(Assembly.GetAssembly(typeof(KES)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
-
-            if ((int)header.DetailLevel > 1)
+            if ((int)header.DetailLevel > 0)
             {
-                header.BlockSize = DecryptionBlockSize;
+                header.Version = Version;
+                header.EngineVersion = new Version(Assembly.GetAssembly(typeof(KES)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+
+                if ((int)header.DetailLevel > 2)
+                {
+                    header.BlockSize = DecryptionBlockSize;
+                } 
             }
         }
 
@@ -199,7 +202,7 @@ namespace SAPTeam.Kryptor
         {
             Provider.ResetIndex();
 
-            Header header = Header.ReadHeader(source);
+            Header header = Header.ReadHeader<Header>(source);
 
             if (header.Version != null && header.Version != Version)
             {

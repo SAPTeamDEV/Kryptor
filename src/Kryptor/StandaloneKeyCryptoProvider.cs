@@ -32,8 +32,7 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
         {
-            byte[] result = await EncryptAsync(chunk, KeyStore[index++]);
-            return result;
+            return await EncryptAsync(chunk, KeyStore[index++]);
         }
 
         /// <inheritdoc/>
@@ -45,12 +44,12 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected internal override void ModifyHeader(Header header)
         {
-            if ((int)header.DetailLevel > 0)
+            if ((int)header.DetailLevel > 1)
             {
                 header.Fingerprint = KeyStore.Fingerprint;
             }
 
-            if ((int)header.DetailLevel > 1)
+            if ((int)header.DetailLevel > 2)
             {
                 header.CryptoType = CryptoTypes.SK;
                 header.Continuous = Continuous;
@@ -102,14 +101,21 @@ namespace SAPTeam.Kryptor
                     {
                         using (MemoryStream tempMemory = new MemoryStream())
                         {
-                            byte[] buffer = new byte[1024];
-                            int readBytes = 0;
-                            while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
+                            try
                             {
-                                await tempMemory.WriteAsync(buffer, 0, readBytes);
-                            }
+                                byte[] buffer = new byte[1024];
+                                int readBytes = 0;
+                                while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    await tempMemory.WriteAsync(buffer, 0, readBytes);
+                                }
 
-                            return tempMemory.ToArray();
+                                return tempMemory.ToArray();
+                            }
+                            catch (CryptographicException)
+                            {
+                                throw new InvalidDataException("Cannot decrypt data.");
+                            }
                         }
                     }
                 }

@@ -6,18 +6,23 @@
     public enum HeaderDetails
     {
         /// <summary>
-        /// The lowest detail level, Only includes api version and engine version.
+        /// Indicates an empty header.
         /// </summary>
-        Minimum = 0,
+        Empty = 0,
 
         /// <summary>
-        /// The medium detail level, Includes key store fingerprint and original file name besides the minimum level.
+        /// The lowest detail level, Only includes api version and engine version.
         /// </summary>
-        Normal = 1,
+        Minimum = 1,
+
+        /// <summary>
+        /// The Medium detail level, Includes keystore fingerprint besides the minimum level.
+        /// </summary>
+        Normal = 2,
 
         /// <summary>
         /// The Highest detail level, Includes all parameters in header.
         /// </summary>
-        Maximum = 2,
+        Maximum = 3,
     }
 }

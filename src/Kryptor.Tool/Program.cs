@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 using SAPTeam.CommonTK.Console;
@@ -72,13 +73,18 @@ async Task Encrypt(string file, KES kp)
     Echo("Prepairing");
     using var f2 = File.OpenWrite(resolvedName);
 
-    var header = new Header()
+    Dictionary<string, string> extra = new Dictionary<string, string>();
+    extra["client"] = "kryptor-cli";
+
+    var header = new CLIHeader()
     {
         DetailLevel = HeaderDetails.Normal,
-        OriginalName = Path.GetFileName(file)
+        OriginalName = Path.GetFileName(file),
+        CliVersion = new Version(appVer),
+        Extra = extra,
     };
 
-    await kp.EncryptAsync(f, f2);
+    await kp.EncryptAsync(f, f2, header);
 
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
@@ -96,14 +102,44 @@ async Task Decrypt(string file, KES kp, string ksFingerprint)
     {
         using var f = File.OpenRead(file);
 
-        var header = Header.ReadHeader(f);
+        var header = Header.ReadHeader<CLIHeader>(f);
 
-        if (header.Version == null)
+        if (header.DetailLevel == HeaderDetails.Empty)
         {
-            Echo(new Colorize("[Warning:] Invalid header found, The decryption may be fail", ConsoleColor.Yellow));
+            Echo(new Colorize("[Warning:] Empty header found, The decryption may be fail", ConsoleColor.Yellow));
+        }
+#if DEBUG
+        else
+        {
+            Console.WriteLine($"Detail Level: {header.DetailLevel}");
+            if (header.Version != null) Console.WriteLine($"API Version: {header.Version}");
+            if (header.EngineVersion != null) Console.WriteLine($"Engine Version: {header.EngineVersion}");
+            if (header.CliVersion != null) Console.WriteLine($"CLI Version: {header.CliVersion}");
+            if ((int)header.CryptoType > 0) Console.WriteLine($"Crypto Type: {header.CryptoType}");
+            if (header.BlockSize != null) Console.WriteLine($"Block Size: {header.BlockSize}");
+            if (header.Continuous != null) Console.WriteLine($"Continuous: {header.Continuous}");
+            if (header.OriginalName != null) Console.WriteLine($"Original Name: {header.OriginalName}");
+            if (header.Extra != null) Console.WriteLine($"Extra data:\n{string.Join(Environment.NewLine, header.Extra)}");
+        }
+#endif
+
+        if ((int)header.DetailLevel > 0 && header.Version != KES.Version)
+        {
+            if (header.CliVersion != null)
+            {
+                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor cli v{header.CliVersion}", ConsoleColor.Red));
+                Environment.ExitCode = 0xFE;
+                return;
+            }
+            else
+            {
+                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}", ConsoleColor.Red));
+                Environment.ExitCode = 0xFE;
+                return;
+            }
         }
 
-        if (header.Fingerprint != null)
+        if ((int)header.DetailLevel > 1)
         {
             string fingerprint = header.Fingerprint.FormatFingerprint();
 
@@ -117,23 +153,7 @@ async Task Decrypt(string file, KES kp, string ksFingerprint)
             }
         }
 
-        if (header.Version != null && header.Version != KES.Version)
-        {
-            if (header.EngineVersion != null)
-            {
-                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}", ConsoleColor.Red));
-                Environment.ExitCode = 0xFE;
-                return;
-            }
-            else
-            {
-                Echo(new Colorize("[Failed:] Encryptor api version is not supported.", ConsoleColor.Red));
-                Environment.ExitCode = 0xFE;
-                return;
-            }
-        }
-
-        string origName = header.OriginalName;
+        string origName = header.OriginalName != null ? header.OriginalName : "decrypted file.dec";
         string resolvedName = GetNewFileName(file, origName);
 
         Echo("Prepairing");

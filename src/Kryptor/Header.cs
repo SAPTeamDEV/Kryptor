@@ -34,11 +34,6 @@ namespace SAPTeam.Kryptor
         public CryptoTypes CryptoType { get; set; }
 
         /// <summary>
-        /// Gets or sets the original name of file.
-        /// </summary>
-        public string OriginalName { get; set; }
-
-        /// <summary>
         /// Gets or sets the fingerprint of encrypted file.
         /// </summary>
         public byte[] Fingerprint { get; set; }
@@ -46,12 +41,12 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets or sets the file block size.
         /// </summary>
-        public int BlockSize { get; set; }
+        public int? BlockSize { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the configuration of continuous method.
         /// </summary>
-        public bool Continuous { get; set; }
+        public bool? Continuous { get; set; } = null;
 
         /// <summary>
         /// Gets or sets the extra header entries.
@@ -78,7 +73,8 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// A new instance of the <see cref="Header"/> class.
         /// </returns>
-        public static Header ReadHeader(Stream stream)
+        public static T ReadHeader<T>(Stream stream)
+            where T : Header, new()
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -117,7 +113,10 @@ namespace SAPTeam.Kryptor
                 {
                     stream.Seek(0, SeekOrigin.Begin);
 
-                    return new Header();
+                    return new T()
+                    {
+                        DetailLevel = HeaderDetails.Empty
+                    };
                 }
 
                 if (startPos > -1 && endPos > -1)
@@ -130,7 +129,26 @@ namespace SAPTeam.Kryptor
 
             var dataBuffer = new byte[endPos - startPos];
             stream.Read(dataBuffer, 0, dataBuffer.Length);
-            Header header = dataBuffer.Base64DecodeToString().ReadJson<Header>();
+
+            T header = dataBuffer.Base64DecodeToString().ReadJson<T>();
+
+            int detail = 0;
+            if (header.Version != null && header.EngineVersion != null)
+            {
+                detail++;
+
+                if (header.Fingerprint != null)
+                {
+                    detail++;
+
+                    if (header.BlockSize != null && header.Continuous != null)
+                    {
+                        detail++;
+                    }
+                }
+            }
+
+            header.DetailLevel = (HeaderDetails)detail;
 
             stream.Seek(endPos + EndHeaderPattern.Length, SeekOrigin.Begin);
 
