@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor
             _sha384 = SHA384.Create();
             _sha512 = SHA512.Create();
 
-            _seed = BitConverter.ToString(_sha512.ComputeHash(seed.Concat(salt).ToArray()).Replace("-", "");
+            _seed = BitConverter.ToString(_sha512.ComputeHash(seed.Concat(salt).ToArray())).Replace("-", "");
             _salt = salt;
             _sCount = _seed.Length;
         }
