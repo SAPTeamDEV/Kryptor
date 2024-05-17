@@ -206,6 +206,7 @@ namespace SAPTeam.Kryptor
                     lastProg = prog;
                 }
                 counter++;
+                Provider.BlockIndex++;
             }
 
             Provider.ResetIndex();
@@ -258,6 +259,7 @@ namespace SAPTeam.Kryptor
                     lastProg = prog;
                 }
                 counter++;
+                Provider.BlockIndex++;
             }
 
             Provider.ResetIndex();

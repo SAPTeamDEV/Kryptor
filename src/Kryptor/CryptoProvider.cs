@@ -14,9 +14,14 @@ namespace SAPTeam.Kryptor
     public abstract class CryptoProvider
     {
         /// <summary>
-        /// Gets the index of the key in the keystore.
+        /// Gets the index of the chunk being processed.
         /// </summary>
-        protected int index = 0;
+        protected int ChunkIndex { get; private set; }
+
+        /// <summary>
+        /// Gets the index of the block being processed.
+        /// </summary>
+        protected internal int BlockIndex { get; internal set; }
 
         /// <summary>
         /// Gets the keystore for crypto operations.
@@ -52,17 +57,23 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBlockSize}");
             }
 
+            if (BlockIndex == 0 && ChunkIndex > 0)
+            {
+                ChunkIndex = 0;
+            }
+
             byte[] hash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(KES.DefaultEncryptionChunkSize))
             {
                 result.AddRange(await EncryptChunkAsync(chunk, hash));
+                ChunkIndex++;
             }
 
             if (!Continuous)
             {
-                index = 0;
+                ChunkIndex = 0;
             }
 
             return result.ToArray();
@@ -79,6 +90,11 @@ namespace SAPTeam.Kryptor
             if (data.Length > Parent.DecryptionBlockSize)
             {
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBlockSize}");
+            }
+
+            if (BlockIndex == 0 && ChunkIndex > 0)
+            {
+                ChunkIndex = 0;
             }
 
             byte[] hash;
@@ -100,11 +116,12 @@ namespace SAPTeam.Kryptor
             foreach (var chunk in chunks)
             {
                 result.AddRange(await DecryptChunkAsync(chunk, hash));
+                ChunkIndex++;
             }
 
             if (!Continuous)
             {
-                index = 0;
+                ChunkIndex = 0;
             }
 
             var array = result.ToArray();
@@ -150,7 +167,8 @@ namespace SAPTeam.Kryptor
 
         internal void ResetIndex()
         {
-            index = 0;
+            ChunkIndex = 0;
+            BlockIndex = 0;
         }
     }
 }

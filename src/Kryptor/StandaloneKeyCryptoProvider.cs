@@ -47,13 +47,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash)
         {
-            return await EncryptAsync(chunk, KeyStore[index++]);
+            return await EncryptAsync(chunk, KeyStore[ChunkIndex]);
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, byte[] hash)
         {
-            return await DecryptAsync(cipher, KeyStore[index++]);
+            return await DecryptAsync(cipher, KeyStore[ChunkIndex]);
         }
 
         /// <inheritdoc/>
