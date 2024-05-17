@@ -11,9 +11,11 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Generates bytes array populated from specified seed.
     /// </summary>
-    public class Generica
+    public class Generica : ITranformer
     {
         private readonly string _seed;
+        private readonly byte[] _salt;
+
         private readonly int _sCount;
         private readonly SHA256 _sha256;
         private readonly SHA384 _sha384;
@@ -25,39 +27,38 @@ namespace SAPTeam.Kryptor
         /// <param name="seed">
         /// The seed to generate values.
         /// </param>
-        public Generica(byte[] seed)
+        /// <param name="salt">
+        /// The additional value to alter the seed and outputs.
+        /// </param>
+        public Generica(byte[] seed, byte[] salt)
         {
             _sha256 = SHA256.Create();
             _sha384 = SHA384.Create();
             _sha512 = SHA512.Create();
 
-            _seed = BitConverter.ToString(_sha512.ComputeHash(seed));
+            _seed = BitConverter.ToString(_sha512.ComputeHash(seed.Concat(salt).ToArray()).Replace("-", "");
+            _salt = salt;
             _sCount = _seed.Length;
         }
 
-        /// <summary>
-        /// Fills the input bytes array with generated values.
-        /// </summary>
-        /// <param name="input">
-        /// The input buffer.
-        /// </param>
-        public void Generate(byte[] input)
+        /// <inheritdoc/>
+        public void Generate(byte[] buffer, int rotate)
         {
             byte[] tl = new byte[5]
             {
-                (byte)(input.Length * 6 % 256),
-                (byte)Math.Abs((input.Length - _sCount) % 256),
-                (byte)(input.Length * 124 % 256),
-                (byte)(input.Length * 75 % 128),
-                (byte)(input.Length * 13 % 64),
+                (byte)(buffer.Length * 6 % 256),
+                (byte)Math.Abs(((buffer.Length - _sCount) * rotate) % 256),
+                (byte)(buffer.Length * 124 % 256),
+                (byte)((buffer.Length + rotate) * 75 % 128),
+                (byte)(buffer.Length * 13 % 64),
             };
 
             tl = _sha384.ComputeHash(tl);
 
             byte[] hashes = new byte[3][]
             {
-                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), Math.Max(input.Length % 10, 1)).ToArray())),
-                _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, Convert.ToString(_sha512.ComputeHash(tl))[5]).PadLeft(_sCount * 5, Convert.ToString(_sha384.ComputeHash(tl.Base64EncodeToByte()))[6]))),
+                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), Math.Max(buffer.Length % 10, 1)).ToArray())),
+                _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, Convert.ToString(_sha512.ComputeHash(tl)).Replace("-", "")[5]).PadLeft(_sCount * 5, Convert.ToString(_sha384.ComputeHash(tl.Base64EncodeToByte())).Replace("-", "")[6]))),
                 _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
             }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();
 
@@ -67,15 +68,24 @@ namespace SAPTeam.Kryptor
 
             int i = 0;
 
-            while (i < input.Length)
+            while (i < buffer.Length)
             {
                 vt = _sha384.ComputeHash(_sha512.ComputeHash(vt)
-                                                .Concat(_sha384.ComputeHash(new byte[] { (byte)(Math.Abs(input.Length - i) % 256) }))
-                                                .Concat(vf.Take(Math.Abs(input.Length - i) % 64))
+                                                .Concat(_sha384.ComputeHash(new byte[] { (byte)(Math.Abs(buffer.Length - i) % 256) }))
+                                                .Concat(vf.Take(Math.Abs(buffer.Length - i) % 64))
                                                 .Concat(vm.Take((i + 2) * 3 % 48))
                                                 .ToArray());
 
-                Array.Copy(vt, 0, input, i, Math.Min(vt.Length, input.Length - i));
+                for (int j = 0; j < rotate; j++)
+                {
+                    byte[] vr = _sha256.ComputeHash(_sha384.ComputeHash(vt)
+                                                           .Concat(_salt)
+                                                           .ToArray());
+
+                    vt = vr;
+                }
+
+                Array.Copy(vt, 0, buffer, i, Math.Min(vt.Length, buffer.Length - i));
 
                 i += vt.Length;
             }
