@@ -322,15 +322,21 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     try
     {
         token = TransformerToken.Parse(name);
-        useToken = true;
 
         ITranformer tranformer = Transformers.GetTranformer(token);
         byte[] buffer = new byte[token.KeySize * 32];
         tranformer.Generate(buffer, token.Rotate);
         ks = new KeyStore(buffer);
+        useToken = true;
     }
     catch (ArgumentException)
     {
+        if (!string.IsNullOrEmpty(name))
+        {
+            Echo(new Colorize("[Eroor:] Invalid transformer token", ConsoleColor.Red));
+            Environment.Exit(2);
+        }
+
         if (keystoreSize == 0)
         {
             keystoreSize = KeyStore.GetRandomOddNumber();
