@@ -343,9 +343,14 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 
     var fName = !string.IsNullOrEmpty(name) && !useToken ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
+#if DEBUG
+    File.WriteAllText(fName, Convert.ToBase64String(ks.Raw));
+    Echo(new Colorize($"Keystore is saved to [{fName}] as base64", ConsoleColor.Green));
+#else
     File.WriteAllBytes(fName, ks.Raw);
-
     Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
+#endif
+
     return ks;
 }
 
