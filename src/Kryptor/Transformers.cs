@@ -27,90 +27,135 @@ namespace SAPTeam.Kryptor
                 case "generica":
                 case "gen":
                 case "g":
-                    return new Generica(token.SecretKey, token.Salt != null ? token.Salt : token.SecretKey);
+                    return new Generica(token.SecretKey, token.Salt ?? GenerateSalt(token));
                 default:
-                    throw new ArgumentException("Invalid transformer name: " +  token.TransformerName);
+                    throw new ArgumentException("Invalid transformer name: " + token.TransformerName);
             }
         }
 
-        static IEnumerable<T> Rotate<T>(IEnumerable<T> collection, int positions)
+        private static byte[] GenerateSalt(TransformerToken token)
         {
-            int count = collection.Count();
-            if (count == 0)
-                yield break;
+            return Pick(token.SecretKey.Sha256(), 16, token.Rotate > 0 ? token.KeySize * token.Rotate : token.KeySize).ToArray();
+        }
+
+        /// <summary>
+        /// Rotates the elements of an array by a specified number of positions.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the array.</typeparam>
+        /// <param name="array">The array to rotate.</param>
+        /// <param name="positions">The number of positions to rotate (positive or negative).</param>
+        public static void Rotate<T>(T[] array, int positions)
+        {
+            int length = array.Length;
+            if (length == 0)
+                return; // Nothing to rotate
 
             // Normalize the rotation amount (handle negative values and large rotations)
-            positions = (positions % count + count) % count;
+            positions = (positions % length + length) % length;
 
-            // Create a rotated view of the collection
-            IEnumerator<T> enumerator = collection.GetEnumerator();
-            for (int i = 0; i < positions; i++)
+            // Create a temporary array to store rotated elements
+            T[] rotatedArray = new T[length];
+
+            // Copy elements after rotation to the temporary array
+            for (int i = 0; i < length; i++)
             {
-                if (!enumerator.MoveNext())
-                    enumerator.Reset();
+                int newIndex = (i + positions) % length;
+                rotatedArray[newIndex] = array[i];
             }
 
-            do
+            // Copy the rotated elements back to the original array
+            for (int i = 0; i < length; i++)
             {
-                yield return enumerator.Current;
-            } while (enumerator.MoveNext());
+                array[i] = rotatedArray[i];
+            }
         }
 
-        static IEnumerable<T> Pick<T>(IEnumerable<T> collection, int count, int seed)
+        /// <summary>
+        /// Shuffles the elements of a collection using a hash-based random index and then selects secified number of members.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="collection">The collection to shuffle.</param>
+        /// <param name="count">The number of items to pick from the shuffled collection.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        /// <returns>An enumerable containing the shuffled elements.</returns>
+        public static IEnumerable<T> Pick<T>(IEnumerable<T> collection, int count, int seed)
         {
-            Random random = new Random(seed);
-
-            // Perform Fisher-Yates shuffle
             T[] array = collection.ToArray();
-            int n = array.Length;
-            for (int i = n - 1; i > 0; i--)
-            {
-                int j = random.Next(i + 1);
-                T temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
+            Shuffle(array, seed);
 
             // Take the first 'count' items from the shuffled array
-            return array.Take(Math.Min(count, n));
+            return array.Take(Math.Min(count, array.Length));
         }
 
-        static int ToInt32(IEnumerable<byte> collection, int seed)
+        /// <summary>
+        /// Combines and shuffles multiple collections into a single array.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collections.</typeparam>
+        /// <param name="seed">The seed value for the randomization.</param>
+        /// <param name="collections">The collections to combine and shuffle.</param>
+        /// <returns>An array containing the shuffled elements from all collections.</returns>
+        public static T[] Mix<T>(int seed, params IEnumerable<T>[] collections)
         {
-            return BitConverter.ToInt32(Rotate(collection, seed).ToArray(), 0);
-        }
+            List<T> combinedList = new List<T>();
 
-        static long ToInt64(IEnumerable<byte> collection, int seed)
-        {
-            return BitConverter.ToInt64(Rotate(collection, seed).ToArray(), 0);
-        }
-
-        static IEnumerable<T> Mix<T>(IEnumerable<T> collection1, IEnumerable<T> collection2, int seed)
-        {
-            // Combine the elements from both collections
-            List<T> combinedList = collection1.Concat(collection2).ToList();
-
-            // Create a hash function (SHA-256 in this example)
-            using (SHA256 sha256 = SHA256.Create())
+            foreach (var collection in collections)
             {
-                // Convert the seed to bytes
-                byte[] seedBytes = BitConverter.GetBytes(seed);
-
-                // Compute the hash of the seed
-                byte[] hashBytes = sha256.ComputeHash(seedBytes);
-
-                // Use the hash to shuffle the combined list
-                int n = combinedList.Count;
-                for (int i = n - 1; i > 0; i--)
-                {
-                    int j = Math.Abs(BitConverter.ToInt32(hashBytes, i % hashBytes.Length)) % (i + 1);
-                    T temp = combinedList[i];
-                    combinedList[i] = combinedList[j];
-                    combinedList[j] = temp;
-                }
+                combinedList.AddRange(collection);
             }
 
-            return combinedList;
+            T[] combinedArray = combinedList.ToArray();
+
+            Shuffle(combinedArray, seed);
+
+            return combinedArray;
+        }
+
+        /// <summary>
+        /// Shuffles an array in-place using a hash-based random index.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the array.</typeparam>
+        /// <param name="array">The array to shuffle.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        public static void Shuffle<T>(T[] array, int seed)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                int n = array.Length;
+
+                for (int i = n - 1; i > 0; i--)
+                {
+                    // Compute a hash-based random index
+                    byte[] hashBytes = sha256.ComputeHash(BitConverter.GetBytes(seed + i));
+                    int j = Math.Abs(BitConverter.ToInt32(hashBytes, 0)) % (i + 1);
+
+                    // Swap elements
+                    T temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts a sequence of bytes to a 32-bit integer using a hash-based random index.
+        /// </summary>
+        /// <param name="collection">The collection of bytes.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        /// <returns>The resulting 32-bit integer.</returns>
+        public static int ToInt32(IEnumerable<byte> collection, int seed)
+        {
+            return BitConverter.ToInt32(Pick(collection, 4, seed).ToArray(), 0);
+        }
+
+        /// <summary>
+        /// Converts a sequence of bytes to a 64-bit integer using a hash-based random index.
+        /// </summary>
+        /// <param name="collection">The collection of bytes.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        /// <returns>The resulting 64-bit integer.</returns>
+        public static long ToInt64(IEnumerable<byte> collection, int seed)
+        {
+            return BitConverter.ToInt64(Pick(collection, 8, seed).ToArray(), 0);
         }
     }
 }

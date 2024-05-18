@@ -1,12 +1,15 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System;
 using System.Collections.Generic;
 
-namespace System.Linq
+namespace SAPTeam.Kryptor
 {
-    /// <inheritdoc/>
-    public static partial class Enumerable
+    /// <summary>
+    /// Represents extension methods for <see cref="IEnumerable{T}"/> collections.
+    /// </summary>
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.

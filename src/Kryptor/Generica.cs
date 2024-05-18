@@ -36,14 +36,19 @@ namespace SAPTeam.Kryptor
             _sha384 = SHA384.Create();
             _sha512 = SHA512.Create();
 
-            _seed = BitConverter.ToString(_sha512.ComputeHash(seed.Concat(salt).ToArray())).Replace("-", "");
-            _salt = salt;
+            _seed = BitConverter.ToString(_sha512.ComputeHash(Transformers.Mix(Transformers.ToInt32(seed, seed[12 % seed.Length] * salt[3 % salt.Length]), seed, salt).ToArray())).Replace("-", "");
+            _salt = _sha384.ComputeHash(salt);
             _sCount = _seed.Length;
         }
 
         /// <inheritdoc/>
         public void Generate(byte[] buffer, int rotate)
         {
+            if (rotate < 1)
+            {
+                Transformers.ToInt32(_salt, (buffer.Length % 41) + _seed[28] + _salt[0]);
+            }
+
             byte[] tl = new byte[5]
             {
                 (byte)(buffer.Length * 6 % 256),
@@ -53,17 +58,17 @@ namespace SAPTeam.Kryptor
                 (byte)(buffer.Length * 13 % 64),
             };
 
-            tl = _sha384.ComputeHash(tl);
+            tl = _sha384.ComputeHash(Transformers.Mix((buffer.Length + rotate) * _seed[6], tl, _salt));
 
             byte[] hashes = new byte[3][]
             {
-                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed), Math.Max(buffer.Length % 10, 1)).ToArray())),
+                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed, (_salt[26] * _salt[7]) + buffer.Length % 13), Math.Max(buffer.Length % 10, 1)).ToArray())),
                 _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, Convert.ToString(_sha512.ComputeHash(tl)).Replace("-", "")[5]).PadLeft(_sCount * 5, Convert.ToString(_sha384.ComputeHash(tl.Base64EncodeToByte())).Replace("-", "")[6]))),
-                _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)))))
+                _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)), _seed[19] + buffer.Length % 7)))
             }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();
 
             byte[] vm = _sha384.ComputeHash(hashes.Select(x => (byte)(x * 7 % 256)).ToArray());
-            byte[] vf = _sha512.ComputeHash(hashes).Concat(_sha256.ComputeHash(ChangeCase(tl.Base64Encode()).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
+            byte[] vf = _sha512.ComputeHash(hashes).Concat(_sha256.ComputeHash(ChangeCase(tl.Base64Encode(), _salt[39] + buffer.Length % 11).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
             byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(hashes.Select(x => (byte)(((x * 11 / 4 * 6) + 5) % 256)).ToArray())).ToArray());
 
             int i = 0;
@@ -78,11 +83,7 @@ namespace SAPTeam.Kryptor
 
                 for (int j = 0; j < rotate; j++)
                 {
-                    byte[] vr = _sha256.ComputeHash(_sha384.ComputeHash(vt)
-                                                           .Concat(_salt)
-                                                           .ToArray());
-
-                    vt = vr;
+                    vt = _sha256.ComputeHash(Transformers.Mix(i > 0 && j > 0 ? i * j + _seed[43] + _seed[9] + _salt[34] : _seed[15] * rotate + buffer.Length, _sha384.ComputeHash(vt), _salt).ToArray());
                 }
 
                 Array.Copy(vt, 0, buffer, i, Math.Min(vt.Length, buffer.Length - i));
@@ -91,11 +92,14 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private string ChangeCase(string src)
+        private string ChangeCase(string src, int seed)
         {
             int c = 0;
 
-            return new string(src.Select(x =>
+            char[] clone = src.ToArray();
+            Transformers.Shuffle(clone, seed);
+
+            return new string(clone.Select(x =>
             {
                 return c++ % 2 == 0 ? x.ToString().ToUpper()[0] : x;
             }).ToArray());

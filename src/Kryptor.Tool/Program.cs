@@ -204,9 +204,20 @@ bool CheckFile(string file)
 
 KeyStore ReadKeystore(string keystore)
 {
-    bool useGenerica = keystore.StartsWith("generica:");
+    TransformerToken token = default;
+    bool useToken = false;
 
-    if (!File.Exists(keystore) && !useGenerica)
+    try
+    {
+        token = TransformerToken.Parse(keystore);
+        useToken = true;
+    }
+    catch (ArgumentException)
+    {
+
+    }
+
+    if (!File.Exists(keystore) && !useToken)
     {
         Echo(new Colorize("[Error:] Keystore not found.", ConsoleColor.Red));
         Environment.Exit(3);
@@ -217,14 +228,11 @@ KeyStore ReadKeystore(string keystore)
 
     try
     {
-        if (useGenerica)
+        if (useToken)
         {
-            string gSeed = keystore.Split(':')[1];
-            int gSize = int.Parse(keystore.Split(':')[2]);
-            Echo(new Colorize($"Generica seed: [{gSeed}]:[{gSize}]", ConsoleColor.DarkYellow));
-            Generica gen = new Generica(Encoding.UTF8.GetBytes(gSeed));
-            byte[] buffer = new byte[gSize * 32];
-            gen.Generate(buffer);
+            ITranformer tranformer = Transformers.GetTranformer(token);
+            byte[] buffer = new byte[token.KeySize * 32];
+            tranformer.Generate(buffer, token.Rotate);
             ks = new KeyStore(buffer);
         }
         else
@@ -308,32 +316,33 @@ string GetVersionString(Assembly assembly)
 KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
 {
     KeyStore ks;
-    bool useGenerica = false;
+    TransformerToken token = default;
+    bool useToken = false;
 
-    if (keystoreSize == 0)
+    try
     {
-        keystoreSize = KeyStore.GetRandomOddNumber();
-    }
+        token = TransformerToken.Parse(name);
+        useToken = true;
 
-    Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan), false);
-
-    if (name.StartsWith("generica:"))
-    {
-        useGenerica = true;
-        Echo(" using Generica");
-        Generica gen = new Generica(Encoding.UTF8.GetBytes(name.Split(':')[1]));
-        byte[] buffer = new byte[keystoreSize * 32];
-        gen.Generate(buffer);
+        ITranformer tranformer = Transformers.GetTranformer(token);
+        byte[] buffer = new byte[token.KeySize * 32];
+        tranformer.Generate(buffer, token.Rotate);
         ks = new KeyStore(buffer);
     }
-    else
+    catch (ArgumentException)
     {
+        if (keystoreSize == 0)
+        {
+            keystoreSize = KeyStore.GetRandomOddNumber();
+        }
+
+        Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
         ks = KeyStore.Generate(keystoreSize);
     }
 
     Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
 
-    var fName = !string.IsNullOrEmpty(name) && !useGenerica ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
+    var fName = !string.IsNullOrEmpty(name) && !useToken ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
     File.WriteAllBytes(fName, ks.Raw);
 
     Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
