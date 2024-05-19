@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public struct TransformerToken
     {
-        static readonly string pattern = @"^(?<TransformerName>\w+):(?<SecretKey>\w+):(?<KeySize>\d+)(?::(?<Salt>\w+)(?:-(?<Rotate>\d+))?)?$";
+        static readonly string pattern = @"^(?<TransformerName>\w+):(?<SecretKey>\w+):(?<KeySize>\d+)(?::(?<Salt>\w+))?(?:-(?<Rotate>\d+))?$";
 
         static readonly Regex regex = new Regex(pattern);
 
