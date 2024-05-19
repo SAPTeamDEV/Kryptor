@@ -10,7 +10,7 @@ return;
 */
 
 string text;
-string input = null;
+string? input = null;
 int mult = 0;
 
 while (true)

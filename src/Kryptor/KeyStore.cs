@@ -91,27 +91,9 @@ namespace SAPTeam.Kryptor
                 count = GetRandomOddNumber();
             }
 
-            List<byte[]> result = new List<byte[]>();
-            int tries = 0;
+            var result = SafeRng.Generate(count * 32);
 
-            for (int i = 0; i < count; i++)
-            {
-                var k = GetRandomKey(32);
-
-                // Ignore keys with 10 or more duplicated items.
-                if (result.All((b) => b.Intersect(k).Count() < 10) || tries > 100)
-                {
-                    result.Add(k);
-                    tries = 0;
-                }
-                else
-                {
-                    tries++;
-                    i--;
-                }
-            }
-
-            return new KeyStore(result.SelectMany((k) => k).ToArray());
+            return new KeyStore(result);
         }
 
         /// <summary>
@@ -127,15 +109,6 @@ namespace SAPTeam.Kryptor
             }
 
             return count;
-        }
-
-        private static byte[] GetRandomKey(int length)
-        {
-            byte[] buffer = new byte[length];
-
-            random.NextBytes(buffer);
-
-            return buffer;
         }
     }
 }
