@@ -47,9 +47,9 @@ namespace SAPTeam.Kryptor.Tests
             Assert.Equal(ks[90], ks[-218]);
             Assert.Equal(ks[127], ks[-255]);
 
-            Assert.Equal(ks[127], ks[-1]);
-            Assert.Equal(ks[1], ks[-127]);
-            Assert.Equal(ks[126], ks[-2]);
+            Assert.Equal(ks[129], ks[-1]);
+            Assert.Equal(ks[1], ks[-129]);
+            Assert.Equal(ks[130], ks[-2]);
 
             Assert.NotEqual(ks[0], ks[-127]);
             Assert.NotEqual(ks[1], ks[-128]);

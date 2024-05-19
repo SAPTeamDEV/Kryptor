@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public struct KeyStore
     {
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
         private readonly int count;
 
         /// <summary>
@@ -23,25 +23,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The key at the specified index.
         /// </returns>
-        public byte[] this[int index]
-        {
-            get
-            {
-                if (index < 0)
-                {
-                    index = count + index;
-                }
-
-                index = Math.Abs(index);
-
-                if (index >= count)
-                {
-                    index -= index / count * count;
-                }
-
-                return Keys.ElementAt(index);
-            }
-        }
+        public byte[] this[int index] => Keys.ElementAt(Math.Abs(index) % count);
 
         /// <summary>
         /// Gets the keys to store.
