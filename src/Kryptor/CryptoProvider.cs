@@ -155,7 +155,7 @@ namespace SAPTeam.Kryptor
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, byte[] hash);
 
         /// <summary>
-        /// Modifies the header to include crypto provider data.
+        /// Updates the header to include crypto provider data.
         /// </summary>
         /// <param name="header">
         /// The header to modify.
