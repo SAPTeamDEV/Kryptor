@@ -9,7 +9,6 @@
     <IsTestProject>true</IsTestProject>
     <AssemblyName>SAPTeam.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>SAPTeam.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Kryptor\Kryptor.csproj" />
+    <ProjectReference Include="..\..\src\Kryptor\Kryptor.csproj" />
   </ItemGroup>
 
   <ItemGroup>

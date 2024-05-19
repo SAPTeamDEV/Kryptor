@@ -361,5 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/ConsoleApp1
+
 /src/Kryptor.Tool/Properties/launchSettings.json

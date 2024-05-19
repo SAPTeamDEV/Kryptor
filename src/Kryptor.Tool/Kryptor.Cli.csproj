@@ -2,33 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>SAPTeam.Kryptor.Tool</AssemblyName>
-    <RootNamespace>$(AssemblyName)</RootNamespace>
-    <PackageId>$(AssemblyName)</PackageId>
+    <AssemblyName>Kryptor</AssemblyName>
+    <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
+    <PackageId>SAPTeam.Kryptor.Tool</PackageId>
     
     <Title>Kryptor CLI</Title>
-    <AssemblyTitle>Kryptor CLI</AssemblyTitle>
-    <Version>1.0</Version>
+    <AssemblyTitle>Kryptor Command-Line Interface</AssemblyTitle>
     <Product>Kryptor Command-Line Interface.</Product>
-    <Authors>Alireza Poodineh</Authors>
-    <Company>SAP Team</Company>
     <Description>Command-Line Interface for Kryptor encryption engine.</Description>
     <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
-    <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     
     <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
     
-    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <Deterministic>True</Deterministic>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <PackAsTool>True</PackAsTool>
-    <ToolCommandName>Kryptor</ToolCommandName>
+    <ToolCommandName>kryptor</ToolCommandName>
    </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -38,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;8618;NU1701;8602;8604</NoWarn>
   </PropertyGroup>
-    
+
     <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119" PrivateAssets="All" />

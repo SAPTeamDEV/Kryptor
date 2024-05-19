@@ -8,22 +8,12 @@
     
     <Title>Kryptor</Title>
     <AssemblyTitle>Kryptor</AssemblyTitle>
-    <Version>1.0</Version>
     <Product>The Key-Based Encryption Engine.</Product>
-    <Authors>Alireza Poodineh</Authors>
-    <Company>SAP Team</Company>
+    
     <Description>This library allows you to encrypt data with keystore-based mechanisms.</Description>
-    <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt</PackageTags>
-    <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
+    <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    
-    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <Deterministic>True</Deterministic>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>Kryptor.snk</AssemblyOriginatorKeyFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
    </PropertyGroup>
 
