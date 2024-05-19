@@ -8,7 +8,7 @@
     <PackageOutputPath>$(RepoRootPath)bin\Packages\$(Configuration)\</PackageOutputPath>
     
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)kryptor.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
 
     <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
