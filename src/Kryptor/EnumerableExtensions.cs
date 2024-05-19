@@ -1,8 +1,6 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAPTeam.Kryptor
 {
@@ -41,6 +39,29 @@ namespace SAPTeam.Kryptor
             return source == null
                 ? throw new ArgumentNullException("source")
                 : size < 1 ? throw new ArgumentOutOfRangeException("size") : ChunkIterator(source, size);
+        }
+
+        /// <summary>
+        /// Finds given pattern in a byte array.
+        /// </summary>
+        /// <param name="src">
+        /// Source byte array.
+        /// </param>
+        /// <param name="pattern">
+        /// The pattern to be searched.
+        /// </param>
+        /// <returns>Start index of first occurrence.</returns>
+        public static int LocatePattern<T>(this IEnumerable<T> src, IEnumerable<T> pattern)
+        {
+            for (int i = 0; i < src.Count(); i++)
+            {
+                if (src.Skip(i).Take(pattern.Count()).SequenceEqual(pattern))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         private static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)
