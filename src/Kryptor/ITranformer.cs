@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SAPTeam.Kryptor
+﻿namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Represents standard to transform specified inputs to a reproducible output.

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 using EnsureThat;
@@ -67,7 +66,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
+        private static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -92,7 +91,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
+        private static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -12,9 +8,8 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public struct TransformerToken
     {
-        static readonly string pattern = @"^(?<TransformerName>\w+):(?<SecretKey>\w+):(?<KeySize>\d+)(?::(?<Salt>\w+))?(?:-(?<Rotate>\d+))?$";
-
-        static readonly Regex regex = new Regex(pattern);
+        private static readonly string pattern = @"^(?<TransformerName>\w+):(?<SecretKey>\w+):(?<KeySize>\d+)(?::(?<Salt>\w+))?(?:-(?<Rotate>\d+))?$";
+        private static readonly Regex regex = new Regex(pattern);
 
         /// <summary>
         /// Gets or sets the transformer name.
@@ -51,7 +46,7 @@ namespace SAPTeam.Kryptor
         /// A new instance of <see cref="TransformerToken"/>.
         /// </returns>
         /// <exception cref="ArgumentException"></exception>
-        static public TransformerToken Parse(string token)
+        public static TransformerToken Parse(string token)
         {
             Match match = regex.Match(token);
 

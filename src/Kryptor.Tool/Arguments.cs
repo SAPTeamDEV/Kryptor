@@ -1,6 +1,6 @@
 ﻿using CommandLine.Text;
 
-namespace SAPTeam.Kryptor.Tool
+namespace SAPTeam.Kryptor.Cli
 {
     internal class Arguments
     {

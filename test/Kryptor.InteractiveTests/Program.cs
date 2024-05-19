@@ -16,7 +16,7 @@ while (true)
         File.WriteAllBytes(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "testkey"), KeyStore.Generate().Raw);
     }
 
-    Kes kp = new(new StandaloneKeyCryptoProvider(new KeyStore(File.ReadAllBytes(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "testkey")))));
+    Kes2 kp = new(new StandaloneKeyCryptoProvider(new KeyStore(File.ReadAllBytes(Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "testkey")))));
 
     bool printlog = args.Length < 1;
 

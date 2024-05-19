@@ -1,6 +1,4 @@
-﻿using SAPTeam.Kryptor;
-
-internal class Checker
+﻿internal class Checker
 {
     /*
     public static void Main()

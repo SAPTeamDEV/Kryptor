@@ -1,6 +1,4 @@
-using SAPTeam.Kryptor;
-
-namespace Kryptor.Tests
+namespace SAPTeam.Kryptor.Tests
 {
     public class KeyStoreTests
     {

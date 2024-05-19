@@ -7,7 +7,7 @@ using EnsureThat;
 namespace SAPTeam.Kryptor
 {
     /// <summary>
-    /// Stores keys for the <see cref="Kes"/> class.
+    /// Stores keys for the <see cref="Kes2"/> class.
     /// </summary>
     public struct KeyStore
     {

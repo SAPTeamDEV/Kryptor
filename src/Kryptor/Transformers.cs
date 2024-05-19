@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -48,10 +45,12 @@ namespace SAPTeam.Kryptor
         {
             int length = array.Length;
             if (length == 0)
+            {
                 return; // Nothing to rotate
+            }
 
             // Normalize the rotation amount (handle negative values and large rotations)
-            positions = (positions % length + length) % length;
+            positions = ((positions % length) + length) % length;
 
             // Create a temporary array to store rotated elements
             T[] rotatedArray = new T[length];

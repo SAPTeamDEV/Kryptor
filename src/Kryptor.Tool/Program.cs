@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 using SAPTeam.CommonTK.Console;
 using SAPTeam.Kryptor;
-using SAPTeam.Kryptor.Tool;
+using SAPTeam.Kryptor.Cli;
 
 Arguments opt = GetArguments();
 IsValid();
@@ -12,13 +10,13 @@ IsValid();
 string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
 Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
 
-string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)));
+string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes2)));
 Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
     KeyStore ks = default;
-    Kes kp = InitKES(opt);
+    Kes2 kp = InitKES(opt);
 
     if (opt.Decrypt || !opt.CreateKey)
     {
@@ -58,7 +56,7 @@ else if (opt.Generate)
 
 return Environment.ExitCode;
 
-async Task Encrypt(string file, Kes kp)
+async Task Encrypt(string file, Kes2 kp)
 {
     Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -89,7 +87,7 @@ async Task Encrypt(string file, Kes kp)
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
 
-async Task Decrypt(string file, Kes kp, string ksFingerprint)
+async Task Decrypt(string file, Kes2 kp, string ksFingerprint)
 {
     Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -112,18 +110,49 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         else
         {
             Console.WriteLine($"Detail Level: {header.DetailLevel}");
-            if (header.Version != null) Console.WriteLine($"API Version: {header.Version}");
-            if (header.EngineVersion != null) Console.WriteLine($"Engine Version: {header.EngineVersion}");
-            if (header.CliVersion != null) Console.WriteLine($"CLI Version: {header.CliVersion}");
-            if ((int)header.CryptoType > 0) Console.WriteLine($"Crypto Type: {header.CryptoType}");
-            if (header.BlockSize != null) Console.WriteLine($"Block Size: {header.BlockSize}");
-            if (header.Continuous != null) Console.WriteLine($"Continuous: {header.Continuous}");
-            if (header.OriginalName != null) Console.WriteLine($"Original Name: {header.OriginalName}");
-            if (header.Extra != null) Console.WriteLine($"Extra data:\n{string.Join(Environment.NewLine, header.Extra)}");
+            if (header.Version != null)
+            {
+                Console.WriteLine($"API Version: {header.Version}");
+            }
+
+            if (header.EngineVersion != null)
+            {
+                Console.WriteLine($"Engine Version: {header.EngineVersion}");
+            }
+
+            if (header.CliVersion != null)
+            {
+                Console.WriteLine($"CLI Version: {header.CliVersion}");
+            }
+
+            if ((int)header.CryptoType > 0)
+            {
+                Console.WriteLine($"Crypto Type: {header.CryptoType}");
+            }
+
+            if (header.BlockSize != null)
+            {
+                Console.WriteLine($"Block Size: {header.BlockSize}");
+            }
+
+            if (header.Continuous != null)
+            {
+                Console.WriteLine($"Continuous: {header.Continuous}");
+            }
+
+            if (header.OriginalName != null)
+            {
+                Console.WriteLine($"Original Name: {header.OriginalName}");
+            }
+
+            if (header.Extra != null)
+            {
+                Console.WriteLine($"Extra data:\n{string.Join(Environment.NewLine, header.Extra)}");
+            }
         }
 #endif
 
-        if ((int)header.DetailLevel > 0 && header.Version != Kes.Version)
+        if ((int)header.DetailLevel > 0 && header.Version != Kes2.Version)
         {
             if (header.CliVersion != null)
             {
@@ -153,7 +182,7 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
             }
         }
 
-        string origName = header.OriginalName != null ? header.OriginalName : "decrypted file.dec";
+        string origName = header.OriginalName ?? "decrypted file.dec";
         string resolvedName = GetNewFileName(file, origName);
 
         Echo("Prepairing");
@@ -275,7 +304,7 @@ void IsValid()
             Environment.Exit(2);
         }
 
-        if (!Kes.ValidateBlockSize(opt.BlockSize))
+        if (!Kes2.ValidateBlockSize(opt.BlockSize))
         {
             Echo(new Colorize("[Error:] Block size must be multiple of 32.", ConsoleColor.Red));
             Environment.Exit(2);
@@ -360,9 +389,9 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     return ks;
 }
 
-Kes InitKES(Arguments opt)
+Kes2 InitKES(Arguments opt)
 {
-    Kes kp = new(maxBlockSize: opt.BlockSize);
+    Kes2 kp = new(maxBlockSize: opt.BlockSize);
     kp.OnProgress += ShowProgress;
     return kp;
 }
