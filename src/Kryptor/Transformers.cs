@@ -10,6 +10,8 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public static class Transformers
     {
+        static readonly SHA256 _sharedSha256 = SHA256.Create();
+
         /// <summary>
         /// Initializes a new transformer with given token.
         /// </summary>
@@ -132,6 +134,29 @@ namespace SAPTeam.Kryptor
                     array[i] = array[j];
                     array[j] = temp;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Shuffles an array in-place using a hash-based random index using a shared SHA256.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the array.</typeparam>
+        /// <param name="array">The array to shuffle.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        internal static void SharedShuffle<T>(T[] array, int seed)
+        {
+            int n = array.Length;
+
+            for (int i = n - 1; i > 0; i--)
+            {
+                // Compute a hash-based random index
+                byte[] hashBytes = _sharedSha256.ComputeHash(BitConverter.GetBytes(seed + i));
+                int j = Math.Abs(BitConverter.ToInt32(hashBytes, 0)) % (i + 1);
+
+                // Swap elements
+                T temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
             }
         }
 

@@ -26,11 +26,13 @@ namespace SAPTeam.Kryptor
 
             List<byte[]> result = new List<byte[]>();
             int tries = 0;
+            int totalTries = 0;
 
             for (int i = 0; i < length; i += sampleSize)
             {
                 byte[] sample = new byte[sampleSize];
                 random.NextBytes(sample);
+                Transformers.SharedShuffle(sample, length + totalTries + i);
 
                 // Ignore keys with 10 or more duplicated items.
                 if (result.All((b) => b.Intersect(sample).Count() < 10) || tries > 100)
@@ -43,6 +45,8 @@ namespace SAPTeam.Kryptor
                     tries++;
                     i -= sampleSize;
                 }
+
+                totalTries++;
             }
 
             return result.SelectMany((k) => k).Take(length).ToArray();
