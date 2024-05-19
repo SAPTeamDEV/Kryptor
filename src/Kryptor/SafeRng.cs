@@ -32,7 +32,7 @@ namespace SAPTeam.Kryptor
             {
                 byte[] sample = new byte[sampleSize];
                 random.NextBytes(sample);
-                Transformers.SharedShuffle(sample, length + totalTries + i);
+                Transformers.Shuffle(sample, length + totalTries + i);
 
                 // Ignore keys with 10 or more duplicated items.
                 if (result.All((b) => b.Intersect(sample).Count() < 10) || tries > 100)
