@@ -303,12 +303,6 @@ void IsValid()
             Echo(new Colorize("[Error:] You must specify at least one file.", ConsoleColor.Red));
             Environment.Exit(2);
         }
-
-        if (!Kes.ValidateBlockSize(opt.BlockSize))
-        {
-            Echo(new Colorize("[Error:] Block size must be multiple of 32.", ConsoleColor.Red));
-            Environment.Exit(2);
-        }
     }
 }
 
@@ -391,7 +385,7 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
 
 Kes InitKES(Arguments opt)
 {
-    Kes kp = new(maxBlockSize: opt.BlockSize);
+    Kes kp = new(blockSize: opt.BlockSize);
     kp.OnProgress += ShowProgress;
     return kp;
 }

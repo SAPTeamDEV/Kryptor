@@ -24,6 +24,16 @@ namespace SAPTeam.Kryptor
         protected internal int BlockIndex { get; internal set; }
 
         /// <summary>
+        /// Gets the Decryption Chunk Size.
+        /// </summary>
+        public int DecryptionChunkSize = 32;
+
+        /// <summary>
+        /// Gets the Encryption Chunk Size.
+        /// </summary>
+        public int EncryptionChunkSize = 31;
+
+        /// <summary>
         /// Gets the keystore for crypto operations.
         /// </summary>
         public KeyStore KeyStore { get; protected set; }
@@ -51,9 +61,9 @@ namespace SAPTeam.Kryptor
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.EncryptionBlockSize)
+            if (data.Length > Parent.EncryptionBufferSize)
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBlockSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBufferSize}");
             }
 
             if (BlockIndex == 0 && ChunkIndex > 0)
@@ -64,7 +74,7 @@ namespace SAPTeam.Kryptor
             byte[] hash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
             List<byte> result = new List<byte>(hash);
 
-            foreach (var chunk in data.Chunk(Kes.DefaultEncryptionChunkSize))
+            foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
                 result.AddRange(await EncryptChunkAsync(chunk, hash));
                 ChunkIndex++;
@@ -86,9 +96,9 @@ namespace SAPTeam.Kryptor
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.DecryptionBlockSize)
+            if (data.Length > Parent.DecryptionBufferSize)
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBlockSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBufferSize}");
             }
 
             if (BlockIndex == 0 && ChunkIndex > 0)
@@ -102,12 +112,12 @@ namespace SAPTeam.Kryptor
             if (RemoveHash)
             {
                 hash = Array.Empty<byte>();
-                chunks = data.Chunk(Kes.DefaultDecryptionChunkSize);
+                chunks = data.Chunk(DecryptionChunkSize);
             }
             else
             {
                 hash = data.Take(32).ToArray();
-                chunks = data.Skip(32).Chunk(Kes.DefaultDecryptionChunkSize);
+                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
             List<byte> result = new List<byte>();
@@ -150,7 +160,7 @@ namespace SAPTeam.Kryptor
         /// <param name="header">
         /// The header to modify.
         /// </param>
-        protected internal virtual void ModifyHeader(Header header)
+        protected internal virtual void UpdateHeader(Header header)
         {
             if ((int)header.DetailLevel > 1)
             {

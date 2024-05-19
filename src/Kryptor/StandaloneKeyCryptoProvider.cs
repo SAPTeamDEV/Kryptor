@@ -56,9 +56,9 @@ namespace SAPTeam.Kryptor
         }
 
         /// <inheritdoc/>
-        protected internal override void ModifyHeader(Header header)
+        protected internal override void UpdateHeader(Header header)
         {
-            base.ModifyHeader(header);
+            base.UpdateHeader(header);
 
             if ((int)header.DetailLevel > 2)
             {

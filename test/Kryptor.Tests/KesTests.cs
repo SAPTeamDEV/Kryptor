@@ -26,12 +26,10 @@ namespace SAPTeam.Kryptor.Tests
         public void BlockSizeTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), blockSize: 0x8000);
 
-            Assert.Equal(1048576, kp.DecryptionBlockSize);
-            Assert.Equal(((1048576 / 32) - 1) * 31, kp.EncryptionBlockSize);
-
-            Assert.Throws<ArgumentException>(() => new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 127));
+            Assert.Equal(1048576, kp.DecryptionBufferSize);
+            Assert.Equal(((1048576 / 32) - 1) * 31, kp.EncryptionBufferSize);
         }
 
         [Fact]
@@ -51,9 +49,9 @@ namespace SAPTeam.Kryptor.Tests
         public async void EncryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), blockSize: 0x8000);
 
-            byte[] buffer = new byte[kp.EncryptionBlockSize + 1];
+            byte[] buffer = new byte[kp.EncryptionBufferSize + 1];
             Random.Shared.NextBytes(buffer);
             await Assert.ThrowsAsync<ArgumentException>(async () => await kp.EncryptBlockAsync(buffer));
         }
@@ -62,9 +60,9 @@ namespace SAPTeam.Kryptor.Tests
         public async void DecryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), blockSize: 0x8000);
 
-            byte[] buffer = new byte[kp.DecryptionBlockSize + 1];
+            byte[] buffer = new byte[kp.DecryptionBufferSize + 1];
             Random.Shared.NextBytes(buffer);
             await Assert.ThrowsAsync<ArgumentException>(async () => await kp.DecryptBlockAsync(buffer));
         }

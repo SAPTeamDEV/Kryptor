@@ -15,41 +15,38 @@ namespace SAPTeam.Kryptor
         #region Size Parameters
 
         /// <summary>
-        /// Gets the Default Decryption Chunk Size. (Only For Advanced Usages)
+        /// Gets or sets the block size used for buffer creation in encryption and decryption.
         /// </summary>
-        public const int DefaultDecryptionChunkSize = 32;
-
-        /// <summary>
-        /// Gets the Default Encryption Chunk Size. (Only For Advanced Usages)
-        /// </summary>
-        public const int DefaultEncryptionChunkSize = DefaultDecryptionChunkSize - 1;
-
-        /// <summary>
-        /// Gets the Default Decryption Block Size. (Only For Advanced Usages)
-        /// </summary>
-        public const int DefaultDecryptionBlockSize = 1048576;
-
-        /// <summary>
-        /// Gets the Default Encryption Block Size. (Only For Advanced Usages)
-        /// </summary>
-        public const int DefaultEncryptionBlockSize = ((DefaultDecryptionBlockSize / DefaultDecryptionChunkSize) - 1) * DefaultEncryptionChunkSize;
+        public int BlockSize { get; set; } = 0x8000;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync(byte[])"/>.
         /// </summary>
-        public int DecryptionBlockSize { get; } = DefaultDecryptionBlockSize;
+        public int DecryptionBufferSize
+        {
+            get
+            {
+                return BlockSize * Provider.DecryptionChunkSize;
+            }
+        }
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync(byte[])"/>.
         /// </summary>
-        public int EncryptionBlockSize { get; } = DefaultEncryptionBlockSize;
+        public int EncryptionBufferSize
+        {
+            get
+            {
+                return (BlockSize - 1) * Provider.EncryptionChunkSize;
+            }
+        }
 
         #endregion
 
         /// <summary>
         /// Gets the version of the encryptor api backend.
         /// </summary>
-        public static Version Version => new Version(0, 9);
+        public static Version Version => new Version(0, 10);
 
         /// <summary>
         /// Gets or sets the crypto provider.
@@ -101,10 +98,10 @@ namespace SAPTeam.Kryptor
         /// <param name="provider">
         /// The crypto provider.
         /// </param>
-        /// <param name="maxBlockSize">
-        /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
+        /// <param name="blockSize">
+        /// The block size used to read and process data.
         /// </param>
-        public Kes(CryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
+        public Kes(CryptoProvider provider, int blockSize = default) : this(blockSize)
         {
             Provider = provider;
         }
@@ -112,36 +109,18 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class.
         /// </summary>
-        /// <param name="maxBlockSize">
-        /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
+        /// <param name="blockSize">
+        /// The block size used to read and process data.
         /// </param>
-        public Kes(int maxBlockSize = default)
+        public Kes(int blockSize = default)
         {
-            if (maxBlockSize > 0)
+            if (blockSize > 0)
             {
-                if (!ValidateBlockSize(maxBlockSize))
-                {
-                    throw new ArgumentException("maxBlockSize must be a multiple of " + DefaultDecryptionChunkSize);
-                }
-
-                DecryptionBlockSize = maxBlockSize;
-                EncryptionBlockSize = ((DecryptionBlockSize / DefaultDecryptionChunkSize) - 1) * DefaultEncryptionChunkSize;
+                BlockSize = blockSize;
             }
         }
 
-        /// <summary>
-        /// Validates the divisibility of the given block size.
-        /// </summary>
-        /// <param name="bs">
-        /// The block size.
-        /// </param>
-        /// <returns></returns>
-        public static bool ValidateBlockSize(int bs)
-        {
-            return bs % DefaultDecryptionChunkSize == 0;
-        }
-
-        private void ModifyHeader(Header header)
+        private void UpdateHeader(Header header)
         {
             if ((int)header.DetailLevel > 0)
             {
@@ -150,7 +129,7 @@ namespace SAPTeam.Kryptor
 
                 if ((int)header.DetailLevel > 2)
                 {
-                    header.BlockSize = DecryptionBlockSize;
+                    header.BlockSize = BlockSize;
                 }
             }
         }
@@ -169,8 +148,10 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task EncryptAsync(Stream source, Stream dest, Header header = null)
         {
+            // Reset crypto provider values in case of reuse.
             Provider.ResetIndex();
 
+            // If there is no header, create a header with normal details.
             if (header == null)
             {
                 header = new Header()
@@ -179,14 +160,13 @@ namespace SAPTeam.Kryptor
                 };
             }
 
-            ModifyHeader(header);
-            Provider.ModifyHeader(header);
+            UpdateHeader(header);
+            Provider.UpdateHeader(header);
 
             var hArray = header.CreatePayload();
-
             await dest.WriteAsync(hArray, 0, hArray.Length);
 
-            int blockSize = EncryptionBlockSize;
+            int blockSize = EncryptionBufferSize;
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
@@ -239,7 +219,7 @@ namespace SAPTeam.Kryptor
                 }
             }
 
-            int blockSize = DecryptionBlockSize;
+            int blockSize = DecryptionBufferSize;
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
