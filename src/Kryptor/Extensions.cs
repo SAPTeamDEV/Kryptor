@@ -13,19 +13,6 @@ namespace SAPTeam.Kryptor
     public static class Extensions
     {
         /// <summary>
-        /// SHA256 encrypt
-        /// </summary>
-        /// <param name="src">The string to be encrypted</param>
-        /// <returns></returns>
-        public static byte[] Sha256(this byte[] src)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                return sha256.ComputeHash(src);
-            }
-        }
-
-        /// <summary>
         /// Finds given pattern in a byte array.
         /// </summary>
         /// <param name="src">
