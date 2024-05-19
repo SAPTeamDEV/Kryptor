@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor.Tests
         public async void EncryptDecryptTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes2 kp = new Kes2(new StandaloneKeyCryptoProvider(ks));
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks));
 
             byte[] enc = await kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(testText));
             byte[] output = await kp.DecryptBlockAsync(enc);
@@ -26,22 +26,22 @@ namespace SAPTeam.Kryptor.Tests
         public void BlockSizeTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes2 kp = new Kes2(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             Assert.Equal(1048576, kp.DecryptionBlockSize);
             Assert.Equal(((1048576 / 32) - 1) * 31, kp.EncryptionBlockSize);
 
-            Assert.Throws<ArgumentException>(() => new Kes2(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 127));
+            Assert.Throws<ArgumentException>(() => new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 127));
         }
 
         [Fact]
         public async void InvalidKeystoreTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes2 kp = new Kes2(new StandaloneKeyCryptoProvider(ks));
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks));
 
             KeyStore ks2 = KeyStore.Generate(128);
-            Kes2 kp2 = new Kes2(new StandaloneKeyCryptoProvider(ks2));
+            Kes kp2 = new Kes(new StandaloneKeyCryptoProvider(ks2));
 
             byte[] enc = await kp.EncryptBlockAsync(testBytes);
             await Assert.ThrowsAsync<InvalidDataException>(async () => await kp2.DecryptBlockAsync(enc));
@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor.Tests
         public async void EncryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes2 kp = new Kes2(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.EncryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);
@@ -62,7 +62,7 @@ namespace SAPTeam.Kryptor.Tests
         public async void DecryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes2 kp = new Kes2(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
+            Kes kp = new Kes(new StandaloneKeyCryptoProvider(ks), maxBlockSize: 1048576);
 
             byte[] buffer = new byte[kp.DecryptionBlockSize + 1];
             Random.Shared.NextBytes(buffer);

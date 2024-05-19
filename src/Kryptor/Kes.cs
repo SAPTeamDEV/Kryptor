@@ -8,7 +8,7 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Provides methods to encrypt and decrypt data using the Kryptor Encryption Standard (KES).
     /// </summary>
-    public class Kes2
+    public class Kes
     {
         private CryptoProvider provider;
 
@@ -74,29 +74,29 @@ namespace SAPTeam.Kryptor
         public event Action<int> OnProgress;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kes2"/> class.
+        /// Initializes a new instance of the <see cref="Kes"/> class.
         /// </summary>
         /// <param name="provider">
         /// The crypto provider.
         /// </param>
         /// <param name="header">
-        /// The header to initialize <see cref="Kes2"/>.
+        /// The header to initialize <see cref="Kes"/>.
         /// </param>
-        public Kes2(CryptoProvider provider, Header header) : this(header)
+        public Kes(CryptoProvider provider, Header header) : this(header)
         {
             Provider = provider;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kes2"/> class.
+        /// Initializes a new instance of the <see cref="Kes"/> class.
         /// </summary>
         /// <param name="header">
-        /// The header to initialize <see cref="Kes2"/>.
+        /// The header to initialize <see cref="Kes"/>.
         /// </param>
-        public Kes2(Header header) : this((int)header.BlockSize) { }
+        public Kes(Header header) : this((int)header.BlockSize) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kes2"/> class.
+        /// Initializes a new instance of the <see cref="Kes"/> class.
         /// </summary>
         /// <param name="provider">
         /// The crypto provider.
@@ -104,18 +104,18 @@ namespace SAPTeam.Kryptor
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public Kes2(CryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
+        public Kes(CryptoProvider provider, int maxBlockSize = default) : this(maxBlockSize)
         {
             Provider = provider;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Kes2"/> class.
+        /// Initializes a new instance of the <see cref="Kes"/> class.
         /// </summary>
         /// <param name="maxBlockSize">
         /// Max block size of output data. The max input size for file will be calculated from this parameter and accessible with <see cref="EncryptionBlockSize"/>.
         /// </param>
-        public Kes2(int maxBlockSize = default)
+        public Kes(int maxBlockSize = default)
         {
             if (maxBlockSize > 0)
             {
@@ -146,7 +146,7 @@ namespace SAPTeam.Kryptor
             if ((int)header.DetailLevel > 0)
             {
                 header.Version = Version;
-                header.EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes2)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+                header.EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
                 if ((int)header.DetailLevel > 2)
                 {

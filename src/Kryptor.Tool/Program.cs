@@ -10,13 +10,13 @@ IsValid();
 string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
 Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
 
-string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes2)));
+string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)));
 Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
 
 if (opt.Encrypt || opt.Decrypt)
 {
     KeyStore ks = default;
-    Kes2 kp = InitKES(opt);
+    Kes kp = InitKES(opt);
 
     if (opt.Decrypt || !opt.CreateKey)
     {
@@ -56,7 +56,7 @@ else if (opt.Generate)
 
 return Environment.ExitCode;
 
-async Task Encrypt(string file, Kes2 kp)
+async Task Encrypt(string file, Kes kp)
 {
     Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -87,7 +87,7 @@ async Task Encrypt(string file, Kes2 kp)
     Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
 }
 
-async Task Decrypt(string file, Kes2 kp, string ksFingerprint)
+async Task Decrypt(string file, Kes kp, string ksFingerprint)
 {
     Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
 
@@ -152,7 +152,7 @@ async Task Decrypt(string file, Kes2 kp, string ksFingerprint)
         }
 #endif
 
-        if ((int)header.DetailLevel > 0 && header.Version != Kes2.Version)
+        if ((int)header.DetailLevel > 0 && header.Version != Kes.Version)
         {
             if (header.CliVersion != null)
             {
@@ -304,7 +304,7 @@ void IsValid()
             Environment.Exit(2);
         }
 
-        if (!Kes2.ValidateBlockSize(opt.BlockSize))
+        if (!Kes.ValidateBlockSize(opt.BlockSize))
         {
             Echo(new Colorize("[Error:] Block size must be multiple of 32.", ConsoleColor.Red));
             Environment.Exit(2);
@@ -389,9 +389,9 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     return ks;
 }
 
-Kes2 InitKES(Arguments opt)
+Kes InitKES(Arguments opt)
 {
-    Kes2 kp = new(maxBlockSize: opt.BlockSize);
+    Kes kp = new(maxBlockSize: opt.BlockSize);
     kp.OnProgress += ShowProgress;
     return kp;
 }

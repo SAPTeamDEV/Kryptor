@@ -39,9 +39,9 @@ namespace SAPTeam.Kryptor
         public bool RemoveHash { get; protected set; }
 
         /// <summary>
-        /// Gets the parent <see cref="Kes2"/> instance.
+        /// Gets the parent <see cref="Kes"/> instance.
         /// </summary>
-        public Kes2 Parent { get; internal set; }
+        public Kes Parent { get; internal set; }
 
         /// <summary>
         /// Encrypts block of data asynchronously.
@@ -64,7 +64,7 @@ namespace SAPTeam.Kryptor
             byte[] hash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
             List<byte> result = new List<byte>(hash);
 
-            foreach (var chunk in data.Chunk(Kes2.DefaultEncryptionChunkSize))
+            foreach (var chunk in data.Chunk(Kes.DefaultEncryptionChunkSize))
             {
                 result.AddRange(await EncryptChunkAsync(chunk, hash));
                 ChunkIndex++;
@@ -102,12 +102,12 @@ namespace SAPTeam.Kryptor
             if (RemoveHash)
             {
                 hash = Array.Empty<byte>();
-                chunks = data.Chunk(Kes2.DefaultDecryptionChunkSize);
+                chunks = data.Chunk(Kes.DefaultDecryptionChunkSize);
             }
             else
             {
                 hash = data.Take(32).ToArray();
-                chunks = data.Skip(32).Chunk(Kes2.DefaultDecryptionChunkSize);
+                chunks = data.Skip(32).Chunk(Kes.DefaultDecryptionChunkSize);
             }
 
             List<byte> result = new List<byte>();
