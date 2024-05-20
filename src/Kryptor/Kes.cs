@@ -166,28 +166,7 @@ namespace SAPTeam.Kryptor
             var hArray = header.CreatePayload();
             await dest.WriteAsync(hArray, 0, hArray.Length);
 
-            int blockSize = EncryptionBufferSize;
-            double step = (double)((double)blockSize / source.Length) * 100;
-            int counter = 1;
-            int lastProg = -1;
-            OnProgress?.Invoke(0);
-
-            for (long i = 0; i < source.Length; i += blockSize)
-            {
-                int actualSize = (int)Math.Min(source.Length - i, blockSize);
-                byte[] slice = new byte[actualSize];
-                await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await Provider.EncryptBlockAsync(slice);
-                await dest.WriteAsync(eSlice, 0, eSlice.Length);
-                int prog = (int)Math.Round(step * counter);
-                if (prog != lastProg)
-                {
-                    OnProgress?.Invoke(Math.Min(prog, 100));
-                    lastProg = prog;
-                }
-                counter++;
-                Provider.BlockIndex++;
-            }
+            await ProcessDataAsync(source, dest, EncryptionBufferSize, EncryptBlockAsync);
 
             Provider.ResetIndex();
         }
@@ -219,7 +198,13 @@ namespace SAPTeam.Kryptor
                 }
             }
 
-            int blockSize = DecryptionBufferSize;
+            await ProcessDataAsync(source, dest, DecryptionBufferSize, DecryptBlockAsync);
+
+            Provider.ResetIndex();
+        }
+
+        async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], Task<byte[]>> callback)
+        {
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
@@ -227,10 +212,10 @@ namespace SAPTeam.Kryptor
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
-                var actualSize = Math.Min(source.Length - source.Position, blockSize);
+                int actualSize = (int)Math.Min(source.Length - i, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await Provider.DecryptBlockAsync(slice);
+                var eSlice = await callback(slice);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
                 if (prog != lastProg)
@@ -241,8 +226,6 @@ namespace SAPTeam.Kryptor
                 counter++;
                 Provider.BlockIndex++;
             }
-
-            Provider.ResetIndex();
         }
 
         /// <summary>
