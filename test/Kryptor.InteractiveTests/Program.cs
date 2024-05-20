@@ -65,18 +65,58 @@ while (true)
 
     text = string.Concat(input.Repeat(mult));
 
-    var enc = kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(text)).Result;
-    Console.WriteLine($"Text Size: {text.Length}, Cipher Length: {enc.Length}");
+    var source = new MemoryStream(Encoding.UTF8.GetBytes(text));
+    var dest = new MemoryStream();
+    await kp.EncryptAsync(source, dest);
+
+    Console.WriteLine($"Text Size: {text.Length}, Cipher Length: {dest.Length}");
     if (printlog)
     {
-        Console.WriteLine(Convert.ToBase64String(enc));
+        Console.WriteLine(Convert.ToBase64String(dest.ToArray()));
         Console.WriteLine();
     }
 
-    var dec = Encoding.UTF8.GetString(kp.DecryptBlockAsync(enc).Result);
+    Header header = Header.ReadHeader<Header>(dest);
     if (printlog)
     {
-        Console.WriteLine(dec);
+        Console.WriteLine($"Detail Level: {header.DetailLevel}");
+        if (header.Version != null)
+        {
+            Console.WriteLine($"API Version: {header.Version}");
+        }
+
+        if (header.EngineVersion != null)
+        {
+            Console.WriteLine($"Engine Version: {header.EngineVersion}");
+        }
+
+        if ((int)header.CryptoType > 0)
+        {
+            Console.WriteLine($"Crypto Type: {header.CryptoType}");
+        }
+
+        if (header.BlockSize != null)
+        {
+            Console.WriteLine($"Block Size: {header.BlockSize}");
+        }
+
+        if (header.Continuous != null)
+        {
+            Console.WriteLine($"Continuous: {header.Continuous}");
+        }
+
+        if (header.Extra != null)
+        {
+            Console.WriteLine($"Extra data:\n{string.Join(Environment.NewLine, header.Extra)}");
+        }
+    }
+
+    var decStream = new MemoryStream();
+    await kp.DecryptAsync(dest, decStream);
+
+    if (printlog)
+    {
+        Console.WriteLine(Encoding.UTF8.GetString(decStream.ToArray()));
     }
     else
     {
