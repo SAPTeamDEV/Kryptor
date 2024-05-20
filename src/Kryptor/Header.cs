@@ -105,7 +105,7 @@ namespace SAPTeam.Kryptor
                     }
                 }
 
-                if (endPos == -1)
+                if (startPos > -1 && endPos == -1)
                 {
                     var te = buffer.LocatePattern(EndHeaderPattern);
                     if (te != -1)
@@ -114,7 +114,7 @@ namespace SAPTeam.Kryptor
                     }
                 }
 
-                if ((startPos == -1 && tries > 5) || (endPos == -1 && tries > 10))
+                if ((startPos == -1 && tries > 2) || (endPos == -1 && tries > 8))
                 {
                     stream.Seek(0, SeekOrigin.Begin);
 

@@ -90,7 +90,13 @@ namespace SAPTeam.Kryptor
         /// <param name="header">
         /// The header to initialize <see cref="Kes"/>.
         /// </param>
-        public Kes(Header header) : this((int)header.BlockSize) { }
+        public Kes(Header header)
+        {
+            if (header.BlockSize != null && header.BlockSize > 0)
+            {
+                BlockSize = (int)header.BlockSize;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class.
@@ -163,8 +169,11 @@ namespace SAPTeam.Kryptor
             UpdateHeader(header);
             Provider.UpdateHeader(header);
 
-            var hArray = header.CreatePayload();
-            await dest.WriteAsync(hArray, 0, hArray.Length);
+            if (header.DetailLevel > 0)
+            {
+                var hArray = header.CreatePayload();
+                await dest.WriteAsync(hArray, 0, hArray.Length);
+            }
 
             await ProcessDataAsync(source, dest, EncryptionBufferSize, EncryptBlockAsync);
 

@@ -54,6 +54,24 @@ namespace SAPTeam.Kryptor
         public Kes Parent { get; internal set; }
 
         /// <summary>
+        /// Applies the header properties to the crypto provider.
+        /// </summary>
+        /// <param name="header">
+        /// The header to apply properties.
+        /// </param>
+        public virtual void ApplyHeader(Header header)
+        {
+            if (header.Continuous != null)
+            {
+                Continuous = (bool)header.Continuous;
+            }
+            if (header.RemoveHash != null)
+            {
+                RemoveHash = (bool)header.RemoveHash;
+            }
+        }
+
+        /// <summary>
         /// Encrypts block of data asynchronously.
         /// </summary>
         /// <param name="data">The raw data block.</param>

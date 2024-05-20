@@ -9,6 +9,8 @@ Checker.CheckSize(args);
 return;
 */
 
+bool printlog = args.Length < 1;
+bool echoTexts = printlog;
 string text;
 string? input = null;
 int mult = 0;
@@ -19,10 +21,6 @@ while (true)
     {
         File.WriteAllBytes("test.kks", KeyStore.Generate().Raw);
     }
-
-    Kes kp = new(new StandaloneKeyCryptoProvider(new KeyStore(File.ReadAllBytes("test.kks"))));
-
-    bool printlog = args.Length < 1;
     
     Console.Write("Enter text");
 
@@ -37,6 +35,12 @@ while (true)
     
     if (!string.IsNullOrEmpty(tIn))
     {
+        if (tIn == "s")
+        {
+            echoTexts = false;
+            continue;
+        }
+
         input = tIn;
     }
 
@@ -67,10 +71,20 @@ while (true)
 
     var source = new MemoryStream(Encoding.UTF8.GetBytes(text));
     var dest = new MemoryStream();
-    await kp.EncryptAsync(source, dest);
+
+    var inHeader = new Header()
+    {
+        DetailLevel = HeaderDetails.Normal,
+    };
+
+    KeyStore ks = new KeyStore(File.ReadAllBytes("test.kks"));
+    CryptoProvider cp = CryptoProviderFactory.Create(CryptoTypes.SK, ks, inHeader);
+    Kes kp = new(cp, inHeader);
+
+    await kp.EncryptAsync(source, dest, inHeader);
 
     Console.WriteLine($"Text Size: {text.Length}, Cipher Length: {dest.Length}");
-    if (printlog)
+    if (printlog && echoTexts)
     {
         Console.WriteLine(Convert.ToBase64String(dest.ToArray()));
         Console.WriteLine();
@@ -88,6 +102,11 @@ while (true)
         if (header.EngineVersion != null)
         {
             Console.WriteLine($"Engine Version: {header.EngineVersion}");
+        }
+
+        if (header.Fingerprint != null)
+        {
+            Console.WriteLine($"Fingerprint: {BitConverter.ToString(header.Fingerprint).Replace('-', ':')}");
         }
 
         if ((int)header.CryptoType > 0)
@@ -114,7 +133,7 @@ while (true)
     var decStream = new MemoryStream();
     await kp.DecryptAsync(dest, decStream);
 
-    if (printlog)
+    if (printlog && echoTexts)
     {
         Console.WriteLine(Encoding.UTF8.GetString(decStream.ToArray()));
     }

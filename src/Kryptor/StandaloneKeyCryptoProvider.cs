@@ -19,17 +19,6 @@ namespace SAPTeam.Kryptor
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
         /// </param>
-        /// <param name="header">
-        /// The header to initialize <see cref="StandaloneKeyCryptoProvider"/>.
-        /// </param>
-        public StandaloneKeyCryptoProvider(KeyStore keyStore, Header header) : this(keyStore, (bool)header.Continuous, (bool)header.RemoveHash) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StandaloneKeyCryptoProvider"/> class.
-        /// </summary>
-        /// <param name="keyStore">
-        /// The keystore with at least 2 keys.
-        /// </param>
         /// <param name="continuous">
         /// Whether to use continuous encryption method.
         /// </param>
