@@ -244,7 +244,14 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         public async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
-            return await Provider.EncryptBlockAsync(data);
+            var result = await Provider.EncryptBlockAsync(data);
+
+            if (result.Length > DecryptionBufferSize)
+            {
+                throw new OverflowException("Resulting buffer size is larger than the allowed size");
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -254,7 +261,14 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted data block.</returns>
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
-            return await Provider.DecryptBlockAsync(data);
+            var result = await Provider.DecryptBlockAsync(data);
+
+            if (result.Length > EncryptionBufferSize)
+            {
+                throw new OverflowException("Resulting buffer size is larger than the allowed size");
+            }
+
+            return result;
         }
     }
 }
