@@ -35,7 +35,7 @@ while (true)
     
     if (!string.IsNullOrEmpty(tIn))
     {
-        if (tIn == "s")
+        if (tIn == "-s")
         {
             echoTexts = false;
             continue;
@@ -81,7 +81,7 @@ while (true)
     CryptoProvider cp = CryptoProviderFactory.Create(CryptoTypes.SK, ks, inHeader);
     Kes kp = new(cp, inHeader);
 
-    await kp.EncryptAsync(source, dest, inHeader);
+    await kp.EncryptAsync(source, dest);
 
     Console.WriteLine($"Text Size: {text.Length}, Cipher Length: {dest.Length}");
     if (printlog && echoTexts)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -160,9 +161,13 @@ namespace SAPTeam.Kryptor
             // If there is no header, create a header with normal details.
             if (header == null)
             {
+                Dictionary<string, string> extra = new Dictionary<string, string>();
+                extra["client"] = "kryptor-core";
+
                 header = new Header()
                 {
-                    DetailLevel = HeaderDetails.Normal
+                    DetailLevel = HeaderDetails.Normal,
+                    Extra = extra,
                 };
             }
 
