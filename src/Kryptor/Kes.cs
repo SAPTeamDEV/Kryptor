@@ -212,7 +212,7 @@ namespace SAPTeam.Kryptor
 
             for (long i = 0; i < source.Length; i += blockSize)
             {
-                int actualSize = (int)Math.Min(source.Length - i, blockSize);
+                int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
                 var eSlice = await callback(slice);
