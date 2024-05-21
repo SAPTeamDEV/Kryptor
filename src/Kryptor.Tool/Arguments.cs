@@ -30,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli
         [Option('C', "create-key", HelpText = "Usable with -e, Creates new keystore for each files.")]
         public bool CreateKey { get; set; }
 
-        [Option('b', "block-size", Default = 1048576, HelpText = $"Usable with -e or -d, Changes the block size for encryption and decryption. Block size must be divisible by 32. in large files, bigger block size may reduce time and output size.")]
+        [Option('b', "block-size", Default = 0x8000, HelpText = $"Usable with -e or -d, Changes the block size for encryption and decryption. in large files, bigger block size may reduce time and output size a little.")]
         public int BlockSize { get; set; }
 
         [Value(0, Hidden = true)]
