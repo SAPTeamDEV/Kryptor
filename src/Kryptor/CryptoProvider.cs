@@ -14,16 +14,6 @@ namespace SAPTeam.Kryptor
     public abstract class CryptoProvider
     {
         /// <summary>
-        /// Gets the index of the chunk being processed.
-        /// </summary>
-        protected int ChunkIndex { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the block being processed.
-        /// </summary>
-        protected internal int BlockIndex { get; internal set; }
-
-        /// <summary>
         /// Gets the Decryption Chunk Size.
         /// </summary>
         public int DecryptionChunkSize = 32;
@@ -75,8 +65,11 @@ namespace SAPTeam.Kryptor
         /// Encrypts block of data asynchronously.
         /// </summary>
         /// <param name="data">The raw data block.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
         /// <returns>Encrypted data block.</returns>
-        public virtual async Task<byte[]> EncryptBlockAsync(byte[] data)
+        public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             if (data.Length > Parent.EncryptionBufferSize)
@@ -84,23 +77,23 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBufferSize}");
             }
 
-            if (BlockIndex == 0 && ChunkIndex > 0)
+            if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
-                ChunkIndex = 0;
+                process.ChunkIndex = 0;
             }
 
-            byte[] hash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
+            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
-                result.AddRange(await EncryptChunkAsync(chunk, hash));
-                ChunkIndex++;
+                result.AddRange(await EncryptChunkAsync(chunk, process));
+                process.ChunkIndex++;
             }
 
             if (!Continuous)
             {
-                ChunkIndex = 0;
+                process.ChunkIndex = 0;
             }
 
             return result.ToArray();
@@ -110,8 +103,11 @@ namespace SAPTeam.Kryptor
         /// Decrypts block of data asynchronously.
         /// </summary>
         /// <param name="data">The raw encrypted data block.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
         /// <returns>Decrypted data block.</returns>
-        public async Task<byte[]> DecryptBlockAsync(byte[] data)
+        public async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             if (data.Length > Parent.DecryptionBufferSize)
@@ -119,9 +115,9 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBufferSize}");
             }
 
-            if (BlockIndex == 0 && ChunkIndex > 0)
+            if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
-                ChunkIndex = 0;
+                process.ChunkIndex = 0;
             }
 
             byte[] hash;
@@ -129,12 +125,12 @@ namespace SAPTeam.Kryptor
 
             if (RemoveHash)
             {
-                hash = Array.Empty<byte>();
+                hash = process.BlockHash = Array.Empty<byte>();
                 chunks = data.Chunk(DecryptionChunkSize);
             }
             else
             {
-                hash = data.Take(32).ToArray();
+                hash = process.BlockHash = data.Take(32).ToArray();
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -142,13 +138,13 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(chunk, hash));
-                ChunkIndex++;
+                result.AddRange(await DecryptChunkAsync(chunk, process));
+                process.ChunkIndex++;
             }
 
             if (!Continuous)
             {
-                ChunkIndex = 0;
+                process.ChunkIndex = 0;
             }
 
             var array = result.ToArray();
@@ -160,17 +156,21 @@ namespace SAPTeam.Kryptor
         /// Encrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw data chunk.</param>
-        /// <param name="hash">The SHA256 hash of the parent data block. if <see cref="RemoveHash"/> set to true, the array will be empty.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
         /// <returns>Encrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, byte[] hash);
+        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process);
 
         /// <summary>
         /// Decrypts chunk of data asynchronously.
         /// </summary>
         /// <param name="chunk">The raw encrypted data chunk.</param>
-        /// <param name="hash">The SHA256 hash of the parent data block. if <see cref="RemoveHash"/> set to true, the array will be empty.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
         /// <returns>Decrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, byte[] hash);
+        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process);
 
         /// <summary>
         /// Updates the header to include crypto provider data.
@@ -190,12 +190,6 @@ namespace SAPTeam.Kryptor
                 header.Continuous = Continuous;
                 header.RemoveHash = RemoveHash;
             }
-        }
-
-        internal void ResetIndex()
-        {
-            ChunkIndex = 0;
-            BlockIndex = 0;
         }
     }
 }

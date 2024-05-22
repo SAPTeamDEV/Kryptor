@@ -21,7 +21,7 @@ namespace SAPTeam.Kryptor
         public int BlockSize { get; set; } = 0x8000;
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync(byte[])"/>.
+        /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync"/>.
         /// </summary>
         public int DecryptionBufferSize
         {
@@ -32,7 +32,7 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync(byte[])"/>.
+        /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync"/>.
         /// </summary>
         public int EncryptionBufferSize
         {
@@ -155,9 +155,6 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task EncryptAsync(Stream source, Stream dest, Header header = null)
         {
-            // Reset crypto provider values in case of reuse.
-            Provider.ResetIndex();
-
             // If there is no header, create a header with normal details.
             if (header == null)
             {
@@ -181,8 +178,6 @@ namespace SAPTeam.Kryptor
             }
 
             await ProcessDataAsync(source, dest, EncryptionBufferSize, EncryptBlockAsync);
-
-            Provider.ResetIndex();
         }
 
         /// <summary>
@@ -196,8 +191,6 @@ namespace SAPTeam.Kryptor
         /// </param>
         public async Task DecryptAsync(Stream source, Stream dest)
         {
-            Provider.ResetIndex();
-
             Header header = Header.ReadHeader<Header>(source);
 
             if (header.Version != null && header.Version != Version)
@@ -213,12 +206,12 @@ namespace SAPTeam.Kryptor
             }
 
             await ProcessDataAsync(source, dest, DecryptionBufferSize, DecryptBlockAsync);
-
-            Provider.ResetIndex();
         }
 
-        async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], Task<byte[]>> callback)
+        async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], CryptoProcess, Task<byte[]>> callback)
         {
+            CryptoProcess process = new CryptoProcess();
+
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
             int lastProg = -1;
@@ -229,7 +222,7 @@ namespace SAPTeam.Kryptor
                 int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await callback(slice);
+                var eSlice = await callback(slice, process);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
                 int prog = (int)Math.Round(step * counter);
                 if (prog != lastProg)
@@ -238,7 +231,7 @@ namespace SAPTeam.Kryptor
                     lastProg = prog;
                 }
                 counter++;
-                Provider.BlockIndex++;
+                process.BlockIndex++;
             }
         }
 
@@ -249,7 +242,21 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         public async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
-            var result = await Provider.EncryptBlockAsync(data);
+            CryptoProcess process = new CryptoProcess();
+            return await EncryptBlockAsync(data, process);
+        }
+
+        /// <summary>
+        /// Encrypts block of data asynchronously.
+        /// </summary>
+        /// <param name="data">The raw data block.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
+        /// <returns>Encrypted data block.</returns>
+        async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
+        {
+            var result = await Provider.EncryptBlockAsync(data, process);
 
             if (result.Length > DecryptionBufferSize)
             {
@@ -266,7 +273,21 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted data block.</returns>
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
-            var result = await Provider.DecryptBlockAsync(data);
+            CryptoProcess proc = new CryptoProcess();
+            return await DecryptBlockAsync(data, proc);
+        }
+
+        /// <summary>
+        /// Decrypts block of data asynchronously.
+        /// </summary>
+        /// <param name="data">The raw encrypted data block.</param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
+        /// <returns>Decrypted data block.</returns>
+        async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        {
+            var result = await Provider.DecryptBlockAsync(data, process);
 
             if (result.Length > EncryptionBufferSize)
             {
