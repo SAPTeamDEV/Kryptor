@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor
         {
             get
             {
-                return (BlockSize - 1) * Provider.EncryptionChunkSize;
+                return (BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
             }
         }
 
