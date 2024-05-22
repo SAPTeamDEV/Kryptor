@@ -16,12 +16,12 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the Decryption Chunk Size.
         /// </summary>
-        public int DecryptionChunkSize = 32;
+        public readonly int DecryptionChunkSize = 32;
 
         /// <summary>
         /// Gets the Encryption Chunk Size.
         /// </summary>
-        public int EncryptionChunkSize = 31;
+        public readonly int EncryptionChunkSize = 31;
 
         /// <summary>
         /// Gets the keystore for crypto operations.
