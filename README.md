@@ -6,6 +6,8 @@ Kryptor
 =========================================
 
 [![Gawe CI](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/main.yml)
+[![CodeQL](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/codeql.yml/badge.svg?event=push)](https://github.com/SAPTeamDEV/Kryptor/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/gh/SAPTeamDEV/Kryptor/branch/master/graph/badge.svg)](https://codecov.io/gh/SAPTeamDEV/Kryptor)
 [![NuGet](https://img.shields.io/nuget/v/SAPTeam.Kryptor)](https://www.nuget.org/packages/SAPTeam.Kryptor)
 [![NuGet](https://img.shields.io/nuget/dt/SAPTeam.Kryptor)](https://www.nuget.org/packages/SAPTeam.Kryptor)
 
