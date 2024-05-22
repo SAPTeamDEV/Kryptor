@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Generate RNG KeyStore": {
+      "commandName": "Project",
+      "commandLineArgs": "-gk256"
+    },
+    "Test Encrypt": {
+      "commandName": "Project",
+      "commandLineArgs": "-e g:test:257 Kryptor.dll"
+    }
+  }
+}
