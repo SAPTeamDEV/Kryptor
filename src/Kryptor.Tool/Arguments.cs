@@ -27,6 +27,9 @@ namespace SAPTeam.Kryptor.Cli
         [Option('c', "continuous", HelpText = "Usable with -e or -d, Use more secure continuous encryption/decryption method.")]
         public bool Continuous { get; set; }
 
+        [Option('r', "remove-hash", HelpText = "Usable with -e or -d, Disable hash generation feature.")]
+        public bool RemoveHash { get; set; }
+
         [Option('C', "create-key", HelpText = "Usable with -e, Creates new keystore for each files.")]
         public bool CreateKey { get; set; }
 
