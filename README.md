@@ -1,3 +1,7 @@
+Outdated Readme
+---------------
+This Readme file belongs to the first alpha versions of Kryptor, The public API of this library heavily changed and this file will be updated on first stable release.
+
 Kryptor
 =========================================
 
