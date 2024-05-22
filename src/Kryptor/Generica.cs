@@ -46,7 +46,7 @@ namespace SAPTeam.Kryptor
         {
             if (rotate < 1)
             {
-                Transformers.ToInt32(_salt, (buffer.Length % 41) + _seed[28] + _salt[0]);
+                rotate = Transformers.ToAbsInt32(_salt, (buffer.Length % 41) + _seed[28] + _salt[0]) % 100;
             }
 
             byte[] tl = new byte[5]

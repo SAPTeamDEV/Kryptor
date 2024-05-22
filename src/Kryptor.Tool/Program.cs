@@ -17,6 +17,7 @@ if (opt.Encrypt || opt.Decrypt)
 {
     CLIHeader paramHeader = new CLIHeader()
     {
+        CryptoType = opt.Provider,
         BlockSize = opt.BlockSize,
         Continuous = opt.Continuous,
         RemoveHash = opt.RemoveHash,
@@ -28,7 +29,7 @@ if (opt.Encrypt || opt.Decrypt)
     if (opt.Decrypt || !opt.CreateKey)
     {
         ks = ReadKeystore(opt.KeyStore);
-        CryptoProvider skcp = CryptoProviderFactory.Create(CryptoTypes.SK, ks, paramHeader);
+        CryptoProvider skcp = CryptoProviderFactory.Create(ks, paramHeader);
         kp.Provider = skcp;
     }
 
@@ -39,7 +40,7 @@ if (opt.Encrypt || opt.Decrypt)
             if (opt.CreateKey)
             {
                 ks = GenerateKeystore();
-                CryptoProvider skcp = CryptoProviderFactory.Create(CryptoTypes.SK, ks, paramHeader);
+                CryptoProvider skcp = CryptoProviderFactory.Create(ks, paramHeader);
                 kp.Provider = skcp;
             }
 

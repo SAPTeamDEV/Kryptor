@@ -9,7 +9,8 @@ namespace SAPTeam.Kryptor
     /// Contains methods to transform vlues.
     /// </summary>
     public static class Transformers
-    {        /// <summary>
+    {
+        /// <summary>
         /// Initializes a new transformer with given token.
         /// </summary>
         /// <param name="token">
@@ -132,6 +133,17 @@ namespace SAPTeam.Kryptor
                     array[j] = temp;
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts a sequence of bytes to a positive 32-bit integer using a hash-based random index.
+        /// </summary>
+        /// <param name="collection">The collection of bytes.</param>
+        /// <param name="seed">The seed value for the randomization.</param>
+        /// <returns>The resulting 32-bit integer.</returns>
+        public static int ToAbsInt32(IEnumerable<byte> collection, int seed)
+        {
+            return Math.Abs(ToInt32(collection, seed));
         }
 
         /// <summary>

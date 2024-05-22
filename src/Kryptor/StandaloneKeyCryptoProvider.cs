@@ -55,7 +55,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
+        internal static async Task<byte[]> EncryptAsync(byte[] data, byte[] key)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -80,7 +80,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
+        internal static async Task<byte[]> DecryptAsync(byte[] data, byte[] key)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));

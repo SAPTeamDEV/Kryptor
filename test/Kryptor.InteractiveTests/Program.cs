@@ -15,6 +15,20 @@ string text;
 string? input = null;
 int mult = 0;
 
+Console.Write("SK=1 or TK=2 ? ");
+var pIn = Console.ReadLine();
+CryptoTypes ct = (CryptoTypes)int.Parse(pIn);
+
+var inHeader = new Header()
+{
+    CryptoType = ct,
+    DetailLevel = HeaderDetails.Normal,
+};
+
+KeyStore ks = new KeyStore(File.ReadAllBytes("test.kks"));
+CryptoProvider cp = CryptoProviderFactory.Create(ks, inHeader);
+Kes kp = new(cp, inHeader);
+
 while (true)
 {
     if (!File.Exists("test.kks"))
@@ -71,15 +85,6 @@ while (true)
 
     var source = new MemoryStream(Encoding.UTF8.GetBytes(text));
     var dest = new MemoryStream();
-
-    var inHeader = new Header()
-    {
-        DetailLevel = HeaderDetails.Normal,
-    };
-
-    KeyStore ks = new KeyStore(File.ReadAllBytes("test.kks"));
-    CryptoProvider cp = CryptoProviderFactory.Create(CryptoTypes.SK, ks, inHeader);
-    Kes kp = new(cp, inHeader);
 
     await kp.EncryptAsync(source, dest);
 
