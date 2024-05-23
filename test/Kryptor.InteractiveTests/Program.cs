@@ -15,7 +15,7 @@ string text;
 string? input = null;
 int mult = 0;
 
-Console.Write("SK=1 or TK=2 ? ");
+Console.Write("Enter CryptoProvider numeric ID: ");
 var pIn = Console.ReadLine();
 CryptoTypes ct = (CryptoTypes)int.Parse(pIn);
 
