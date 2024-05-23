@@ -34,13 +34,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.EncryptAsync(chunk, CreateKey(process), CreateIV(process));
+            return await MixedVectorCryptoProvider.EncryptAsync(chunk, TransformedKeyCryptoProvider.CreateKey(KeyStore, process), CreateIV(process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.DecryptAsync(cipher, CreateKey(process), CreateIV(process));
+            return await MixedVectorCryptoProvider.DecryptAsync(cipher, TransformedKeyCryptoProvider.CreateKey(KeyStore, process), CreateIV(process));
         }
 
         /// <inheritdoc/>
@@ -54,20 +54,9 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private byte[] CreateKey(CryptoProcess process)
-        {
-            int seed = Transformers.ToAbsInt32(process.BlockHash, process.BlockIndex + process.ChunkIndex);
-            var sets = Transformers.Pick(KeyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
-
-            var mixed = Transformers.Mix(seed, sets);
-            var key = Transformers.Pick(mixed, 32, seed);
-
-            return key.ToArray();
-        }
-
         private byte[] CreateIV(CryptoProcess process)
         {
-            return Transformers.Pick(KeyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
+            return Transformers.Pick(KeyStore.Keys, 1, (RemoveHash ? (Parent.BlockSize - process.BlockIndex) * (process.ChunkIndex + 6) : (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex)).First().Take(16).ToArray();
         }
     }
 }

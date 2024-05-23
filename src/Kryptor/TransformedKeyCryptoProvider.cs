@@ -32,13 +32,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await StandaloneKeyCryptoProvider.EncryptAsync(chunk, CreateKey(process));
+            return await StandaloneKeyCryptoProvider.EncryptAsync(chunk, CreateKey(KeyStore, process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await StandaloneKeyCryptoProvider.DecryptAsync(cipher, CreateKey(process));
+            return await StandaloneKeyCryptoProvider.DecryptAsync(cipher, CreateKey(KeyStore, process));
         }
 
         /// <inheritdoc/>
@@ -52,10 +52,10 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private byte[] CreateKey(CryptoProcess process)
+        internal static byte[] CreateKey(KeyStore keyStore, CryptoProcess process)
         {
             int seed = Transformers.ToAbsInt32(process.BlockHash, process.BlockIndex + process.ChunkIndex);
-            var sets = Transformers.Pick(KeyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
+            var sets = Transformers.Pick(keyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
 
             var mixed = Transformers.Mix(seed, sets);
             var key = Transformers.Pick(mixed, 32, seed);
