@@ -32,13 +32,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await EncryptAsync(chunk, KeyStore[process.ChunkIndex], Transformers.Pick(process.BlockHash, 16, process.BlockIndex + process.ChunkIndex).ToArray());
+            return await EncryptAsync(chunk, KeyStore[process.ChunkIndex], CreateIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await DecryptAsync(cipher, KeyStore[process.ChunkIndex], Transformers.Pick(process.BlockHash, 16, process.BlockIndex + process.ChunkIndex).ToArray());
+            return await DecryptAsync(cipher, KeyStore[process.ChunkIndex], CreateIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
@@ -50,6 +50,31 @@ namespace SAPTeam.Kryptor
             {
                 header.CryptoType = CryptoTypes.MV;
             }
+        }
+
+        internal static byte[] CreateIV(KeyStore keyStore, CryptoProcess process)
+        {
+            int index = process.ChunkIndex + process.BlockIndex;
+
+            return new byte[16]
+            {
+                keyStore[index * 6][4],
+                keyStore[index * 2][12],
+                keyStore[index - 154][7],
+                keyStore[index + 53][19],
+                keyStore[(index + 5) * 6][9],
+                keyStore[index / 4][13],
+                keyStore[index - 79][23],
+                keyStore[index + 571][0],
+                keyStore[index % 3][21],
+                keyStore[index + 1][16],
+                keyStore[index - 98][13],
+                keyStore[index + 65][23],
+                keyStore[index - 61][8],
+                keyStore[index + 34][2],
+                keyStore[index + 79][9],
+                keyStore[index - 172][6],
+            };
         }
 
         internal static async Task<byte[]> EncryptAsync(byte[] data, byte[] key, byte[] iv)
