@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
         [Option('k', "keystore-size", SetName = "generate", HelpText = "Usable with -g, Specifies the number of keys to be generated for the new keystore.")]
         public int KeyStoreSize { get; set; }
 
-        [Option('p', "provider", Default = CryptoTypes.SK, HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
+        [Option('p', "provider", Default = CryptoTypes.MV, HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
         public CryptoTypes Provider { get; set; }
 
         [Option('c', "continuous", HelpText = "Usable with -e or -d, Use more secure continuous encryption/decryption method.")]
