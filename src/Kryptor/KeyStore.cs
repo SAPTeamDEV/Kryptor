@@ -23,12 +23,12 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The key at the specified index.
         /// </returns>
-        public byte[] this[int index] => Keys.ElementAt(Math.Abs(index) % count);
+        public byte[] this[int index] => Keys[Math.Abs(index) % count];
 
         /// <summary>
         /// Gets the keys to store.
         /// </summary>
-        public IEnumerable<byte[]> Keys { get; }
+        public byte[][] Keys { get; }
 
         /// <summary>
         /// Gets the raw flat bytes array of data.
@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor
             Ensure.Enumerable.HasItems(bytes, nameof(bytes));
 
             Raw = bytes;
-            Keys = Raw.Chunk(32).Where(x => x.Length == 32);
+            Keys = Raw.Chunk(32).Where(x => x.Length == 32).ToArray();
             count = Keys.Count();
 
             Fingerprint = Raw.Sha256().Skip(8).Take(16).ToArray();
