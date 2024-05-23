@@ -23,24 +23,12 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync"/>.
         /// </summary>
-        public int DecryptionBufferSize
-        {
-            get
-            {
-                return BlockSize * Provider.DecryptionChunkSize;
-            }
-        }
+        public int DecryptionBufferSize => BlockSize * Provider.DecryptionChunkSize;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync"/>.
         /// </summary>
-        public int EncryptionBufferSize
-        {
-            get
-            {
-                return (BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
-            }
-        }
+        public int EncryptionBufferSize => (BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
 
         #endregion
 
@@ -208,7 +196,7 @@ namespace SAPTeam.Kryptor
             await ProcessDataAsync(source, dest, DecryptionBufferSize, DecryptBlockAsync);
         }
 
-        async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], CryptoProcess, Task<byte[]>> callback)
+        private async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], CryptoProcess, Task<byte[]>> callback)
         {
             CryptoProcess process = new CryptoProcess();
             process.InitializeData();
@@ -256,16 +244,13 @@ namespace SAPTeam.Kryptor
         /// The crypto process data holder.
         /// </param>
         /// <returns>Encrypted data block.</returns>
-        async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
+        private async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
         {
             var result = await Provider.EncryptBlockAsync(data, process);
 
-            if (result.Length > DecryptionBufferSize)
-            {
-                throw new OverflowException("Resulting buffer size is larger than the allowed size");
-            }
-
-            return result;
+            return result.Length > DecryptionBufferSize
+                ? throw new OverflowException("Resulting buffer size is larger than the allowed size")
+                : result;
         }
 
         /// <summary>
@@ -288,16 +273,13 @@ namespace SAPTeam.Kryptor
         /// The crypto process data holder.
         /// </param>
         /// <returns>Decrypted data block.</returns>
-        async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        private async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             var result = await Provider.DecryptBlockAsync(data, process);
 
-            if (result.Length > EncryptionBufferSize)
-            {
-                throw new OverflowException("Resulting buffer size is larger than the allowed size");
-            }
-
-            return result;
+            return result.Length > EncryptionBufferSize
+                ? throw new OverflowException("Resulting buffer size is larger than the allowed size")
+                : result;
         }
     }
 }

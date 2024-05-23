@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-
-using EnsureThat;
-
-using MoreLinq;
 
 namespace SAPTeam.Kryptor
 {
@@ -39,7 +33,7 @@ namespace SAPTeam.Kryptor
         }
 
         /// <inheritdoc/>
-        public async override Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        public override async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             var decData = await base.DecryptBlockAsync(data, process);
             process.ProcessData[$"b{process.BlockIndex}.sha512"] = decData.Sha512();
@@ -77,19 +71,33 @@ namespace SAPTeam.Kryptor
             var key2 = KeyStore[process.ChunkIndex - (RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
             var key3 = KeyStore[process.ChunkIndex + Parent.BlockSize];
 
-            if (process.BlockIndex > 0)
-            {
-                mKey = Transformers.Mix(((key1[30] + key3[2]) * key3[18]) - key2[5], (byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"], key1, key2, key3, process.BlockHash).ToArray();
-            }
-            else
-            {
-                mKey = Transformers.Mix((key1[8] + key1[13] + key2[28]) * key3[11], key1, key2, key3, process.BlockHash).ToArray();
-            }
+
+            /* Unmerged change from project 'Kryptor (net461)'
+            Before:
+                        if (process.BlockIndex > 0)
+            After:
+                        mKey = process.BlockIndex > 0)
+            */
+            mKey = process.BlockIndex > 0
+
+                /* Unmerged change from project 'Kryptor (net461)'
+                Before:
+                                mKey = Transformers.Mix(((key1[30] + key3[2]) * key3[18]) - key2[5], (byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"], key1, key2, key3, process.BlockHash).ToArray();
+                            }
+                            else
+                            {
+                                mKey = Transformers.Mix((key1[8] + key1[13] + key2[28]) * key3[11], key1, key2, key3, process.BlockHash).ToArray();
+                After:
+                                mKey = Transformers.Mix(((key1[30] + key3[2]) * key3[18]) - key2[5], (byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"], key1, key2, key3, process.BlockHash).ToArray()
+                                mKey = Transformers.Mix((key1[8] + key1[13] + key2[28]) * key3[11], key1, key2, key3, process.BlockHash).ToArray();
+                */
+                ? Transformers.Mix(((key1[30] + key3[2]) * key3[18]) - key2[5], (byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"], key1, key2, key3, process.BlockHash).ToArray()
+                : Transformers.Mix((key1[8] + key1[13] + key2[28]) * key3[11], key1, key2, key3, process.BlockHash).ToArray();
 
             return mKey.Sha256();
         }
 
-        byte[] CreateIV(CryptoProcess process)
+        private byte[] CreateIV(CryptoProcess process)
         {
             int index = process.ChunkIndex + process.BlockIndex;
 

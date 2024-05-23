@@ -128,9 +128,7 @@ namespace SAPTeam.Kryptor
                     int j = Math.Abs(BitConverter.ToInt32(hashBytes, 0)) % (i + 1);
 
                     // Swap elements
-                    T temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
+                    (array[j], array[i]) = (array[i], array[j]);
                 }
             }
         }

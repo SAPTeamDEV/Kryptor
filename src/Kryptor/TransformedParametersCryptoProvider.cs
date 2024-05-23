@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
-
-using EnsureThat;
 
 using MoreLinq;
 
@@ -69,7 +65,7 @@ namespace SAPTeam.Kryptor
             return key.ToArray();
         }
 
-        byte[] CreateIV(CryptoProcess process)
+        private byte[] CreateIV(CryptoProcess process)
         {
             return Transformers.Pick(KeyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
         }

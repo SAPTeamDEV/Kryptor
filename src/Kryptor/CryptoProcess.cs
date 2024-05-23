@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -11,11 +8,11 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public struct CryptoProcess
     {
-        bool _initialized;
+        private bool _initialized;
 
         /// <summary>
-         /// Gets or sets the index of the chunk being processed.
-         /// </summary>
+        /// Gets or sets the index of the chunk being processed.
+        /// </summary>
         public int ChunkIndex { get; set; }
 
         /// <summary>

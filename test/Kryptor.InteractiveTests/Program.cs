@@ -35,7 +35,7 @@ while (true)
     {
         File.WriteAllBytes("test.kks", KeyStore.Generate().Raw);
     }
-    
+
     Console.Write("Enter text");
 
     if (!string.IsNullOrEmpty(input))
@@ -46,7 +46,7 @@ while (true)
     Console.Write(": ");
 
     string? tIn = Console.ReadLine();
-    
+
     if (!string.IsNullOrEmpty(tIn))
     {
         if (tIn == "-s")
