@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>SAPTeam.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>SAPTeam.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
