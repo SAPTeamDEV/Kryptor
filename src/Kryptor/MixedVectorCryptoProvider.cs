@@ -57,6 +57,7 @@ namespace SAPTeam.Kryptor
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
             Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 16, nameof(iv));
 
             using (Aes aesAlg = Aes.Create())
             {
@@ -83,6 +84,7 @@ namespace SAPTeam.Kryptor
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
             Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+            Ensure.Enumerable.SizeIs(key, 16, nameof(iv));
 
             using (Aes aesAlg = Aes.Create())
             {

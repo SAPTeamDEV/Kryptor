@@ -211,6 +211,7 @@ namespace SAPTeam.Kryptor
         async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], CryptoProcess, Task<byte[]>> callback)
         {
             CryptoProcess process = new CryptoProcess();
+            process.InitializeData();
 
             double step = (double)((double)blockSize / source.Length) * 100;
             int counter = 1;
@@ -231,7 +232,7 @@ namespace SAPTeam.Kryptor
                     lastProg = prog;
                 }
                 counter++;
-                process.BlockIndex++;
+                process.NextBlock(!Provider.Continuous);
             }
         }
 
@@ -243,6 +244,7 @@ namespace SAPTeam.Kryptor
         public async Task<byte[]> EncryptBlockAsync(byte[] data)
         {
             CryptoProcess process = new CryptoProcess();
+            process.InitializeData();
             return await EncryptBlockAsync(data, process);
         }
 
@@ -274,6 +276,7 @@ namespace SAPTeam.Kryptor
         public async Task<byte[]> DecryptBlockAsync(byte[] data)
         {
             CryptoProcess proc = new CryptoProcess();
+            proc.InitializeData();
             return await DecryptBlockAsync(data, proc);
         }
 

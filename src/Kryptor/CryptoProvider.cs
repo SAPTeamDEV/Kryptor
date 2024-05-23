@@ -91,11 +91,6 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex++;
             }
 
-            if (!Continuous)
-            {
-                process.ChunkIndex = 0;
-            }
-
             return result.ToArray();
         }
 
@@ -107,7 +102,7 @@ namespace SAPTeam.Kryptor
         /// The crypto process data holder.
         /// </param>
         /// <returns>Decrypted data block.</returns>
-        public async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             if (data.Length > Parent.DecryptionBufferSize)
@@ -120,17 +115,15 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex = 0;
             }
 
-            byte[] hash;
             IEnumerable<byte[]> chunks;
 
             if (RemoveHash)
             {
-                hash = process.BlockHash = Array.Empty<byte>();
                 chunks = data.Chunk(DecryptionChunkSize);
             }
             else
             {
-                hash = process.BlockHash = data.Take(32).ToArray();
+                process.BlockHash = data.Take(32).ToArray();
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -142,14 +135,9 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex++;
             }
 
-            if (!Continuous)
-            {
-                process.ChunkIndex = 0;
-            }
-
             var array = result.ToArray();
 
-            return !RemoveHash && !hash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
+            return !RemoveHash && !process.BlockHash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
         }
 
         /// <summary>

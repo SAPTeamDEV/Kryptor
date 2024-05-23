@@ -29,5 +29,7 @@
         /// In this way, each 31 bytes of data is encrypted with a mix-transformed key and iv.
         /// </summary>
         TP = 4,
+
+        DE = 5,
     }
 }

@@ -44,6 +44,10 @@ namespace SAPTeam.Kryptor
                     provider = new TransformedParametersCryptoProvider(keyStore);
                     break;
 
+                case CryptoTypes.DE:
+                    provider = new DynamicEncryptionCryptoProvider(keyStore);
+                    break;
+
                 default:
                     throw new ArgumentException("Invalid crypto type.");
             }
