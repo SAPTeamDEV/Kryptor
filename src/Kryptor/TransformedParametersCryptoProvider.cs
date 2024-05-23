@@ -71,7 +71,7 @@ namespace SAPTeam.Kryptor
 
         byte[] CreateIV(CryptoProcess process)
         {
-            return Transformers.Pick(KeyStore.Keys, 1, (process.BlockHash[5] % process.BlockHash[19]) - process.ChunkIndex).First().Take(16).ToArray();
+            return Transformers.Pick(KeyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
         }
     }
 }
