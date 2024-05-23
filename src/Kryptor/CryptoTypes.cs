@@ -21,5 +21,7 @@
         /// In this way, each 31 bytes of data is encrypted with a mix-transformed key.
         /// </summary>
         TK = 2,
+
+        MV = 3,
     }
 }
