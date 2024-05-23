@@ -29,7 +29,7 @@ if (opt.Encrypt || opt.Decrypt)
     Echo(new Colorize($"Using [{opt.Provider}] Crypto Provider", ConsoleColor.Blue));
     if ((int)opt.Provider > 0 && (int)opt.Provider < 3)
     {
-        Echo(new Colorize("[Warning:] You are using a vulnerable crypto provider it is recommended to use MV or DE as Crypto Provider."));
+        Echo(new Colorize("[Warning:] You are using a vulnerable crypto provider, it's recommended to use MV or DE as Crypto Provider.", ConsoleColor.Yellow));
     }
 
     if (opt.Decrypt || !opt.CreateKey)
