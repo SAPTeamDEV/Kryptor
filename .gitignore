@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 /src/Kryptor.Tool/Properties/launchSettings.json
+/src/Kryptor.Cli/Properties/launchSettings.json
