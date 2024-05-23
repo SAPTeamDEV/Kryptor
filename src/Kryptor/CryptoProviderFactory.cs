@@ -40,6 +40,10 @@ namespace SAPTeam.Kryptor
                     provider = new MixedVectorCryptoProvider(keyStore);
                     break;
 
+                case CryptoTypes.TP:
+                    provider = new TransformedParametersCryptoProvider(keyStore);
+                    break;
+
                 default:
                     throw new ArgumentException("Invalid crypto type.");
             }

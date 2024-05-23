@@ -23,5 +23,11 @@
         TK = 2,
 
         MV = 3,
+
+        /// <summary>
+        /// Provides Transformed Parameters (TP) Crypto mechanism.
+        /// In this way, each 31 bytes of data is encrypted with a mix-transformed key and iv.
+        /// </summary>
+        TP = 4,
     }
 }
