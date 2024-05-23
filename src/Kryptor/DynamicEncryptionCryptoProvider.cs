@@ -65,16 +65,13 @@ namespace SAPTeam.Kryptor
 
         private byte[] CreateKey(CryptoProcess process)
         {
-            byte[] mKey;
-
             var key1 = KeyStore[Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
             var key2 = KeyStore[process.ChunkIndex - (RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
             var key3 = KeyStore[process.ChunkIndex + Parent.BlockSize];
 
-
-            mKey = process.BlockIndex > 0
-                ? Transformers.Mix(((key1[30] + key3[2]) * key3[18]) - key2[5], (byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"], key1, key2, key3, process.BlockHash).ToArray()
-                : Transformers.Mix((key1[8] + key1[13] + key2[28]) * key3[11], key1, key2, key3, process.BlockHash).ToArray();
+            byte[] mKey = process.BlockIndex > 0
+                ? ((byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"]).Concat(key1).Concat(key2).Concat(key3).Concat(process.BlockHash).ToArray()
+                : key1.Concat(key2).Concat(key3).Concat(process.BlockHash).ToArray();
 
             return mKey.Sha256();
         }
