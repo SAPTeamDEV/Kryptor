@@ -54,7 +54,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        public void NextBlock(bool resetChunk)
+        internal void NextBlock(bool resetChunk)
         {
             BlockIndex++;
 

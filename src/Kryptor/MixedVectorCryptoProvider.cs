@@ -8,6 +8,10 @@ using EnsureThat;
 
 namespace SAPTeam.Kryptor
 {
+    /// <summary>
+    /// Provides Mixed Vector (MV) Crypto mechanism.
+    /// In this way, each 31 bytes of data is encrypted with a different key and a mixed iv Until all the keys are used, then it continues from the first key and this process continues until the end of encryption.
+    /// </summary>
     public class MixedVectorCryptoProvider : CryptoProvider
     {
         /// <summary>

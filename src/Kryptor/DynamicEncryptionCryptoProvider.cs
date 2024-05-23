@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
+    /// <summary>
+    /// Provides Dynamic Encryption (DE) Crypto mechanism.
+    /// In this way, each 31 bytes of data is encrypted with a dynamic key and iv generated with attention of all parameters and offers the highest security.
+    /// </summary>
     public class DynamicEncryptionCryptoProvider : CryptoProvider
     {
         /// <summary>
