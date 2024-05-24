@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
-
+using SAPTeam.CommonTK;
 using SAPTeam.CommonTK.Console;
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
+
+Context.Interface = InteractInterface.Console;
 
 Arguments opt = GetArguments();
 IsValid();
