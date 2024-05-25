@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,20 @@ namespace SAPTeam.Kryptor
         public override string Name => "TransformedParameters";
 
         /// <inheritdoc/>
-        public override bool RemoveHash => false;
+        public override bool RemoveHash
+        {
+            get
+            {
+                return false;
+            }
+            protected set
+            {
+                if (value)
+                {
+                    throw new NotImplementedException("This crypto provider does not supports remove hash feature.");
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformedParametersCryptoProvider"/> class.
