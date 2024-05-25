@@ -11,6 +11,11 @@ if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
     ANSIInitializer.Enabled = false;
 }
 
+Console.CancelKeyPress += delegate
+{
+    Console.WriteLine("Cancelled by user request");
+};
+
 Arguments opt = GetArguments();
 IsValid();
 
