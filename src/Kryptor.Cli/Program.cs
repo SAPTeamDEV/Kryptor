@@ -6,7 +6,10 @@ using ANSIConsole;
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
 
-if (!ANSIInitializer.Init(false)) ANSIInitializer.Enabled = false;
+if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
+{
+    ANSIInitializer.Enabled = false;
+}
 
 Arguments opt = GetArguments();
 IsValid();
