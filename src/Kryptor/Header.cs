@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using Newtonsoft.Json;
+
 namespace SAPTeam.Kryptor
 {
     /// <summary>
@@ -60,11 +62,16 @@ namespace SAPTeam.Kryptor
 
         internal byte[] CreatePayload()
         {
-            string js = this.ToJson();
+            string js = ToJson(this);
             byte[] b64 = js.Base64EncodeToByte();
             byte[] payload = StartHeaderPattern.Concat(b64)
                                                .Concat(EndHeaderPattern)
                                                .ToArray();
+
+            if (payload.Length > 8192)
+            {
+                throw new OverflowException($"Header payload size is out of allowed range {payload} > 8192");
+            }
 
             return payload;
         }
@@ -87,6 +94,7 @@ namespace SAPTeam.Kryptor
 
             int startPos = -1;
             int endPos = -1;
+            int startIndex = 0;
             int tries = 0;
 
             while (true)
@@ -102,6 +110,7 @@ namespace SAPTeam.Kryptor
                     if (ts != -1)
                     {
                         startPos = ts + StartHeaderPattern.Length;
+                        startIndex = tries - 1;
                     }
                 }
 
@@ -114,7 +123,7 @@ namespace SAPTeam.Kryptor
                     }
                 }
 
-                if ((startPos == -1 && tries > 2) || (endPos == -1 && tries > 8))
+                if ((startPos == -1 && tries > 2) || (endPos == -1 && tries > 8 + startIndex))
                 {
                     stream.Seek(0, SeekOrigin.Begin);
 
@@ -135,7 +144,7 @@ namespace SAPTeam.Kryptor
             var dataBuffer = new byte[endPos - startPos];
             stream.Read(dataBuffer, 0, dataBuffer.Length);
 
-            T header = dataBuffer.Base64DecodeToString().ReadJson<T>();
+            T header = ReadJson<T>(dataBuffer.Base64DecodeToString());
 
             int detail = 0;
             if (header.Version != null && header.EngineVersion != null)
@@ -158,6 +167,17 @@ namespace SAPTeam.Kryptor
             stream.Seek(endPos + EndHeaderPattern.Length, SeekOrigin.Begin);
 
             return header;
+        }
+
+
+        static string ToJson(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        static T ReadJson<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
         }
     }
 }

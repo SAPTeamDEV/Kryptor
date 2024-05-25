@@ -56,15 +56,5 @@ namespace SAPTeam.Kryptor
         {
             return src.Base64Decode().Decode();
         }
-
-        internal static string ToJson(this object obj)
-        {
-            return JsonConvert.SerializeObject(obj);
-        }
-
-        internal static T ReadJson<T>(this string json)
-        {
-            return JsonConvert.DeserializeObject<T>(json);
-        }
     }
 }
