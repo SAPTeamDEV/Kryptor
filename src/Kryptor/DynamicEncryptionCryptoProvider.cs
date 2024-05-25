@@ -8,8 +8,11 @@ namespace SAPTeam.Kryptor
     /// Provides Dynamic Encryption (DE) Crypto mechanism.
     /// In this way, each 31 bytes of data is encrypted with a dynamic key and iv generated with attention of all parameters and offers the highest security.
     /// </summary>
-    public class DynamicEncryptionCryptoProvider : CryptoProvider
+    public sealed class DynamicEncryptionCryptoProvider : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "DynamicEncryption";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicEncryptionCryptoProvider"/> class.
         /// </summary>
@@ -22,11 +25,9 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public DynamicEncryptionCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false)
+        public DynamicEncryptionCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
-            KeyStore = keyStore;
-            Continuous = continuous;
-            RemoveHash = removeHash;
+
         }
 
         /// <inheritdoc/>
@@ -47,13 +48,13 @@ namespace SAPTeam.Kryptor
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.EncryptAsync(chunk, CreateKey(process), MixedVectorCryptoProvider.CreateIV(KeyStore, process));
+            return await AesHelper.EncryptAesCbcAsync(chunk, CreateDynamicKey(process), CreateMixedIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.DecryptAsync(cipher, CreateKey(process), MixedVectorCryptoProvider.CreateIV(KeyStore, process));
+            return await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
@@ -67,7 +68,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private byte[] CreateKey(CryptoProcess process)
+        private byte[] CreateDynamicKey(CryptoProcess process)
         {
             var key1 = KeyStore[Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
             var key2 = KeyStore[process.ChunkIndex - (RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
@@ -78,6 +79,31 @@ namespace SAPTeam.Kryptor
                 : key1.Concat(key2).Concat(key3).Concat(process.BlockHash).ToArray();
 
             return mKey.Sha256();
+        }
+
+        internal static byte[] CreateMixedIV(KeyStore keyStore, CryptoProcess process)
+        {
+            int index = process.ChunkIndex + process.BlockIndex;
+
+            return new byte[16]
+            {
+                keyStore[index * 6][4],
+                keyStore[index * 2][12],
+                keyStore[index - 154][7],
+                keyStore[index + 53][19],
+                keyStore[(index + 5) * 6][9],
+                keyStore[index / 4][13],
+                keyStore[index - 79][23],
+                keyStore[index + 571][0],
+                keyStore[index % 3][21],
+                keyStore[index + 1][16],
+                keyStore[index - 98][13],
+                keyStore[index + 65][23],
+                keyStore[index - 61][8],
+                keyStore[index + 34][2],
+                keyStore[index + 79][9],
+                keyStore[index - 172][6],
+            };
         }
     }
 }

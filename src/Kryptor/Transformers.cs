@@ -165,5 +165,41 @@ namespace SAPTeam.Kryptor
         {
             return BitConverter.ToInt64(Pick(collection, 8, seed).ToArray(), 0);
         }
+
+        /// <summary>
+        /// Creates a transformed key.
+        /// </summary>
+        /// <param name="keyStore">
+        /// The key store to process.
+        /// </param>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
+        /// <returns></returns>
+        public static byte[] CreateKey(KeyStore keyStore, CryptoProcess process)
+        {
+            int seed = ToAbsInt32(process.BlockHash, process.BlockIndex + process.ChunkIndex);
+            var sets = Pick(keyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
+
+            var mixed = Mix(seed, sets);
+            var key = Pick(mixed, 32, seed);
+
+            return key.ToArray();
+        }
+
+        /// <summary>
+        /// Creates a transformed IV.
+        /// </summary>
+        /// <param name="process">
+        /// The crypto process data holder.
+        /// </param>
+        /// <param name="keyStore">
+        /// The key store to process.
+        /// </param>
+        /// <returns></returns>
+        public static byte[] CreateIV(KeyStore keyStore, CryptoProcess process)
+        {
+            return Pick(keyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
+        }
     }
 }

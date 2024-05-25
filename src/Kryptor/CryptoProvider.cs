@@ -24,24 +24,48 @@ namespace SAPTeam.Kryptor
         public readonly int EncryptionChunkSize = 31;
 
         /// <summary>
-        /// Gets the keystore for crypto operations.
+        /// Gets the name of the crypto provider.
         /// </summary>
-        public KeyStore KeyStore { get; protected set; }
+        public abstract string Name { get; }
 
         /// <summary>
         /// Gets the configuration of continuous encryption method.
         /// </summary>
-        public bool Continuous { get; protected set; }
+        public virtual bool Continuous { get; protected set; }
 
         /// <summary>
         /// Gets the configuration of remove hash feature.
         /// </summary>
-        public bool RemoveHash { get; protected set; }
+        public virtual bool RemoveHash { get; protected set; }
 
         /// <summary>
         /// Gets the parent <see cref="Kes"/> instance.
         /// </summary>
-        public Kes Parent { get; internal set; }
+        protected internal Kes Parent { get; internal set; }
+
+        /// <summary>
+        /// Gets the keystore for crypto operations.
+        /// </summary>
+        protected KeyStore KeyStore { get; private set; }
+
+        /// <summary>
+        /// Initializes a new crypto provider.
+        /// </summary>
+        /// <param name="keyStore">
+        /// The keystore with at least 2 keys.
+        /// </param>
+        /// <param name="continuous">
+        /// Whether to use continuous encryption method.
+        /// </param>
+        /// <param name="removeHash">
+        /// Whether to remove block hashes.
+        /// </param>
+        protected CryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false)
+        {
+            KeyStore = keyStore;
+            Continuous = continuous;
+            RemoveHash = removeHash;
+        }
 
         /// <summary>
         /// Applies the header properties to the crypto provider.
@@ -49,7 +73,7 @@ namespace SAPTeam.Kryptor
         /// <param name="header">
         /// The header to apply properties.
         /// </param>
-        public virtual void ApplyHeader(Header header)
+        protected internal virtual void ApplyHeader(Header header)
         {
             if (header.Continuous != null)
             {

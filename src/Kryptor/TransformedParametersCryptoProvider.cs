@@ -10,8 +10,14 @@ namespace SAPTeam.Kryptor
     /// Provides Transformed Parameters (TP) Crypto mechanism.
     /// In this way, each 31 bytes of data is encrypted with a mix-transformed key and iv.
     /// </summary>
-    public class TransformedParametersCryptoProvider : CryptoProvider
+    public sealed class TransformedParametersCryptoProvider : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "TransformedParameters";
+
+        /// <inheritdoc/>
+        public override bool RemoveHash => false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TransformedParametersCryptoProvider"/> class.
         /// </summary>
@@ -24,23 +30,21 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public TransformedParametersCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false)
+        public TransformedParametersCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
-            KeyStore = keyStore;
-            Continuous = continuous;
-            RemoveHash = removeHash;
+
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.EncryptAsync(chunk, TransformedKeyCryptoProvider.CreateKey(KeyStore, process), CreateIV(process));
+            return await AesHelper.EncryptAesCbcAsync(chunk, Transformers.CreateKey(KeyStore, process), Transformers.CreateIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await MixedVectorCryptoProvider.DecryptAsync(cipher, TransformedKeyCryptoProvider.CreateKey(KeyStore, process), CreateIV(process));
+            return await AesHelper.DecryptAesCbcAsync(cipher, Transformers.CreateKey(KeyStore, process), Transformers.CreateIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
@@ -52,11 +56,6 @@ namespace SAPTeam.Kryptor
             {
                 header.CryptoType = CryptoTypes.TP;
             }
-        }
-
-        private byte[] CreateIV(CryptoProcess process)
-        {
-            return Transformers.Pick(KeyStore.Keys, 1, (RemoveHash ? (Parent.BlockSize - process.BlockIndex) * (process.ChunkIndex + 6) : (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex)).First().Take(16).ToArray();
         }
     }
 }

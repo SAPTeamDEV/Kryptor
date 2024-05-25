@@ -12,8 +12,11 @@ namespace SAPTeam.Kryptor
     /// Provides Mixed Vector (MV) Crypto mechanism.
     /// In this way, each 31 bytes of data is encrypted with a different key and a mixed iv Until all the keys are used, then it continues from the first key and this process continues until the end of encryption.
     /// </summary>
-    public class MixedVectorCryptoProvider : CryptoProvider
+    public sealed class MixedVectorCryptoProvider : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "MixedVector";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedVectorCryptoProvider"/> class.
         /// </summary>
@@ -26,23 +29,21 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public MixedVectorCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false)
+        public MixedVectorCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
-            KeyStore = keyStore;
-            Continuous = continuous;
-            RemoveHash = removeHash;
+
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
         {
-            return await EncryptAsync(chunk, KeyStore[process.ChunkIndex], CreateIV(KeyStore, process));
+            return await AesHelper.EncryptAesCbcAsync(chunk, KeyStore[process.ChunkIndex], DynamicEncryptionCryptoProvider.CreateMixedIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
-            return await DecryptAsync(cipher, KeyStore[process.ChunkIndex], CreateIV(KeyStore, process));
+            return await AesHelper.DecryptAesCbcAsync(cipher, KeyStore[process.ChunkIndex], DynamicEncryptionCryptoProvider.CreateMixedIV(KeyStore, process));
         }
 
         /// <inheritdoc/>
@@ -53,101 +54,6 @@ namespace SAPTeam.Kryptor
             if ((int)header.DetailLevel > 2)
             {
                 header.CryptoType = CryptoTypes.MV;
-            }
-        }
-
-        internal static byte[] CreateIV(KeyStore keyStore, CryptoProcess process)
-        {
-            int index = process.ChunkIndex + process.BlockIndex;
-
-            return new byte[16]
-            {
-                keyStore[index * 6][4],
-                keyStore[index * 2][12],
-                keyStore[index - 154][7],
-                keyStore[index + 53][19],
-                keyStore[(index + 5) * 6][9],
-                keyStore[index / 4][13],
-                keyStore[index - 79][23],
-                keyStore[index + 571][0],
-                keyStore[index % 3][21],
-                keyStore[index + 1][16],
-                keyStore[index - 98][13],
-                keyStore[index + 65][23],
-                keyStore[index - 61][8],
-                keyStore[index + 34][2],
-                keyStore[index + 79][9],
-                keyStore[index - 172][6],
-            };
-        }
-
-        internal static async Task<byte[]> EncryptAsync(byte[] data, byte[] key, byte[] iv)
-        {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
-            Ensure.Enumerable.SizeIs(iv, 16, nameof(iv));
-
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-                aesAlg.Mode = CipherMode.CBC; // Use CBC mode
-                aesAlg.Padding = PaddingMode.PKCS7;
-
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msEncrypt = new MemoryStream())
-                {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        await csEncrypt.WriteAsync(data, 0, data.Length);
-                    }
-                    return msEncrypt.ToArray();
-                }
-            }
-        }
-
-        internal static async Task<byte[]> DecryptAsync(byte[] data, byte[] key, byte[] iv)
-        {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
-            Ensure.Enumerable.SizeIs(iv, 16, nameof(iv));
-
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.Key = key;
-                aesAlg.IV = iv;
-                aesAlg.Mode = CipherMode.CBC; // Use CBC mode
-                aesAlg.Padding = PaddingMode.PKCS7;
-
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                using (MemoryStream msDecrypt = new MemoryStream(data))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (MemoryStream tempMemory = new MemoryStream())
-                        {
-                            try
-                            {
-                                byte[] buffer = new byte[1024];
-                                int readBytes = 0;
-                                while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
-                                {
-                                    await tempMemory.WriteAsync(buffer, 0, readBytes);
-                                }
-
-                                return tempMemory.ToArray();
-                            }
-                            catch (CryptographicException)
-                            {
-                                throw new InvalidDataException("Cannot decrypt data.");
-                            }
-                        }
-                    }
-                }
             }
         }
     }
