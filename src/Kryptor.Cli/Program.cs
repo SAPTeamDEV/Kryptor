@@ -1,19 +1,21 @@
-﻿using System.Reflection;
-using SAPTeam.CommonTK;
-using SAPTeam.CommonTK.Console;
+﻿using System.Drawing;
+using System.Reflection;
+
+using ANSIConsole;
+
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
 
-Context.Interface = InteractInterface.Console;
+if (!ANSIInitializer.Init(false)) ANSIInitializer.Enabled = false;
 
 Arguments opt = GetArguments();
 IsValid();
 
 string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
-Echo(new Colorize($"Kryptor Command-Line Interface v[{appVer}]", ConsoleColor.DarkCyan));
+Console.WriteLine($"Kryptor Command-Line Interface v{appVer.Color(Color.Cyan)}");
 
 string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)));
-Echo(new Colorize($"Engine version: [{engVer}]", ConsoleColor.DarkGreen));
+Console.WriteLine($"Engine version: {engVer.Color(Color.Cyan)}");
 
 if (opt.Encrypt || opt.Decrypt)
 {
@@ -28,10 +30,14 @@ if (opt.Encrypt || opt.Decrypt)
     KeyStore ks = default;
     Kes kp = InitKES(opt, paramHeader);
 
-    Echo(new Colorize($"Using [{opt.Provider}] Crypto Provider", ConsoleColor.Blue));
     if ((int)opt.Provider > 0 && (int)opt.Provider < 3)
     {
-        Echo(new Colorize("[Warning:] You are using a vulnerable crypto provider, it's recommended to use MV or DE as Crypto Provider.", ConsoleColor.Yellow));
+        Console.WriteLine($"Using {opt.Provider.ToString().Color(Color.LightSalmon)} Crypto Provider");
+        Console.WriteLine($"{"Warning:".Color(ConsoleColor.Yellow)} You are using a vulnerable crypto provider, it's recommended to use MV or DE as Crypto Provider.");
+    }
+    else
+    {
+        Console.WriteLine($"Using {opt.Provider.ToString().Color(Color.Moccasin)} Crypto Provider");
     }
 
     if (opt.Decrypt || !opt.CreateKey)
@@ -74,7 +80,7 @@ return Environment.ExitCode;
 
 async Task Encrypt(string file, Kes kp)
 {
-    Echo(new Colorize($"Encrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
+    Console.WriteLine($"Encrypting {Path.GetFileName(file).Color(Color.BurlyWood)}");
 
     if (!CheckFile(file))
     {
@@ -84,7 +90,7 @@ async Task Encrypt(string file, Kes kp)
     using var f = File.OpenRead(file);
     string resolvedName = GetNewFileName(file, file + ".kef");
 
-    Echo("Prepairing");
+    Console.WriteLine("Prepairing");
     using var f2 = File.OpenWrite(resolvedName);
 
     Dictionary<string, string> extra = new Dictionary<string, string>();
@@ -100,12 +106,12 @@ async Task Encrypt(string file, Kes kp)
 
     await kp.EncryptAsync(f, f2, header);
 
-    Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
+    Console.WriteLine($"Saved to {resolvedName.Color(ConsoleColor.Green)}");
 }
 
 async Task Decrypt(string file, Kes kp, string ksFingerprint)
 {
-    Echo(new Colorize($"Decrypting [{Path.GetFileName(file)}]", ConsoleColor.Cyan));
+    Console.WriteLine($"Decrypting {Path.GetFileName(file).Color(Color.BurlyWood)}");
 
     if (!CheckFile(file))
     {
@@ -120,7 +126,7 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
 
         if (header.DetailLevel == HeaderDetails.Empty)
         {
-            Echo(new Colorize("[Warning:] Empty header found, The decryption may be fail", ConsoleColor.Yellow));
+            Console.WriteLine($"{"Warning:".Color(ConsoleColor.Yellow)} Empty header found, The decryption may be fail");
         }
 #if DEBUG
         else
@@ -172,13 +178,13 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         {
             if (header.CliVersion != null)
             {
-                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor cli v{header.CliVersion}", ConsoleColor.Red));
+                Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Encryptor api version is not supported. You must use kryptor cli v{header.CliVersion}");
                 Environment.ExitCode = 0xFE;
                 return;
             }
             else
             {
-                Echo(new Colorize($"[Failed:] Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}", ConsoleColor.Red));
+                Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}");
                 Environment.ExitCode = 0xFE;
                 return;
             }
@@ -188,11 +194,11 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         {
             string fingerprint = header.Fingerprint.FormatFingerprint();
 
-            Echo(new Colorize($"File Fingerprint: [{fingerprint}]", ConsoleColor.DarkRed));
+            Console.WriteLine($"File Fingerprint: {fingerprint.Color(ConsoleColor.DarkRed)}");
 
             if (fingerprint != ksFingerprint)
             {
-                Echo(new Colorize("[Failed:] Fingerprints does not match.", ConsoleColor.Red));
+                Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Fingerprints does not match.");
                 Environment.ExitCode = 0xFE;
                 return;
             }
@@ -201,21 +207,21 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         string origName = header.OriginalName ?? "decrypted file.dec";
         string resolvedName = GetNewFileName(file, origName);
 
-        Echo("Prepairing");
+        Console.WriteLine("Prepairing");
         using var f2 = File.OpenWrite(resolvedName);
 
         await kp.DecryptAsync(f, f2);
 
-        Echo(new Colorize($"Saved to [{resolvedName}]", ConsoleColor.Green));
+        Console.WriteLine($"Saved to {resolvedName.Color(ConsoleColor.Green)}");
     }
     catch (InvalidDataException)
     {
-        Echo(new Colorize("[Failed:] Cannot decrypt file.", ConsoleColor.Red));
+        Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Cannot decrypt file.");
         Environment.ExitCode = 0xFF;
     }
     catch (ArgumentException)
     {
-        Echo(new Colorize("[Failed:] Cannot decrypt file, File maybe corrupted!", ConsoleColor.Red));
+        Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Cannot decrypt file, File maybe corrupted!");
         Environment.ExitCode = 0xFF;
     }
 }
@@ -239,7 +245,7 @@ bool CheckFile(string file)
 {
     if (!File.Exists(file))
     {
-        Echo(new Colorize("[Skipped:] File not found", ConsoleColor.DarkGray));
+        Console.WriteLine($"{"Skipped:".Color(ConsoleColor.DarkGray)} File not found");
         Environment.ExitCode = 0xFF;
         return false;
     }
@@ -264,7 +270,7 @@ KeyStore ReadKeystore(string keystore)
 
     if (!File.Exists(keystore) && !useToken)
     {
-        Echo(new Colorize("[Error:] Keystore not found.", ConsoleColor.Red));
+        Console.WriteLine($"{"Error:".Color(ConsoleColor.Red)} Keystore not found.");
         Environment.Exit(3);
         return default;
     }
@@ -282,16 +288,16 @@ KeyStore ReadKeystore(string keystore)
         }
         else
         {
-            Echo(new Colorize($"Reading keystore: [{Path.GetFileName(keystore)}]", ConsoleColor.DarkYellow));
+            Console.WriteLine($"Reading keystore: {Path.GetFileName(keystore).Color(ConsoleColor.DarkYellow)}");
             ks = new KeyStore(File.ReadAllBytes(keystore));
         }
 
-        Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
+        Console.WriteLine($"Keystore Fingerprint: {ks.Fingerprint.FormatFingerprint().Color(Color.LightSkyBlue)}");
         return ks;
     }
     catch (FormatException)
     {
-        Echo(new Colorize("[Error:] Cannot read keystore.", ConsoleColor.Red));
+        Console.WriteLine($"{"Error:".Color(ConsoleColor.Red)} Cannot read keystore.");
         Environment.Exit(3);
         return default;
     }
@@ -305,7 +311,7 @@ void IsValid()
         {
             if (string.IsNullOrEmpty(opt.KeyStore))
             {
-                Echo(new Colorize("[Error:] You must specify keysore file name.", ConsoleColor.Red));
+                Console.WriteLine($"{"Error:".Color(ConsoleColor.Red)} You must specify keysore file name.");
                 Environment.Exit(2);
             }
         }
@@ -316,7 +322,7 @@ void IsValid()
 
         if (opt.File == null || !opt.File.Any())
         {
-            Echo(new Colorize("[Error:] You must specify at least one file.", ConsoleColor.Red));
+            Console.WriteLine($"{"Error:".Color(ConsoleColor.Red)} You must specify at least one file.");
             Environment.Exit(2);
         }
     }
@@ -324,8 +330,10 @@ void IsValid()
 
 void ShowProgress(int progress)
 {
-    ClearLine();
-    Echo(new Colorize(progress < 100 ? $"[{progress}%] done" : $"[{progress}%] done in {DateTime.Now - Holder.ProcessTime}", progress < 100 ? ConsoleColor.Yellow : ConsoleColor.Green));
+    Console.SetCursorPosition(0, Console.CursorTop - 1);
+    Console.Write(new string(' ', Math.Min(10, Console.BufferWidth)));
+    Console.SetCursorPosition(0, Console.CursorTop);
+    Console.WriteLine(progress < 100 ? $"{(progress.ToString() + "%").Color(ConsoleColor.Yellow)} done" : $"{(progress.ToString() + "%").Color(Color.LawnGreen)} done in {DateTime.Now - Holder.ProcessTime}");
 }
 
 string GetNewFileName(string path, string origName)
@@ -372,7 +380,7 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
     {
         if (!string.IsNullOrEmpty(name))
         {
-            Echo(new Colorize("[Eroor:] Invalid transformer token", ConsoleColor.Red));
+            Console.WriteLine($"{"Error:".Color(ConsoleColor.Red)} Invalid transformer token");
             Environment.Exit(2);
         }
 
@@ -381,19 +389,19 @@ KeyStore GenerateKeystore(string name = "", int keystoreSize = 0)
             keystoreSize = KeyStore.GetRandomOddNumber();
         }
 
-        Echo(new Colorize($"Generating keystore with [{keystoreSize}] keys", ConsoleColor.Cyan));
+        Console.WriteLine($"Generating keystore with {keystoreSize.ToString().Color(ConsoleColor.Cyan)} keys");
         ks = KeyStore.Generate(keystoreSize);
     }
 
-    Echo(new Colorize($"Keystore Fingerprint: [{ks.Fingerprint.FormatFingerprint()}]", ConsoleColor.Blue));
+    Console.WriteLine($"Keystore Fingerprint: {ks.Fingerprint.FormatFingerprint().Color(Color.LightSkyBlue)}");
 
     var fName = !string.IsNullOrEmpty(name) && !useToken ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
 #if DEBUG
     File.WriteAllText(fName, Convert.ToBase64String(ks.Raw));
-    Echo(new Colorize($"Keystore is saved to [{fName}] as base64", ConsoleColor.Green));
+    Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)} as base64");
 #else
     File.WriteAllBytes(fName, ks.Raw);
-    Echo(new Colorize($"Keystore is saved to [{fName}]", ConsoleColor.Green));
+    Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)}");
 #endif
 
     return ks;
