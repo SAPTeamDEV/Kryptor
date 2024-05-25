@@ -196,12 +196,12 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         if ((int)header.DetailLevel > 1)
         {
             string fingerprint = header.Fingerprint.FormatFingerprint();
-
+#if DEBUG
             Console.WriteLine($"File Fingerprint: {fingerprint.Color(Color.LightGoldenrodYellow)}");
-
+#endif
             if (fingerprint != ksFingerprint)
             {
-                Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Fingerprints does not match.");
+                Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Cannot decrypt file with this keystore.");
                 Environment.ExitCode = 0xFE;
                 return;
             }
