@@ -197,7 +197,7 @@ async Task Decrypt(string file, Kes kp, string ksFingerprint)
         {
             string fingerprint = header.Fingerprint.FormatFingerprint();
 
-            Console.WriteLine($"File Fingerprint: {fingerprint.Color(ConsoleColor.DarkRed)}");
+            Console.WriteLine($"File Fingerprint: {fingerprint.Color(Color.LightGoldenrodYellow)}");
 
             if (fingerprint != ksFingerprint)
             {

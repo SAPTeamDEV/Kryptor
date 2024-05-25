@@ -53,7 +53,7 @@ namespace SAPTeam.Kryptor
             Keys = Raw.Chunk(32).Where(x => x.Length == 32).ToArray();
             count = Keys.Count();
 
-            Fingerprint = Raw.Sha256().Skip(8).Take(16).ToArray();
+            Fingerprint = Transformers.Pick(Raw.Sha512(), 12, Raw.Length + Raw[4] + Raw[Raw.Length - 5] + Raw.Length + Raw[14] + Raw[Raw.Length - 10]).ToArray().Sha256().Take(20).ToArray();
         }
 
         /// <summary>
