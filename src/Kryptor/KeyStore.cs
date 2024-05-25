@@ -11,7 +11,6 @@ namespace SAPTeam.Kryptor
     public struct KeyStore
     {
         private static readonly Random random = new Random();
-        private readonly int count;
 
         /// <summary>
         /// Gets the key at the specified index.
@@ -22,7 +21,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The key at the specified index.
         /// </returns>
-        public byte[] this[int index] => Keys[Math.Abs(index) % count];
+        public byte[] this[int index] => Keys[Math.Abs(index) % Keys.Length];
 
         /// <summary>
         /// Gets the keys to store.
@@ -51,7 +50,6 @@ namespace SAPTeam.Kryptor
 
             Raw = bytes;
             Keys = Raw.Chunk(32).Where(x => x.Length == 32).ToArray();
-            count = Keys.Count();
 
             Fingerprint = Transformers.Pick(Raw.Sha512(), 12, Raw.Length + Raw[4] + Raw[Raw.Length - 5] + Raw.Length + Raw[14] + Raw[Raw.Length - 10]).ToArray().Sha256().Take(20).ToArray();
         }
