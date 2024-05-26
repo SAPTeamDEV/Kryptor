@@ -3,7 +3,7 @@
 # List of known RIDs (full list available in the RID catalog)
 RIDS=("linux-x64" "linux-arm64" "linux-arm" "win-x64" "win-x86" "osx-x64" "osx-arm64")
 
-FREAMEWORKS=("net6.0" "net8.0" "net481")
+FREAMEWORKS=("net6.0" "net8.0")
 
 CONFIGURATIONS=("Release" "Debug")
 
