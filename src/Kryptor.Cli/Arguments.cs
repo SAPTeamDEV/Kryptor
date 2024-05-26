@@ -1,4 +1,7 @@
-﻿using CommandLine.Text;
+﻿using System.Collections.Generic;
+
+using CommandLine;
+using CommandLine.Text;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -7,9 +10,9 @@ namespace SAPTeam.Kryptor.Cli
         [Usage(ApplicationAlias = "Kryptor")]
         public static IEnumerable<Example> Examples => new List<Example>()
         {
-            new("Encrypt a file", new Arguments() { Encrypt = true, KeyStore = "keystore.kks", File = new string[] { "file", "file2", "..." } }),
-            new("Decrypt a file", new Arguments() { Decrypt = true, KeyStore = "keystore.kks", File = new string[] { "file", "file2", "..." } }),
-            new("Generate new keystore", new Arguments() { Generate = true, KeyStoreSize = 256, KeyStore = "keystore.kks" })
+            new Example("Encrypt a file", new Arguments() { Encrypt = true, KeyStore = "keystore.kks", File = new string[] { "file", "file2", "..." } }),
+            new Example("Decrypt a file", new Arguments() { Decrypt = true, KeyStore = "keystore.kks", File = new string[] { "file", "file2", "..." } }),
+            new Example("Generate new keystore", new Arguments() { Generate = true, KeyStoreSize = 256, KeyStore = "keystore.kks" })
         };
 
         [Option('e', "encrypt", SetName = "encrypt", Required = true, HelpText = "Encrypts the given file with given keystore.")]
@@ -36,7 +39,7 @@ namespace SAPTeam.Kryptor.Cli
         [Option('C', "create-key", HelpText = "Usable with -e, Creates new keystore for each files.")]
         public bool CreateKey { get; set; }
 
-        [Option('b', "block-size", Default = 0x8000, HelpText = $"Usable with -e or -d, Changes the block size for encryption and decryption. in large files, bigger block size may reduce time and output size a little.")]
+        [Option('b', "block-size", Default = 0x8000, HelpText = "Usable with -e or -d, Changes the block size for encryption and decryption. in large files, bigger block size may reduce time and output size a little.")]
         public int BlockSize { get; set; }
 
         [Value(0, Hidden = true)]

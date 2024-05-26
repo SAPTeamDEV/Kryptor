@@ -1,4 +1,11 @@
-﻿namespace SAPTeam.Kryptor.Cli
+﻿using System;
+using System.Drawing;
+
+#if NET481
+using Pastel;
+#endif
+
+namespace SAPTeam.Kryptor.Cli
 {
     internal static class Extensions
     {
@@ -6,5 +13,27 @@
         {
             return BitConverter.ToString(src).Replace("-", ":");
         }
+
+#if NET481
+        internal static string Color(this string src, ConsoleColor color)
+        {
+            if (color == ConsoleColor.Green)
+            {
+                return src.Pastel(System.Drawing.Color.GreenYellow);
+            }
+
+            return src.Pastel(color);
+        }
+
+        internal static string Color(this string src, Color color)
+        {
+            if (color == System.Drawing.Color.LightGoldenrodYellow)
+            {
+                color = System.Drawing.Color.Cyan;
+            }
+
+            return src.Pastel(color);
+        }
+#endif
     }
 }

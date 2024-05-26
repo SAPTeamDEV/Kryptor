@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the version of the encryptor api backend.
         /// </summary>
-        public static Version Version => new Version(0, 13);
+        public static Version Version => new Version(0, 13, 0, 0);
 
         /// <summary>
         /// Gets or sets the crypto provider.

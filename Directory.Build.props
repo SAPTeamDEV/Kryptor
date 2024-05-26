@@ -6,9 +6,6 @@
     <BaseIntermediateOutputPath>$(RepoRootPath)obj\$([MSBuild]::MakeRelative($(RepoRootPath), $(MSBuildProjectDirectory)))\</BaseIntermediateOutputPath>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(RepoRootPath)bin\$(MSBuildProjectName)\</BaseOutputPath>
     <PackageOutputPath>$(RepoRootPath)bin\Packages\$(Configuration)\</PackageOutputPath>
-    
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
 
     <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -19,5 +16,10 @@
     <Deterministic>True</Deterministic>
     
     <Copyright>Copyright (c) SAP Team</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net481' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>

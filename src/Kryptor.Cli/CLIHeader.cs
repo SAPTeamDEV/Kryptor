@@ -1,4 +1,6 @@
-﻿namespace SAPTeam.Kryptor.Cli
+﻿using System;
+
+namespace SAPTeam.Kryptor.Cli
 {
     internal class CLIHeader : Header
     {
