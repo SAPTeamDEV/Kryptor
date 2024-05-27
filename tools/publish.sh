@@ -1,21 +1,42 @@
 #!/bin/bash
 
-# List of known RIDs (full list available in the RID catalog)
-RIDS=("linux-x64" "linux-arm64" "linux-arm" "win-x64" "win-x86" "osx-x64" "osx-arm64")
+RIDS=("linux-x64" "linux-arm" "linux-arm64" "win-x64" "win-x86")
 
 FREAMEWORKS=("net6.0" "net8.0")
 
-CONFIGURATIONS=("Release" "Debug")
+if [ "$1" = "-d" ]
+then
+	CONFIGURATIONS="Debug"
+else
+	CONFIGURATIONS=("Debug" "Release")
+fi
 
 PROJECT_FILE="cli/Kryptor.Cli/Kryptor.Cli.csproj"
+PROJECT_FILE_LEGACY="cli/Kryptor.Cli.Legacy/Kryptor.Cli.Legacy.csproj"
 
-OUTPUT_DIR="bin/Publish/Kryptor.Cli"
+OUTPUT_DIR="bin/Publish/Cli"
 
-# Loop through each RID and publish
-for F in "${FREAMEWORKS[@]}"; do
-	for CFG in "${CONFIGURATIONS[@]}"; do
-		for RID in "${RIDS[@]}"; do
-			dotnet publish "$PROJECT_FILE" -f "$F" -c "$CFG" -r "$RID" --no-self-contained -o "$OUTPUT_DIR/$CFG/$F/$RID"
+__build(){
+	echo Publishing $3 for $2 on $4
+	dotnet publish "$1" -f "$2" -c "$3" -r "$4" --no-self-contained -o "$OUTPUT_DIR/$3/$4-$2"
+	echo
+	
+	if [ "$3" = "Release" ] && [ "$2" = "net6.0" ]
+	then
+		echo Publishing bundle $3 for $2 on $4
+		dotnet publish "$1" -f "$2" -c "$3" -r "$4" --self-contained -o "$OUTPUT_DIR/$3/$4-$2-bundle"
+		echo
+	fi
+}
+
+for CFG in "${CONFIGURATIONS[@]}"; do
+	for RID in "${RIDS[@]}"; do
+		if [ "$RID" = "win-x64" ] || [ "$RID" = "win-x86" ]
+		then
+			__build "$PROJECT_FILE_LEGACY" "net481" "$CFG" "$RID"
+		fi
+		for F in "${FREAMEWORKS[@]}"; do
+			__build "$PROJECT_FILE" "$F" "$CFG" "$RID"
 		done
 	done
 done
