@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net481</TargetFrameworks>
+    
+    <IsPackable>false</IsPackable>
+   </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Pastel" Version="5.1.0" />
+    </ItemGroup>
+  
+</Project>
