@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 
 
-#if !NET481
+#if !NETFRAMEWORK
 using ANSIConsole;
 #endif
 
@@ -16,17 +16,17 @@ using SAPTeam.Kryptor.Cli;
 using CommandLine;
 using System.Runtime.ConstrainedExecution;
 
-#if !NET481
-if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
+public class Entrypoint
 {
-    ANSIInitializer.Enabled = false;
-}
+    public static async Task<int> Main(string[] args)
+    {
+#if !NETFRAMEWORK
+        if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
+        {
+            ANSIInitializer.Enabled = false;
+        }
 #endif
 
-internal partial class Program
-{
-    private static async Task<int> Main(string[] args)
-    {
         Console.CancelKeyPress += delegate
         {
             Console.WriteLine("Cancelled by user request");
@@ -35,7 +35,7 @@ internal partial class Program
         Arguments opt = GetArguments();
         IsValid();
 
-        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)));
+        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Entrypoint)));
         Console.WriteLine($"Kryptor Command-Line Interface v{appVer.Color(Color.Cyan)}");
 
         string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)));
@@ -124,7 +124,7 @@ internal partial class Program
             {
                 DetailLevel = HeaderDetails.Normal,
                 OriginalName = Path.GetFileName(file),
-                CliVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
+                CliVersion = new Version(Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
                 Extra = extra,
             };
 

@@ -22,6 +22,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kryptor.InteractiveTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kryptor.Cli", "src\Kryptor.Cli\Kryptor.Cli.csproj", "{69DD2B4C-F698-464A-A7B0-5206C830000D}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Kryptor.Cli.Shared", "src\Kryptor.Cli.Shared\Kryptor.Cli.Shared.shproj", "{72A01251-F608-42F0-80FD-A26B12680966}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kryptor.Cli.Legacy", "src\Kryptor.Cli.Legacy\Kryptor.Cli.Legacy.csproj", "{5A10746C-2FE2-44CB-81C6-F409961098C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,10 @@ Global
 		{69DD2B4C-F698-464A-A7B0-5206C830000D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69DD2B4C-F698-464A-A7B0-5206C830000D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69DD2B4C-F698-464A-A7B0-5206C830000D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A10746C-2FE2-44CB-81C6-F409961098C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A10746C-2FE2-44CB-81C6-F409961098C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A10746C-2FE2-44CB-81C6-F409961098C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A10746C-2FE2-44CB-81C6-F409961098C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,8 +61,15 @@ Global
 		{9B337B57-F43F-47C4-917B-D2BCBD1E4489} = {22F4D049-045E-4BA0-9057-C7D5F64E834F}
 		{79468BDB-C5D5-445F-9F7A-25D007D5419F} = {22F4D049-045E-4BA0-9057-C7D5F64E834F}
 		{69DD2B4C-F698-464A-A7B0-5206C830000D} = {793C7041-3D61-49BC-BBA9-E12DB7F0FA90}
+		{72A01251-F608-42F0-80FD-A26B12680966} = {793C7041-3D61-49BC-BBA9-E12DB7F0FA90}
+		{5A10746C-2FE2-44CB-81C6-F409961098C4} = {793C7041-3D61-49BC-BBA9-E12DB7F0FA90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DE0E079-B516-4ABC-ABF6-328E87BFC3E5}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Kryptor.Cli.Shared\Kryptor.Cli.Shared.projitems*{5a10746c-2fe2-44cb-81c6-f409961098c4}*SharedItemsImports = 5
+		src\Kryptor.Cli.Shared\Kryptor.Cli.Shared.projitems*{69dd2b4c-f698-464a-a7b0-5206c830000d}*SharedItemsImports = 5
+		src\Kryptor.Cli.Shared\Kryptor.Cli.Shared.projitems*{72a01251-f608-42f0-80fd-a26b12680966}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

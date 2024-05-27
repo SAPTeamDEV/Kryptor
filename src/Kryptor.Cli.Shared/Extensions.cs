@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-#if NET481
+#if NETFRAMEWORK
 using Pastel;
 #endif
 
@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
             return BitConverter.ToString(src).Replace("-", ":");
         }
 
-#if NET481
+#if NETFRAMEWORK
         internal static string Color(this string src, ConsoleColor color)
         {
             if (color == ConsoleColor.Green)
