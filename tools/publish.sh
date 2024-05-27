@@ -7,7 +7,7 @@ FREAMEWORKS=("net6.0" "net8.0")
 
 CONFIGURATIONS=("Release" "Debug")
 
-PROJECT_FILE="src/Kryptor.Cli/Kryptor.Cli.csproj"
+PROJECT_FILE="cli/Kryptor.Cli/Kryptor.Cli.csproj"
 
 OUTPUT_DIR="bin/Publish/Kryptor.Cli"
 
