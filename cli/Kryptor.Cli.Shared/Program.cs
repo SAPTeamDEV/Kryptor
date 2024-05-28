@@ -35,10 +35,14 @@ public class Entrypoint
         Arguments opt = GetArguments();
         IsValid();
 
-        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Entrypoint)));
+#if DEBUG
+        string appVer = Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+#else
+        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+#endif
         Console.WriteLine($"Kryptor Command-Line Interface v{appVer.Color(Color.Cyan)}");
 
-        string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)));
+        string engVer = GetVersionString(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
         Console.WriteLine($"Engine version: {engVer.Color(Color.Cyan)}");
 
         if (opt.Encrypt || opt.Decrypt)
@@ -384,9 +388,9 @@ public class Entrypoint
             return destination;
         }
 
-        string GetVersionString(Assembly assembly)
+        string GetVersionString(string verStr)
         {
-            var ver = new Version(assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+            var ver = new Version(verStr);
             return string.Join(".", ver.Major, ver.Minor, ver.Build);
         }
 

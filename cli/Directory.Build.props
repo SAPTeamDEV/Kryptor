@@ -25,6 +25,10 @@
     <NoWarn>1701;1702;8618;NU1701;8602;8604;8002</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
+    <InformationalVersion>$(AssemblyVersion)-$(Configuration)</InformationalVersion>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
