@@ -38,6 +38,7 @@ jobs:
     secrets: inherit
   
   publish-debug:
+    name: Publish Debug Artifacts
     needs: build
     runs-on: "ubuntu-latest"
 
@@ -62,5 +63,5 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}-${{ github.sha }}
           path: |
-            bin/Publish/Debug
+            bin/Publish/Cli/Debug
           compression-level: 9
