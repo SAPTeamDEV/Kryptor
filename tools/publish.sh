@@ -3,6 +3,7 @@
 RIDS=("linux-x64" "linux-arm" "linux-arm64" "win-x64" "win-x86")
 
 FREAMEWORKS=("net6.0" "net8.0")
+FREAMEWORKS_LEGACY=("net481" "net472" "net462")
 
 if [ "$1" = "-d" ]
 then
@@ -30,10 +31,22 @@ __build(){
 }
 
 for CFG in "${CONFIGURATIONS[@]}"; do
+	for PF in "${FREAMEWORKS[@]}"; do
+		echo Publishing portable $CFG for $PF
+		dotnet publish "$PROJECT_FILE" -f "$PF" -c "$CFG" --no-self-contained -o "$OUTPUT_DIR/$CFG/portable-$PF"
+		echo
+	done
+	for PFL in "${FREAMEWORKS_LEGACY[@]}"; do
+		echo Publishing portable $CFG for $PFL
+		dotnet publish "$PROJECT_FILE_LEGACY" -f "$PFL" -c "$CFG" --no-self-contained -o "$OUTPUT_DIR/$CFG/portable-$PFL"
+		echo
+	done
 	for RID in "${RIDS[@]}"; do
 		if [ "$RID" = "win-x64" ] || [ "$RID" = "win-x86" ]
 		then
-			__build "$PROJECT_FILE_LEGACY" "net481" "$CFG" "$RID"
+			for FL in "${FREAMEWORKS_LEGACY[@]}"; do
+				__build "$PROJECT_FILE_LEGACY" "$FL" "$CFG" "$RID"
+			done
 		fi
 		for F in "${FREAMEWORKS[@]}"; do
 			__build "$PROJECT_FILE" "$F" "$CFG" "$RID"
