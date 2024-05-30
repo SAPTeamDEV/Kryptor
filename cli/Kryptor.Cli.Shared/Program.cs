@@ -430,13 +430,17 @@ public class Entrypoint
             Console.WriteLine($"Keystore Fingerprint: {ks.Fingerprint.FormatFingerprint().Color(Color.LightSkyBlue)}");
 
             var fName = !string.IsNullOrEmpty(name) && !useToken ? name : BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
-#if DEBUG
-            File.WriteAllText(fName, Convert.ToBase64String(ks.Raw));
-            Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)} as base64");
-#else
-    File.WriteAllBytes(fName, ks.Raw);
-    Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)}");
-#endif
+
+            if (opt.Base64)
+            {
+                File.WriteAllText(fName, Convert.ToBase64String(ks.Raw));
+                Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)} as base64");
+            }
+            else
+            {
+                File.WriteAllBytes(fName, ks.Raw);
+                Console.WriteLine($"Keystore is saved to {fName.Color(ConsoleColor.Green)}");
+            }
 
             return ks;
         }
