@@ -1,5 +1,7 @@
 ﻿using System;
 
+using SAPTeam.Kryptor.CryptoProviders;
+
 namespace SAPTeam.Kryptor
 {
     /// <summary>
@@ -29,23 +31,23 @@ namespace SAPTeam.Kryptor
             switch (cryptoType)
             {
                 case CryptoTypes.SK:
-                    provider = new StandaloneKeyCryptoProvider(keyStore);
+                    provider = new StandaloneKey(keyStore);
                     break;
 
                 case CryptoTypes.TK:
-                    provider = new TransformedKeyCryptoProvider(keyStore);
+                    provider = new TransformedKey(keyStore);
                     break;
 
                 case CryptoTypes.MV:
-                    provider = new MixedVectorCryptoProvider(keyStore);
+                    provider = new MixedVector(keyStore);
                     break;
 
                 case CryptoTypes.TP:
-                    provider = new TransformedParametersCryptoProvider(keyStore);
+                    provider = new TransformedParameters(keyStore);
                     break;
 
                 case CryptoTypes.DE:
-                    provider = new DynamicEncryptionCryptoProvider(keyStore);
+                    provider = new DynamicEncryption(keyStore);
                     break;
 
                 default:

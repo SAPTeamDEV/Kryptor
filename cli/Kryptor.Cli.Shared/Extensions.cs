@@ -17,12 +17,7 @@ namespace SAPTeam.Kryptor.Cli
 #if NETFRAMEWORK
         internal static string Color(this string src, ConsoleColor color)
         {
-            if (color == ConsoleColor.Green)
-            {
-                return src.Pastel(System.Drawing.Color.GreenYellow);
-            }
-
-            return src.Pastel(color);
+            return color == ConsoleColor.Green ? src.Pastel(System.Drawing.Color.GreenYellow) : src.Pastel(color);
         }
 
         internal static string Color(this string src, Color color)

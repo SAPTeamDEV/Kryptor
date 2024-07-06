@@ -1,8 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+/* Unmerged change from project 'Kryptor (net461)'
+Before:
 using System.Runtime.InteropServices.ComTypes;
+After:
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
+*/
+
 
 namespace SAPTeam.Kryptor.Security
 {
@@ -38,7 +44,10 @@ namespace SAPTeam.Kryptor.Security
 
                 foreach (var line in File.ReadAllLines(lPath))
                 {
-                    if (string.IsNullOrEmpty(line)) continue;
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
 
                     hashes.Add(line.Trim());
                 }
@@ -49,7 +58,10 @@ namespace SAPTeam.Kryptor.Security
             return Subsets[id].Contains(word);
         }
 
-        public static int GetWordIdentifier(string word) => Math.Abs(word[0] + word[1] + word[2]) % 64;
+        public static int GetWordIdentifier(string word)
+        {
+            return Math.Abs(word[0] + word[1] + word[2]) % 64;
+        }
 
         /*
         static Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();

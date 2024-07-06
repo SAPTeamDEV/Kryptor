@@ -68,12 +68,9 @@ namespace SAPTeam.Kryptor
                                                .Concat(EndHeaderPattern)
                                                .ToArray();
 
-            if (payload.Length > 8192)
-            {
-                throw new OverflowException($"Header payload size is out of allowed range {payload} > 8192");
-            }
-
-            return payload;
+            return payload.Length > 8192
+                ? throw new OverflowException($"Header payload size is out of allowed range {payload} > 8192")
+                : payload;
         }
 
         /// <summary>
@@ -169,13 +166,12 @@ namespace SAPTeam.Kryptor
             return header;
         }
 
-
-        static string ToJson(object obj)
+        private static string ToJson(object obj)
         {
             return JsonConvert.SerializeObject(obj);
         }
 
-        static T ReadJson<T>(string json)
+        private static T ReadJson<T>(string json)
         {
             return JsonConvert.DeserializeObject<T>(json);
         }

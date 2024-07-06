@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
 
-using Newtonsoft.Json;
-
 namespace SAPTeam.Kryptor
 {
     internal static class InternalExtensions

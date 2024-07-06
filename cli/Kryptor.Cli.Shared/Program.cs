@@ -13,8 +13,48 @@ using ANSIConsole;
 
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
+
+
+/* Unmerged change from project 'Kryptor.Cli (net6.0)'
+Before:
 using CommandLine;
 using System.Runtime.ConstrainedExecution;
+After:
+using CommandLine;
+
+using System.Runtime.ConstrainedExecution;
+*/
+
+/* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
+Before:
+using CommandLine;
+using System.Runtime.ConstrainedExecution;
+After:
+using CommandLine;
+
+using System.Runtime.ConstrainedExecution;
+*/
+
+/* Unmerged change from project 'Kryptor.Cli.Legacy (net462)'
+Before:
+using CommandLine;
+using System.Runtime.ConstrainedExecution;
+After:
+using CommandLine;
+
+using System.Runtime.ConstrainedExecution;
+*/
+
+/* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
+Before:
+using CommandLine;
+using System.Runtime.ConstrainedExecution;
+After:
+using CommandLine;
+
+using System.Runtime.ConstrainedExecution;
+*/
+using CommandLine;
 
 public class Entrypoint
 {
@@ -351,7 +391,7 @@ public class Entrypoint
                 }
                 else if (!string.IsNullOrEmpty(opt.KeyStore))
                 {
-                    opt.File = opt.File != null ? new string[] { opt.KeyStore }.Concat(opt.File) : (IEnumerable<string>)(new string[] { opt.KeyStore });
+                    opt.File = opt.File != null ? new string[] { opt.KeyStore }.Concat(opt.File) : (new string[] { opt.KeyStore });
                 }
 
                 if (opt.File == null || !opt.File.Any())

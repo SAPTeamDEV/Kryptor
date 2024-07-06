@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.CryptoProviders
@@ -17,10 +16,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <inheritdoc/>
         public override bool RemoveHash
         {
-            get
-            {
-                return false;
-            }
+            get => false;
             protected set
             {
                 if (value)
