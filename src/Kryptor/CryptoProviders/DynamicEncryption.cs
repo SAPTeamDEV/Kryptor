@@ -2,19 +2,19 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.CryptoProviders
 {
     /// <summary>
     /// Provides Dynamic Encryption (DE) Crypto mechanism.
     /// In this way, each 31 bytes of data is encrypted with a dynamic key and iv generated with attention of all parameters and offers the highest security.
     /// </summary>
-    public sealed class DynamicEncryptionCryptoProvider : CryptoProvider
+    public sealed class DynamicEncryption : CryptoProvider
     {
         /// <inheritdoc/>
         public override string Name => "DynamicEncryption";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicEncryptionCryptoProvider"/> class.
+        /// Initializes a new instance of the <see cref="DynamicEncryption"/> class.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public DynamicEncryptionCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
+        public DynamicEncryption(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
 
         }

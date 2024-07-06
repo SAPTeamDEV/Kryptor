@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 using MoreLinq;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.CryptoProviders
 {
     /// <summary>
     /// Provides Transformed Parameters (TP) Crypto mechanism.
     /// In this way, each 31 bytes of data is encrypted with a mix-transformed key and iv.
     /// </summary>
-    public sealed class TransformedParametersCryptoProvider : CryptoProvider
+    public sealed class TransformedParameters : CryptoProvider
     {
         /// <inheritdoc/>
         public override string Name => "TransformedParameters";
@@ -33,7 +33,7 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TransformedParametersCryptoProvider"/> class.
+        /// Initializes a new instance of the <see cref="TransformedParameters"/> class.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
@@ -44,7 +44,7 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public TransformedParametersCryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
+        public TransformedParameters(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
 
         }
