@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
+    <CliRootPath>$(MSBuildThisFileDirectory)</CliRootPath>
+    
     <AssemblyVersion>1.2.2</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <FileVersion>$(AssemblyVersion).0</FileVersion>
@@ -33,9 +35,9 @@
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
 
-    <ProjectReference Include="..\..\src\Kryptor\Kryptor.csproj" />
+    <ProjectReference Include="$(CliRootPath)..\src\Kryptor\Kryptor.csproj" />
   </ItemGroup>
 
   <Import Project="Kryptor.Cli.Shared\Kryptor.Cli.Shared.projitems" Label="Shared" />
-  <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(MSBuildThisFileDirectory)..))" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(CliRootPath)..))" />
 </Project>
