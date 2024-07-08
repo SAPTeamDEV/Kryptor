@@ -28,7 +28,8 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// </param>
         public DynamicEncryption(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
         {
-
+            // FIXME DE is broken
+            throw new NotImplementedException("This crypto provider is broken");
         }
 
         /// <inheritdoc/>
@@ -73,7 +74,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         {
             var key1 = KeyStore[Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
             var key2 = KeyStore[process.ChunkIndex - (RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
-            var key3 = KeyStore[process.ChunkIndex + Parent.BlockSize];
+            var key3 = KeyStore[process.ChunkIndex + process.BlockSize];
 
             byte[] mKey = process.BlockIndex > 0
                 ? ((byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"]).Concat(key1).Concat(key2).Concat(key3).Concat(process.BlockHash).ToArray()
@@ -113,6 +114,22 @@ namespace SAPTeam.Kryptor.CryptoProviders
 
             byte[] lastBytes = keyStore.Raw[(keyStore.Raw.Length - 5 - index)..^(1 + index)];
             return Math.Abs(BitConverter.ToInt32(lastBytes, 0) % 0xC000);
+        }
+
+        internal static int GetDynamicBlockEntropy(KeyStore keyStore, CryptoProcess process)
+        {
+            int index = process.BlockIndex * 4;
+
+            byte[] lastBytes = keyStore.Raw[index..(index + 5)];
+            return BitConverter.ToInt32(lastBytes, 0) % 0xC000;
+        }
+
+        internal static int GetDynamicChunkEntropy(KeyStore keyStore, CryptoProcess process)
+        {
+            int index = process.BlockIndex + process.ChunkIndex;
+
+            byte[] lastBytes = keyStore.Raw[index..(index + 5)];
+            return BitConverter.ToInt32(lastBytes, 0) % 0xC000;
         }
     }
 }

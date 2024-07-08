@@ -21,6 +21,11 @@ namespace SAPTeam.Kryptor
         public int BlockIndex { get; set; }
 
         /// <summary>
+        /// Gets or sets the size of the block being processed.
+        /// </summary>
+        public int BlockSize { get; set; }
+
+        /// <summary>
         /// Gets or sets the SHA256 hash of the block being processed.
         /// </summary>
         public byte[] BlockHash { get; set; }

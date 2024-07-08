@@ -28,7 +28,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int GetDecryptionBufferSize(CryptoProcess process = default)
         {
-            return (Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize) * Provider.DecryptionChunkSize;
+            return process.BlockSize * Provider.DecryptionChunkSize;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int GetEncryptionBufferSize(CryptoProcess process = default)
         {
-            return ((Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize) - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+            return (process.BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
         }
 
         #endregion
@@ -236,32 +236,32 @@ namespace SAPTeam.Kryptor
             long i = 0;
             OnProgress?.Invoke(0);
 
-            while (i < source.Length)
+            try
             {
-                try
+                while (i < source.Length)
                 {
+                    process.BlockSize = Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
                     blockSize = blockSizeCallback(process);
+                    // Console.WriteLine($"Block Size: {blockSize}, i: {i}");
+                    int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
+                    byte[] slice = new byte[actualSize];
+                    await source.ReadAsync(slice, 0, slice.Length);
+                    var eSlice = await cryptoCallback(slice, process);
+                    await dest.WriteAsync(eSlice, 0, eSlice.Length);
+                    counter += blockSize / chunckSize;
+                    int prog = (int)Math.Round(step * counter);
+                    if (prog != lastProg)
+                    {
+                        OnProgress?.Invoke(Math.Min(prog, 100));
+                        lastProg = prog;
+                    }
+                    process.NextBlock(!Provider.Continuous);
+                    i += blockSize;
                 }
-                catch (ArgumentOutOfRangeException)
-                {
-                    throw new DataException("Small keystore size");
-                }
-
-                // Console.WriteLine($"Block Size: {blockSize}, i: {i}");
-                int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
-                byte[] slice = new byte[actualSize];
-                await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await cryptoCallback(slice, process);
-                await dest.WriteAsync(eSlice, 0, eSlice.Length);
-                counter += blockSize / chunckSize;
-                int prog = (int)Math.Round(step * counter);
-                if (prog != lastProg)
-                {
-                    OnProgress?.Invoke(Math.Min(prog, 100));
-                    lastProg = prog;
-                }
-                process.NextBlock(!Provider.Continuous);
-                i += blockSize;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new DataException("Small keystore size");
             }
         }
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using EnsureThat;
 
+using SAPTeam.Kryptor.CryptoProviders;
+
 namespace SAPTeam.Kryptor
 {
     /// <summary>
@@ -114,12 +116,13 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex = 0;
             }
 
-            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
+            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : Transformers.Rotate(data.Sha256(), DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process));
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
-                result.AddRange(await EncryptChunkAsync(chunk, process));
+                var c = await EncryptChunkAsync(chunk, process);
+                result.AddRange(Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)));
                 process.ChunkIndex++;
             }
 
@@ -155,7 +158,7 @@ namespace SAPTeam.Kryptor
             }
             else
             {
-                process.BlockHash = data.Take(32).ToArray();
+                process.BlockHash = Transformers.Rotate(data.Take(32).ToArray(), DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1);
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -163,7 +166,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(chunk, process));
+                result.AddRange(await DecryptChunkAsync(Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1), process));
                 process.ChunkIndex++;
             }
 
