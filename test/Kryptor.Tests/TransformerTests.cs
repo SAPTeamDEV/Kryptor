@@ -111,10 +111,10 @@ namespace SAPTeam.Kryptor.Tests
             int[] expect1 = { 8, 9, 1, 2, 3, 4, 5, 6, 7 };
             int[] expect2 = { 3, 4, 5, 6, 7, 8, 9, 1, 2 };
 
-            Transformers.Rotate(result1, 2);
-            Transformers.Rotate(result2, -2);
-            Transformers.Rotate(result3, 0);
-            Transformers.Rotate(result4, 3);
+            result1 = Transformers.Rotate(result1, 2);
+            result2 = Transformers.Rotate(result2, -2);
+            result3 = Transformers.Rotate(result3, 0);
+            result4 = Transformers.Rotate(result4, 3);
 
             Assert.Equal(expect1, result1);
             Assert.Equal(expect2, result2);

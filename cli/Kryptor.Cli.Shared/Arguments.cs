@@ -39,6 +39,9 @@ namespace SAPTeam.Kryptor.Cli
         [Option('r', "remove-hash", HelpText = "Usable with -e or -d, Disable hash generation feature.")]
         public bool RemoveHash { get; set; }
 
+        [Option("dbp", HelpText = "Usable with -e or -d, Use more secure dynamic block proccessing feature.")]
+        public bool DynamicBlockProccessing { get; set; }
+
         [Option('C', "create-key", HelpText = "Usable with -e, Creates new keystore for each files.")]
         public bool CreateKey { get; set; }
 

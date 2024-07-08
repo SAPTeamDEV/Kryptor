@@ -72,6 +72,8 @@ public class Entrypoint
             Console.WriteLine("Cancelled by user request");
         };
 
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
         Arguments opt = GetArguments();
         IsValid();
 
@@ -93,6 +95,7 @@ public class Entrypoint
                 BlockSize = opt.BlockSize,
                 Continuous = opt.Continuous,
                 RemoveHash = opt.RemoveHash,
+                DynamicBlockProccessing = opt.DynamicBlockProccessing,
             };
 
             KeyStore ks = default;
@@ -491,5 +494,13 @@ public class Entrypoint
             kp.OnProgress += ShowProgress;
             return kp;
         }
+    }
+
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        Console.WriteLine($"{e.ExceptionObject.GetType().Name.Color(Color.Red)}: {((Exception)e.ExceptionObject).Message}");
+#if RELEASE
+        Environment.Exit(255);
+#endif
     }
 }

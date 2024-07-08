@@ -55,6 +55,8 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public bool? RemoveHash { get; set; } = null;
 
+        public bool? DynamicBlockProccessing { get; set; } = null;
+
         /// <summary>
         /// Gets or sets the extra header entries.
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -104,6 +105,14 @@ namespace SAPTeam.Kryptor.CryptoProviders
                 keyStore[index + 79][9],
                 keyStore[index - 172][6],
             };
+        }
+
+        internal static int GetDynamicBlockSize(KeyStore keyStore, CryptoProcess process)
+        {
+            int index = process.BlockIndex;
+
+            byte[] lastBytes = keyStore.Raw[(keyStore.Raw.Length - 5 - index)..^(1 + index)];
+            return Math.Abs(BitConverter.ToInt32(lastBytes, 0) % 0xC000);
         }
     }
 }

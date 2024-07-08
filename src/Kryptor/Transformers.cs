@@ -41,12 +41,12 @@ namespace SAPTeam.Kryptor
         /// <typeparam name="T">The type of elements in the array.</typeparam>
         /// <param name="array">The array to rotate.</param>
         /// <param name="positions">The number of positions to rotate (positive or negative).</param>
-        public static void Rotate<T>(T[] array, int positions)
+        public static T[] Rotate<T>(T[] array, int positions)
         {
             int length = array.Length;
             if (length == 0)
             {
-                return; // Nothing to rotate
+                return Array.Empty<T>(); // Nothing to rotate
             }
 
             // Normalize the rotation amount (handle negative values and large rotations)
@@ -62,11 +62,7 @@ namespace SAPTeam.Kryptor
                 rotatedArray[newIndex] = array[i];
             }
 
-            // Copy the rotated elements back to the original array
-            for (int i = 0; i < length; i++)
-            {
-                array[i] = rotatedArray[i];
-            }
+            return rotatedArray;
         }
 
         /// <summary>

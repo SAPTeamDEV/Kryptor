@@ -30,8 +30,8 @@ namespace SAPTeam.Kryptor.Tests
             KeyStore ks = KeyStore.Generate(128);
             Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
 
-            Assert.Equal(1048576, kp.DecryptionBufferSize);
-            Assert.Equal(((1048576 / 32) - 1) * 31, kp.EncryptionBufferSize);
+            Assert.Equal(1048576, kp.GetDecryptionBufferSize());
+            Assert.Equal(((1048576 / 32) - 1) * 31, kp.GetEncryptionBufferSize());
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace SAPTeam.Kryptor.Tests
             KeyStore ks = KeyStore.Generate(128);
             Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
 
-            byte[] buffer = new byte[kp.EncryptionBufferSize + 1];
+            byte[] buffer = new byte[kp.GetEncryptionBufferSize() + 1];
             Random.Shared.NextBytes(buffer);
             await Assert.ThrowsAsync<ArgumentException>(async () => await kp.EncryptBlockAsync(buffer));
         }
@@ -64,7 +64,7 @@ namespace SAPTeam.Kryptor.Tests
             KeyStore ks = KeyStore.Generate(128);
             Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
 
-            byte[] buffer = new byte[kp.DecryptionBufferSize + 1];
+            byte[] buffer = new byte[kp.GetDecryptionBufferSize() + 1];
             Random.Shared.NextBytes(buffer);
             await Assert.ThrowsAsync<ArgumentException>(async () => await kp.DecryptBlockAsync(buffer));
         }

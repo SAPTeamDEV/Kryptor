@@ -38,6 +38,8 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public virtual bool RemoveHash { get; protected set; }
 
+        public virtual bool DynamicBlockProccessing { get; protected set; }
+
         /// <summary>
         /// Gets the parent <see cref="Kes"/> instance.
         /// </summary>
@@ -46,7 +48,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the keystore for crypto operations.
         /// </summary>
-        protected KeyStore KeyStore { get; private set; }
+        public KeyStore KeyStore { get; private set; }
 
         /// <summary>
         /// Initializes a new crypto provider.
@@ -60,11 +62,13 @@ namespace SAPTeam.Kryptor
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        protected CryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false)
+        protected CryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false)
         {
             KeyStore = keyStore;
             Continuous = continuous;
             RemoveHash = removeHash;
+            DynamicBlockProccessing = dynamicBlockProccessing;
+
         }
 
         /// <summary>
@@ -83,6 +87,10 @@ namespace SAPTeam.Kryptor
             {
                 RemoveHash = (bool)header.RemoveHash;
             }
+            if (header.DynamicBlockProccessing != null)
+            {
+                DynamicBlockProccessing = (bool)header.DynamicBlockProccessing;
+            }
         }
 
         /// <summary>
@@ -96,9 +104,9 @@ namespace SAPTeam.Kryptor
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.EncryptionBufferSize)
+            if (data.Length > Parent.GetEncryptionBufferSize(process))
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.EncryptionBufferSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.GetEncryptionBufferSize(process)}");
             }
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)
@@ -129,9 +137,9 @@ namespace SAPTeam.Kryptor
         public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.DecryptionBufferSize)
+            if (data.Length > Parent.GetDecryptionBufferSize(process))
             {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.DecryptionBufferSize}");
+                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.GetDecryptionBufferSize(process)}");
             }
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)

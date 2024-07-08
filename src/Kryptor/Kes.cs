@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+
+using SAPTeam.Kryptor.CryptoProviders;
 
 namespace SAPTeam.Kryptor
 {
@@ -23,12 +26,18 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync"/>.
         /// </summary>
-        public int DecryptionBufferSize => BlockSize * Provider.DecryptionChunkSize;
+        public int GetDecryptionBufferSize(CryptoProcess process = default)
+        {
+            return (Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize) * Provider.DecryptionChunkSize;
+        }
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync"/>.
         /// </summary>
-        public int EncryptionBufferSize => (BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+        public int GetEncryptionBufferSize(CryptoProcess process = default)
+        {
+            return ((Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize) - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+        }
 
         #endregion
 
@@ -165,7 +174,7 @@ namespace SAPTeam.Kryptor
                 await dest.WriteAsync(hArray, 0, hArray.Length);
             }
 
-            await ProcessDataAsync(source, dest, EncryptionBufferSize, EncryptBlockAsync);
+            await ProcessDataAsync(source, dest, true);
         }
 
         /// <summary>
@@ -193,34 +202,66 @@ namespace SAPTeam.Kryptor
                 }
             }
 
-            await ProcessDataAsync(source, dest, DecryptionBufferSize, DecryptBlockAsync);
+            await ProcessDataAsync(source, dest, false);
         }
 
-        private async Task ProcessDataAsync(Stream source, Stream dest, int blockSize, Func<byte[], CryptoProcess, Task<byte[]>> callback)
+        private async Task ProcessDataAsync(Stream source, Stream dest, bool doEncrypt)
         {
             CryptoProcess process = new CryptoProcess();
             process.InitializeData();
 
-            double step = (double)((double)blockSize / source.Length) * 100;
-            int counter = 1;
+            Func<CryptoProcess, int> blockSizeCallback;
+            Func<byte[], CryptoProcess, Task<byte[]>> cryptoCallback;
+            int chunckSize = 0;
+
+            if (doEncrypt)
+            {
+                blockSizeCallback = GetEncryptionBufferSize;
+                cryptoCallback = EncryptBlockAsync;
+                chunckSize = Provider.EncryptionChunkSize;
+            }
+            else
+            {
+                blockSizeCallback = GetDecryptionBufferSize;
+                cryptoCallback = DecryptBlockAsync;
+                chunckSize = Provider.DecryptionChunkSize;
+            }
+
+            // Console.WriteLine($"Chunk Size: {chunckSize}");
+
+            double step = (double)((double)chunckSize / source.Length) * 100;
+            int counter = 0;
             int lastProg = -1;
+            int blockSize;
+            long i = 0;
             OnProgress?.Invoke(0);
 
-            for (long i = 0; i < source.Length; i += blockSize)
+            while (i < source.Length)
             {
+                try
+                {
+                    blockSize = blockSizeCallback(process);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    throw new DataException("Small keystore size");
+                }
+
+                // Console.WriteLine($"Block Size: {blockSize}, i: {i}");
                 int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
                 byte[] slice = new byte[actualSize];
                 await source.ReadAsync(slice, 0, slice.Length);
-                var eSlice = await callback(slice, process);
+                var eSlice = await cryptoCallback(slice, process);
                 await dest.WriteAsync(eSlice, 0, eSlice.Length);
+                counter += blockSize / chunckSize;
                 int prog = (int)Math.Round(step * counter);
                 if (prog != lastProg)
                 {
                     OnProgress?.Invoke(Math.Min(prog, 100));
                     lastProg = prog;
                 }
-                counter++;
                 process.NextBlock(!Provider.Continuous);
+                i += blockSize;
             }
         }
 
@@ -248,7 +289,7 @@ namespace SAPTeam.Kryptor
         {
             var result = await Provider.EncryptBlockAsync(data, process);
 
-            return result.Length > DecryptionBufferSize
+            return result.Length > GetDecryptionBufferSize(process)
                 ? throw new OverflowException("Resulting buffer size is larger than the allowed size")
                 : result;
         }
@@ -277,7 +318,7 @@ namespace SAPTeam.Kryptor
         {
             var result = await Provider.DecryptBlockAsync(data, process);
 
-            return result.Length > EncryptionBufferSize
+            return result.Length > GetEncryptionBufferSize(process)
                 ? throw new OverflowException("Resulting buffer size is larger than the allowed size")
                 : result;
         }
