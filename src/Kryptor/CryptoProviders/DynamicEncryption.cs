@@ -26,10 +26,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public DynamicEncryption(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
+        public DynamicEncryption(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
         {
-            // FIXME DE is broken
-            throw new NotImplementedException("This crypto provider is broken");
+
         }
 
         /// <inheritdoc/>

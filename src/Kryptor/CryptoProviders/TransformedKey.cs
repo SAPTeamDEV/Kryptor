@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
-        public TransformedKey(KeyStore keyStore, bool continuous = false, bool removeHash = false) : base(keyStore, continuous, removeHash)
+        public TransformedKey(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
         {
 
         }

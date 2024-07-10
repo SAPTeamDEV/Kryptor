@@ -116,13 +116,14 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex = 0;
             }
 
-            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : Transformers.Rotate(data.Sha256(), DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process));
+            var _hash = data.Sha256();
+            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : _hash;
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
                 var c = await EncryptChunkAsync(chunk, process);
-                result.AddRange(Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)));
+                result.AddRange(DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
                 process.ChunkIndex++;
             }
 
@@ -158,7 +159,8 @@ namespace SAPTeam.Kryptor
             }
             else
             {
-                process.BlockHash = Transformers.Rotate(data.Take(32).ToArray(), DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1);
+                var _hash = data.Take(32).ToArray();
+                process.BlockHash = DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -166,7 +168,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1), process));
+                result.AddRange(await DecryptChunkAsync(DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process));
                 process.ChunkIndex++;
             }
 
