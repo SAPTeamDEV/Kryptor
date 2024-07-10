@@ -28,7 +28,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int GetDecryptionBufferSize(CryptoProcess process = default)
         {
-            return process.BlockSize * Provider.DecryptionChunkSize;
+            return (process.BlockSize > 0 ? process.BlockSize : BlockSize) * Provider.DecryptionChunkSize;
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int GetEncryptionBufferSize(CryptoProcess process = default)
         {
-            return (process.BlockSize - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+            return ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
         }
 
         #endregion
