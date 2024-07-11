@@ -116,8 +116,8 @@ namespace SAPTeam.Kryptor
                 process.ChunkIndex = 0;
             }
 
-            var _hash = data.Sha256();
-            byte[] hash = process.BlockHash = RemoveHash ? Array.Empty<byte>() : DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : _hash;
+            process.BlockHash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
+            byte[] hash = DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
