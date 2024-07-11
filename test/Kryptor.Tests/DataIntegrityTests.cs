@@ -23,6 +23,227 @@ namespace SAPTeam.Kryptor.Tests
         }
 
         [Fact]
+        public void SKTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TKTest()
+        {
+            CryptoProvider cp = new TransformedKey(ks);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVTest()
+        {
+            CryptoProvider cp = new MixedVector(ks);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TPTest()
+        {
+            CryptoProvider cp = new TransformedParameters(ks);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DETest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithContinuousTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, continuous: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TKWithContinuousTest()
+        {
+            CryptoProvider cp = new TransformedKey(ks, continuous: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithContinuousTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, continuous: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TPWithContinuousTest()
+        {
+            CryptoProvider cp = new TransformedParameters(ks, continuous: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithContinuousTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, continuous: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithRemoveHashTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithRemoveHashTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithRemoveHashTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
         public void SKWithDBPTest()
         {
             CryptoProvider cp = new StandaloneKey(ks, dynamicBlockProccessing: true);
@@ -94,6 +315,244 @@ namespace SAPTeam.Kryptor.Tests
         public void DEWithDBPTest()
         {
             CryptoProvider cp = new DynamicEncryption(ks, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithContinuousAndRemoveHashTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, continuous: true, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithContinuousAndRemoveHashTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, continuous: true, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithContinuousAndRemoveHashTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, continuous: true, removeHash: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithContinuousAndDBPTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, continuous: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TKWithContinuousAndDBPTest()
+        {
+            CryptoProvider cp = new TransformedKey(ks, continuous: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithContinuousAndDBPTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, continuous: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void TPWithContinuousAndDBPTest()
+        {
+            CryptoProvider cp = new TransformedParameters(ks, continuous: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithContinuousAndDBPTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, continuous: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, removeHash: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, removeHash: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, removeHash: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void SKWithContinuousAndRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new StandaloneKey(ks, continuous: true, removeHash: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void MVWithContinuousAndRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new MixedVector(ks, continuous: true, removeHash: true, dynamicBlockProccessing: true);
+            Kes kes = new Kes(cp);
+
+            MemoryStream ms = new MemoryStream(data);
+            MemoryStream ms2 = new MemoryStream();
+
+            kes.EncryptAsync(ms, ms2).Wait();
+
+            MemoryStream ms3 = new MemoryStream();
+
+            kes.DecryptAsync(ms2, ms3).Wait();
+            Assert.Equal(ms.ToArray(), ms3.ToArray());
+        }
+
+        [Fact]
+        public void DEWithContinuousAndRemoveHashAndDBPTest()
+        {
+            CryptoProvider cp = new DynamicEncryption(ks, continuous: true, removeHash: true, dynamicBlockProccessing: true);
             Kes kes = new Kes(cp);
 
             MemoryStream ms = new MemoryStream(data);
