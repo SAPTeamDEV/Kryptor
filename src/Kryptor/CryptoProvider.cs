@@ -24,31 +24,27 @@ namespace SAPTeam.Kryptor
         /// Gets the Encryption Chunk Size.
         /// </summary>
         public readonly int EncryptionChunkSize = 31;
+        
+        private CryptoProviderConfiguration configuration;
 
         /// <summary>
-        /// Gets the name of the crypto provider.
+        /// Gets the configuration of this crypto provider instance.
         /// </summary>
-        public abstract string Name { get; }
+        public CryptoProviderConfiguration Configuration
+        {
+            get { return configuration; }
+            set
+            {
+                string selfId = CryptoProviderFactory.GetRegisteredCryptoProviderId(GetType());
+                if (value.Id != null && CryptoProviderFactory.GetRegisteredCryptoProviderId(value.Id) != selfId)
+                {
+                    throw new InvalidOperationException("Invalid configuration");
+                }
 
-        /// <summary>
-        /// Gets the configuration of continuous encryption method.
-        /// </summary>
-        public virtual bool Continuous { get; protected set; }
-
-        /// <summary>
-        /// Gets the configuration of remove hash feature.
-        /// </summary>
-        public virtual bool RemoveHash { get; protected set; }
-
-        /// <summary>
-        /// Gets the configuration of dynamic block processing feature.
-        /// </summary>
-        public virtual bool DynamicBlockProccessing { get; protected set; }
-
-        /// <summary>
-        /// Gets the parent <see cref="Kes"/> instance.
-        /// </summary>
-        protected internal Kes Parent { get; internal set; }
+                value.Id = selfId;
+                configuration = value;
+            }
+        }
 
         /// <summary>
         /// Gets the keystore for crypto operations.
@@ -56,48 +52,39 @@ namespace SAPTeam.Kryptor
         public KeyStore KeyStore { get; private set; }
 
         /// <summary>
+        /// Updates the header to include crypto provider data.
+        /// </summary>
+        /// <param name="header">
+        /// The header to modify.
+        /// </param>
+        protected internal virtual void UpdateHeader(Header header)
+        {
+            if ((int)header.Verbosity > 2)
+            {
+                header.Configuration = Configuration;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new crypto provider.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
         /// </param>
-        /// <param name="continuous">
-        /// Whether to use continuous encryption method.
+        /// <param name="configuration">
+        /// The configuration to initialize the crypto provider
         /// </param>
-        /// <param name="removeHash">
-        /// Whether to remove block hashes.
-        /// </param>
-        /// <param name="dynamicBlockProccessing">
-        /// Whether to use dynamic block processing feature.
-        /// </param>
-        protected CryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false)
+        protected CryptoProvider(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
             KeyStore = keyStore;
-            Continuous = continuous;
-            RemoveHash = removeHash;
-            DynamicBlockProccessing = dynamicBlockProccessing;
 
-        }
-
-        /// <summary>
-        /// Applies the header properties to the crypto provider.
-        /// </summary>
-        /// <param name="header">
-        /// The header to apply properties.
-        /// </param>
-        protected internal virtual void ApplyHeader(Header header)
-        {
-            if (header.Continuous != null)
+            if (configuration != null)
             {
-                Continuous = (bool)header.Continuous;
+                Configuration = configuration;
             }
-            if (header.RemoveHash != null)
+            else
             {
-                RemoveHash = (bool)header.RemoveHash;
-            }
-            if (header.DynamicBlockProccessing != null)
-            {
-                DynamicBlockProccessing = (bool)header.DynamicBlockProccessing;
+                Configuration = new CryptoProviderConfiguration();
             }
         }
 
@@ -112,24 +99,20 @@ namespace SAPTeam.Kryptor
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.GetEncryptionBufferSize(process))
-            {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.GetEncryptionBufferSize(process)}");
-            }
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
                 process.ChunkIndex = 0;
             }
 
-            process.BlockHash = RemoveHash ? Array.Empty<byte>() : data.Sha256();
-            byte[] hash = DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
+            process.BlockHash = Configuration.RemoveHash ? Array.Empty<byte>() : data.Sha256();
+            byte[] hash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
                 var c = await EncryptChunkAsync(chunk, process);
-                result.AddRange(DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
+                result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
                 process.ChunkIndex++;
             }
 
@@ -147,10 +130,6 @@ namespace SAPTeam.Kryptor
         public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
-            if (data.Length > Parent.GetDecryptionBufferSize(process))
-            {
-                throw new ArgumentException($"Max allowed size for input buffer is :{Parent.GetDecryptionBufferSize(process)}");
-            }
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
@@ -159,14 +138,14 @@ namespace SAPTeam.Kryptor
 
             IEnumerable<byte[]> chunks;
 
-            if (RemoveHash)
+            if (Configuration.RemoveHash)
             {
                 chunks = data.Chunk(DecryptionChunkSize);
             }
             else
             {
                 var _hash = data.Take(32).ToArray();
-                process.BlockHash = DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
+                process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -174,13 +153,13 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process));
+                result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process));
                 process.ChunkIndex++;
             }
 
             var array = result.ToArray();
 
-            return !RemoveHash && !process.BlockHash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
+            return !Configuration.RemoveHash && !process.BlockHash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
         }
 
         /// <summary>
@@ -202,20 +181,5 @@ namespace SAPTeam.Kryptor
         /// </param>
         /// <returns>Decrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process);
-
-        /// <summary>
-        /// Updates the header to include crypto provider data.
-        /// </summary>
-        /// <param name="header">
-        /// The header to modify.
-        /// </param>
-        protected internal virtual void UpdateHeader(Header header)
-        {
-            if ((int)header.DetailLevel > 2)
-            {
-                header.Continuous = Continuous;
-                header.RemoveHash = RemoveHash;
-            }
-        }
     }
 }

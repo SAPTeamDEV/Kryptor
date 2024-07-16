@@ -14,8 +14,6 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class Kes
     {
-        private CryptoProvider provider;
-
         #region Size Parameters
 
         /// <summary>
@@ -36,7 +34,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public int GetEncryptionBufferSize(CryptoProcess process = default)
         {
-            return ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+            return ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.Configuration.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
         }
 
         #endregion
@@ -44,56 +42,21 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the version of the encryptor api backend.
         /// </summary>
-        public static Version Version => new Version(0, 13, 0, 0);
+        public static Version Version => new Version(0, 14, 0, 0);
 
         /// <summary>
         /// Gets or sets the crypto provider.
         /// </summary>
-        public CryptoProvider Provider
-        {
-            get => provider;
-            set
-            {
-                if (value.Parent != this)
-                {
-                    value.Parent = this;
-                }
-
-                provider = value;
-            }
-        }
+        public CryptoProvider Provider { get; set; }
 
         /// <summary>
         /// Called when a part of file is encrypted or decrypted.
         /// </summary>
         public event Action<int> OnProgress;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Kes"/> class.
-        /// </summary>
-        /// <param name="provider">
-        /// The crypto provider.
-        /// </param>
-        /// <param name="header">
-        /// The header to initialize <see cref="Kes"/>.
-        /// </param>
-        public Kes(CryptoProvider provider, Header header) : this(header)
+        public Kes(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize = default) : this(blockSize)
         {
-            Provider = provider;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Kes"/> class.
-        /// </summary>
-        /// <param name="header">
-        /// The header to initialize <see cref="Kes"/>.
-        /// </param>
-        public Kes(Header header)
-        {
-            if (header.BlockSize != null && header.BlockSize > 0)
-            {
-                BlockSize = (int)header.BlockSize;
-            }
+            Provider = CryptoProviderFactory.Create(keyStore, configuration);
         }
 
         /// <summary>
@@ -126,12 +89,12 @@ namespace SAPTeam.Kryptor
 
         private void UpdateHeader(Header header)
         {
-            if ((int)header.DetailLevel > 0)
+            if ((int)header.Verbosity > 0)
             {
                 header.Version = Version;
                 header.EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
-                if ((int)header.DetailLevel > 1)
+                if ((int)header.Verbosity > 1)
                 {
                     header.BlockSize = BlockSize;
                 }
@@ -160,7 +123,7 @@ namespace SAPTeam.Kryptor
 
                 header = new Header()
                 {
-                    DetailLevel = HeaderDetails.Normal,
+                    Verbosity = HeaderVerbosity.Normal,
                     Extra = extra,
                 };
             }
@@ -168,7 +131,7 @@ namespace SAPTeam.Kryptor
             UpdateHeader(header);
             Provider.UpdateHeader(header);
 
-            if (header.DetailLevel > 0)
+            if (header.Verbosity > 0)
             {
                 var hArray = header.CreatePayload();
                 await dest.WriteAsync(hArray, 0, hArray.Length);
@@ -238,7 +201,7 @@ namespace SAPTeam.Kryptor
             {
                 while (i < source.Length)
                 {
-                    process.BlockSize = Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
+                    process.BlockSize = Provider.Configuration.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
                     blockSize = blockSizeCallback(process);
                     int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
 
@@ -255,7 +218,7 @@ namespace SAPTeam.Kryptor
                         lastProg = prog;
                     }
 
-                    process.NextBlock(!Provider.Continuous);
+                    process.NextBlock(!Provider.Configuration.Continuous);
                     i += blockSize;
                 }
             }
@@ -287,6 +250,11 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         private async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
         {
+            if (data.Length > GetEncryptionBufferSize(process))
+            {
+                throw new ArgumentException($"Max allowed size for input buffer is :{GetEncryptionBufferSize(process)}");
+            }
+
             var result = await Provider.EncryptBlockAsync(data, process);
 
             return result.Length > GetDecryptionBufferSize(process)
@@ -316,6 +284,11 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted data block.</returns>
         private async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
         {
+            if (data.Length > GetDecryptionBufferSize(process))
+            {
+                throw new ArgumentException($"Max allowed size for input buffer is :{GetDecryptionBufferSize(process)}");
+            }
+
             var result = await Provider.DecryptBlockAsync(data, process);
 
             return result.Length > GetEncryptionBufferSize(process)

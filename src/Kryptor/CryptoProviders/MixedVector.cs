@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.CryptoProviders
@@ -9,25 +10,16 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class MixedVector : CryptoProvider
     {
-        /// <inheritdoc/>
-        public override string Name => "MixedVector";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedVector"/> class.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
         /// </param>
-        /// <param name="continuous">
-        /// Whether to use continuous encryption method.
+        /// <param name="configuration">
+        /// The configuration to initialize the crypto provider
         /// </param>
-        /// <param name="removeHash">
-        /// Whether to remove block hashes.
-        /// </param>
-        /// <param name="dynamicBlockProccessing">
-        /// Whether to use dynamic block processing feature.
-        /// </param>
-        public MixedVector(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
+        public MixedVector(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
         {
 
         }
@@ -42,17 +34,6 @@ namespace SAPTeam.Kryptor.CryptoProviders
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
             return await AesHelper.DecryptAesCbcAsync(cipher, KeyStore[process.ChunkIndex], DynamicEncryption.CreateMixedIV(KeyStore, process));
-        }
-
-        /// <inheritdoc/>
-        protected internal override void UpdateHeader(Header header)
-        {
-            base.UpdateHeader(header);
-
-            if ((int)header.DetailLevel > 2)
-            {
-                header.CryptoType = CryptoTypes.MV;
-            }
         }
     }
 }

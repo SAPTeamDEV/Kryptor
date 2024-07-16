@@ -26,34 +26,19 @@ namespace SAPTeam.Kryptor
         public Version EngineVersion { get; set; }
 
         /// <summary>
-        /// Gets or sets the level of details included in this header.
+        /// Gets or sets the amount of details included in this header.
         /// </summary>
-        public HeaderDetails DetailLevel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the crypto provider.
-        /// </summary>
-        public CryptoTypes CryptoType { get; set; }
+        public HeaderVerbosity Verbosity { get; set; }
 
         /// <summary>
         /// Gets or sets the file block size.
         /// </summary>
-        public int? BlockSize { get; set; } = null;
+        public int BlockSize { get; set; }
 
         /// <summary>
-        /// Gets or sets the configuration of continuous method.
+        /// Gets or sets the crypto provider configuration.
         /// </summary>
-        public bool? Continuous { get; set; } = null;
-
-        /// <summary>
-        /// Gets or sets the configuration of remove hash feature.
-        /// </summary>
-        public bool? RemoveHash { get; set; } = null;
-
-        /// <summary>
-        /// Gets or sets the configuration of dynamic block processing feature.
-        /// </summary>
-        public bool? DynamicBlockProccessing { get; set; } = null;
+        public CryptoProviderConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Gets or sets the extra header entries.
@@ -126,7 +111,7 @@ namespace SAPTeam.Kryptor
 
                     return new T()
                     {
-                        DetailLevel = HeaderDetails.Empty
+                        Verbosity = HeaderVerbosity.Empty
                     };
                 }
 
@@ -148,18 +133,18 @@ namespace SAPTeam.Kryptor
             {
                 detail++;
 
-                if (header.BlockSize != null)
+                if (header.BlockSize > 0)
                 {
                     detail++;
 
-                    if (header.Continuous != null && header.RemoveHash != null)
+                    if (header.Configuration != null)
                     {
                         detail++;
                     }
                 }
             }
 
-            header.DetailLevel = (HeaderDetails)detail;
+            header.Verbosity = (HeaderVerbosity)detail;
 
             stream.Seek(endPos + EndHeaderPattern.Length, SeekOrigin.Begin);
 

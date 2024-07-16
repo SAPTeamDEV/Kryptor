@@ -30,8 +30,8 @@ namespace SAPTeam.Kryptor.Cli
         [Option('B', "base64", SetName = "generate", HelpText = "Usable with -g, Saves keystore as base64. Debug use.")]
         public bool Base64 { get; set; }
 
-        [Option('p', "provider", Default = CryptoTypes.MV, HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
-        public CryptoTypes Provider { get; set; }
+        [Option('p', "provider", Default = "MV", HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
+        public string Provider { get; set; }
 
         [Option('c', "continuous", HelpText = "Usable with -e or -d, Use more secure continuous encryption/decryption method.")]
         public bool Continuous { get; set; }

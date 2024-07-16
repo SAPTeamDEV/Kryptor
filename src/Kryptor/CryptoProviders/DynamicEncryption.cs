@@ -11,22 +11,16 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class DynamicEncryption : CryptoProvider
     {
-        /// <inheritdoc/>
-        public override string Name => "DynamicEncryption";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicEncryption"/> class.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
         /// </param>
-        /// <param name="continuous">
-        /// Whether to use continuous encryption method.
+        /// <param name="configuration">
+        /// The configuration to initialize the crypto provider
         /// </param>
-        /// <param name="removeHash">
-        /// Whether to remove block hashes.
-        /// </param>
-        public DynamicEncryption(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
+        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
         {
 
         }
@@ -58,21 +52,10 @@ namespace SAPTeam.Kryptor.CryptoProviders
             return await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process));
         }
 
-        /// <inheritdoc/>
-        protected internal override void UpdateHeader(Header header)
-        {
-            base.UpdateHeader(header);
-
-            if ((int)header.DetailLevel > 2)
-            {
-                header.CryptoType = CryptoTypes.DE;
-            }
-        }
-
         private byte[] CreateDynamicKey(CryptoProcess process)
         {
-            var key1 = KeyStore[Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
-            var key2 = KeyStore[process.ChunkIndex - (RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
+            var key1 = KeyStore[Configuration.Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
+            var key2 = KeyStore[process.ChunkIndex - (Configuration.RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
             var key3 = KeyStore[process.ChunkIndex + process.BlockSize];
 
             byte[] mKey = process.BlockIndex > 0

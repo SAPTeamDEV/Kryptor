@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Linq;
 
-
 #if !NETFRAMEWORK
 using ANSIConsole;
 #endif
@@ -14,46 +13,6 @@ using ANSIConsole;
 using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
 
-
-/* Unmerged change from project 'Kryptor.Cli (net6.0)'
-Before:
-using CommandLine;
-using System.Runtime.ConstrainedExecution;
-After:
-using CommandLine;
-
-using System.Runtime.ConstrainedExecution;
-*/
-
-/* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
-Before:
-using CommandLine;
-using System.Runtime.ConstrainedExecution;
-After:
-using CommandLine;
-
-using System.Runtime.ConstrainedExecution;
-*/
-
-/* Unmerged change from project 'Kryptor.Cli.Legacy (net462)'
-Before:
-using CommandLine;
-using System.Runtime.ConstrainedExecution;
-After:
-using CommandLine;
-
-using System.Runtime.ConstrainedExecution;
-*/
-
-/* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
-Before:
-using CommandLine;
-using System.Runtime.ConstrainedExecution;
-After:
-using CommandLine;
-
-using System.Runtime.ConstrainedExecution;
-*/
 using CommandLine;
 
 public class Entrypoint
@@ -89,32 +48,23 @@ public class Entrypoint
 
         if (opt.Encrypt || opt.Decrypt)
         {
-            CLIHeader paramHeader = new CLIHeader()
+            CryptoProviderConfiguration configuration = new CryptoProviderConfiguration()
             {
-                CryptoType = opt.Provider,
-                BlockSize = opt.BlockSize,
+                Id = opt.Provider,
                 Continuous = opt.Continuous,
                 RemoveHash = opt.RemoveHash,
                 DynamicBlockProccessing = opt.DynamicBlockProccessing,
             };
 
             KeyStore ks = default;
-            Kes kp = InitKES(paramHeader);
+            Kes kp = InitKES(opt.BlockSize);
 
-            if ((int)opt.Provider > 0 && (int)opt.Provider < 3)
-            {
-                Console.WriteLine($"Using {opt.Provider.ToString().Color(Color.LightSalmon)} Crypto Provider");
-                Console.WriteLine($"{"Warning:".Color(ConsoleColor.Yellow)} You are using a vulnerable crypto provider, it's recommended to use MV or DE as Crypto Provider.");
-            }
-            else
-            {
-                Console.WriteLine($"Using {opt.Provider.ToString().Color(Color.Moccasin)} Crypto Provider");
-            }
+            Console.WriteLine($"Using {CryptoProviderFactory.GetRegisteredCryptoProviderId(opt.Provider).Color(Color.Moccasin)} Crypto Provider");
 
             if (opt.Decrypt || !opt.CreateKey)
             {
                 ks = ReadKeystore(opt.KeyStore);
-                CryptoProvider skcp = CryptoProviderFactory.Create(ks, paramHeader);
+                CryptoProvider skcp = CryptoProviderFactory.Create(ks, configuration);
                 kp.Provider = skcp;
             }
 
@@ -125,7 +75,7 @@ public class Entrypoint
                     if (opt.CreateKey)
                     {
                         ks = GenerateKeystore();
-                        CryptoProvider skcp = CryptoProviderFactory.Create(ks, paramHeader);
+                        CryptoProvider skcp = CryptoProviderFactory.Create(ks, configuration);
                         kp.Provider = skcp;
                     }
 
@@ -169,7 +119,7 @@ public class Entrypoint
 
             var header = new CLIHeader()
             {
-                DetailLevel = HeaderDetails.Normal,
+                Verbosity = HeaderVerbosity.Normal,
                 OriginalName = Path.GetFileName(file),
                 CliVersion = new Version(Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
                 Extra = extra,
@@ -198,14 +148,14 @@ public class Entrypoint
 
                 var header = Header.ReadHeader<CLIHeader>(f);
 
-                if (header.DetailLevel == HeaderDetails.Empty)
+                if (header.Verbosity == HeaderVerbosity.Empty)
                 {
                     Console.WriteLine($"{"Warning:".Color(ConsoleColor.Yellow)} Empty header found, The decryption may be fail");
                 }
 #if DEBUG
                 else
                 {
-                    Console.WriteLine($"Detail Level: {header.DetailLevel}");
+                    Console.WriteLine($"Verbosity: {header.Verbosity}");
                     if (header.Version != null)
                     {
                         Console.WriteLine($"API Version: {header.Version}");
@@ -221,19 +171,17 @@ public class Entrypoint
                         Console.WriteLine($"CLI Version: {header.CliVersion}");
                     }
 
-                    if ((int)header.CryptoType > 0)
-                    {
-                        Console.WriteLine($"Crypto Type: {header.CryptoType}");
-                    }
-
-                    if (header.BlockSize != null)
+                    if (header.BlockSize > 0)
                     {
                         Console.WriteLine($"Block Size: {header.BlockSize}");
                     }
 
-                    if (header.Continuous != null)
+                    if (header.Configuration != null)
                     {
-                        Console.WriteLine($"Continuous: {header.Continuous}");
+                        Console.WriteLine($"Id: {header.Configuration.Id}");
+                        Console.WriteLine($"Continuous: {header.Configuration.Continuous}");
+                        Console.WriteLine($"Remove Hash: {header.Configuration.RemoveHash}");
+                        Console.WriteLine($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
                     }
 
                     if (header.OriginalName != null)
@@ -248,7 +196,7 @@ public class Entrypoint
                 }
 #endif
 
-                if ((int)header.DetailLevel > 0 && header.Version != Kes.Version)
+                if ((int)header.Verbosity > 0 && header.Version != Kes.Version)
                 {
                     if (header.CliVersion != null)
                     {
@@ -474,9 +422,9 @@ public class Entrypoint
             return ks;
         }
 
-        Kes InitKES(Header header)
+        Kes InitKES(int blockSize)
         {
-            Kes kp = new Kes(header);
+            Kes kp = new Kes(blockSize);
             kp.OnProgress += ShowProgress;
             return kp;
         }

@@ -9,25 +9,16 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class StandaloneKey : CryptoProvider
     {
-        /// <inheritdoc/>
-        public override string Name => "StandaloneKey";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StandaloneKey"/> class.
         /// </summary>
         /// <param name="keyStore">
         /// The keystore with at least 2 keys.
         /// </param>
-        /// <param name="continuous">
-        /// Whether to use continuous encryption method.
+        /// <param name="configuration">
+        /// The configuration to initialize the crypto provider
         /// </param>
-        /// <param name="removeHash">
-        /// Whether to remove block hashes.
-        /// </param>
-        /// <param name="dynamicBlockProccessing">
-        /// Whether to use dynamic block processing feature.
-        /// </param>
-        public StandaloneKey(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
+        public StandaloneKey(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
         {
 
         }
@@ -42,17 +33,6 @@ namespace SAPTeam.Kryptor.CryptoProviders
         protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
         {
             return await AesHelper.DecryptAesEcbAsync(cipher, KeyStore[process.ChunkIndex]);
-        }
-
-        /// <inheritdoc/>
-        protected internal override void UpdateHeader(Header header)
-        {
-            base.UpdateHeader(header);
-
-            if ((int)header.DetailLevel > 2)
-            {
-                header.CryptoType = CryptoTypes.SK;
-            }
         }
     }
 }

@@ -17,25 +17,28 @@ int mult = 0;
 
 Console.Write("Enter CryptoProvider numeric ID: ");
 var pIn = Console.ReadLine();
-CryptoTypes ct = (CryptoTypes)int.Parse(pIn);
+
+var con = new CryptoProviderConfiguration()
+{
+    Id = pIn,
+};
 
 var inHeader = new Header()
 {
-    CryptoType = ct,
-    DetailLevel = HeaderDetails.Normal,
+    Verbosity = HeaderVerbosity.Normal,
 };
 
+if (!File.Exists("test.kks"))
+{
+    File.WriteAllBytes("test.kks", KeyStore.Generate().Raw);
+}
+
 KeyStore ks = new KeyStore(File.ReadAllBytes("test.kks"));
-CryptoProvider cp = CryptoProviderFactory.Create(ks, inHeader);
-Kes kp = new(cp, inHeader);
+CryptoProvider cp = CryptoProviderFactory.Create(ks, con);
+Kes kp = new(cp, inHeader.BlockSize);
 
 while (true)
 {
-    if (!File.Exists("test.kks"))
-    {
-        File.WriteAllBytes("test.kks", KeyStore.Generate().Raw);
-    }
-
     Console.Write("Enter text");
 
     if (!string.IsNullOrEmpty(input))
@@ -98,7 +101,7 @@ while (true)
     Header header = Header.ReadHeader<Header>(dest);
     if (printlog)
     {
-        Console.WriteLine($"Detail Level: {header.DetailLevel}");
+        Console.WriteLine($"Verbosity: {header.Verbosity}");
         if (header.Version != null)
         {
             Console.WriteLine($"API Version: {header.Version}");
@@ -109,19 +112,17 @@ while (true)
             Console.WriteLine($"Engine Version: {header.EngineVersion}");
         }
 
-        if ((int)header.CryptoType > 0)
-        {
-            Console.WriteLine($"Crypto Type: {header.CryptoType}");
-        }
-
-        if (header.BlockSize != null)
+        if (header.BlockSize > 0)
         {
             Console.WriteLine($"Block Size: {header.BlockSize}");
         }
 
-        if (header.Continuous != null)
+        if (header.Configuration != null)
         {
-            Console.WriteLine($"Continuous: {header.Continuous}");
+            Console.WriteLine($"Id: {header.Configuration.Id}");
+            Console.WriteLine($"Continuous: {header.Configuration.Continuous}");
+            Console.WriteLine($"Remove Hash: {header.Configuration.RemoveHash}");
+            Console.WriteLine($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
         }
 
         if (header.Extra != null)
