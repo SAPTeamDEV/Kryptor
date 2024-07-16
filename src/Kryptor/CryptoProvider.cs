@@ -205,11 +205,6 @@ namespace SAPTeam.Kryptor
         /// </param>
         protected internal virtual void UpdateHeader(Header header)
         {
-            if ((int)header.DetailLevel > 1)
-            {
-                header.Fingerprint = KeyStore.Fingerprint;
-            }
-
             if ((int)header.DetailLevel > 2)
             {
                 header.Continuous = Continuous;

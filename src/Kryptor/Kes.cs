@@ -131,7 +131,7 @@ namespace SAPTeam.Kryptor
                 header.Version = Version;
                 header.EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
-                if ((int)header.DetailLevel > 2)
+                if ((int)header.DetailLevel > 1)
                 {
                     header.BlockSize = BlockSize;
                 }

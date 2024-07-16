@@ -36,11 +36,6 @@ namespace SAPTeam.Kryptor
         public CryptoTypes CryptoType { get; set; }
 
         /// <summary>
-        /// Gets or sets the fingerprint of encrypted file.
-        /// </summary>
-        public byte[] Fingerprint { get; set; }
-
-        /// <summary>
         /// Gets or sets the file block size.
         /// </summary>
         public int? BlockSize { get; set; } = null;
@@ -150,11 +145,11 @@ namespace SAPTeam.Kryptor
             {
                 detail++;
 
-                if (header.Fingerprint != null)
+                if (header.BlockSize != null)
                 {
                     detail++;
 
-                    if (header.BlockSize != null && header.Continuous != null && header.RemoveHash != null)
+                    if (header.Continuous != null && header.RemoveHash != null)
                     {
                         detail++;
                     }

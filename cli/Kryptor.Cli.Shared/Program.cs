@@ -264,20 +264,6 @@ public class Entrypoint
                     }
                 }
 
-                if ((int)header.DetailLevel > 1)
-                {
-                    string fingerprint = header.Fingerprint.FormatFingerprint();
-#if DEBUG
-                    Console.WriteLine($"File Fingerprint: {fingerprint.Color(Color.LightGoldenrodYellow)}");
-#endif
-                    if (fingerprint != ksFingerprint)
-                    {
-                        Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Cannot decrypt file with this keystore.");
-                        Environment.ExitCode = 0xFE;
-                        return;
-                    }
-                }
-
                 string origName = header.OriginalName ?? "decrypted file.dec";
                 string resolvedName = GetNewFileName(file, origName);
 

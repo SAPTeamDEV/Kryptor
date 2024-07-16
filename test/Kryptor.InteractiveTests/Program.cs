@@ -109,11 +109,6 @@ while (true)
             Console.WriteLine($"Engine Version: {header.EngineVersion}");
         }
 
-        if (header.Fingerprint != null)
-        {
-            Console.WriteLine($"Fingerprint: {BitConverter.ToString(header.Fingerprint).Replace('-', ':')}");
-        }
-
         if ((int)header.CryptoType > 0)
         {
             Console.WriteLine($"Crypto Type: {header.CryptoType}");
