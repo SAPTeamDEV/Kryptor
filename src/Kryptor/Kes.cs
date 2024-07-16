@@ -229,7 +229,7 @@ namespace SAPTeam.Kryptor
 
             // Console.WriteLine($"Chunk Size: {chunckSize}");
 
-            double step = (double)((double)chunckSize / source.Length) * 100;
+            double step = (double)((double)chunckSize / (source.Length - source.Position)) * 100;
             int counter = 0;
             int lastProg = -1;
             int blockSize;
