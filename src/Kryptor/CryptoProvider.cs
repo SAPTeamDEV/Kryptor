@@ -40,6 +40,9 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public virtual bool RemoveHash { get; protected set; }
 
+        /// <summary>
+        /// Gets the configuration of dynamic block processing feature.
+        /// </summary>
         public virtual bool DynamicBlockProccessing { get; protected set; }
 
         /// <summary>
@@ -63,6 +66,9 @@ namespace SAPTeam.Kryptor
         /// </param>
         /// <param name="removeHash">
         /// Whether to remove block hashes.
+        /// </param>
+        /// <param name="dynamicBlockProccessing">
+        /// Whether to use dynamic block processing feature.
         /// </param>
         protected CryptoProvider(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false)
         {

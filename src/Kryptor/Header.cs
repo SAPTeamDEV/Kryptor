@@ -50,6 +50,9 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public bool? RemoveHash { get; set; } = null;
 
+        /// <summary>
+        /// Gets or sets the configuration of dynamic block processing feature.
+        /// </summary>
         public bool? DynamicBlockProccessing { get; set; } = null;
 
         /// <summary>

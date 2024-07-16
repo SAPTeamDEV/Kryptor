@@ -24,6 +24,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="removeHash">
         /// Whether to remove block hashes.
         /// </param>
+        /// <param name="dynamicBlockProccessing">
+        /// Whether to use dynamic block processing feature.
+        /// </param>
         public MixedVector(KeyStore keyStore, bool continuous = false, bool removeHash = false, bool dynamicBlockProccessing = false) : base(keyStore, continuous, removeHash, dynamicBlockProccessing)
         {
 

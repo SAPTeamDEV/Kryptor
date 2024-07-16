@@ -227,8 +227,6 @@ namespace SAPTeam.Kryptor
                 chunckSize = Provider.DecryptionChunkSize;
             }
 
-            // Console.WriteLine($"Chunk Size: {chunckSize}");
-
             double step = (double)((double)chunckSize / (source.Length - source.Position)) * 100;
             int counter = 0;
             int lastProg = -1;
@@ -242,12 +240,13 @@ namespace SAPTeam.Kryptor
                 {
                     process.BlockSize = Provider.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
                     blockSize = blockSizeCallback(process);
-                    // Console.WriteLine($"Block Size: {blockSize}, i: {i}");
                     int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
+
                     byte[] slice = new byte[actualSize];
                     await source.ReadAsync(slice, 0, slice.Length);
                     var eSlice = await cryptoCallback(slice, process);
                     await dest.WriteAsync(eSlice, 0, eSlice.Length);
+
                     counter += blockSize / chunckSize;
                     int prog = (int)Math.Round(step * counter);
                     if (prog != lastProg)
@@ -255,6 +254,7 @@ namespace SAPTeam.Kryptor
                         OnProgress?.Invoke(Math.Min(prog, 100));
                         lastProg = prog;
                     }
+
                     process.NextBlock(!Provider.Continuous);
                     i += blockSize;
                 }
