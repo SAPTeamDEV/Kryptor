@@ -45,7 +45,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public Dictionary<string, string> Extra { get; set; }
 
-        internal byte[] CreatePayload()
+        public byte[] CreatePayload()
         {
             string js = ToJson(this);
             byte[] b64 = js.Base64EncodeToByte();

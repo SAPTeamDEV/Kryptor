@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
-    public class CryptoProviderConfiguration
+    public class CryptoProviderConfiguration : ICloneable
     {
         /// <summary>
         /// Gets or sets the crypto provider identifier.
@@ -27,5 +27,10 @@ namespace SAPTeam.Kryptor
         /// Gets the configuration of dynamic block processing feature.
         /// </summary>
         public virtual bool DynamicBlockProccessing { get; set; }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }

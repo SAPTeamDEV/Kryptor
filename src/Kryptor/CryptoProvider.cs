@@ -41,8 +41,9 @@ namespace SAPTeam.Kryptor
                     throw new InvalidOperationException("Invalid configuration");
                 }
 
-                value.Id = selfId;
-                configuration = value;
+                CryptoProviderConfiguration clone = (CryptoProviderConfiguration)value.Clone();
+                clone.Id = selfId;
+                configuration = clone;
             }
         }
 
