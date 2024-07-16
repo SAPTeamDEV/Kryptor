@@ -168,14 +168,21 @@ namespace SAPTeam.Kryptor
             return header;
         }
 
+        private static JsonSerializerSettings jSettings = new JsonSerializerSettings()
+        {
+            DefaultValueHandling = DefaultValueHandling.Ignore,
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
         private static string ToJson(object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, jSettings);
         }
 
         private static T ReadJson<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json, jSettings);
         }
     }
 }
