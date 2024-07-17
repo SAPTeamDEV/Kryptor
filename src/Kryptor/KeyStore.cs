@@ -2,6 +2,7 @@
 using System.Linq;
 
 using EnsureThat;
+using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor
 {
@@ -70,7 +71,8 @@ namespace SAPTeam.Kryptor
                 count = GetRandomOddNumber();
             }
 
-            var result = SafeRng.Generate(count * 32);
+            byte[] result = new byte[count * 32];
+            new SafeRng().Generate(result);
 
             return new KeyStore(result);
         }

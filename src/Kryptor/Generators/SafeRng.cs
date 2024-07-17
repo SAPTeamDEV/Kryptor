@@ -2,23 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.Generators
 {
     /// <summary>
     /// Generates random bytes array with additional safety.
     /// </summary>
-    public static class SafeRng
+    public class SafeRng : IGenerator
     {
         private static Random random = new Random();
 
-        /// <summary>
-        /// Generates random bytes array.
-        /// </summary>
-        /// <param name="length">
-        /// Length of the output array.
-        /// </param>
-        /// <returns></returns>
-        public static byte[] Generate(int length)
+        /// <inheritdoc/>
+        public void Generate(byte[] buffer)
         {
             int sampleSize = 32;
 
@@ -26,11 +20,11 @@ namespace SAPTeam.Kryptor
             int tries = 0;
             int totalTries = 0;
 
-            for (int i = 0; i < length; i += sampleSize)
+            for (int i = 0; i < buffer.Length; i += sampleSize)
             {
                 byte[] sample = new byte[sampleSize];
                 random.NextBytes(sample);
-                Transformers.Shuffle(sample, length + totalTries + i);
+                Transformers.Shuffle(sample, buffer.Length + totalTries + i);
 
                 // Ignore keys with 10 or more duplicated items.
                 if (result.All((b) => b.Intersect(sample).Count() < 10) || tries > 100)
@@ -47,7 +41,7 @@ namespace SAPTeam.Kryptor
                 totalTries++;
             }
 
-            return result.SelectMany((k) => k).Take(length).ToArray();
+            result.SelectMany((k) => k).Take(buffer.Length).ToArray().CopyTo(buffer, 0);
         }
     }
 }
