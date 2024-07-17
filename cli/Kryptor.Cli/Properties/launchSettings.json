@@ -11,6 +11,10 @@
     "Test DE": {
       "commandName": "Project",
       "commandLineArgs": "-ep 5 g:test:257 CommandLine.dll"
+    },
+    "EntroX Test": {
+      "commandName": "Project",
+      "commandLineArgs": "-g -k 4 -n"
     }
   }
 }

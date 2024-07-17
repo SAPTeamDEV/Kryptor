@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
-            int sampleSize = 32;
+            int sampleSize = 256;
 
             List<byte[]> result = new List<byte[]>();
             int tries = 0;

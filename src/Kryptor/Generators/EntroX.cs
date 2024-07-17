@@ -21,7 +21,7 @@ namespace SAPTeam.Kryptor.Generators
             // Initialize entropy with some random data.
             crng.NextBytes(entropy);
 
-            _sha512 = new SHA512CryptoServiceProvider();
+            _sha512 = SHA512.Create();
         }
 
         public EntroX(params byte[][] entropies)
@@ -47,7 +47,6 @@ namespace SAPTeam.Kryptor.Generators
                 {
                     TransformEntropy();
                 }
-
                 var data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
                 Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
@@ -62,7 +61,6 @@ namespace SAPTeam.Kryptor.Generators
         static void TransformEntropy()
         {
             int i = 0;
-
             while (i < entropy.Length)
             {
                 byte[] tData = QueryEntropy(86, 384);
@@ -81,6 +79,7 @@ namespace SAPTeam.Kryptor.Generators
             while (j < picked.Length)
             {
                 picked[j] = entropy[crng.Next(entropy.Length)];
+                j++;
             }
 
             UpdateEntropy();
@@ -107,9 +106,11 @@ namespace SAPTeam.Kryptor.Generators
         static void UpdateEntropy()
         {
             int i = 0;
-            while (i <= crng.Next(6, 12))
+            int max = crng.Next(6, 12);
+            while (i <= max)
             {
                 AddEntropyInternal(_sha512.ComputeHash(entropy));
+                i++;
             }
         }
     }

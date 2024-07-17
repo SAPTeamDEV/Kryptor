@@ -23,6 +23,8 @@ namespace SAPTeam.Kryptor.Generators
 
         private int _bufferPosition;
 
+        readonly int _bufferPoolSize = 10240;
+
         /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
         /// </summary>
@@ -61,8 +63,8 @@ namespace SAPTeam.Kryptor.Generators
         {
             if (IsRandomPoolEnabled)
             {
-                if (_buffer == null || _buffer.Length != 512)
-                    _buffer = new byte[512];
+                if (_buffer == null || _buffer.Length != _bufferPoolSize)
+                    _buffer = new byte[_bufferPoolSize];
             }
             else
             {
