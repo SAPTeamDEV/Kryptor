@@ -69,7 +69,7 @@ namespace SAPTeam.Kryptor.Tests
             Assert.Equal(header.Verbosity, h3.Verbosity);
             Assert.Equal(header.BlockSize, h3.BlockSize);
             Assert.NotEqual(header.Configuration.Id, h3.Configuration.Id);
-            Assert.NotEqual("kryptor:MixedVector", h3.Configuration.Id);
+            Assert.Equal("kryptor:MixedVector", h3.Configuration.Id);
             Assert.Equal(header.Configuration.Continuous, h3.Configuration.Continuous);
             Assert.Equal(header.Configuration.RemoveHash, h3.Configuration.RemoveHash);
             Assert.Equal(header.Configuration.DynamicBlockProccessing, h3.Configuration.DynamicBlockProccessing);
