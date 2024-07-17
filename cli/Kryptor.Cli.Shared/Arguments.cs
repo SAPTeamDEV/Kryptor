@@ -30,6 +30,12 @@ namespace SAPTeam.Kryptor.Cli
         [Option('B', "base64", SetName = "generate", HelpText = "Usable with -g, Saves keystore as base64. Debug use.")]
         public bool Base64 { get; set; }
 
+        [Option('n', "entrox", SetName = "generate", HelpText = "Usable with -g, Uses the new EntroX method (Only for random generation).")]
+        public bool EntroX { get; set; }
+
+        [Option('x', "unix", SetName = "generate", HelpText = "Usable with -g, Uses the unix random character device (Only for random generation).")]
+        public bool Unix { get; set; }
+
         [Option('p', "provider", Default = "MV", HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
         public string Provider { get; set; }
 

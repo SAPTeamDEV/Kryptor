@@ -14,6 +14,8 @@ using SAPTeam.Kryptor;
 using SAPTeam.Kryptor.Cli;
 
 using CommandLine;
+using System.Diagnostics;
+using SAPTeam.Kryptor.Generators;
 
 public class Entrypoint
 {
@@ -94,7 +96,12 @@ public class Entrypoint
         }
         else if (opt.Generate)
         {
+            Stopwatch sw = Stopwatch.StartNew();
             GenerateKeystore(opt.KeyStore, opt.KeyStoreSize);
+            sw.Stop();
+#if DEBUG
+            Console.WriteLine($"Done in {sw.ElapsedMilliseconds.ToString()} ms");
+#endif
         }
 
         return Environment.ExitCode;
@@ -400,8 +407,27 @@ public class Entrypoint
                     keystoreSize = KeyStore.GetRandomOddNumber();
                 }
 
-                Console.WriteLine($"Generating keystore with {keystoreSize.ToString().Color(ConsoleColor.Cyan)} keys");
-                ks = KeyStore.Generate(keystoreSize);
+                Console.Write($"Generating keystore with {keystoreSize.ToString().Color(ConsoleColor.Cyan)} keys ");
+
+                byte[] buffer = new byte[keystoreSize * 32];
+
+                if (opt.EntroX)
+                {
+                    Console.WriteLine("using EntroX");
+                    new EntroX().Generate(buffer);
+                }
+                else if (opt.Unix)
+                {
+                    Console.WriteLine("using Unix /dev/random");
+                    new UnixRandom().Generate(buffer);
+                }
+                else
+                {
+                    Console.WriteLine("using SafeRng");
+                    new SafeRng().Generate(buffer);
+                }
+
+                ks = new KeyStore(buffer);
             }
 
             Console.WriteLine($"Keystore Fingerprint: {ks.Fingerprint.FormatFingerprint().Color(Color.LightSkyBlue)}");
