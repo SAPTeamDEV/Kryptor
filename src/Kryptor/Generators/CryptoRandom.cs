@@ -23,7 +23,7 @@ namespace SAPTeam.Kryptor.Generators
 
         private int _bufferPosition;
 
-        readonly int _bufferPoolSize = 10240;
+        readonly int _bufferPoolSize = 1024;
 
         /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
@@ -168,7 +168,7 @@ namespace SAPTeam.Kryptor.Generators
                     InitBuffer();
 
                 // Can we fit the requested number of bytes in the buffer?
-                if (IsRandomPoolEnabled && _buffer.Length <= buffer.Length)
+                if (IsRandomPoolEnabled && _buffer.Length >= buffer.Length)
                 {
                     int count = buffer.Length;
 
