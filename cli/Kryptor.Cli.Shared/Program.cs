@@ -16,6 +16,7 @@ using SAPTeam.Kryptor.Cli;
 using CommandLine;
 using System.Diagnostics;
 using SAPTeam.Kryptor.Generators;
+using System.Runtime.InteropServices;
 
 public class Entrypoint
 {
@@ -416,15 +417,20 @@ public class Entrypoint
                     Console.WriteLine("using EntroX");
                     new EntroX().Generate(buffer);
                 }
-                else if (opt.Unix)
+                else if (opt.CryptoRng)
                 {
-                    Console.WriteLine("using Unix /dev/random");
-                    new UnixRandom().Generate(buffer);
+                    Console.WriteLine("using CryptoRng");
+                    new CryptoRandom().NextBytes(buffer);
                 }
-                else
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || opt.SafeRng)
                 {
                     Console.WriteLine("using SafeRng");
                     new SafeRng().Generate(buffer);
+                }
+                else
+                {
+                    Console.WriteLine("using Unix /dev/random");
+                    new UnixRandom().Generate(buffer);
                 }
 
                 ks = new KeyStore(buffer);

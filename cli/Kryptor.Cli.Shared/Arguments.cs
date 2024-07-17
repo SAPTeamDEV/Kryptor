@@ -33,8 +33,11 @@ namespace SAPTeam.Kryptor.Cli
         [Option('n', "entrox", SetName = "generate", HelpText = "Usable with -g, Uses the new EntroX method (Only for random generation).")]
         public bool EntroX { get; set; }
 
-        [Option('x', "unix", SetName = "generate", HelpText = "Usable with -g, Uses the unix random character device (Only for random generation).")]
-        public bool Unix { get; set; }
+        [Option('s', "safe-rng", SetName = "generate", HelpText = "Usable with -g, Uses the SafeRng method (Only for random generation).")]
+        public bool SafeRng { get; set; }
+
+        [Option('t', "crypto-rng", SetName = "generate", HelpText = "Usable with -g, Uses the CryptoRng method (Only for random generation).")]
+        public bool CryptoRng { get; set; }
 
         [Option('p', "provider", Default = "MV", HelpText = "Usable with -e or -d, Specifies the crypto provider used for crypto operations.")]
         public string Provider { get; set; }
