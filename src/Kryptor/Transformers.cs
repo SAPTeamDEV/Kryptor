@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
+using SAPTeam.Kryptor.Generators;
+
 namespace SAPTeam.Kryptor
 {
     /// <summary>

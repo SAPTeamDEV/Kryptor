@@ -20,6 +20,8 @@ namespace SAPTeam.Kryptor.Generators
         {
             // Initialize entropy with some random data.
             crng.NextBytes(entropy);
+
+            _sha512 = new SHA512CryptoServiceProvider();
         }
 
         public EntroX(params byte[][] entropies)
@@ -47,7 +49,7 @@ namespace SAPTeam.Kryptor.Generators
                 }
 
                 var data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
-                Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos);
+                Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
 
                 tries++;
