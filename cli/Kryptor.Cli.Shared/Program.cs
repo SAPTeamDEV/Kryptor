@@ -390,6 +390,8 @@ public class Entrypoint
                 token = TransformerToken.Parse(name);
 
                 ITranformer tranformer = Transformers.GetTranformer(token);
+                Console.Write($"Generating keystore with {token.KeySize.ToString().Color(ConsoleColor.Cyan)} keys with {tranformer.GetType().Name} transformer");
+
                 byte[] buffer = new byte[token.KeySize * 32];
                 tranformer.Generate(buffer, token.Rotate);
                 ks = new KeyStore(buffer);
