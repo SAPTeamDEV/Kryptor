@@ -17,13 +17,12 @@ namespace SAPTeam.Kryptor.Generators
     /// </summary>
     public class CryptoRandom : Random
     {
-        private RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
+        private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
 
         private byte[] _buffer;
 
         private int _bufferPosition;
-
-        readonly int _bufferPoolSize = 1024;
+        private readonly int _bufferPoolSize = 1024;
 
         /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
@@ -46,7 +45,7 @@ namespace SAPTeam.Kryptor.Generators
         /// Using this overload will enable the random buffer pool.
         /// </summary>
         /// <param name="ignoredSeed">The ignored seed.</param>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "ignoredSeed", Justification = "Cannot remove this parameter as we implement the full API of System.Random")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Cannot remove this parameter as we implement the full API of System.Random")]
         public CryptoRandom(int ignoredSeed) : this(true) { }
 
         /// <summary>

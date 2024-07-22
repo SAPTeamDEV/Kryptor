@@ -93,15 +93,5 @@ namespace SAPTeam.Kryptor.Generators
                 return c++ % 2 == 0 ? x.ToString().ToUpper()[0] : x;
             }).ToArray());
         }
-
-        private static byte[] Encode(char[] src)
-        {
-            return Encoding.UTF8.GetBytes(src);
-        }
-
-        private static byte[] Encode(string src)
-        {
-            return Encoding.UTF8.GetBytes(src);
-        }
     }
 }

@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Stores keys for the <see cref="Kes"/> class.
     /// </summary>
-    public struct KeyStore
+    public readonly struct KeyStore
     {
         private static readonly CryptoRandom random = new CryptoRandom();
 

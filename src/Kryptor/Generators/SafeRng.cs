@@ -9,7 +9,7 @@ namespace SAPTeam.Kryptor.Generators
     /// </summary>
     public class SafeRng : IGenerator
     {
-        private static CryptoRandom random = new CryptoRandom();
+        private static readonly CryptoRandom random = new CryptoRandom();
 
         /// <inheritdoc/>
         public void Generate(byte[] buffer)

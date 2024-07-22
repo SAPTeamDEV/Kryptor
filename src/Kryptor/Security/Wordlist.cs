@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor.Security
         /// </summary>
         public string WordlistPath { get; }
 
-        Dictionary<int, HashSet<string>> Subsets { get; } = new Dictionary<int, HashSet<string>>();
+        private Dictionary<int, HashSet<string>> Subsets { get; } = new Dictionary<int, HashSet<string>>();
 
         /// <summary>
         /// Initializes a new instance of <see cref="Wordlist"/> class.

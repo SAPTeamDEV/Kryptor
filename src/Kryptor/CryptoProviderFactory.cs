@@ -11,8 +11,8 @@ namespace SAPTeam.Kryptor
     public static class CryptoProviderFactory
     {
         private static readonly bool allowKryptorPrefix = true;
-        private static Dictionary<string, Type> GlobalProviders = new Dictionary<string, Type>();
-        static Dictionary<string, string> GlobalHints = new Dictionary<string, string>();
+        private static readonly Dictionary<string, Type> GlobalProviders = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, string> GlobalHints = new Dictionary<string, string>();
 
         static CryptoProviderFactory()
         {

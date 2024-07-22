@@ -130,8 +130,10 @@ namespace SAPTeam.Kryptor
             // If there is no header, create a header with normal details.
             if (header == null)
             {
-                Dictionary<string, string> extra = new Dictionary<string, string>();
-                extra["client"] = "kryptor-core";
+                Dictionary<string, string> extra = new Dictionary<string, string>
+                {
+                    ["client"] = "kryptor-core"
+                };
 
                 header = new Header()
                 {
@@ -187,7 +189,7 @@ namespace SAPTeam.Kryptor
 
             Func<CryptoProcess, int> blockSizeCallback;
             Func<byte[], CryptoProcess, Task<byte[]>> cryptoCallback;
-            int chunckSize = 0;
+            int chunckSize;
 
             if (doEncrypt)
             {

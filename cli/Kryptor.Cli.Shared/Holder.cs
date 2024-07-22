@@ -1,6 +1,9 @@
 ﻿using System;
 
-public static class Holder
+namespace SAPTeam.Kryptor.Cli
 {
-    public static DateTime ProcessTime;
+    public static class Holder
+    {
+        internal static DateTime ProcessTime;
+    }
 }

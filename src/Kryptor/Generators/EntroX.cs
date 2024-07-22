@@ -12,9 +12,9 @@ namespace SAPTeam.Kryptor.Generators
     /// </summary>
     public class EntroX : IGenerator
     {
-        static byte[] entropy = new byte[8192];
-        static CryptoRandom crng = new CryptoRandom();
-        static readonly SHA512 _sha512;
+        private static readonly byte[] entropy = new byte[8192];
+        private static readonly CryptoRandom crng = new CryptoRandom();
+        private static readonly SHA512 _sha512;
 
         static EntroX()
         {
@@ -64,7 +64,7 @@ namespace SAPTeam.Kryptor.Generators
 
         }
 
-        static void TransformEntropy()
+        private static void TransformEntropy()
         {
             int i = 0;
             while (i < entropy.Length)
@@ -106,7 +106,7 @@ namespace SAPTeam.Kryptor.Generators
             UpdateEntropy();
         }
 
-        static void AddEntropyInternal(byte[] data)
+        private static void AddEntropyInternal(byte[] data)
         {
             foreach (var i in data)
             {
@@ -115,7 +115,7 @@ namespace SAPTeam.Kryptor.Generators
             }
         }
 
-        static void UpdateEntropy()
+        private static void UpdateEntropy()
         {
             int i = 0;
             int max = crng.Next(6, 12);

@@ -11,9 +11,11 @@ namespace SAPTeam.Kryptor.Tests
         [Fact]
         public void HeaderFunctionalityTest()
         {
-            var ex = new Dictionary<string, string>();
-            ex["test"] = "1";
-            ex["2"] = "test";
+            var ex = new Dictionary<string, string>
+            {
+                ["test"] = "1",
+                ["2"] = "test"
+            };
 
             Header header = new Header()
             {
@@ -51,14 +53,16 @@ namespace SAPTeam.Kryptor.Tests
             var mem2 = new MemoryStream(Encoding.UTF8.GetBytes("test"));
             var mem3 = new MemoryStream();
 
-            var ex2 = new Dictionary<string, string>();
-            ex2["test"] = "1";
-            ex2["2"] = "test";
+            var ex2 = new Dictionary<string, string>
+            {
+                ["test"] = "1",
+                ["2"] = "test"
+            };
 
             Header header2 = new Header()
             {
                 Verbosity = HeaderVerbosity.Maximum,
-                Extra = ex,
+                Extra = ex2,
             };
 
             kp.EncryptAsync(mem2, mem3, header2).Wait();

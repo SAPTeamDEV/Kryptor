@@ -157,7 +157,7 @@ namespace SAPTeam.Kryptor
             return header;
         }
 
-        private static JsonSerializerSettings jSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings jSettings = new JsonSerializerSettings()
         {
             DefaultValueHandling = DefaultValueHandling.Ignore,
             Formatting = Formatting.None,
