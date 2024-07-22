@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EnsureThat;
 
 using SAPTeam.Kryptor.CryptoProviders;
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor
 {

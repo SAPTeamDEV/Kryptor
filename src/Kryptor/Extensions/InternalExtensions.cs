@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.Extensions
 {
     internal static class InternalExtensions
     {

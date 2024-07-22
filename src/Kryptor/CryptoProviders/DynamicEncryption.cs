@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.CryptoProviders
 {

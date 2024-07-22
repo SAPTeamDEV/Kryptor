@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.Extensions
 {
     /// <summary>
     /// Represents methods to compute hashes and other crypto tranforms.

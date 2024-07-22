@@ -5,6 +5,7 @@ using System.Text;
 
 using MoreLinq;
 using MoreLinq.Extensions;
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Generators
 {

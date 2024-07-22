@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using EnsureThat;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.Helpers
 {
     /// <summary>
     /// Provides static methods to encrypt and decrypt data with AES algorithm.

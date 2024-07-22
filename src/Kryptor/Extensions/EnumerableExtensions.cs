@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SAPTeam.Kryptor
+namespace SAPTeam.Kryptor.Extensions
 {
     /// <summary>
     /// Represents extension methods for <see cref="IEnumerable{T}"/> collections.

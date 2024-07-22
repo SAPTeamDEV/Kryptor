@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Newtonsoft.Json;
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor
 {

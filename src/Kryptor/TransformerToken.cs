@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor
 {
