@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public struct KeyStore
     {
-        private static readonly Random random = new Random();
+        private static readonly CryptoRandom random = new CryptoRandom();
 
         /// <summary>
         /// Gets the key at the specified index.
