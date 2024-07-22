@@ -27,6 +27,10 @@ namespace SAPTeam.Kryptor
                 case "gen":
                 case "g":
                     return new Generica(token.SecretKey, token.Salt ?? GenerateSalt(token));
+                case "liteen":
+                case "lite":
+                case "l":
+                    return new LiteEn(token.SecretKey, token.Salt ?? GenerateSalt(token));
                 default:
                     throw new ArgumentException("Invalid transformer name: " + token.TransformerName);
             }
