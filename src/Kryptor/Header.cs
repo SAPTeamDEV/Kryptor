@@ -46,6 +46,11 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public Dictionary<string, string> Extra { get; set; }
 
+        /// <summary>
+        /// Exports the header contents as base64 encoded bytes array.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="OverflowException"></exception>
         public byte[] CreatePayload()
         {
             string js = ToJson(this);

@@ -5,12 +5,25 @@ using System.Text;
 
 namespace SAPTeam.Kryptor.Security
 {
+    /// <summary>
+    /// Provides a performance-friendly wordlist checker.
+    /// </summary>
     public class Wordlist
     {
+        /// <summary>
+        /// Gets the path of wordlist directory.
+        /// </summary>
         public string WordlistPath { get; }
 
-        public Dictionary<int, HashSet<string>> Subsets { get; } = new Dictionary<int, HashSet<string>>();
+        Dictionary<int, HashSet<string>> Subsets { get; } = new Dictionary<int, HashSet<string>>();
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Wordlist"/> class.
+        /// </summary>
+        /// <param name="path">
+        /// The path of well formatted wordlist directory.
+        /// </param>
+        /// <exception cref="DirectoryNotFoundException"></exception>
         public Wordlist(string path)
         {
             if (!Directory.Exists(path))
@@ -21,6 +34,13 @@ namespace SAPTeam.Kryptor.Security
             WordlistPath = path;
         }
 
+        /// <summary>
+        /// Checks whether the <paramref name="word"/> is found in the wordlist.
+        /// </summary>
+        /// <param name="word">
+        /// Word to search.
+        /// </param>
+        /// <returns></returns>
         public bool Contains(string word)
         {
             int id = GetWordIdentifier(word);
@@ -51,6 +71,13 @@ namespace SAPTeam.Kryptor.Security
             return Subsets[id].Contains(word);
         }
 
+        /// <summary>
+        /// Gets the numeric category identifier of given <paramref name="word"/>.
+        /// </summary>
+        /// <param name="word">
+        /// The word to calculate.
+        /// </param>
+        /// <returns></returns>
         public static int GetWordIdentifier(string word)
         {
             return Math.Abs(word[0] + word[1] + word[2]) % 64;

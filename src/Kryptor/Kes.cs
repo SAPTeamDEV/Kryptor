@@ -54,6 +54,18 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public event Action<int> OnProgress;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Kes"/> class with a new instance of the requested crypto provider.
+        /// </summary>
+        /// <param name="keyStore">
+        /// The keystore.
+        /// </param>
+        /// <param name="configuration">
+        /// The configuration to initialize crypto provider.
+        /// </param>
+        /// <param name="blockSize">
+        /// The block size used to read and process data.
+        /// </param>
         public Kes(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize = default) : this(blockSize)
         {
             Provider = CryptoProviderFactory.Create(keyStore, configuration);

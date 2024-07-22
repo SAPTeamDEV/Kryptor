@@ -24,6 +24,12 @@ namespace SAPTeam.Kryptor.Generators
             _sha512 = SHA512.Create();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntroX"/> class.
+        /// </summary>
+        /// <param name="entropies">
+        /// The entropy data to randomly spread in the global entropy to improve randomness.
+        /// </param>
         public EntroX(params byte[][] entropies)
         {
             foreach (byte[] data in entropies)
@@ -88,6 +94,12 @@ namespace SAPTeam.Kryptor.Generators
             return tData;
         }
 
+        /// <summary>
+        /// Adds new entropies to the global entropy in random order.
+        /// </summary>
+        /// <param name="data">
+        /// The entropy data to randomly spread in the global entropy to improve randomness.
+        /// </param>
         public static void AddEntropy(byte[] data)
         {
             AddEntropyInternal(data);
