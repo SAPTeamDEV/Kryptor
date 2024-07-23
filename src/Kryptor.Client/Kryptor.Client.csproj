@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <AssemblyName>SAPTeam.Kryptor.Client</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
+    <PackageId>$(AssemblyName)</PackageId>
+    
+    <Title>Kryptor Client Utilities</Title>
+    <AssemblyTitle>Kryptor Client Utilities</AssemblyTitle>
+    <Product>The Common Utilities for Kryptor front-ends.</Product>
+    
+    <Description>This library has common utilities used by kryptor front-end programs.</Description>
+    <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
+    
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+   </PropertyGroup>
+
+    <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+    
+</Project>
