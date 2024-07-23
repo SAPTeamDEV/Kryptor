@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 
 using EnsureThat;
@@ -20,8 +21,11 @@ namespace SAPTeam.Kryptor.Helpers
         /// <param name="key">
         /// The 256 bit secret key.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns></returns>
-        public static async Task<byte[]> EncryptAesEcbAsync(byte[] data, byte[] key)
+        public static async Task<byte[]> EncryptAesEcbAsync(byte[] data, byte[] key, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -39,7 +43,7 @@ namespace SAPTeam.Kryptor.Helpers
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        await csEncrypt.WriteAsync(data, 0, data.Length);
+                        await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
                     }
                     return msEncrypt.ToArray();
                 }
@@ -55,8 +59,11 @@ namespace SAPTeam.Kryptor.Helpers
         /// <param name="key">
         /// The 256 bit secret key.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns></returns>
-        public static async Task<byte[]> DecryptAesEcbAsync(byte[] data, byte[] key)
+        public static async Task<byte[]> DecryptAesEcbAsync(byte[] data, byte[] key, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -82,7 +89,7 @@ namespace SAPTeam.Kryptor.Helpers
                                 int readBytes = 0;
                                 while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    await tempMemory.WriteAsync(buffer, 0, readBytes);
+                                    await tempMemory.WriteAsync(buffer, 0, readBytes, cancellationToken);
                                 }
 
                                 return tempMemory.ToArray();
@@ -109,8 +116,11 @@ namespace SAPTeam.Kryptor.Helpers
         /// <param name="iv">
         /// the 128 bit initialization vector.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns></returns>
-        public static async Task<byte[]> EncryptAesCbcAsync(byte[] data, byte[] key, byte[] iv)
+        public static async Task<byte[]> EncryptAesCbcAsync(byte[] data, byte[] key, byte[] iv, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -130,7 +140,7 @@ namespace SAPTeam.Kryptor.Helpers
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        await csEncrypt.WriteAsync(data, 0, data.Length);
+                        await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
                     }
                     return msEncrypt.ToArray();
                 }
@@ -149,8 +159,11 @@ namespace SAPTeam.Kryptor.Helpers
         /// <param name="iv">
         /// the 128 bit initialization vector.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns></returns>
-        public static async Task<byte[]> DecryptAesCbcAsync(byte[] data, byte[] key, byte[] iv)
+        public static async Task<byte[]> DecryptAesCbcAsync(byte[] data, byte[] key, byte[] iv, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
             Ensure.Enumerable.HasItems(key, nameof(key));
@@ -178,7 +191,7 @@ namespace SAPTeam.Kryptor.Helpers
                                 int readBytes = 0;
                                 while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    await tempMemory.WriteAsync(buffer, 0, readBytes);
+                                    await tempMemory.WriteAsync(buffer, 0, readBytes, cancellationToken);
                                 }
 
                                 return tempMemory.ToArray();

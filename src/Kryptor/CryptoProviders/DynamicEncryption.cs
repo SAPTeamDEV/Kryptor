@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Helpers;
@@ -28,30 +29,30 @@ namespace SAPTeam.Kryptor.CryptoProviders
         }
 
         /// <inheritdoc/>
-        public override async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
+        public override async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
             process.ProcessData[$"b{process.BlockIndex}.sha512"] = data.Sha512();
-            return await base.EncryptBlockAsync(data, process);
+            return await base.EncryptBlockAsync(data, process, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public override async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        public override async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
-            var decData = await base.DecryptBlockAsync(data, process);
+            var decData = await base.DecryptBlockAsync(data, process, cancellationToken);
             process.ProcessData[$"b{process.BlockIndex}.sha512"] = decData.Sha512();
             return decData;
         }
 
         /// <inheritdoc/>
-        protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process)
+        protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken)
         {
-            return await AesHelper.EncryptAesCbcAsync(chunk, CreateDynamicKey(process), CreateMixedIV(KeyStore, process));
+            return await AesHelper.EncryptAesCbcAsync(chunk, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
         }
 
         /// <inheritdoc/>
-        protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process)
+        protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process, CancellationToken cancellationToken)
         {
-            return await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process));
+            return await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
         }
 
         private byte[] CreateDynamicKey(CryptoProcess process)

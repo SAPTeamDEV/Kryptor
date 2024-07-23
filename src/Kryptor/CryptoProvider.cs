@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using EnsureThat;
@@ -97,8 +98,11 @@ namespace SAPTeam.Kryptor
         /// <param name="process">
         /// The crypto process data holder.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns>Encrypted data block.</returns>
-        public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
+        public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
 
@@ -113,7 +117,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in data.Chunk(EncryptionChunkSize))
             {
-                var c = await EncryptChunkAsync(chunk, process);
+                var c = await EncryptChunkAsync(chunk, process, cancellationToken);
                 result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
                 process.ChunkIndex++;
             }
@@ -128,8 +132,11 @@ namespace SAPTeam.Kryptor
         /// <param name="process">
         /// The crypto process data holder.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns>Decrypted data block.</returns>
-        public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
+        public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
             Ensure.Enumerable.HasItems(data, nameof(data));
 
@@ -155,7 +162,7 @@ namespace SAPTeam.Kryptor
 
             foreach (var chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process));
+                result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process, cancellationToken));
                 process.ChunkIndex++;
             }
 
@@ -171,8 +178,11 @@ namespace SAPTeam.Kryptor
         /// <param name="process">
         /// The crypto process data holder.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns>Encrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process);
+        protected abstract Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken);
 
         /// <summary>
         /// Decrypts chunk of data asynchronously.
@@ -181,7 +191,10 @@ namespace SAPTeam.Kryptor
         /// <param name="process">
         /// The crypto process data holder.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns>Decrypted data chunk.</returns>
-        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process);
+        protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken);
     }
 }
