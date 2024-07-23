@@ -11,16 +11,16 @@ namespace SAPTeam.Kryptor
     public static class CryptoProviderFactory
     {
         private static readonly bool allowKryptorPrefix = true;
-        private static readonly Dictionary<string, Type> GlobalProviders = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, (string DisplayName, Type Type)> GlobalProviders = new Dictionary<string, (string DisplayName, Type Type)>();
         private static readonly Dictionary<string, string> GlobalHints = new Dictionary<string, string>();
 
         static CryptoProviderFactory()
         {
-            RegisterProvider<StandaloneKey>("kryptor", "SK", "1");
-            RegisterProvider<TransformedKey>("kryptor", "TK", "2");
-            RegisterProvider<MixedVector>("kryptor", "MV", "3");
-            RegisterProvider<TransformedParameters>("kryptor", "TP", "4");
-            RegisterProvider<DynamicEncryption>("kryptor", "DE", "5");
+            RegisterProvider<StandaloneKey>("kryptor", "Standalone Key", "SK", "1");
+            RegisterProvider<TransformedKey>("kryptor", "Transformed Key", "TK", "2");
+            RegisterProvider<MixedVector>("kryptor", "Mixed Vector", "MV", "3");
+            RegisterProvider<TransformedParameters>("kryptor", "Transformed Parameters", "TP", "4");
+            RegisterProvider<DynamicEncryption>("kryptor", "Dynamic Encryption", "DE", "5");
             allowKryptorPrefix = false;
         }
 
@@ -33,11 +33,14 @@ namespace SAPTeam.Kryptor
         /// <param name="prefix">
         /// The preferred prefix for this crypto provider. The class name will be added to this prefix and creates the identifier, like "my_prefix:my_class".
         /// </param>
+        /// <param name="displayName">
+        /// The friendly name of this provider.
+        /// </param>
         /// <param name="hints">
         /// The additional identifiers. Acts like a shortcut. Hints uses the same prefix.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-        public static void RegisterProvider<T>(string prefix, params string[] hints)
+        public static void RegisterProvider<T>(string prefix, string displayName, params string[] hints)
             where T : CryptoProvider
         {
             if (!allowKryptorPrefix && prefix == "kryptor")
@@ -50,7 +53,7 @@ namespace SAPTeam.Kryptor
 
             if (!GlobalProviders.ContainsKey(name))
             {
-                GlobalProviders[name] = provider;
+                GlobalProviders[name] = (displayName, provider);
 
                 foreach (string hint in hints)
                 {
@@ -73,14 +76,11 @@ namespace SAPTeam.Kryptor
 
         static internal string GetRegisteredCryptoProviderId(Type provider)
         {
-            if (GlobalProviders.ContainsValue(provider))
+            foreach (var item in GlobalProviders)
             {
-                foreach (var item in GlobalProviders)
+                if (item.Value.Type == provider)
                 {
-                    if (item.Value == provider)
-                    {
-                        return item.Key;
-                    }
+                    return item.Key;
                 }
             }
 
@@ -115,6 +115,20 @@ namespace SAPTeam.Kryptor
             throw new KeyNotFoundException(id);
         }
 
+        public static string GetDisplayName(string id)
+        {
+            var realId = GetRegisteredCryptoProviderId(id);
+
+            string result = GlobalProviders[realId].DisplayName;
+
+            if (!realId.StartsWith("kryptor:"))
+            {
+                result += $" ({realId})";
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Translates given id to an absolute identifier and then returns the corresponding <see cref="Type"/> object.
         /// </summary>
@@ -124,7 +138,7 @@ namespace SAPTeam.Kryptor
         /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
         public static Type ResolveProviderById(string id)
         {
-            return GlobalProviders[GetRegisteredCryptoProviderId(id)];
+            return GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
         }
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace SAPTeam.Kryptor.Cli
                 KeyStore ks = default;
                 Kes kp = InitKES(opt.BlockSize);
 
-                Console.WriteLine($"Using {CryptoProviderFactory.GetRegisteredCryptoProviderId(opt.Provider).Color(Color.Moccasin)} Crypto Provider");
+                Console.WriteLine($"Using {CryptoProviderFactory.GetDisplayName(opt.Provider).Color(Color.Moccasin)} Crypto Provider");
 
                 if (opt.Decrypt || !opt.CreateKey)
                 {
