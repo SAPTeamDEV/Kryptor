@@ -365,7 +365,7 @@ namespace SAPTeam.Kryptor.Cli
                 var rProg = Math.Round(progress);
                 var passedTime = Holder.ProcessTime.Elapsed;
                 var remTime = progress > 0 ? (Holder.ProcessTime.ElapsedMilliseconds / progress) * (100 - progress) : 0;
-                var remainingTime = TimeSpan.FromMilliseconds(remTime);
+                var remainingTime = TimeSpan.FromSeconds(((int)remTime) / 1000);
                 Console.WriteLine($"[{(rProg.ToString() + "%").Color(progress < 100 ? Color.Yellow : Color.LawnGreen)}] done in {passedTime.ToString(@"hh\:mm\:ss")} remaining {remainingTime.ToString(@"hh\:mm\:ss")}");
             }
 
