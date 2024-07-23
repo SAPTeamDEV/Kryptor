@@ -84,7 +84,7 @@ namespace SAPTeam.Kryptor.Cli
                             kp.Provider = skcp;
                         }
 
-                        Holder.ProcessTime = DateTime.Now;
+                        Holder.ProcessTime = Stopwatch.StartNew();
                         await Encrypt(file, kp);
                     }
                 }
@@ -92,7 +92,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     foreach (var file in opt.File)
                     {
-                        Holder.ProcessTime = DateTime.Now;
+                        Holder.ProcessTime = Stopwatch.StartNew();
                         await Decrypt(file, kp, ks.Fingerprint.FormatFingerprint());
                     }
                 }
@@ -351,12 +351,22 @@ namespace SAPTeam.Kryptor.Cli
                 }
             }
 
-            void ShowProgress(int progress)
+            void ShowProgress(double progress)
             {
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
-                Console.Write(new string(' ', Math.Min(10, Console.BufferWidth)));
+                Console.Write(new string(' ', Console.BufferWidth));
                 Console.SetCursorPosition(0, Console.CursorTop);
-                Console.WriteLine(progress < 100 ? $"{(progress.ToString() + "%").Color(ConsoleColor.Yellow)} done" : $"{(progress.ToString() + "%").Color(Color.LawnGreen)} done in {DateTime.Now - Holder.ProcessTime}");
+
+                if (progress >= 100)
+                {
+                    Holder.ProcessTime.Stop();
+                }
+
+                var rProg = Math.Round(progress);
+                var passedTime = Holder.ProcessTime.Elapsed;
+                var remTime = progress > 0 ? (Holder.ProcessTime.ElapsedMilliseconds / progress) * (100 - progress) : 0;
+                var remainingTime = TimeSpan.FromMilliseconds(remTime);
+                Console.WriteLine($"[{(rProg.ToString() + "%").Color(progress < 100 ? Color.Yellow : Color.LawnGreen)}] done in {passedTime.ToString(@"hh\:mm\:ss")} remaining {remainingTime.ToString(@"hh\:mm\:ss")}");
             }
 
             string GetNewFileName(string path, string origName)

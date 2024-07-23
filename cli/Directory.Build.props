@@ -3,7 +3,7 @@
   <PropertyGroup>
     <CliRootPath>$(MSBuildThisFileDirectory)</CliRootPath>
     
-    <AssemblyVersion>1.5.1</AssemblyVersion>
+    <AssemblyVersion>1.5.2</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <FileVersion>$(AssemblyVersion).0</FileVersion>
     <InformationalVersion>$(AssemblyVersion)</InformationalVersion>

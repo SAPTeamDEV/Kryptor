@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Called when a part of file is encrypted or decrypted.
         /// </summary>
-        public event Action<int> OnProgress;
+        public event Action<double> OnProgress;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class with a new instance of the requested crypto provider.
@@ -206,7 +206,6 @@ namespace SAPTeam.Kryptor
 
             double step = (double)((double)chunckSize / (source.Length - source.Position)) * 100;
             int counter = 0;
-            int lastProg = -1;
             int blockSize;
             long i = 0;
             OnProgress?.Invoke(0);
@@ -225,12 +224,8 @@ namespace SAPTeam.Kryptor
                     await dest.WriteAsync(eSlice, 0, eSlice.Length);
 
                     counter += blockSize / chunckSize;
-                    int prog = (int)Math.Round(step * counter);
-                    if (prog != lastProg)
-                    {
-                        OnProgress?.Invoke(Math.Min(prog, 100));
-                        lastProg = prog;
-                    }
+                    var prog = step * counter;
+                    OnProgress?.Invoke(Math.Min(prog, 100));
 
                     process.NextBlock(!Provider.Configuration.Continuous);
                     i += blockSize;
