@@ -17,6 +17,7 @@ using CommandLine;
 using System.Diagnostics;
 using SAPTeam.Kryptor.Generators;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -33,6 +34,8 @@ namespace SAPTeam.Kryptor.Cli
 
             Console.CancelKeyPress += delegate
             {
+                Holder.Token?.Cancel();
+                Holder.Task?.Wait();
                 Console.WriteLine("Cancelled by user request");
             };
 
@@ -85,7 +88,8 @@ namespace SAPTeam.Kryptor.Cli
                         }
 
                         Holder.ProcessTime = Stopwatch.StartNew();
-                        await Encrypt(file, kp);
+                        Holder.Task = Encrypt(file, kp);
+                        await Holder.Task;
                     }
                 }
                 else
@@ -93,7 +97,8 @@ namespace SAPTeam.Kryptor.Cli
                     foreach (var file in opt.File)
                     {
                         Holder.ProcessTime = Stopwatch.StartNew();
-                        await Decrypt(file, kp, ks.Fingerprint.FormatFingerprint());
+                        Holder.Task = Decrypt(file, kp, ks.Fingerprint.FormatFingerprint());
+                        await Holder.Task;
                     }
                 }
             }
@@ -137,7 +142,17 @@ namespace SAPTeam.Kryptor.Cli
                     Extra = extra,
                 };
 
-                await kp.EncryptAsync(f, f2, header);
+                try
+                {
+                    Holder.Token = new CancellationTokenSource();
+                    await kp.EncryptAsync(f, f2, header, Holder.Token.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                    f2.Dispose();
+                    File.Delete(resolvedName);
+                    return;
+                }
 
                 f.Dispose();
                 f2.Dispose();
@@ -230,7 +245,17 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine("Prepairing");
                     var f2 = File.OpenWrite(resolvedName);
 
-                    await kp.DecryptAsync(f, f2);
+                    try
+                    {
+                        Holder.Token = new CancellationTokenSource();
+                        await kp.DecryptAsync(f, f2, Holder.Token.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        f2.Dispose();
+                        File.Delete(resolvedName);
+                        return;
+                    }
 
                     f.Dispose();
                     f2.Dispose();
