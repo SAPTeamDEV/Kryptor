@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SAPTeam.Kryptor.Security
+namespace SAPTeam.Kryptor.Client.Security
 {
     /// <summary>
     /// Provides a performance-friendly wordlist checker.
