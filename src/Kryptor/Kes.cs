@@ -18,9 +18,14 @@ namespace SAPTeam.Kryptor
         #region Size Parameters
 
         /// <summary>
+        /// Gets the default value for block size.
+        /// </summary>
+        public const int DefaultBlockSize = 0x8000;
+
+        /// <summary>
         /// Gets or sets the block size used for buffer creation in encryption and decryption.
         /// </summary>
-        public int BlockSize { get; set; } = 0x8000;
+        public int BlockSize { get; set; } = DefaultBlockSize;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync"/>.
