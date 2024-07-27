@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
@@ -14,8 +15,13 @@ namespace SAPTeam.Kryptor.Client
     /// <summary>
     /// Provides an application context with session based design model.
     /// </summary>
-    public class AppContext : Context
+    public class HostContext : Context
     {
+        /// <summary>
+        /// Gets the short version string of the kryptor engine.
+        /// </summary>
+        public string EngineVersion => Utilities.GetShortVersionString(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+
         readonly CryptoRandom random = new CryptoRandom();
 
         /// <summary>

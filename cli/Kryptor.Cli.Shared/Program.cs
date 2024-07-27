@@ -21,9 +21,18 @@ using System.Threading;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class Entrypoint
+    public class Program
     {
-        public static async Task<int> Main(string[] args)
+        public static CliContext Context { get; private set; }
+
+        public static int Main(string[] args)
+        {
+            Context = new CliContext();
+            new CommandLineParser(args);
+            return 0;
+        }
+
+        public static async Task<int> MainOld(string[] args)
         {
 #if !NETFRAMEWORK
         if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
@@ -45,9 +54,9 @@ namespace SAPTeam.Kryptor.Cli
             IsValid();
 
 #if DEBUG
-            string appVer = Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            string appVer = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 #else
-        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+        string appVer = GetVersionString(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 #endif
             Console.WriteLine($"Kryptor Command-Line Interface v{appVer.Color(Color.Cyan)}");
 
@@ -138,7 +147,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     Verbosity = HeaderVerbosity.Normal,
                     OriginalName = Path.GetFileName(file),
-                    CliVersion = new Version(Assembly.GetAssembly(typeof(Entrypoint)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
+                    CliVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
                     Extra = extra,
                 };
 

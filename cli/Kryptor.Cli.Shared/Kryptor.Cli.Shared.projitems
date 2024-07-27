@@ -10,7 +10,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Arguments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CliContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CLIHeader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CliSessionHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandLineParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Holder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
