@@ -31,17 +31,9 @@ namespace SAPTeam.Kryptor.Cli
                 NewSession(session);
             }
 
-            var monitor = Task.WhenAll(Container.Tasks);
-
-            while (!monitor.IsCompleted)
-            {
-                foreach (var session in Container.Sessions)
-                {
-                    Console.WriteLine($"[{session.Progress}] {session.Description}");
-                };
-
-                Thread.Sleep(1000);
-            }
+            var pTask = ShowProgress();
+            MonitorTask(pTask);
+            pTask.Wait();
         }
     }
 }

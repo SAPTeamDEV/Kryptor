@@ -38,11 +38,17 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Status = SessionStatus.Ended;
                 EndReason = SessionEndReason.Skipped;
+                Description = "file not found";
                 return;
             }
 
             var header = CliHeader.Create();
-            header.FileName = Path.GetFileName(file);
+
+            if (hVerbose > 1)
+            {
+                header.FileName = Path.GetFileName(file);
+            }
+            
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
             var sourceStream = File.OpenRead(file);

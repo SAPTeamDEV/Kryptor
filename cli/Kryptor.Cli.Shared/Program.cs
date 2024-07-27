@@ -32,6 +32,7 @@ namespace SAPTeam.Kryptor.Cli
             return 0;
         }
 
+        /*
         public static async Task<int> MainOld(string[] args)
         {
 #if !NETFRAMEWORK
@@ -519,5 +520,6 @@ namespace SAPTeam.Kryptor.Cli
         Environment.Exit(255);
 #endif
         }
+        */
     }
 }
