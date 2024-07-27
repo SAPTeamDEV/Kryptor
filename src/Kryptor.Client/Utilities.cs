@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,34 @@ namespace SAPTeam.Kryptor.Client
             byte[] buffer = new byte[token.KeySize * 32];
             tranformer.Generate(buffer, token.Rotate);
             return new KeyStore(buffer);
+        }
+
+        /// <summary>
+        /// Gets a new non-repetitive file name
+        /// </summary>
+        /// <param name="source">
+        /// The source file woth path.
+        /// </param>
+        /// <param name="newName">
+        /// The intended name for new file.
+        /// </param>
+        /// <returns></returns>
+        public static string GetNewFileName(string source, string newName)
+        {
+            string destination = Path.Combine(Directory.GetParent(source).FullName, newName);
+            int suffix = 2;
+
+            while (File.Exists(destination))
+            {
+                string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}){Path.GetExtension(destination)}";
+
+                if (!File.Exists(Path.Combine(Directory.GetParent(source).FullName, tempName)))
+                {
+                    destination = Path.Combine(Directory.GetParent(source).FullName, tempName);
+                }
+            }
+
+            return destination;
         }
     }
 }
