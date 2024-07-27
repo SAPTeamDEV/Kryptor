@@ -49,9 +49,7 @@ namespace SAPTeam.Kryptor
         /// <exception cref="ArgumentException"></exception>
         public static TransformerToken Parse(string token)
         {
-            Match match = regex.Match(token);
-
-            if (match.Success)
+            if (IsValid(token))
             {
                 // Extract the named groups
                 string transformerName = match.Groups["TransformerName"].Value.Trim().ToLower();
@@ -73,6 +71,20 @@ namespace SAPTeam.Kryptor
             {
                 throw new ArgumentException("Input does not match the expected format.");
             }
+        }
+
+        /// <summary>
+        /// Determines whether the given token is valid.
+        /// </summary>
+        /// <param name="token">
+        /// The token to test.
+        /// </param>
+        /// <returns></returns>
+        public static bool IsValid(string token)
+        {
+            Match match = regex.Match(token);
+
+            return match.Success;
         }
     }
 }
