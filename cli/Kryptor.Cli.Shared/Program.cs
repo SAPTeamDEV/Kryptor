@@ -27,7 +27,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public static int Main(string[] args)
         {
-            Context = new CliContext();
+            Context = CommonTK.Context.Register<CliContext>();
             new CommandLineParser(args);
             return 0;
         }
@@ -143,11 +143,11 @@ namespace SAPTeam.Kryptor.Cli
                     ["client"] = "kryptor-cli"
                 };
 
-                var header = new CLIHeader()
+                var header = new CliHeader()
                 {
                     Verbosity = HeaderVerbosity.Normal,
-                    OriginalName = Path.GetFileName(file),
-                    CliVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
+                    FileName = Path.GetFileName(file),
+                    ClientVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
                     Extra = extra,
                 };
 
@@ -182,7 +182,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     var f = File.OpenRead(file);
 
-                    var header = Header.ReadHeader<CLIHeader>(f);
+                    var header = Header.ReadHeader<CliHeader>(f);
 
                     if (header.Verbosity == HeaderVerbosity.Empty)
                     {
@@ -202,9 +202,9 @@ namespace SAPTeam.Kryptor.Cli
                             Console.WriteLine($"Engine Version: {header.EngineVersion}");
                         }
 
-                        if (header.CliVersion != null)
+                        if (header.ClientVersion != null)
                         {
-                            Console.WriteLine($"CLI Version: {header.CliVersion}");
+                            Console.WriteLine($"CLI Version: {header.ClientVersion}");
                         }
 
                         if (header.BlockSize > 0)
@@ -220,9 +220,9 @@ namespace SAPTeam.Kryptor.Cli
                             Console.WriteLine($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
                         }
 
-                        if (header.OriginalName != null)
+                        if (header.FileName != null)
                         {
-                            Console.WriteLine($"Original Name: {header.OriginalName}");
+                            Console.WriteLine($"File Name: {header.FileName}");
                         }
 
                         if (header.Extra != null)
@@ -234,9 +234,9 @@ namespace SAPTeam.Kryptor.Cli
 
                     if ((int)header.Verbosity > 0 && header.Version != Kes.Version)
                     {
-                        if (header.CliVersion != null)
+                        if (header.ClientVersion != null)
                         {
-                            Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Encryptor api version is not supported. You must use kryptor cli v{string.Join(".", header.CliVersion.Major, header.CliVersion.Minor, header.CliVersion.Build)}");
+                            Console.WriteLine($"{"Failed:".Color(ConsoleColor.Red)} Encryptor api version is not supported. You must use kryptor cli v{string.Join(".", header.ClientVersion.Major, header.ClientVersion.Minor, header.ClientVersion.Build)}");
                             Environment.ExitCode = 0xFE;
                             return;
                         }
@@ -248,7 +248,7 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
-                    string origName = header.OriginalName ?? "decrypted file.dec";
+                    string origName = header.FileName ?? "decrypted file.dec";
                     string resolvedName = GetNewFileName(file, origName);
 
                     Console.WriteLine("Prepairing");

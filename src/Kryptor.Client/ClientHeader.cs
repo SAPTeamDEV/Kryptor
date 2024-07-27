@@ -9,7 +9,7 @@ namespace SAPTeam.Kryptor.Client
     /// <summary>
     /// Represents a unified header for kryptor front ends.
     /// </summary>
-    public abstract class ClientHeader : Header
+    public class ClientHeader : Header
     {
         /// <summary>
         /// Gets or sets the name of the encryptor client application.
@@ -22,9 +22,8 @@ namespace SAPTeam.Kryptor.Client
         public Version ClientVersion { get; set; }
 
         /// <summary>
-        /// Creates a new header initialized with client application identifier.
+        /// Gets or sets the original file name.
         /// </summary>
-        /// <returns></returns>
-        public abstract ClientHeader Create();
+        public string FileName { get; set; }
     }
 }

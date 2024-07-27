@@ -49,7 +49,9 @@ namespace SAPTeam.Kryptor
         /// <exception cref="ArgumentException"></exception>
         public static TransformerToken Parse(string token)
         {
-            if (IsValid(token))
+            Match match = regex.Match(token);
+
+            if (match.Success)
             {
                 // Extract the named groups
                 string transformerName = match.Groups["TransformerName"].Value.Trim().ToLower();

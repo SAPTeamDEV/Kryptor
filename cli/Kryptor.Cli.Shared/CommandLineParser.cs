@@ -10,6 +10,9 @@ namespace SAPTeam.Kryptor.Cli
             var root = new RootCommand("Kryptor Command-Line Interface");
 
             #region Common Data Processing Options
+            var blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
+            blockSize.AddAlias("-b");
+
             var provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
             provider.AddAlias("-p");
 
@@ -34,6 +37,7 @@ namespace SAPTeam.Kryptor.Cli
 
             var encCmd = new Command("encrypt", "Encrypts files with keystore")
             {
+                blockSize,
                 provider,
                 continuous,
                 removeHash,
@@ -46,16 +50,11 @@ namespace SAPTeam.Kryptor.Cli
             encCmd.AddAlias("e");
             encCmd.AddAlias("enc");
 
-            encCmd.SetHandler((p, c, r, d, h, k, f) =>
+            encCmd.SetHandler((blockSizeT, providerT, continuousT, removeHashT, dbpT, hVerboseT, keystoreT, filesT) =>
             {
-                Console.WriteLine("Provider: " + CryptoProviderFactory.GetDisplayName(p));
-                Console.WriteLine($"Continuous: {c}");
-                Console.WriteLine($"Remove Hash: {r}");
-                Console.WriteLine($"Dynamic Block Processing: {d}");
-                Console.WriteLine($"Header Verbose: {h}");
-                Console.WriteLine($"Keystore: {k}");
-                Console.WriteLine($"Files:\n{string.Join(Environment.NewLine, f)}");
-            }, provider, continuous, removeHash, dbp, hVerbose, keystore, files);
+                var sessionHost = new EncryptionSessionHost(blockSizeT, providerT, continuousT, removeHashT, dbpT, keystoreT, filesT, hVerboseT);
+                Program.Context.NewSessionHost(sessionHost);
+            }, blockSize, provider, continuous, removeHash, dbp, hVerbose, keystore, files);
 
             root.AddCommand(encCmd);
             #endregion
@@ -63,6 +62,7 @@ namespace SAPTeam.Kryptor.Cli
             #region Decryption Options
             var decCmd = new Command("decrypt", "Decrypts files with keystore")
             {
+                blockSize,
                 provider,
                 continuous,
                 removeHash,
