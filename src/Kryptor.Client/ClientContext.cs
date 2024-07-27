@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor.Client
     /// <summary>
     /// Provides an application context with session based design model.
     /// </summary>
-    public class HostContext : Context
+    public class ClientContext : Context
     {
         /// <summary>
         /// Gets the short version string of the kryptor engine.

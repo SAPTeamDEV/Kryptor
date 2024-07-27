@@ -9,7 +9,7 @@ using ANSIConsole;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class CliContext : HostContext
+    public class CliContext : ClientContext
     {
 #if DEBUG
         public string CliVersion => Assembly.GetAssembly(typeof(CliSessionHost)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
