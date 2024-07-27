@@ -89,5 +89,12 @@ namespace SAPTeam.Kryptor.Cli
                 Console.CursorTop -= lines;
             }
         }
+
+        protected Task ShowProgressMonitored()
+        {
+            var pTask = ShowProgress();
+            MonitorTask(pTask);
+            return pTask;
+        }
     }
 }

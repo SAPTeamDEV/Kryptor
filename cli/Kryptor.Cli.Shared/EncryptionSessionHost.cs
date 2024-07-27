@@ -17,23 +17,13 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            var configuration = new CryptoProviderConfiguration()
-            {
-                Id = Provider,
-                Continuous = Continuous,
-                RemoveHash = RemoveHash,
-                DynamicBlockProccessing = DynamicBlockProcessing,
-            };
-
             foreach (var file in Files)
             {
-                var session = new EncryptionSession(KeyStore, configuration, BlockSize, HeaderVerbosity, file);
+                var session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, file);
                 NewSession(session);
             }
 
-            var pTask = ShowProgress();
-            MonitorTask(pTask);
-            pTask.Wait();
+            ShowProgressMonitored().Wait();
         }
     }
 }

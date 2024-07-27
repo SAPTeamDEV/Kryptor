@@ -12,8 +12,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)CliContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliSessionHost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CommandLineParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataProcessingSessionHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DecryptionSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DecryptionSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSessionHost.cs" />

@@ -8,10 +8,7 @@ namespace SAPTeam.Kryptor.Cli
     public class DataProcessingSessionHost : CliSessionHost
     {
         public int BlockSize { get; }
-        public string Provider { get; }
-        public bool Continuous { get; }
-        public bool RemoveHash { get; }
-        public bool DynamicBlockProcessing { get; }
+        public CryptoProviderConfiguration Configuration { get; }
         public KeyStore KeyStore { get; }
         public string[] Files {  get; }
 
@@ -19,11 +16,13 @@ namespace SAPTeam.Kryptor.Cli
         {
             BlockSize = blockSize;
 
-            Provider = CryptoProviderFactory.GetRegisteredCryptoProviderId(provider);
-
-            Continuous = continuous;
-            RemoveHash = removeHash;
-            DynamicBlockProcessing = dbp;
+            Configuration = new CryptoProviderConfiguration()
+            {
+                Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(provider),
+                Continuous = continuous,
+                RemoveHash = removeHash,
+                DynamicBlockProccessing = dbp,
+            };
 
             if (File.Exists(keyStore))
             {
