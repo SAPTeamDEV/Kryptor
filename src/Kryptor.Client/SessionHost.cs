@@ -50,5 +50,16 @@ namespace SAPTeam.Kryptor.Client
             Container.Add(session, task, tokenSource);
             return task;
         }
+
+        /// <summary>
+        /// Adds given task to the task pool and be monitored by the session host.
+        /// </summary>
+        /// <param name="task">
+        /// The task to be monitored.
+        /// </param>
+        public void MonitorTask(Task task)
+        {
+            Container.AddMonitoringTask(task);
+        }
     }
 }

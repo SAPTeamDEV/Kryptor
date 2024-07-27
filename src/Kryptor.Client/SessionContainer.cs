@@ -13,6 +13,7 @@ namespace SAPTeam.Kryptor.Client
     public class SessionContainer
     {
         List<(ISession Session, Task Task, CancellationTokenSource TokenSource)> SessionPool = new List<(ISession Session, Task Task, CancellationTokenSource TokenSource)>();
+        List<Task> TaskPool = new List<Task>();
 
         ISession[] sessions;
         Task[] tasks;
@@ -43,7 +44,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (tasks == null)
                 {
-                    tasks = SessionPool.Select(x => x.Task).ToArray();
+                    tasks = SessionPool.Select(x => x.Task).Concat(TaskPool).ToArray();
                 }
 
                 return tasks;
@@ -81,7 +82,23 @@ namespace SAPTeam.Kryptor.Client
         public void Add(ISession session, Task task, CancellationTokenSource tokenSource)
         {
             SessionPool.Add((session, task, tokenSource));
+            ResetCache();
+        }
 
+        /// <summary>
+        /// Adds just a task to <see cref="Tasks"/>.
+        /// </summary>
+        /// <param name="task">
+        /// The task to be added.
+        /// </param>
+        public void AddMonitoringTask(Task task)
+        {
+            TaskPool.Add(task);
+            ResetCache();
+        }
+
+        private void ResetCache()
+        {
             sessions = null;
             tasks = null;
             tokenSources = null;
