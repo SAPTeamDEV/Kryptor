@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CLIHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandLineParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataProcessingSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Holder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
