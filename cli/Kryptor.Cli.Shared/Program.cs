@@ -19,6 +19,7 @@ using SAPTeam.Kryptor.Generators;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.CommandLine;
+using System.CommandLine.Parsing;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -59,8 +60,36 @@ namespace SAPTeam.Kryptor.Cli
             var keystore = new Option<string>("--keystore", "Keystore file path or transformer token to encrypt/decrypt data");
             keystore.AddAlias("-k");
             keystore.IsRequired = true;
+            keystore.AddValidator(x =>
+            {
+                var _inKs = x.Tokens.First().Value;
+                if (File.Exists(_inKs) || TransformerToken.IsValid(_inKs))
+                {
+                    return;
+                }
+                else
+                {
+                    x.ErrorMessage = "Invalid token or keystore file not found";
+                }
+            });
 
-            var files = new Argument<string[]>("files", "Files to be processed");
+            var files = new Argument<string[]>(
+                name: "files",
+                description: "Files to be processed",
+                isDefault: true,
+                parse: (x) =>
+                {
+                    if (x.Tokens.Count == 0)
+                    {
+                        x.ErrorMessage = "You must specify at least one file";
+                        return null;
+                    }
+                    else
+                    {
+                        return x.Tokens.Select(y => y.Value).ToArray();
+                    }
+                }
+                );
             #endregion
 
             #region Encryption Options
