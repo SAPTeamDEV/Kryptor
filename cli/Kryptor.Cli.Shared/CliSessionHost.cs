@@ -58,6 +58,10 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async Task ShowProgress()
         {
+            DebugLog($"Buffer width: {Console.BufferWidth}");
+            DebugLog($"Window width: {Console.WindowWidth}");
+            DebugLog("");
+
             var monitor = Task.WhenAll(Container.Tasks);
             var lines = Container.Sessions.Length;
 
