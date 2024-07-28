@@ -71,7 +71,7 @@ namespace SAPTeam.Kryptor.Cli
                     if (session.Status == SessionStatus.Running)
                     {
                         color = Color.Yellow;
-                        prog = Math.Round(session.Progress, 2).ToString();
+                        prog = Math.Round(session.Progress, 2).ToString() + "%";
                     }
                     else if (session.Status == SessionStatus.Ended)
                     {
