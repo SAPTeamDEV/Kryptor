@@ -16,43 +16,54 @@ namespace SAPTeam.Kryptor.Cli
 
         public string[] Files {  get; }
 
-        public DataProcessingSessionHost(int blockSize, string provider, bool continuous, bool removeHash, bool dbp, string keyStore, string[] files)
+        public DataProcessingSessionHost(bool verbose, DataProcessingOptions options) : base(verbose)
         {
-            BlockSize = blockSize;
+            BlockSize = options.BlockSize;
 
             Configuration = new CryptoProviderConfiguration()
             {
-                Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(provider),
-                Continuous = continuous,
-                RemoveHash = removeHash,
-                DynamicBlockProccessing = dbp,
+                Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(options.Provider),
+                Continuous = options.Continuous,
+                RemoveHash = options.RemoveHash,
+                DynamicBlockProccessing = options.DynamicBlockProcessing,
             };
 
-            Files = files;
+            Files = options.Files;
 
-            ks = keyStore;
+            ks = options.KeyStore;
         }
 
         public override void Start()
         {
             base.Start();
 
-            Console.WriteLine("Loading keystore");
+            Log("Loading keystore");
 
             if (File.Exists(ks))
             {
+                DebugLog($"Keystore file: {ks}");
                 var data = File.ReadAllBytes(ks);
                 KeyStore = new KeyStore(data);
             }
             else if (TransformerToken.IsValid(ks))
             {
+                DebugLog($"Transformer token: {ks}");
                 var token = TransformerToken.Parse(ks);
+
+                if (Verbose)
+                {
+                    var tranformer = Transformers.GetTranformer(token);
+                    DebugLog($"Generating keystore with {token.KeySize} using {tranformer.GetType().Name}");
+                }
+
                 KeyStore = Utilities.GenerateKeyStoreFromToken(token);
             }
             else
             {
                 throw new FileNotFoundException(ks);
             }
+
+            DebugLog($"Keystore fingerprint: {KeyStore.Fingerprint.FormatFingerprint()}");
         }
     }
 }

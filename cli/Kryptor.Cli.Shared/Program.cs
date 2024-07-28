@@ -36,6 +36,10 @@ namespace SAPTeam.Kryptor.Cli
         {
             var root = new RootCommand("Kryptor Command-Line Interface");
 
+            var verbose = new Option<bool>("--verbose", "Shows more detailed informations in console output");
+            verbose.AddAlias("-v");
+            root.AddGlobalOption(verbose);
+
             #region Common Data Processing Options
             var blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
             blockSize.AddAlias("-b");
@@ -76,11 +80,11 @@ namespace SAPTeam.Kryptor.Cli
 
             encCmd.AddAlias("e");
 
-            encCmd.SetHandler((blockSizeT, providerT, continuousT, removeHashT, dbpT, hVerboseT, keystoreT, filesT) =>
+            encCmd.SetHandler((verboseT, dpoT, hVerboseT) =>
             {
-                var sessionHost = new EncryptionSessionHost(blockSizeT, providerT, continuousT, removeHashT, dbpT, keystoreT, filesT, hVerboseT);
+                var sessionHost = new EncryptionSessionHost(verboseT, dpoT, hVerboseT);
                 Context.NewSessionHost(sessionHost);
-            }, blockSize, provider, continuous, removeHash, dbp, hVerbose, keystore, files);
+            }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose);
 
             root.AddCommand(encCmd);
             #endregion
@@ -99,11 +103,11 @@ namespace SAPTeam.Kryptor.Cli
 
             decCmd.AddAlias("d");
 
-            decCmd.SetHandler((blockSizeT, providerT, continuousT, removeHashT, dbpT, keystoreT, filesT) =>
+            decCmd.SetHandler((verboseT, dpoT) =>
             {
-                var sessionHost = new DecryptionSessionHost(blockSizeT, providerT, continuousT, removeHashT, dbpT, keystoreT, filesT);
+                var sessionHost = new DecryptionSessionHost(verboseT, dpoT);
                 Context.NewSessionHost(sessionHost);
-            }, blockSize, provider, continuous, removeHash, dbp, keystore, files);
+            }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
 
             root.AddCommand(decCmd);
             #endregion

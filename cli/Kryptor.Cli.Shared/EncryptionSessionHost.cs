@@ -8,7 +8,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         public int HeaderVerbosity { get; }
 
-        public EncryptionSessionHost(int blockSize, string provider, bool continuous, bool removeHash, bool dbp, string keyStore, string[] files, int hVerbose) : base(blockSize, provider, continuous, removeHash, dbp, keyStore, files)
+        public EncryptionSessionHost(bool verbose, DataProcessingOptions options, int hVerbose) : base(verbose, options)
         {
             HeaderVerbosity = hVerbose;
         }

@@ -16,20 +16,44 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class CliSessionHost : SessionHost
     {
-        public CliSessionHost()
+        public bool Verbose { get; }
+
+        public CliSessionHost(bool verbose)
         {
+            Verbose = verbose;
+
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
         }
 
         protected virtual void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
         {
-            
+            Exception ex = (Exception)e.ExceptionObject;
+
+            Log($"{ex.GetType().Name.Color(Color.Red)}: {ex.Message}");
+
+            if (!Verbose)
+            {
+                Environment.Exit(255);
+            }
         }
 
         public override void Start()
         {
-            Console.WriteLine($"Kryptor Command-Line Interface v{Program.Context.CliVersion.Color(Color.Cyan)}");
-            Console.WriteLine($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
+            Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.Color(Color.Cyan)}");
+            Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
+        }
+
+        protected void Log(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        protected void DebugLog(string message)
+        {
+            if (Verbose)
+            {
+                Console.WriteLine(message);
+            }
         }
 
         protected async Task ShowProgress()
