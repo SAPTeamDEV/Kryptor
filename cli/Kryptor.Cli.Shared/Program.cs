@@ -75,7 +75,6 @@ namespace SAPTeam.Kryptor.Cli
             };
 
             encCmd.AddAlias("e");
-            encCmd.AddAlias("enc");
 
             encCmd.SetHandler((blockSizeT, providerT, continuousT, removeHashT, dbpT, hVerboseT, keystoreT, filesT) =>
             {
@@ -99,7 +98,6 @@ namespace SAPTeam.Kryptor.Cli
             };
 
             decCmd.AddAlias("d");
-            decCmd.AddAlias("dec");
 
             decCmd.SetHandler((blockSizeT, providerT, continuousT, removeHashT, dbpT, keystoreT, filesT) =>
             {
