@@ -22,7 +22,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             Verbose = verbose;
 
-            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+            // AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
         }
 
         protected virtual void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
