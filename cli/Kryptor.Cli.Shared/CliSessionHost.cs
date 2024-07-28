@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using System.Threading;
+using System.Diagnostics;
+
 
 
 #if !NETFRAMEWORK
@@ -17,6 +19,8 @@ namespace SAPTeam.Kryptor.Cli
     public class CliSessionHost : SessionHost
     {
         public bool Verbose { get; }
+
+        protected Stopwatch Timer { get; set; }
 
         public CliSessionHost(bool verbose)
         {
@@ -63,12 +67,21 @@ namespace SAPTeam.Kryptor.Cli
             DebugLog("");
 
             var monitor = Task.WhenAll(Container.Tasks);
-            var lines = Container.Sessions.Length;
+            var lines = Container.Sessions.Length + 1;
 
             while (true)
             {
+                double totalProg = 0;
+                int count = 0;
+
                 foreach (var session in Container.Sessions)
                 {
+                    if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && session.EndReason == SessionEndReason.Completed))
+                    {
+                        totalProg += session.Progress;
+                        count++;
+                    }
+
                     Color color = Color.LightSlateGray;
                     string prog = "waiting";
 
@@ -107,13 +120,21 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"[{prog.Color(color)}] {session.Description}".PadRight(Console.BufferWidth));
                 };
 
+                totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
+                var elapsedTime = Timer.Elapsed;
+                var remainingTime = Utilities.CalculateRemainingTime(totalProg, Timer.ElapsedMilliseconds);
+
+                Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
+
                 if (monitor.IsCompleted)
                 {
+                    Timer.Stop();
                     break;
                 }
 
                 await Task.Delay(100);
 
+                Console.CursorLeft = 0;
                 Console.CursorTop -= lines;
             }
         }

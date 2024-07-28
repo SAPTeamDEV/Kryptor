@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace SAPTeam.Kryptor.Cli
         public override void Start()
         {
             base.Start();
+
+            Timer = Stopwatch.StartNew();
 
             foreach (var file in Files)
             {

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSessionHost : DataProcessingSessionHost
@@ -10,6 +12,8 @@ namespace SAPTeam.Kryptor.Cli
         public override void Start()
         {
             base.Start();
+
+            Timer = Stopwatch.StartNew();
 
             foreach (var file in Files)
             {
