@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,9 +10,36 @@ namespace SAPTeam.Kryptor.Cli
     {
         public override double Progress { get; protected set; }
         public override string Description { get; protected set; }
-        protected override Task<bool> RunAsync(CancellationToken cancellationToken)
+
+        string path;
+
+        public KeyStore KeyStore { get; protected set; }
+
+        const int ChunckSize = 4096;
+
+        public KeyStoreFileLoadSession(string path)
         {
-            throw new System.NotImplementedException();
+            this.path = path;
+        }
+
+        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
+        {
+            return false;
+            /*
+            using (var f = File.OpenRead(path))
+            {
+                var result = new byte[f.Length];
+
+                var step = f.Length / (double)ChunckSize;
+                double prog = 0;
+
+                for (int i = 0; i < f.Length; i += ChunckSize)
+                {
+                    var buffer = new byte[ChunckSize];
+                    f.ReadAsync(buffer, )
+                }
+            }
+            */
         }
     }
 }

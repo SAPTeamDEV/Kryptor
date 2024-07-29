@@ -37,13 +37,13 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            Log("Loading keystore");
-
             if (File.Exists(ks))
             {
                 DebugLog($"Keystore file: {ks}");
-                var data = File.ReadAllBytes(ks);
-                KeyStore = new KeyStore(data);
+                var session = new KeyStoreFileLoadSession(ks);
+                NewSession(session, true);
+                ShowProgressMonitored(false).Wait();
+                
             }
             else if (TransformerToken.IsValid(ks))
             {

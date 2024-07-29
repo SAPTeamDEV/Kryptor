@@ -79,17 +79,27 @@ namespace SAPTeam.Kryptor.Cli
                 var lines = Container.Sessions.Length + extraLines;
 
                 double totalProg = 0;
-                double totalRem = 0;
                 int count = 0;
+
+                double runningProg = 0;
+                double runningRem = 0;
+                int runningCount = 0;
 
                 foreach (var session in Container.Sessions)
                 {
                     if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed || session.EndReason == SessionEndReason.Cancelled)))
                     {
                         var sProg = session.Progress;
+
                         totalProg += sProg;
-                        totalRem += Utilities.CalculateRemainingTime(sProg, session.Timer.ElapsedMilliseconds);
                         count++;
+
+                        if (session.Status == SessionStatus.Running)
+                        {
+                            runningProg += sProg;
+                            runningRem += Utilities.CalculateRemainingTime(sProg, session.Timer.ElapsedMilliseconds);
+                            runningCount++;
+                        }
                     }
 
                     Color color = Color.LightSlateGray;
@@ -133,9 +143,9 @@ namespace SAPTeam.Kryptor.Cli
                 if (showOverall)
                 {
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
-                    totalRem = count > 0 ? totalRem / count : 0;
+                    runningRem = runningCount > 0 ? runningRem / runningCount : 0;
                     var elapsedTime = sw.Elapsed;
-                    var remainingTime = Utilities.CalculateRemainingTimeSpan(totalProg, (long)totalRem);
+                    var remainingTime = TimeSpan.FromMilliseconds(runningRem);
 
                     Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
                 }
