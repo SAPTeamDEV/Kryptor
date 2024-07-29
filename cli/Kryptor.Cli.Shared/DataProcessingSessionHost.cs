@@ -43,6 +43,7 @@ namespace SAPTeam.Kryptor.Cli
                 var session = new KeyStoreFileLoadSession(ks);
                 NewSession(session, true);
                 ShowProgressMonitored(false).Wait();
+                KeyStore = session.KeyStore;
                 
             }
             else if (TransformerToken.IsValid(ks))

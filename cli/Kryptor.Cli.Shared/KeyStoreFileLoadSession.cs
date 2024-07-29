@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,22 +25,29 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            return false;
-            /*
             using (var f = File.OpenRead(path))
             {
+                Description = "Reading Keystore file";
+
                 var result = new byte[f.Length];
 
-                var step = f.Length / (double)ChunckSize;
-                double prog = 0;
+                var step = (double)((double)ChunckSize / f.Length) * 100;
+                int prog = 1;
 
                 for (int i = 0; i < f.Length; i += ChunckSize)
                 {
-                    var buffer = new byte[ChunckSize];
-                    f.ReadAsync(buffer, )
+                    var buffer = new byte[Math.Min(f.Length - f.Position, ChunckSize)];
+                    await f.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                    Array.Copy(buffer, 0, result, i, buffer.Length);
+
+                    Progress = step * prog;
+                    prog++;
                 }
+
+                Description = "Creating object";
+                KeyStore = new KeyStore(result);
+                return true;
             }
-            */
         }
     }
 }
