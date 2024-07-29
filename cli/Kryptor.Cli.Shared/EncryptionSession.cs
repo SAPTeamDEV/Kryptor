@@ -28,18 +28,15 @@ namespace SAPTeam.Kryptor.Cli
             this.file = file;
         }
 
-        public override async Task StartAsync(CancellationToken cancellationToken)
+        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             Description = "Prepairing";
 
-            await base.StartAsync(cancellationToken);
-
             if (!File.Exists(file))
             {
-                Status = SessionStatus.Ended;
                 EndReason = SessionEndReason.Skipped;
                 Description = "file not found";
-                return;
+                return false;
             }
 
             var header = CliHeader.Create();
@@ -48,7 +45,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 header.FileName = Path.GetFileName(file);
             }
-            
+
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
             var sourceStream = File.OpenRead(file);
@@ -59,31 +56,15 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Description = destFileName;
                 await kes.EncryptAsync(sourceStream, destStream, header, cancellationToken);
-                EndReason = SessionEndReason.Completed;
+                return true;
             }
-            catch (OperationCanceledException ocex)
-            {
-                EndReason = SessionEndReason.Cancelled;
-                Exception = ocex;
-            }
-            catch (Exception ex)
-            {
-                Description = $"{ex.GetType().Name}: {ex.Message}";
-                EndReason = SessionEndReason.Failed;
-                Exception = ex;
-            }
-            finally
+            catch (Exception)
             {
                 sourceStream.Close();
                 destStream.Close();
 
-                if (EndReason != SessionEndReason.Completed)
-                {
-                    File.Delete(destFileName);
-                }
-
-                Timer.Stop();
-                Status = SessionStatus.Ended;
+                File.Delete(destFileName);
+                throw;
             }
         }
 

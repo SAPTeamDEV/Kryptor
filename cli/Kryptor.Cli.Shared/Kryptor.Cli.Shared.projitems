@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyStoreFileLoadSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
   </ItemGroup>
 </Project>

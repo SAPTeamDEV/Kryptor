@@ -27,16 +27,13 @@ namespace SAPTeam.Kryptor.Cli
             this.file = file;
         }
 
-        public async override Task StartAsync(CancellationToken cancellationToken)
+        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            await base.StartAsync(cancellationToken);
-
             if (!File.Exists(file))
             {
-                Status = SessionStatus.Ended;
                 EndReason = SessionEndReason.Skipped;
                 Description = "file not found";
-                return;
+                return false;
             }
 
             Description = "Reading header";
@@ -64,9 +61,8 @@ namespace SAPTeam.Kryptor.Cli
                         Description = $"You must use a client with engine version {header.EngineVersion} or api version {header.Version}";
                     }
 
-                    Status = SessionStatus.Ended;
                     EndReason = SessionEndReason.Failed;
-                    return;
+                    return false;
                 }
 
                 if (hVerbose > 1)
@@ -95,33 +91,15 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Description = destFileName;
                 await kes.DecryptAsync(sourceStream, destStream, cancellationToken);
-                EndReason = SessionEndReason.Completed;
+                return true;
             }
-            catch (OperationCanceledException ocex)
-            {
-                EndReason = SessionEndReason.Cancelled;
-                Exception = ocex;
-            }
-            catch (Exception ex)
-            {
-                Description = $"{ex.GetType().Name}: {ex.Message}";
-                EndReason = SessionEndReason.Failed;
-                Exception = ex;
-            }
-            finally
+            catch (Exception)
             {
                 sourceStream.Close();
                 destStream.Close();
-
-                if (EndReason != SessionEndReason.Completed)
-                {
-                    File.Delete(destFileName);
-                }
-
-                Timer.Stop();
-                Status = SessionStatus.Ended;
+                File.Delete(destFileName);
+                throw;
             }
-
         }
 
         private void UpdateProgress(double value)

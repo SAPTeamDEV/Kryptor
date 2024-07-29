@@ -48,10 +48,47 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public async virtual Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             Status = SessionStatus.Running;
             Timer.Start();
+
+            try
+            {
+                bool result = await RunAsync(cancellationToken);
+
+                if (result)
+                {
+                    EndReason = SessionEndReason.Completed;
+                }
+            }
+            catch (OperationCanceledException ocex)
+            {
+                EndReason = SessionEndReason.Cancelled;
+                Exception = ocex;
+            }
+            catch (Exception ex)
+            {
+                Description = $"{ex.GetType().Name}: {ex.Message}";
+                EndReason = SessionEndReason.Failed;
+                Exception = ex;
+            }
+            finally
+            {
+                Timer.Stop();
+                Status = SessionStatus.Ended;
+            }
         }
+
+        /// <summary>
+        /// Starts the session in a managed manner.
+        /// </summary>
+        /// <param name="cancellationToken">
+        /// A cancellation token to monitor the task.
+        /// </param>
+        /// <returns>
+        /// true if the session ends successfully and false when the session ends with a handled error.
+        /// </returns>
+        protected abstract Task<bool> RunAsync(CancellationToken cancellationToken);
     }
 }
