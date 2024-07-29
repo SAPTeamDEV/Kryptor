@@ -60,17 +60,23 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async Task ShowProgress(bool showOverall)
         {
-            var sw = Stopwatch.StartNew();
+            Stopwatch sw = null;
 
             DebugLog($"Buffer width: {Console.BufferWidth}");
             DebugLog($"Window width: {Console.WindowWidth}");
             DebugLog("");
+
+            if (Console.BufferWidth < 50)
+            {
+                showOverall = false;
+            }
 
             var monitor = Task.WhenAll(Container.Tasks);
             var extraLines = 0;
 
             if (showOverall)
             {
+                sw = Stopwatch.StartNew();
                 extraLines++;
             }
 
@@ -137,6 +143,11 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
+                    if (prog.Length > Console.BufferWidth - 2)
+                    {
+                        prog = "..." + prog.Substring(prog.Length - Console.BufferWidth - 5);
+                    }
+
                     Console.WriteLine($"[{prog.Color(color)}] {session.Description}".PadRight(Console.BufferWidth));
                 };
 
@@ -152,6 +163,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (monitor.IsCompleted)
                 {
+                    sw?.Stop();
                     break;
                 }
 
