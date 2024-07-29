@@ -26,7 +26,7 @@ namespace SAPTeam.Kryptor.Cli
                 NewSession(session);
             }
 
-            ShowProgressMonitored().Wait();
+            ShowProgressMonitored(true).Wait();
         }
     }
 }

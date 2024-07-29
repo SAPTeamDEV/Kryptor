@@ -60,23 +60,30 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected async Task ShowProgress()
+        protected async Task ShowProgress(bool showOverall)
         {
             DebugLog($"Buffer width: {Console.BufferWidth}");
             DebugLog($"Window width: {Console.WindowWidth}");
             DebugLog("");
 
             var monitor = Task.WhenAll(Container.Tasks);
-            var lines = Container.Sessions.Length + 1;
+            var extraLines = 0;
+
+            if (showOverall)
+            {
+                extraLines++;
+            }
 
             while (true)
             {
+                var lines = Container.Sessions.Length + extraLines;
+
                 double totalProg = 0;
                 int count = 0;
 
                 foreach (var session in Container.Sessions)
                 {
-                    if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && session.EndReason == SessionEndReason.Completed))
+                    if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed || session.EndReason == SessionEndReason.Cancelled)))
                     {
                         totalProg += session.Progress;
                         count++;
@@ -120,11 +127,14 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"[{prog.Color(color)}] {session.Description}".PadRight(Console.BufferWidth));
                 };
 
-                totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
-                var elapsedTime = Timer.Elapsed;
-                var remainingTime = Utilities.CalculateRemainingTime(totalProg, Timer.ElapsedMilliseconds);
+                if (showOverall)
+                {
+                    totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
+                    var elapsedTime = Timer.Elapsed;
+                    var remainingTime = Utilities.CalculateRemainingTime(totalProg, Timer.ElapsedMilliseconds);
 
-                Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
+                    Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
+                }
 
                 if (monitor.IsCompleted)
                 {
@@ -139,9 +149,9 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected Task ShowProgressMonitored()
+        protected Task ShowProgressMonitored(bool showOverall)
         {
-            var pTask = ShowProgress();
+            var pTask = ShowProgress(showOverall);
             MonitorTask(pTask);
             return pTask;
         }
