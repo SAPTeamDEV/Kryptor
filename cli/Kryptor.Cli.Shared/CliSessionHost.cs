@@ -80,10 +80,11 @@ namespace SAPTeam.Kryptor.Cli
                 extraLines++;
             }
 
+            ISession[] sessions = Container.Sessions;
+            var lines = Container.Sessions.Length + extraLines;
+
             while (true)
             {
-                var lines = Container.Sessions.Length + extraLines;
-
                 double totalProg = 0;
                 int count = 0;
 
@@ -91,7 +92,7 @@ namespace SAPTeam.Kryptor.Cli
                 double runningRem = 0;
                 int runningCount = 0;
 
-                foreach (var session in Container.Sessions)
+                foreach (var session in sessions)
                 {
                     if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed || session.EndReason == SessionEndReason.Cancelled)))
                     {
