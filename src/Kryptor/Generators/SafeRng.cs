@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor.Generators
                 {
                     result.Add(sample);
 
-                    totalProgress += sampleSize / buffer.Length;
+                    totalProgress += (double)sampleSize / buffer.Length;
                     OnProgress?.Invoke(totalProgress);
 
                     tries = 0;
@@ -49,6 +49,7 @@ namespace SAPTeam.Kryptor.Generators
                 totalTries++;
             }
 
+            OnProgress?.Invoke(-1);
             result.SelectMany((k) => k).Take(buffer.Length).ToArray().CopyTo(buffer, 0);
         }
     }

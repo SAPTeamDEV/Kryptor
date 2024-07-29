@@ -82,7 +82,7 @@ namespace SAPTeam.Kryptor.Generators
 
                 Array.Copy(vt, 0, buffer, i, Math.Min(vt.Length, buffer.Length - i));
 
-                totalProgress += vt.Length / buffer.Length;
+                totalProgress += (double)vt.Length / buffer.Length;
                 OnProgress.Invoke(totalProgress * 100);
 
                 i += vt.Length;

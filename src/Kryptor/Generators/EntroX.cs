@@ -60,7 +60,7 @@ namespace SAPTeam.Kryptor.Generators
                 var data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
                 Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
-                totalProgress += data.Length / buffer.Length;
+                totalProgress += (double)data.Length / buffer.Length;
                 OnProgress?.Invoke(totalProgress * 100);
 
                 tries++;
