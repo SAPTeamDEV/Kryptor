@@ -57,7 +57,10 @@ namespace SAPTeam.Kryptor.Cli
                     DebugLog($"Generating keystore with {token.KeySize} using {tranformer.GetType().Name}");
                 }
 
-                KeyStore = Utilities.GenerateKeyStoreFromToken(token);
+                var session = new KeyStoreTokenLoadSession(token);
+                NewSession(session, true);
+                ShowProgressMonitored(false).Wait();
+                KeyStore = session.KeyStore;
             }
             else
             {
