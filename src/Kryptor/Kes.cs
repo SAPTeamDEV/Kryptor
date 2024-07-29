@@ -7,13 +7,14 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.CryptoProviders;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Provides methods to encrypt and decrypt data using the Kryptor Encryption Standard (KES).
     /// </summary>
-    public class Kes
+    public class Kes : IProgressReport
     {
         #region Size Parameters
 
@@ -55,9 +56,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public CryptoProvider Provider { get; set; }
 
-        /// <summary>
-        /// Called when a part of file is encrypted or decrypted.
-        /// </summary>
+        /// <inheritdoc/>
         public event Action<double> OnProgress;
 
         /// <summary>

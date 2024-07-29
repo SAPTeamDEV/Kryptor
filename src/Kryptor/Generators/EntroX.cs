@@ -16,6 +16,9 @@ namespace SAPTeam.Kryptor.Generators
         private static readonly CryptoRandom crng = new CryptoRandom();
         private static readonly SHA512 _sha512;
 
+        /// <inheritdoc/>
+        public event Action<double> OnProgress;
+
         static EntroX()
         {
             // Initialize entropy with some random data.
@@ -45,6 +48,7 @@ namespace SAPTeam.Kryptor.Generators
         {
             TransformEntropy();
 
+            double totalProgress = 0;
             int tries = 1;
             int pos = 0;
             while (pos < buffer.Length)
@@ -56,6 +60,8 @@ namespace SAPTeam.Kryptor.Generators
                 var data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
                 Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
+                totalProgress += data.Length / buffer.Length;
+                OnProgress?.Invoke(totalProgress * 100);
 
                 tries++;
             }

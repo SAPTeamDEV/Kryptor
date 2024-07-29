@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+using SAPTeam.Kryptor.Helpers;
+
 namespace SAPTeam.Kryptor.Generators
 {
     /// <summary>
@@ -15,7 +17,7 @@ namespace SAPTeam.Kryptor.Generators
     /// an optional (enabled by default) random buffer which provides a significant speed boost as
     /// it greatly reduces the amount of calls into unmanaged land.
     /// </summary>
-    public class CryptoRandom : Random
+    public class CryptoRandom : Random, IGenerator
     {
         private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
 
@@ -31,6 +33,9 @@ namespace SAPTeam.Kryptor.Generators
         ///     <c>true</c> if this instance has random pool enabled; otherwise, <c>false</c>.
         /// </value>
         public bool IsRandomPoolEnabled { get; private set; }
+
+        /// <inheritdoc/>
+        public event Action<double> OnProgress;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoRandom"/> class with.
@@ -73,6 +78,14 @@ namespace SAPTeam.Kryptor.Generators
 
             _rng.GetBytes(_buffer);
             _bufferPosition = 0;
+        }
+
+        /// <inheritdoc/>
+        public void Generate(byte[] buffer)
+        {
+            NextBytes(buffer);
+
+            OnProgress?.Invoke(100);
         }
 
         /// <summary>

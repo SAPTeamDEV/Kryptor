@@ -1,9 +1,11 @@
-﻿namespace SAPTeam.Kryptor
+﻿using SAPTeam.Kryptor.Helpers;
+
+namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Represents standard to transform specified inputs to a reproducible output.
     /// </summary>
-    public interface ITranformer
+    public interface ITranformer : IProgressReport
     {
         /// <summary>
         /// Fills the buffer with generated values.

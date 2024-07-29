@@ -22,6 +22,9 @@ namespace SAPTeam.Kryptor.Generators
         private readonly SHA384 _sha384;
         private readonly SHA512 _sha512;
 
+        /// <inheritdoc/>
+        public event Action<double> OnProgress;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Generica"/> class.
         /// </summary>
@@ -45,6 +48,8 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer, int rotate)
         {
+            double totalProgress = 0;
+
             if (rotate < 1)
             {
                 rotate = Transformers.ToAbsInt32(_salt, buffer.Length % 41 + _seed[28] + _salt[0]) % 100;
@@ -88,6 +93,9 @@ namespace SAPTeam.Kryptor.Generators
                 }
 
                 Array.Copy(vt, 0, buffer, i, Math.Min(vt.Length, buffer.Length - i));
+
+                totalProgress += vt.Length / buffer.Length;
+                OnProgress?.Invoke(totalProgress * 100);
 
                 i += vt.Length;
             }

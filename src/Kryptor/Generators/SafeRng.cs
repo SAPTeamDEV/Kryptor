@@ -12,8 +12,12 @@ namespace SAPTeam.Kryptor.Generators
         private static readonly CryptoRandom random = new CryptoRandom();
 
         /// <inheritdoc/>
+        public event Action<double> OnProgress;
+
+        /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
+            double totalProgress = 0;
             int sampleSize = 256;
 
             List<byte[]> result = new List<byte[]>();
@@ -30,6 +34,10 @@ namespace SAPTeam.Kryptor.Generators
                 if (result.All((b) => b.Intersect(sample).Count() < 10) || tries > 100)
                 {
                     result.Add(sample);
+
+                    totalProgress += sampleSize / buffer.Length;
+                    OnProgress?.Invoke(totalProgress);
+
                     tries = 0;
                 }
                 else
