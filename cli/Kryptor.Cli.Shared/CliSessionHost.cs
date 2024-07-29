@@ -107,7 +107,11 @@ namespace SAPTeam.Kryptor.Cli
 
                 foreach (var session in sessions)
                 {
-                    if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed || session.EndReason == SessionEndReason.Cancelled)))
+                    if (session.Progress >= 0
+                        && (session.Status == SessionStatus.Running
+                            || session.Status == SessionStatus.NotStarted
+                            || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed
+                                                                          || session.EndReason == SessionEndReason.Cancelled))))
                     {
                         var sProg = session.Progress;
 

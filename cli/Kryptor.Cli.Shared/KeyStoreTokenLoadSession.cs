@@ -29,7 +29,10 @@ namespace SAPTeam.Kryptor.Cli
             this.cancellationToken = cancellationToken;
             Description = "Generating keystore";
             await Task.Delay(1);
+
             KeyStore = Utilities.GenerateKeyStoreFromToken(token, UpdateProgress);
+
+            Description = "Keystore loaded";
             return true;
         }
 
