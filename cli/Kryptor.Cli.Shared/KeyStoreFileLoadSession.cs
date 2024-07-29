@@ -44,8 +44,11 @@ namespace SAPTeam.Kryptor.Cli
                     prog++;
                 }
 
-                Description = "Creating object";
+                Description = "Loading keystore";
+                Progress = -1;
                 KeyStore = new KeyStore(result);
+
+                Description = "Keystore loaded";
                 return true;
             }
         }

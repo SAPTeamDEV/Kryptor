@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 using System.Threading;
 using System.Diagnostics;
+using System.Collections.Generic;
+
 
 
 
@@ -62,9 +64,20 @@ namespace SAPTeam.Kryptor.Cli
         {
             Stopwatch sw = null;
 
+            List<string> loadingSteps = new List<string>()
+            {
+                "-",
+                "\\",
+                "|",
+                "/",
+            };
+            int loadingStep = 0;
+
             DebugLog($"Buffer width: {Console.BufferWidth}");
             DebugLog($"Window width: {Console.WindowWidth}");
             DebugLog("");
+
+            Console.CursorVisible = false;
 
             if (Console.BufferWidth < 50)
             {
@@ -115,7 +128,7 @@ namespace SAPTeam.Kryptor.Cli
                     if (session.Status == SessionStatus.Running)
                     {
                         color = Color.Yellow;
-                        prog = Math.Round(session.Progress, 2).ToString() + "%";
+                        prog = session.Progress == -1 ? $" {loadingSteps[loadingStep]} " : (Math.Round(session.Progress, 2).ToString() + "%");
                     }
                     else if (session.Status == SessionStatus.Ended)
                     {
@@ -162,9 +175,12 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
                 }
 
+                loadingStep = (loadingStep + 1) % loadingSteps.Count;
+
                 if (monitor.IsCompleted)
                 {
                     sw?.Stop();
+                    Console.CursorVisible = true;
                     break;
                 }
 
