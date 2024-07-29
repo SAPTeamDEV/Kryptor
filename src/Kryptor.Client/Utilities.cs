@@ -29,12 +29,19 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="token">
         /// Source token that has the required data to generate keystore.
         /// </param>
+        /// <param name="progressReport">
+        /// Called when a part of work is done.
+        /// </param>
         /// <returns></returns>
-        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token)
+        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, Action<double> progressReport)
         {
             ITranformer tranformer = Transformers.GetTranformer(token);
+            tranformer.OnProgress += progressReport;
+
             byte[] buffer = new byte[token.KeySize * 32];
             tranformer.Generate(buffer, token.Rotate);
+
+            progressReport(-1);
             return new KeyStore(buffer);
         }
 
