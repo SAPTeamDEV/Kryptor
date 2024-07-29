@@ -157,12 +157,15 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
-                    if (prog.Length > Console.BufferWidth - 2)
+                    string desc = session.Description;
+                    int expectedLength = Console.BufferWidth - prog.Length - 5;
+
+                    if (desc.Length > expectedLength)
                     {
-                        prog = "..." + prog.Substring(prog.Length - Console.BufferWidth - 5);
+                        desc = "..." + prog.Substring(prog.Length - expectedLength - 3);
                     }
 
-                    Console.WriteLine($"[{prog.Color(color)}] {session.Description}".PadRight(Console.BufferWidth));
+                    Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(Console.BufferWidth));
                 };
 
                 if (showOverall)
