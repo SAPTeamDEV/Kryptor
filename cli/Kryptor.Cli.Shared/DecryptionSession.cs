@@ -118,6 +118,7 @@ namespace SAPTeam.Kryptor.Cli
                     File.Delete(destFileName);
                 }
 
+                Timer.Stop();
                 Status = SessionStatus.Ended;
             }
 

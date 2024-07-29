@@ -20,8 +20,6 @@ namespace SAPTeam.Kryptor.Cli
     {
         public bool Verbose { get; }
 
-        protected Stopwatch Timer { get; set; }
-
         public CliSessionHost(bool verbose)
         {
             Verbose = verbose;
@@ -62,6 +60,8 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async Task ShowProgress(bool showOverall)
         {
+            var sw = Stopwatch.StartNew();
+
             DebugLog($"Buffer width: {Console.BufferWidth}");
             DebugLog($"Window width: {Console.WindowWidth}");
             DebugLog("");
@@ -79,13 +79,16 @@ namespace SAPTeam.Kryptor.Cli
                 var lines = Container.Sessions.Length + extraLines;
 
                 double totalProg = 0;
+                double totalRem = 0;
                 int count = 0;
 
                 foreach (var session in Container.Sessions)
                 {
                     if (session.Status == SessionStatus.Running || session.Status == SessionStatus.NotStarted || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed || session.EndReason == SessionEndReason.Cancelled)))
                     {
-                        totalProg += session.Progress;
+                        var sProg = session.Progress;
+                        totalProg += sProg;
+                        totalRem += Utilities.CalculateRemainingTime(sProg, session.Timer.ElapsedMilliseconds);
                         count++;
                     }
 
@@ -130,15 +133,15 @@ namespace SAPTeam.Kryptor.Cli
                 if (showOverall)
                 {
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
-                    var elapsedTime = Timer.Elapsed;
-                    var remainingTime = Utilities.CalculateRemainingTime(totalProg, Timer.ElapsedMilliseconds);
+                    totalRem = count > 0 ? totalRem / count : 0;
+                    var elapsedTime = sw.Elapsed;
+                    var remainingTime = Utilities.CalculateRemainingTimeSpan(totalProg, (long)totalRem);
 
                     Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
                 }
 
                 if (monitor.IsCompleted)
                 {
-                    Timer.Stop();
                     break;
                 }
 

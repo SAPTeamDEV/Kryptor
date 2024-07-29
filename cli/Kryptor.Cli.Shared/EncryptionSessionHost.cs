@@ -18,8 +18,6 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            Timer = Stopwatch.StartNew();
-
             foreach (var file in Files)
             {
                 var session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, file);

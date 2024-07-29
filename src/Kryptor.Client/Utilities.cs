@@ -76,11 +76,26 @@ namespace SAPTeam.Kryptor.Client
         /// The elapsed time since progress start time.
         /// </param>
         /// <returns></returns>
-        public static TimeSpan CalculateRemainingTime(double progress, long elapsedMilliseconds)
+        public static TimeSpan CalculateRemainingTimeSpan(double progress, long elapsedMilliseconds)
+        {
+            return TimeSpan.FromMilliseconds((int)CalculateRemainingTime(progress, elapsedMilliseconds));
+        }
+
+        /// <summary>
+        /// Calculates the remaining time based on progress and elapsed milliseconds.
+        /// </summary>
+        /// <param name="progress">
+        /// The passed progress.
+        /// </param>
+        /// <param name="elapsedMilliseconds">
+        /// The elapsed time since progress start time.
+        /// </param>
+        /// <returns></returns>
+        public static double CalculateRemainingTime(double progress, long elapsedMilliseconds)
         {
             var rProg = Math.Round(progress);
             var remTime = progress > 0 ? (elapsedMilliseconds / progress) * (100 - progress) : 0;
-            return TimeSpan.FromMilliseconds((int)remTime);
+            return remTime;
         }
     }
 }
