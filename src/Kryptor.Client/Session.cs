@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,6 +29,9 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public Exception Exception { get; protected set; }
 
+        /// <inheritdoc/>
+        public Stopwatch Timer { get; protected set; }
+
         /// <summary>
         /// Sets all session properties to thir default data.
         /// </summary>
@@ -39,12 +43,15 @@ namespace SAPTeam.Kryptor.Client
             Status = SessionStatus.NotStarted;
             EndReason = SessionEndReason.None;
             Exception = null;
+
+            Timer = new Stopwatch();
         }
 
         /// <inheritdoc/>
         public async virtual Task StartAsync(CancellationToken cancellationToken)
         {
             Status = SessionStatus.Running;
+            Timer.Start();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -36,6 +37,11 @@ namespace SAPTeam.Kryptor.Client
         /// Gets the thrown exception during session run.
         /// </summary>
         Exception Exception { get; }
+
+        /// <summary>
+        /// Gets the stopwatch for this session.
+        /// </summary>
+        Stopwatch Timer { get; }
 
         /// <summary>
         /// Starts the task asynchronously.
