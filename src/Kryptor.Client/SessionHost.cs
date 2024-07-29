@@ -37,7 +37,7 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public Task NewSession(ISession session)
+        public Task NewSession(ISession session, bool autoRemove = false)
         {
             if (session.Status != SessionStatus.NotStarted)
             {
@@ -47,7 +47,13 @@ namespace SAPTeam.Kryptor.Client
             CancellationTokenSource tokenSource = new CancellationTokenSource();
             Task task = session.StartAsync(tokenSource.Token);
 
-            Container.Add(session, task, tokenSource);
+            int id = Container.Add(session, task, tokenSource);
+
+            if (autoRemove)
+            {
+                task.ContinueWith((x) => Container.Remove(id));
+            }
+
             return task;
         }
 

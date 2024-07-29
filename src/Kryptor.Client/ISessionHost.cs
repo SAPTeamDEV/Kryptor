@@ -30,6 +30,9 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="session">
         /// A session with status <see cref="SessionStatus.NotStarted"/>.
         /// </param>
-        Task NewSession(ISession session);
+        /// <param name="autoRemove">
+        /// Determines whether to automatically remove session after end.
+        /// </param>
+        Task NewSession(ISession session, bool autoRemove);
     }
 }

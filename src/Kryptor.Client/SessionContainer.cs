@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using SAPTeam.Kryptor.Generators;
+
 namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
@@ -12,7 +14,9 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class SessionContainer
     {
-        List<(ISession Session, Task Task, CancellationTokenSource TokenSource)> SessionPool = new List<(ISession Session, Task Task, CancellationTokenSource TokenSource)>();
+        static CryptoRandom crng = new CryptoRandom();
+
+        Dictionary<int, (ISession Session, Task Task, CancellationTokenSource TokenSource)> SessionPool = new Dictionary<int, (ISession Session, Task Task, CancellationTokenSource TokenSource)>();
         List<Task> TaskPool = new List<Task>();
 
         ISession[] sessions;
@@ -28,7 +32,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (sessions == null)
                 {
-                    sessions = SessionPool.Select(x => x.Session).ToArray();
+                    sessions = SessionPool.Values.Select(x => x.Session).ToArray();
                 }
                 
                 return sessions;
@@ -44,7 +48,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (tasks == null)
                 {
-                    tasks = SessionPool.Select(x => x.Task).Concat(TaskPool).ToArray();
+                    tasks = SessionPool.Values.Select(x => x.Task).Concat(TaskPool).ToArray();
                 }
 
                 return tasks;
@@ -60,7 +64,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (tokenSources == null)
                 {
-                    tokenSources = SessionPool.Select(x => x.TokenSource).ToArray();
+                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
                 }
 
                 return tokenSources;
@@ -79,10 +83,22 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="tokenSource">
         /// The token source that controls the cancellation token of the task.
         /// </param>
-        public void Add(ISession session, Task task, CancellationTokenSource tokenSource)
+        /// <returns>The unique identifier of this entry.</returns>
+        public int Add(ISession session, Task task, CancellationTokenSource tokenSource)
         {
-            SessionPool.Add((session, task, tokenSource));
+            int rn;
+            while (true)
+            {
+                rn = crng.Next();
+                if (!SessionPool.ContainsKey(rn))
+                {
+                    break;
+                }
+            }
+
+            SessionPool[rn] = (session, task, tokenSource);
             ResetCache();
+            return rn;
         }
 
         /// <summary>
@@ -94,6 +110,18 @@ namespace SAPTeam.Kryptor.Client
         public void AddMonitoringTask(Task task)
         {
             TaskPool.Add(task);
+            ResetCache();
+        }
+
+        /// <summary>
+        /// Removes an entry from the container.
+        /// </summary>
+        /// <param name="id">
+        /// The unique identifier returned by Add call.
+        /// </param>
+        public void Remove(int id)
+        {
+            SessionPool.Remove(id);
             ResetCache();
         }
 
