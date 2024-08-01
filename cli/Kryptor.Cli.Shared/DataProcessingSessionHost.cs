@@ -54,7 +54,7 @@ namespace SAPTeam.Kryptor.Cli
                 if (Verbose)
                 {
                     var tranformer = Transformers.GetTranformer(token);
-                    DebugLog($"Generating keystore with {token.KeySize} using {tranformer.GetType().Name}");
+                    DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 
                 var session = new KeyStoreTokenLoadSession(token);
