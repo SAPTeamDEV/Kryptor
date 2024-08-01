@@ -79,7 +79,10 @@ namespace SAPTeam.Kryptor.Cli
             };
             int loadingStep = 0;
 
-            Console.CursorVisible = false;
+            if (!isRedirected)
+            {
+                Console.CursorVisible = false;
+            }
 
             if (!isRedirected && bufferWidth < 50)
             {
@@ -96,6 +99,8 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             List<ISession> sessions = Container.Sessions.ToList();
+            List<ISession> flaggedSessions = new List<ISession>();
+
             var lines = Container.Sessions.Length + extraLines;
 
             while (true)
@@ -177,10 +182,16 @@ namespace SAPTeam.Kryptor.Cli
 
                         if (isRedirected)
                         {
-                            sessions.Remove(session);
+                            flaggedSessions.Add(session);
                         }
                     }
                 };
+
+                foreach (var session in flaggedSessions)
+                {
+                    sessions.Remove(session);
+                }
+                flaggedSessions.Clear();
 
                 if (showOverall && (!isRedirected || monitor.IsCompleted))
                 {
@@ -197,7 +208,12 @@ namespace SAPTeam.Kryptor.Cli
                 if (monitor.IsCompleted)
                 {
                     sw?.Stop();
-                    Console.CursorVisible = true;
+
+                    if (!isRedirected)
+                    {
+                        Console.CursorVisible = true;
+                    }
+
                     break;
                 }
 
