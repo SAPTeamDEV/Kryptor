@@ -166,7 +166,7 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (desc.Length > expectedLength)
                     {
-                        desc = "..." + prog.Substring(prog.Length - expectedLength - 3);
+                        desc = "..." + desc.Substring(desc.Length - expectedLength - 3);
                     }
 
                     Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(Console.BufferWidth));
