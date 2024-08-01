@@ -168,7 +168,7 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (!isRedirected && desc.Length > expectedLength)
                     {
-                        desc = "..." + desc.Substring(desc.Length - expectedLength - 3);
+                        desc = "..." + desc.Substring(desc.Length - expectedLength + 3);
                     }
 
                     if (!isRedirected || session.Status == SessionStatus.Ended)
