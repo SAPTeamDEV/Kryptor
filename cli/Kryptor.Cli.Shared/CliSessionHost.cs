@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
+
 
 
 
@@ -62,6 +64,10 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async Task ShowProgress(bool showOverall)
         {
+            bool isRedirected = Console.IsOutputRedirected;
+            int bufferWidth = Console.BufferWidth;
+            int paddingBufferSize = isRedirected ? 1 : bufferWidth;
+
             Stopwatch sw = null;
 
             List<string> loadingSteps = new List<string>()
@@ -73,13 +79,9 @@ namespace SAPTeam.Kryptor.Cli
             };
             int loadingStep = 0;
 
-            DebugLog($"Buffer width: {Console.BufferWidth}");
-            DebugLog($"Window width: {Console.WindowWidth}");
-            DebugLog("");
-
             Console.CursorVisible = false;
 
-            if (Console.BufferWidth < 50)
+            if (!isRedirected && bufferWidth < 50)
             {
                 showOverall = false;
             }
@@ -93,7 +95,7 @@ namespace SAPTeam.Kryptor.Cli
                 extraLines++;
             }
 
-            ISession[] sessions = Container.Sessions;
+            List<ISession> sessions = Container.Sessions.ToList();
             var lines = Container.Sessions.Length + extraLines;
 
             while (true)
@@ -162,24 +164,32 @@ namespace SAPTeam.Kryptor.Cli
                     }
 
                     string desc = session.Description;
-                    int expectedLength = Console.BufferWidth - prog.Length - 5;
+                    int expectedLength = bufferWidth - prog.Length - 5;
 
-                    if (desc.Length > expectedLength)
+                    if (!isRedirected && desc.Length > expectedLength)
                     {
                         desc = "..." + desc.Substring(desc.Length - expectedLength - 3);
                     }
 
-                    Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(Console.BufferWidth));
+                    if (!isRedirected || session.Status == SessionStatus.Ended)
+                    {
+                        Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
+
+                        if (isRedirected)
+                        {
+                            sessions.Remove(session);
+                        }
+                    }
                 };
 
-                if (showOverall)
+                if (showOverall && (!isRedirected || monitor.IsCompleted))
                 {
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
                     runningRem = runningCount > 0 ? runningRem / runningCount : 0;
                     var elapsedTime = sw.Elapsed;
                     var remainingTime = TimeSpan.FromMilliseconds(runningRem);
 
-                    Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(Console.BufferWidth));
+                    Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(paddingBufferSize));
                 }
 
                 loadingStep = (loadingStep + 1) % loadingSteps.Count;
@@ -191,10 +201,13 @@ namespace SAPTeam.Kryptor.Cli
                     break;
                 }
 
-                await Task.Delay(100);
+                if (!isRedirected)
+                {
+                    await Task.Delay(100);
 
-                Console.CursorLeft = 0;
-                Console.CursorTop -= lines;
+                    Console.CursorLeft = 0;
+                    Console.CursorTop -= lines;
+                }
             }
         }
 
