@@ -92,7 +92,6 @@ namespace SAPTeam.Kryptor.Cli
                 showOverall = false;
             }
 
-            var monitor = Task.WhenAll(Container.Tasks);
             var extraLines = 0;
 
             if (showOverall)
@@ -197,7 +196,9 @@ namespace SAPTeam.Kryptor.Cli
                 }
                 flaggedSessions.Clear();
 
-                if (showOverall && (!isRedirected || monitor.IsCompleted))
+                bool isCompleted = sessions.All(x => x.Status == SessionStatus.Ended);
+
+                if (showOverall && (!isRedirected || isCompleted))
                 {
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
                     runningRem = runningCount > 0 ? runningRem / runningCount : 0;
@@ -209,7 +210,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 loadingStep = (loadingStep + 1) % loadingSteps.Count;
 
-                if (monitor.IsCompleted)
+                if (isCompleted)
                 {
                     sw?.Stop();
 
