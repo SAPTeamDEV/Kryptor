@@ -106,8 +106,6 @@ namespace SAPTeam.Kryptor.Cli
 
             var lines = Container.Sessions.Length + extraLines;
             DebugLog("Lines: " +  lines);
-            int bLine = Console.CursorTop * 1;
-            DebugLog("bLines: " + bLine);
 
             while (true)
             {
@@ -228,7 +226,7 @@ namespace SAPTeam.Kryptor.Cli
                     await Task.Delay(100);
 
                     Console.CursorLeft = 0;
-                    Console.CursorTop = bLine;
+                    Console.CursorTop -= lines;
                 }
             }
         }
