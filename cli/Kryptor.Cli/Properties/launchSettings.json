@@ -15,6 +15,10 @@
     "EntroX Test": {
       "commandName": "Project",
       "commandLineArgs": "-g -k 4 -n"
+    },
+    "Profile 1": {
+      "commandName": "Project",
+      "commandLineArgs": "e -vk l:test:128 t"
     }
   }
 }

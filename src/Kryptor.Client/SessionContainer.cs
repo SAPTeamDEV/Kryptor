@@ -16,12 +16,13 @@ namespace SAPTeam.Kryptor.Client
     {
         static CryptoRandom crng = new CryptoRandom();
 
-        Dictionary<int, (ISession Session, Task Task, CancellationTokenSource TokenSource)> SessionPool = new Dictionary<int, (ISession Session, Task Task, CancellationTokenSource TokenSource)>();
-        List<Task> TaskPool = new List<Task>();
+        readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
+        readonly List<Task> TaskPool = new List<Task>();
 
         ISession[] sessions;
         Task[] tasks;
         CancellationTokenSource[] tokenSources;
+        ICollection<SessionHolder> holders;
 
         /// <summary>
         /// Gets an array of all sessions.
@@ -48,7 +49,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (tasks == null)
                 {
-                    tasks = SessionPool.Values.Select(x => x.Task).Concat(TaskPool).ToArray();
+                    tasks = SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
                 }
 
                 return tasks;
@@ -72,19 +73,26 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <summary>
+        /// Gets all session holders.
+        /// </summary>
+        public ICollection<SessionHolder> Holders
+        {
+            get
+            {
+                if (holders == null)
+                {
+                    holders = SessionPool.Values;
+                }
+
+                return holders;
+            }
+        }
+
+        /// <summary>
         /// Adds new session to the container.
         /// </summary>
-        /// <param name="session">
-        /// The session.
-        /// </param>
-        /// <param name="task">
-        /// The task started by session.
-        /// </param>
-        /// <param name="tokenSource">
-        /// The token source that controls the cancellation token of the task.
-        /// </param>
         /// <returns>The unique identifier of this entry.</returns>
-        public int Add(ISession session, Task task, CancellationTokenSource tokenSource)
+        public int Add(SessionHolder sessionHolder)
         {
             int rn;
             while (true)
@@ -95,8 +103,8 @@ namespace SAPTeam.Kryptor.Client
                     break;
                 }
             }
-
-            SessionPool[rn] = (session, task, tokenSource);
+            sessionHolder.Id = rn;
+            SessionPool[rn] = sessionHolder;
             ResetCache();
             return rn;
         }
@@ -130,6 +138,7 @@ namespace SAPTeam.Kryptor.Client
             sessions = null;
             tasks = null;
             tokenSources = null;
+            holders = null;
         }
     }
 }

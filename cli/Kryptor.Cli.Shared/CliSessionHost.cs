@@ -7,6 +7,8 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+
 
 
 
@@ -59,6 +61,7 @@ namespace SAPTeam.Kryptor.Cli
             if (Verbose)
             {
                 Console.WriteLine(message);
+                File.AppendAllText("debug.txt", DateTime.Now.ToString() + " - " + message + "\r\n");
             }
         }
 
@@ -102,6 +105,9 @@ namespace SAPTeam.Kryptor.Cli
             List<ISession> flaggedSessions = new List<ISession>();
 
             var lines = Container.Sessions.Length + extraLines;
+            DebugLog("Lines: " +  lines);
+            int bLine = Console.CursorTop * 1;
+            DebugLog("bLines: " + bLine);
 
             while (true)
             {
@@ -222,7 +228,7 @@ namespace SAPTeam.Kryptor.Cli
                     await Task.Delay(100);
 
                     Console.CursorLeft = 0;
-                    Console.CursorTop -= lines;
+                    Console.CursorTop = bLine;
                 }
             }
         }

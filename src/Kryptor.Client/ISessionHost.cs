@@ -33,6 +33,6 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="autoRemove">
         /// Determines whether to automatically remove session after end.
         /// </param>
-        Task NewSession(ISession session, bool autoRemove);
+        void NewSession(ISession session, bool autoRemove);
     }
 }
