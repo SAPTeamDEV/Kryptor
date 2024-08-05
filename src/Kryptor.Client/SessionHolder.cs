@@ -20,7 +20,7 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets the task of this session.
         /// </summary>
-        public Task Task { get; }
+        public Task Task { get; private set; }
 
         /// <summary>
         /// Gets the cancellation token source that controls the running session.
@@ -43,8 +43,6 @@ namespace SAPTeam.Kryptor.Client
         {
             Session = session;
             TokenSource = tokenSource;
-
-            Task = new Task(() => Session.StartAsync(TokenSource.Token));
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace SAPTeam.Kryptor.Client
         /// <exception cref="InvalidOperationException"></exception>
         public Task StartTask(bool throwIfRunning = true)
         {
-            if (Task.Status == TaskStatus.Running)
+            if (Task != null)
             {
                 if (throwIfRunning)
                 {
@@ -68,7 +66,7 @@ namespace SAPTeam.Kryptor.Client
                 }
             }
 
-            Task.Start();
+            Task = Session.StartAsync(TokenSource.Token);
             return Task;
         }
     }
