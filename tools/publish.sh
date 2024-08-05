@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $(dirname $0)/..
+
 RIDS=("linux-x64" "linux-arm" "linux-arm64" "win-x64" "win-x86")
 
 FREAMEWORKS=("net6.0" "net8.0")

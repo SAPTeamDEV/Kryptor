@@ -104,7 +104,6 @@ namespace SAPTeam.Kryptor.Cli
             List<ISession> flaggedSessions = new List<ISession>();
 
             var lines = Container.Sessions.Length + extraLines;
-            DebugLog("Lines: " +  lines);
 
             while (true)
             {
