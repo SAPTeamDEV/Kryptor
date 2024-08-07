@@ -135,12 +135,12 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
-                    Color color;
-                    string prog, desc;
-                    GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, session, out color, out prog, out desc);
-
-                    if (!isRedirected || session.Status == SessionStatus.Ended)
+                    if (!session.IsHidden && (!isRedirected || session.Status == SessionStatus.Ended))
                     {
+                        Color color;
+                        string prog, desc;
+                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, session, out color, out prog, out desc);
+
                         Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
 
                         if (isRedirected)
@@ -165,7 +165,21 @@ namespace SAPTeam.Kryptor.Cli
                     var elapsedTime = sw.Elapsed;
                     var remainingTime = TimeSpan.FromMilliseconds(runningRem);
 
-                    Console.WriteLine(((totalProg > 0 ? $"[{totalProg}%] " : "") + $"Elapsed: {elapsedTime.ToString(@"hh\:mm\:ss")} Remaining: {remainingTime.ToString(@"hh\:mm\:ss")}").PadRight(paddingBufferSize));
+                    string ovText = "";
+
+                    if (totalProg > 0)
+                    {
+                        ovText = $"[{totalProg}%] ";
+                    }
+
+                    ovText += $"Elapsed: {elapsedTime:hh\\:mm\\:ss}";
+
+                    if (runningRem > 0)
+                    {
+                        ovText += $" Remaining: {remainingTime:hh\\:mm\\:ss}";
+                    }
+
+                    Console.WriteLine(ovText.PadRight(paddingBufferSize));
                 }
 
                 loadingStep = (loadingStep + 1) % loadingSteps.Count;

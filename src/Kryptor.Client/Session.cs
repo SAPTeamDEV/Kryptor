@@ -21,6 +21,9 @@ namespace SAPTeam.Kryptor.Client
         public abstract string Description { get; protected set; }
 
         /// <inheritdoc/>
+        public virtual bool IsHidden => false;
+
+        /// <inheritdoc/>
         public SessionStatus Status { get; protected set; }
 
         /// <inheritdoc/>
