@@ -24,6 +24,11 @@ namespace SAPTeam.Kryptor.Client
         string Description { get; }
 
         /// <summary>
+        /// Gets whether this session is running.
+        /// </summary>
+        bool IsRunning { get; }
+
+        /// <summary>
         /// Gets the Hidden status of this session.
         /// </summary>
         bool IsHidden { get; }

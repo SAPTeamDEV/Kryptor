@@ -22,6 +22,11 @@ namespace SAPTeam.Kryptor.Client
         Running,
 
         /// <summary>
+        /// The session is running but managed by session host.
+        /// </summary>
+        Managed,
+
+        /// <summary>
         /// The session has ended naturally or by cancellation request.
         /// </summary>
         Ended,

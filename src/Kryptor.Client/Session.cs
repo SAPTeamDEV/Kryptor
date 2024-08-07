@@ -15,10 +15,13 @@ namespace SAPTeam.Kryptor.Client
     public abstract class Session : ISession
     {
         /// <inheritdoc/>
-        public abstract double Progress { get; protected set; }
+        public double Progress { get; protected set; }
 
         /// <inheritdoc/>
-        public abstract string Description { get; protected set; }
+        public string Description { get; protected set; }
+
+        /// <inheritdoc/>
+        public bool IsRunning => Status == SessionStatus.Running || Status == SessionStatus.Managed;
 
         /// <inheritdoc/>
         public virtual bool IsHidden => false;
