@@ -135,48 +135,9 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
-                    Color color = Color.LightSlateGray;
-                    string prog = "waiting";
-
-                    if (session.Status == SessionStatus.Running)
-                    {
-                        color = Color.Yellow;
-                        prog = session.Progress == -1 ? $" {loadingSteps[loadingStep]} " : (Math.Round(session.Progress, 2).ToString() + "%");
-                    }
-                    else if (session.Status == SessionStatus.Ended)
-                    {
-                        switch (session.EndReason)
-                        {
-                            case SessionEndReason.Completed:
-                                color = Color.LawnGreen;
-                                prog = "done";
-                                break;
-                            case SessionEndReason.Failed:
-                                color = Color.Red;
-                                prog = "error";
-                                break;
-                            case SessionEndReason.Cancelled:
-                                color = Color.OrangeRed;
-                                prog = "cancelled";
-                                break;
-                            case SessionEndReason.Skipped:
-                                color = Color.DimGray;
-                                prog = "skipped";
-                                break;
-                            default:
-                                color = Color.DarkRed;
-                                prog = "unknown";
-                                break;
-                        }
-                    }
-
-                    string desc = session.Description;
-                    int expectedLength = bufferWidth - prog.Length - 5;
-
-                    if (!isRedirected && desc.Length > expectedLength)
-                    {
-                        desc = "..." + desc.Substring(desc.Length - expectedLength + 3);
-                    }
+                    Color color;
+                    string prog, desc;
+                    GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, session, out color, out prog, out desc);
 
                     if (!isRedirected || session.Status == SessionStatus.Ended)
                     {
@@ -231,11 +192,96 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        private static void GetSessionInfo(bool isRedirected, int bufferWidth, List<string> loadingSteps, int loadingStep, ISession session, out Color color, out string prog, out string desc)
+        {
+            color = Color.LightSlateGray;
+            prog = "waiting";
+
+            if (session.Status == SessionStatus.Running)
+            {
+                color = Color.Yellow;
+                prog = session.Progress < 0 || session.Progress > 100.0 ? $" {loadingSteps[loadingStep]} " : (Math.Round(session.Progress, 2).ToString() + "%");
+            }
+            else if (session.Status == SessionStatus.Ended)
+            {
+                switch (session.EndReason)
+                {
+                    case SessionEndReason.Completed:
+                        color = Color.LawnGreen;
+                        prog = "done";
+                        break;
+                    case SessionEndReason.Failed:
+                        color = Color.Red;
+                        prog = "error";
+                        break;
+                    case SessionEndReason.Cancelled:
+                        color = Color.OrangeRed;
+                        prog = "cancelled";
+                        break;
+                    case SessionEndReason.Skipped:
+                        color = Color.DimGray;
+                        prog = "skipped";
+                        break;
+                    default:
+                        color = Color.DarkRed;
+                        prog = "unknown";
+                        break;
+                }
+            }
+
+            desc = session.Description;
+            int expectedLength = bufferWidth - prog.Length - 5;
+
+            if (!isRedirected && desc.Length > expectedLength)
+            {
+                desc = "..." + desc.Substring(desc.Length - expectedLength + 3);
+            }
+        }
+
         protected Task ShowProgressMonitored(bool showOverall)
         {
             var pTask = ShowProgress(showOverall);
             MonitorTask(pTask);
             return pTask;
+        }
+
+        protected KeyStore LoadKeyStore(string keyStore)
+        {
+            KeyStore ks;
+
+            if (File.Exists(keyStore))
+            {
+                DebugLog($"Keystore file: {keyStore}");
+                var session = new KeyStoreFileLoadSession(keyStore);
+                NewSession(session, true);
+                ShowProgressMonitored(false).Wait();
+                ks = session.KeyStore;
+
+            }
+            else if (TransformerToken.IsValid(keyStore))
+            {
+                DebugLog($"Transformer token: {keyStore}");
+                var token = TransformerToken.Parse(keyStore);
+
+                if (Verbose)
+                {
+                    var tranformer = Transformers.GetTranformer(token);
+                    DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
+                }
+
+                var session = new KeyStoreTokenLoadSession(token);
+                NewSession(session, true);
+                ShowProgressMonitored(false).Wait();
+                ks = session.KeyStore;
+            }
+            else
+            {
+                throw new FileNotFoundException(keyStore);
+            }
+
+            DebugLog($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
+
+            return ks;
         }
     }
 }
