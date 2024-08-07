@@ -9,10 +9,6 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSession : Session
     {
-        public override double Progress { get; protected set; }
-
-        public override string Description { get; protected set; }
-
         Kes kes;
         int hVerbose;
         string file;

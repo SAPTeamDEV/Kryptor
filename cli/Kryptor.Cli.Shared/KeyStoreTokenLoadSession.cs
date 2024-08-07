@@ -9,9 +9,6 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreTokenLoadSession : Session
     {
-        public override double Progress { get; protected set; }
-        public override string Description { get; protected set; }
-
         TransformerToken token;
         CancellationToken cancellationToken;
 

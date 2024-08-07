@@ -67,7 +67,7 @@ namespace SAPTeam.Kryptor.Generators
             var tl2 = _sha384.ComputeHash(Transformers.Mix((buffer.Length + rotate) * _seed[17], tl, _salt));
 
             byte[] vf = _sha512.ComputeHash(tl).Concat(_sha256.ComputeHash(ChangeCase(tl2.Base64Encode(), _salt[23] + buffer.Length % 14).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
-            byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(tl2.Select(x => (byte)((x * 6) % 256)).ToArray())).ToArray());
+            byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(tl2.Select(x => (byte)(x * 6 % 256)).ToArray())).ToArray());
 
             int i = 0;
 

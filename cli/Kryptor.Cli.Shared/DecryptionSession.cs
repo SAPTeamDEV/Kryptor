@@ -9,9 +9,6 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSession : Session
     {
-        public override double Progress { get; protected set; }
-        public override string Description { get; protected set; }
-
         KeyStore keyStore;
         CryptoProviderConfiguration configuration;
         int blockSize;

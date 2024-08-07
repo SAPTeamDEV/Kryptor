@@ -101,7 +101,7 @@ namespace SAPTeam.Kryptor.Client
         public static double CalculateRemainingTime(double progress, long elapsedMilliseconds)
         {
             var rProg = Math.Round(progress);
-            var remTime = progress > 0 ? (elapsedMilliseconds / progress) * (100 - progress) : 0;
+            var remTime = progress > 0 ? elapsedMilliseconds / progress * (100 - progress) : 0;
             return remTime;
         }
     }

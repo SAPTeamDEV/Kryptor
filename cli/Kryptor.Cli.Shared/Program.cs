@@ -141,6 +141,23 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(decCmd);
             #endregion
 
+            #region Analyze Options
+            var anCmd = new Command("analyze", "Analyzes the keystore security")
+            {
+                keystore
+            };
+
+            anCmd.AddAlias("a");
+
+            anCmd.SetHandler((verboseT, keystoreT) =>
+            {
+                var sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, keystoreT);
+                Context.NewSessionHost(sessionHost);
+            }, verbose, keystore);
+
+            root.AddCommand(anCmd);
+            #endregion
+
             return root.Invoke(args);
         }
 

@@ -101,9 +101,11 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             List<ISession> sessions = Container.Sessions.ToList();
+            var blockingSessions = sessions.Where(x => x.Status != SessionStatus.Managed);
+
             List<ISession> flaggedSessions = new List<ISession>();
 
-            var lines = Container.Sessions.Length + extraLines;
+            var lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
 
             while (true)
             {
@@ -117,7 +119,7 @@ namespace SAPTeam.Kryptor.Cli
                 foreach (var session in sessions)
                 {
                     if (session.Progress >= 0
-                        && (session.Status == SessionStatus.Running
+                        && (session.IsRunning
                             || session.Status == SessionStatus.NotStarted
                             || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed
                                                                           || session.EndReason == SessionEndReason.Cancelled))))
@@ -127,7 +129,7 @@ namespace SAPTeam.Kryptor.Cli
                         totalProg += sProg;
                         count++;
 
-                        if (session.Status == SessionStatus.Running)
+                        if (session.IsRunning && session.Timer != null)
                         {
                             runningProg += sProg;
                             runningRem += Utilities.CalculateRemainingTime(sProg, session.Timer.ElapsedMilliseconds);
@@ -156,7 +158,7 @@ namespace SAPTeam.Kryptor.Cli
                 }
                 flaggedSessions.Clear();
 
-                bool isCompleted = sessions.All(x => x.Status == SessionStatus.Ended);
+                bool isCompleted = blockingSessions.All(x => x.Status == SessionStatus.Ended);
 
                 if (showOverall && (!isRedirected || isCompleted))
                 {
@@ -211,7 +213,7 @@ namespace SAPTeam.Kryptor.Cli
             color = Color.LightSlateGray;
             prog = "waiting";
 
-            if (session.Status == SessionStatus.Running)
+            if (session.IsRunning)
             {
                 color = Color.Yellow;
                 prog = session.Progress < 0 || session.Progress > 100.0 ? $" {loadingSteps[loadingStep]} " : (Math.Round(session.Progress, 2).ToString() + "%");

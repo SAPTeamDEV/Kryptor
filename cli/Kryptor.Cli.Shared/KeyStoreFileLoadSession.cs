@@ -9,9 +9,6 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreFileLoadSession : Session
     {
-        public override double Progress { get; protected set; }
-        public override string Description { get; protected set; }
-
         string path;
 
         public KeyStore KeyStore { get; protected set; }

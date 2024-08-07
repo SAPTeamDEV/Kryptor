@@ -37,37 +37,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            if (File.Exists(ks))
-            {
-                DebugLog($"Keystore file: {ks}");
-                var session = new KeyStoreFileLoadSession(ks);
-                NewSession(session, true);
-                ShowProgressMonitored(false).Wait();
-                KeyStore = session.KeyStore;
-                
-            }
-            else if (TransformerToken.IsValid(ks))
-            {
-                DebugLog($"Transformer token: {ks}");
-                var token = TransformerToken.Parse(ks);
-
-                if (Verbose)
-                {
-                    var tranformer = Transformers.GetTranformer(token);
-                    DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
-                }
-
-                var session = new KeyStoreTokenLoadSession(token);
-                NewSession(session, true);
-                ShowProgressMonitored(false).Wait();
-                KeyStore = session.KeyStore;
-            }
-            else
-            {
-                throw new FileNotFoundException(ks);
-            }
-
-            DebugLog($"Keystore fingerprint: {KeyStore.Fingerprint.FormatFingerprint()}");
+            KeyStore = LoadKeyStore(ks);
         }
     }
 }
