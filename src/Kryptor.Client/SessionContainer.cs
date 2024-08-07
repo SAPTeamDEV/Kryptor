@@ -133,6 +133,17 @@ namespace SAPTeam.Kryptor.Client
             ResetCache();
         }
 
+        /// <summary>
+        /// Waits until all sessions have been ended.
+        /// </summary>
+        public async void WaitAll()
+        {
+            while (Sessions.All(x => x.Status == SessionStatus.Ended))
+            {
+                await Task.Delay(1);
+            }
+        }
+
         private void ResetCache()
         {
             sessions = null;
