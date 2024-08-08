@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -41,8 +43,10 @@ namespace SAPTeam.Kryptor.Client.Security
         /// Word to search.
         /// </param>
         /// <returns></returns>
-        public bool Contains(string word)
+        public async Task<bool> ContainsAsync(string word, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             int id = GetWordIdentifier(word);
 
             if (!Subsets.ContainsKey(id))
@@ -55,14 +59,20 @@ namespace SAPTeam.Kryptor.Client.Security
 
                 var hashes = new HashSet<string>();
 
-                foreach (var line in File.ReadAllLines(lPath))
+                using (StreamReader streamReader = new StreamReader(lPath, Encoding.UTF8))
                 {
-                    if (string.IsNullOrEmpty(line))
+                    string line;
+                    while ((line = await streamReader.ReadLineAsync()) != null)
                     {
-                        continue;
-                    }
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                    hashes.Add(line.Trim());
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            continue;
+                        }
+
+                        hashes.Add(line.Trim());
+                    }
                 }
 
                 Subsets.Add(id, hashes);

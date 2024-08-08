@@ -47,6 +47,11 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Directory.CreateDirectory(ApplicationDataDirectory);
             }
+
+            if (!Directory.Exists(WordlistDirectory))
+            {
+                Directory.CreateDirectory(WordlistDirectory);
+            }
         }
     }
 }

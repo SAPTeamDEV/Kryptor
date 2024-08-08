@@ -158,6 +158,40 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(anCmd);
             #endregion
 
+            #region Wordlist Options
+            var query = new Option<string>("--query", "Queries the word in installed wordlists");
+            query.AddAlias("-q");
+            query.ArgumentHelpName = "word";
+
+            var compile = new Option<string>("--compile", "Compiles file to the kryptor wordlist format");
+            compile.AddAlias("-c");
+            compile.ArgumentHelpName = "file";
+
+            var install = new Option<bool>("--install", "Downloads and compiles wordlist files provided by official repository");
+            install.AddAlias("-i");
+
+            var remove = new Option<bool>("--remove", "Removes all installed wordlists");
+            remove.AddAlias("-r");
+
+            var wlCmd = new Command("wordlist", "Queries the given word in installed wordlists")
+            {
+                query,
+                compile,
+                install,
+                remove
+            };
+
+            wlCmd.AddAlias("w");
+
+            wlCmd.SetHandler((verboseT, queryT, compileT, installT, removeT) =>
+            {
+                var sessionHost = new WordlistSessionHost(verboseT, queryT, compileT, installT, removeT);
+                Context.NewSessionHost(sessionHost);
+            }, verbose, query, compile, install, remove);
+
+            root.AddCommand(wlCmd);
+            #endregion
+
             return root.Invoke(args);
         }
 
