@@ -2,6 +2,7 @@ using System;
 
 using SAPTeam.Kryptor.Client;
 using System.Reflection;
+using System.IO;
 
 #if !NETFRAMEWORK
 using ANSIConsole;
@@ -11,6 +12,13 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class CliContext : ClientContext
     {
+        /// <summary>
+        /// The root application data folder.
+        /// </summary>
+        public string ApplicationDataDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Kryptor");
+
+        public string WordlistDirectory => Path.Combine(ApplicationDataDirectory, "Wordlist");
+
 #if DEBUG
         public string CliVersion => Assembly.GetAssembly(typeof(CliSessionHost)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 #else
@@ -34,6 +42,11 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Dispose();
             };
+
+            if (!Directory.Exists(ApplicationDataDirectory))
+            {
+                Directory.CreateDirectory(ApplicationDataDirectory);
+            }
         }
     }
 }
