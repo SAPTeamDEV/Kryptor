@@ -22,6 +22,11 @@ namespace SAPTeam.Kryptor.Cli
                 throw new ArgumentNullException("Word");
             }
 
+            if (Query.Length < 4)
+            {
+                throw new ArgumentException("The given word is smaller than 4 characters");
+            }
+
             if (string.IsNullOrEmpty(Wordlist))
             {
                 foreach (var wl in LocalIndex.Wordlists)
