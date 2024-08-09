@@ -6,7 +6,7 @@
       "QuickCheckPriority": 0
     },
     "letterpass": {
-      "Name": "Most Popular Letter Passes +400K",
+      "Name": "Most Popular Letter Passes +40K",
       "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Most-Popular-Letter-Passes.txt",
       "QuickCheckPriority": 0
     },

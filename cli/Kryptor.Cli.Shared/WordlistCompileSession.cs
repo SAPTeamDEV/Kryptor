@@ -47,6 +47,7 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             Description = $"Importing {Id}";
+            long words = 0;
 
             using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
             {
@@ -62,6 +63,7 @@ namespace SAPTeam.Kryptor.Cli
                     if (string.IsNullOrEmpty(line) || line.Length < 4) continue;
 
                     string c = Wordlist.GetWordIdentifier(line).ToString();
+                    words++;
 
                     if (!fileStreams.ContainsKey(c))
                     {
@@ -85,6 +87,7 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             IndexEntry.InstallDirectory = destPath;
+            IndexEntry.Words = words;
             return true;
         }
     }

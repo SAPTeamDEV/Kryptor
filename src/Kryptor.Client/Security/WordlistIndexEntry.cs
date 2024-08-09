@@ -30,5 +30,10 @@ namespace SAPTeam.Kryptor.Client.Security
         /// Gets or sets the install directory of thw wordlist.
         /// </summary>
         public string InstallDirectory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of words in this wordlist.
+        /// </summary>
+        public long Words {  get; set; }
     }
 }
