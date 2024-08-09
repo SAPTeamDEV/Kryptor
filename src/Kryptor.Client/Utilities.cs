@@ -104,5 +104,27 @@ namespace SAPTeam.Kryptor.Client
             var remTime = progress > 0 ? elapsedMilliseconds / progress * (100 - progress) : 0;
             return remTime;
         }
+
+        /// <summary>
+        /// Converts given byte length to a human readable unit.
+        /// </summary>
+        /// <param name="bytes">
+        /// The length in byte.
+        /// </param>
+        /// <returns></returns>
+        public static string ConvertBytes(long bytes)
+        {
+            string[] sizes = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+            double len = bytes;
+            int order = 0;
+
+            while (len >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                len = len / 1024;
+            }
+
+            return $"{len:0.##}{sizes[order]}";
+        }
     }
 }

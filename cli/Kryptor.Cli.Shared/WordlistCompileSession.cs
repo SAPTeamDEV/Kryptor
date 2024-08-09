@@ -14,34 +14,41 @@ namespace SAPTeam.Kryptor.Cli
     public class WordlistCompileSession : Session
     {
         Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
-        string fileName;
 
-        public WordlistCompileSession(string path)
+        string filePath;
+        string destPath;
+
+        public string Id;
+        public WordlistIndexEntry IndexEntry;
+
+        public WordlistCompileSession(string path, string destination, string id, WordlistIndexEntry entry)
         {
-            fileName = path;
+            filePath = path;
+            destPath = destination;
+
+            IndexEntry = entry;
+            Id = id;
         }
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            if (!File.Exists(fileName))
+            if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException(fileName);
+                throw new FileNotFoundException(filePath);
             }
 
-            string dirName = Path.GetFileName(fileName) + ".compiled";
-
-            if (!Directory.Exists(dirName))
+            if (!Directory.Exists(destPath))
             {
-                Directory.CreateDirectory(dirName);
+                Directory.CreateDirectory(destPath);
             }
             else
             {
                 throw new InvalidOperationException("This file already compiled");
             }
 
-            Description = Path.GetFullPath(dirName);
+            Description = $"Importing {Id}";
 
-            using (StreamReader streamReader = new StreamReader(fileName, Encoding.UTF8))
+            using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
             {
                 double steps = (1.0 / streamReader.BaseStream.Length) * 100;
 
@@ -58,7 +65,7 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (!fileStreams.ContainsKey(c))
                     {
-                        fileStreams[c] = File.OpenWrite(Path.Combine(dirName, c + ".txt"));
+                        fileStreams[c] = File.OpenWrite(Path.Combine(destPath, c + ".txt"));
                     }
 
                     var data = Encoding.UTF8.GetBytes(line + "\n");
@@ -77,6 +84,7 @@ namespace SAPTeam.Kryptor.Cli
                 f.Dispose();
             }
 
+            IndexEntry.InstallDirectory = destPath;
             return true;
         }
     }

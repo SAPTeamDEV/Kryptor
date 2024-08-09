@@ -57,7 +57,7 @@ namespace SAPTeam.Kryptor.Cli
             var dbp = new Option<bool>("--dbp", "Enables the Dynamic Block Processing");
             dbp.AddAlias("-d");
 
-            var keystore = new Option<string>("--keystore", "Keystore file path or transformer token to encrypt/decrypt data");
+            var keystore = new Option<string>("--keystore", "Keystore file path or transformer token");
             keystore.AddAlias("-k");
             keystore.IsRequired = true;
             keystore.AddValidator(x =>
@@ -163,32 +163,45 @@ namespace SAPTeam.Kryptor.Cli
             query.AddAlias("-q");
             query.ArgumentHelpName = "word";
 
-            var compile = new Option<string>("--compile", "Compiles file to the kryptor wordlist format");
-            compile.AddAlias("-c");
-            compile.ArgumentHelpName = "file";
-
-            var install = new Option<bool>("--install", "Downloads and compiles wordlist files provided by official repository");
-            install.AddAlias("-i");
-
-            var remove = new Option<bool>("--remove", "Removes all installed wordlists");
-            remove.AddAlias("-r");
-
-            var wlCmd = new Command("wordlist", "Queries the given word in installed wordlists")
-            {
-                query,
-                compile,
-                install,
-                remove
-            };
+            var wlCmd = new Command("wordlist", "Queries the given word in installed wordlists");
 
             wlCmd.AddAlias("w");
 
-            wlCmd.SetHandler((verboseT, queryT, compileT, installT, removeT) =>
+            wlCmd.SetHandler((verboseT) =>
             {
-                var sessionHost = new WordlistSessionHost(verboseT, queryT, compileT, installT, removeT);
+                var sessionHost = new WordlistSessionHost(verboseT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, query, compile, install, remove);
+            }, verbose);
 
+            var installList = new Option<bool>("--list", "Lists all available wordlists");
+            installList.AddAlias("-l");
+
+            var installAll = new Option<bool>("--all", "Installs all available wordlists");
+            installAll.AddAlias("-a");
+
+            var installRecommended = new Option<bool>("--recommended", "Installs all small-sized wordlists");
+            installRecommended.AddAlias("-r");
+
+            var installIds = new Argument<string[]>("wordlist", "Id of wordlists to install, list of available wordlists could be found by --list option");
+            installIds.HelpName = "id";
+
+            var wlInsCmd = new Command("install", "Installs new wordlists")
+            {
+                installList, 
+                installAll,
+                installRecommended,
+                installIds
+            };
+
+            wlInsCmd.AddAlias("i");
+
+            wlInsCmd.SetHandler((verboseT, installListT, installAllT, installRecommendedT, installIdsT) =>
+            {
+                var sessionHost = new WordlistInstallSessionHost(verboseT, installListT, installAllT, installRecommendedT, installIdsT);
+                Context.NewSessionHost(sessionHost);
+            }, verbose, installList, installAll, installRecommended, installIds);
+
+            wlCmd.AddCommand(wlInsCmd);
             root.AddCommand(wlCmd);
             #endregion
 
