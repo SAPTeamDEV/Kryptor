@@ -20,7 +20,7 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets the maximum allowed running sessions.
         /// </summary>
-        public int MaxRunningSessions { get; } = Environment.ProcessorCount - 1;
+        public virtual int MaxRunningSessions { get; } = Environment.ProcessorCount - 1;
 
         /// <inheritdoc/>
         public abstract void Start();
