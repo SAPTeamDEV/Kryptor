@@ -115,6 +115,15 @@ namespace SAPTeam.Kryptor
             throw new KeyNotFoundException(id);
         }
 
+        /// <summary>
+        /// Gets display name of the registered crypto provider.
+        /// </summary>
+        /// <param name="id">
+        /// The id/hint of a registered crypto provider.
+        /// </param>
+        /// <returns>
+        /// The user-friendly name of the crypto provider.
+        /// </returns>
         public static string GetDisplayName(string id)
         {
             var realId = GetRegisteredCryptoProviderId(id);
