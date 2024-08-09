@@ -3,6 +3,7 @@ using System;
 using SAPTeam.Kryptor.Client;
 using System.Reflection;
 using System.IO;
+using System.Drawing;
 
 #if !NETFRAMEWORK
 using ANSIConsole;
@@ -12,6 +13,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class CliContext : ClientContext
     {
+        public bool CatchExceptions { get; set; }
+
         /// <summary>
         /// The root application data folder.
         /// </summary>
@@ -54,9 +57,24 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected override void DisposeContext()
+        protected override void StartSessionHost()
         {
-            base.DisposeContext();
+            try
+            {
+                base.StartSessionHost();
+            }
+            catch (Exception ex)
+            {
+                if (CatchExceptions)
+                {
+                    Console.WriteLine($"{ex.GetType().Name.Color(Color.Red)}: {ex.Message}");
+                    Environment.Exit(255);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

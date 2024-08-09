@@ -29,20 +29,7 @@ namespace SAPTeam.Kryptor.Cli
         public CliSessionHost(bool verbose)
         {
             Verbose = verbose;
-
-            // AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
-        }
-
-        protected virtual void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception ex = (Exception)e.ExceptionObject;
-
-            Log($"{ex.GetType().Name.Color(Color.Red)}: {ex.Message}");
-
-            if (!Verbose)
-            {
-                Environment.Exit(255);
-            }
+            Program.Context.CatchExceptions = !Verbose;
         }
 
         public override void Start()
