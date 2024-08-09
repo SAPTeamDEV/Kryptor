@@ -54,6 +54,11 @@ namespace SAPTeam.Kryptor.Client
         Stopwatch Timer { get; }
 
         /// <summary>
+        /// Gets the dependency list of the session. This session only starts when all of dependency sessions where completed successfully.
+        /// </summary>
+        List<ISession> SessionDependencies { get; }
+
+        /// <summary>
         /// Starts the task asynchronously.
         /// </summary>
         /// <param name="cancellationToken">
@@ -61,5 +66,11 @@ namespace SAPTeam.Kryptor.Client
         /// </param>
         /// <returns></returns>
         Task StartAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Asks from session whether it could be started right now.
+        /// </summary>
+        /// <returns><see langword="true"/> if the session has been ready and <see langword="false"/> when it's not ready.</returns>
+        bool IsReady();
     }
 }

@@ -38,6 +38,9 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public Stopwatch Timer { get; protected set; }
 
+        /// <inheritdoc/>
+        public List<ISession> SessionDependencies { get; }
+
         /// <summary>
         /// Sets all session properties to thir default data.
         /// </summary>
@@ -51,6 +54,7 @@ namespace SAPTeam.Kryptor.Client
             Exception = null;
 
             Timer = new Stopwatch();
+            SessionDependencies = new List<ISession>();
         }
 
         /// <inheritdoc/>
@@ -61,6 +65,13 @@ namespace SAPTeam.Kryptor.Client
 
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (!IsReady())
+                {
+                    throw new InvalidOperationException("You may not start this session at the moment");
+                }
+
                 bool result = await RunAsync(cancellationToken);
 
                 if (result)
@@ -84,6 +95,28 @@ namespace SAPTeam.Kryptor.Client
                 Timer.Stop();
                 Status = SessionStatus.Ended;
             }
+        }
+
+        /// <inheritdoc/>
+        public virtual bool IsReady()
+        {
+            foreach (var session in SessionDependencies)
+            {
+                if (session.Status == SessionStatus.Ended)
+                {
+                    if (session.EndReason == SessionEndReason.Completed)
+                    {
+                        continue;
+                    }
+
+                    EndReason = SessionEndReason.Skipped;
+                    Status = SessionStatus.Ended;
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
