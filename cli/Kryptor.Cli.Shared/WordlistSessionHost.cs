@@ -105,6 +105,8 @@ namespace SAPTeam.Kryptor.Cli
 
                     Log($"Download Size: {length}");
                 }
+
+                Log("\nThis feature is not completed yet");
             }
             else
             {
