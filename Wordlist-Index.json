@@ -1,0 +1,34 @@
+{
+  "Wordlists": {
+    "probable-v2-12k": {
+      "Name": "Probable v2 +12K",
+      "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/751690ecf50ad191197af8d5cd1db03096bff1ec/Passwords/probable-v2-top12000.txt",
+      "QuickCheckPriority": 0
+    },
+    "letterpass": {
+      "Name": "Most Popular Letter Passes +400K",
+      "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Most-Popular-Letter-Passes.txt",
+      "QuickCheckPriority": 0
+    },
+    "userpass-combo": {
+      "Name": "UserPass Combo +500",
+      "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/UserPassCombo-Jay.txt",
+      "QuickCheckPriority": 0
+    },
+    "200-used-2023": {
+      "Name": "200 most used passwords (2023)",
+      "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/2023-200_most_used_passwords.txt",
+      "QuickCheckPriority": 0
+    },
+    "500-worst": {
+      "Name": "500 worst passwords",
+      "DownloadUri": "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/500-worst-passwords.txt",
+      "QuickCheckPriority": 0
+    },
+    "bt4": {
+      "Name": "bt4 +1.5M",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/bt4-password.txt",
+      "QuickCheckPriority": 1
+    },
+  }
+}

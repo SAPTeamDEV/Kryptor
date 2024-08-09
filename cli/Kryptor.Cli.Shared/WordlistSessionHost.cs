@@ -1,5 +1,12 @@
 using System;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Security.Policy;
+
+using Newtonsoft.Json;
+
+using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -14,6 +21,8 @@ namespace SAPTeam.Kryptor.Cli
 
         string Query;
         string Compile;
+
+        static public Uri WordlistIndex { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-Index.json");
 
         public WordlistSessionHost(bool verbose, string query, string compile, bool install, bool remove) : base(verbose)
         {
@@ -60,6 +69,31 @@ namespace SAPTeam.Kryptor.Cli
                 var session = new WordlistCompileSession(Compile);
                 NewSession(session);
                 ShowProgressMonitored(true).Wait();
+            }
+            else if (Mode == InstallMode)
+            {
+                Log("Getting wordlist index...");
+
+                var client = new HttpClient();
+                var rawIndex = client.GetStringAsync(WordlistIndex).Result;
+
+                var index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
+
+                Log("Name\t\t\tSize");
+
+                foreach (var wordlist in index.Wordlists)
+                {
+                    var request = WebRequest.CreateHttp(wordlist.Value.DownloadUri);
+                    request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
+                    request.Method = "HEAD";
+
+                    long length;
+                    using (var response = request.GetResponseAsync().Result)
+                    {
+                        length = response.ContentLength;
+                    }
+                    Log($"{wordlist.Key}: {wordlist.Value.Name}\t\t{length}");
+                }
             }
             else
             {
