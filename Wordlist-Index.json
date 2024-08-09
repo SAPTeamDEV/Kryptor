@@ -30,5 +30,45 @@
       "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/bt4-password.txt",
       "QuickCheckPriority": 1
     },
+    "cirt": {
+      "Name": "cirt +1K",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/cirt-default-passwords.txt",
+      "QuickCheckPriority": 0
+    },
+    "darc0de": {
+      "Name": "darc0de +1.4M",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/darkc0de.txt",
+      "QuickCheckPriority": 1
+    },
+    "darkweb2017-top10k": {
+      "Name": "Darkweb 2017 10K",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/darkweb2017-top10000.txt",
+      "QuickCheckPriority": 0
+    },
+    "openwall": {
+      "Name": "openwall.net +3.7M",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/openwall.net-all.txt",
+      "QuickCheckPriority": 1
+    },
+    "richelieu": {
+      "Name": "richelieu french top 20K",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/richelieu-french-top20000.txt",
+      "QuickCheckPriority": 0
+    },
+    "xato-net-10m": {
+      "Name": "xato net 10M",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords.txt",
+      "QuickCheckPriority": 1
+    },
+    "xato-net-10m-top100k": {
+      "Name": "xato net 10M - top 100K",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords-100000.txt",
+      "QuickCheckPriority": 0
+    },
+    "names": {
+      "Name": "Names wordlist +10K",
+      "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Usernames/Names/names.txt",
+      "QuickCheckPriority": 0
+    }
   }
 }

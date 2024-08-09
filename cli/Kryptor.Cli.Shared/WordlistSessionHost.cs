@@ -76,7 +76,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 var client = new HttpClient();
                 var rawIndex = client.GetStringAsync(WordlistIndex).Result;
-
+                
                 var index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
 
                 Log("Name\t\t\tSize");
@@ -92,7 +92,7 @@ namespace SAPTeam.Kryptor.Cli
                     {
                         length = response.ContentLength;
                     }
-                    Log($"{wordlist.Key}: {wordlist.Value.Name}\t\t{length}");
+                    Log($"{wordlist.Key}: {wordlist.Value.Name}\t\t{length / 1024}KB");
                 }
             }
             else
