@@ -9,24 +9,26 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistQuerySession : Session
     {
-        string path;
-        string word;
+        string Id;
+        WordlistIndexEntry Entry;
+        string Word;
 
         public bool Result = false;
 
-        public WordlistQuerySession(string wordlistPath, string word)
+        public WordlistQuerySession(string id, WordlistIndexEntry entry, string word)
         {
-            path = wordlistPath;
-            this.word = word;
+            Id = id;
+            Entry = entry;
+            Word = word;
         }
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             Progress = -1;
-            Description = $"Querying in {Path.GetFileName(path)}";
+            Description = $"Querying in {Id}";
 
-            var wl = new Wordlist(path);
-            var result = await wl.ContainsAsync(word, cancellationToken);
+            var wl = new Wordlist(Entry.InstallDirectory);
+            var result = await wl.ContainsAsync(Word, cancellationToken);
 
             Result = result;
             Description += " : " + (Result ? "Found" : "Not found");

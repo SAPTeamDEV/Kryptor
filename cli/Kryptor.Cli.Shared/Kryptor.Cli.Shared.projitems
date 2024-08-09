@@ -25,6 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)WordlistDownloadSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistInstallSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistQuerySession.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WordlistQuerySessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistSessionHost.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreTokenLoadSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreFileLoadSession.cs" />

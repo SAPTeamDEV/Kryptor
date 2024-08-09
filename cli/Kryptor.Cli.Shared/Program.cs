@@ -159,19 +159,28 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Wordlist Options
-            var query = new Option<string>("--query", "Queries the word in installed wordlists");
-            query.AddAlias("-q");
-            query.ArgumentHelpName = "word";
-
             var wlCmd = new Command("wordlist", "Queries the given word in installed wordlists");
-
             wlCmd.AddAlias("w");
 
-            wlCmd.SetHandler((verboseT) =>
+            var queryWord = new Argument<string>("word", "The word to query in wordlists");
+
+            var queryWordlist = new Option<string>("--wordlist", "The wordlist to do query. if not specified, all installed wordlists will be queried.");
+            queryWordlist.AddAlias("-w");
+
+            var wlQuryCmd = new Command("query", "searches for the given word in the wordlists")
             {
-                var sessionHost = new WordlistSessionHost(verboseT);
+                queryWord,
+                queryWordlist
+            };
+            wlQuryCmd.AddAlias("q");
+
+            wlQuryCmd.SetHandler((verboseT, queryWordT, queryWordlistT) =>
+            {
+                var sessionHost = new WordlistQuerySessionHost(verboseT, queryWordT, queryWordlistT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose);
+            }, verbose, queryWord, queryWordlist);
+
+            wlCmd.AddCommand(wlQuryCmd);
 
             var installList = new Option<bool>("--list", "Lists all available wordlists");
             installList.AddAlias("-l");
