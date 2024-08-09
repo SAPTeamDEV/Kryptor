@@ -79,20 +79,31 @@ namespace SAPTeam.Kryptor.Cli
                 
                 var index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
 
-                Log("Name\t\t\tSize");
-
                 foreach (var wordlist in index.Wordlists)
                 {
+                    Log($"\n{wordlist.Key}:");
+                    Log($"Description: {wordlist.Value.Name}");
+
                     var request = WebRequest.CreateHttp(wordlist.Value.DownloadUri);
                     request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
                     request.Method = "HEAD";
 
-                    long length;
-                    using (var response = request.GetResponseAsync().Result)
+                    string length;
+
+                    try
                     {
-                        length = response.ContentLength;
+                        using (var response = request.GetResponseAsync().Result)
+                        {
+                            length = $"{response.ContentLength / 1024}KB";
+                        }
                     }
-                    Log($"{wordlist.Key}: {wordlist.Value.Name}\t\t{length / 1024}KB");
+                    catch
+                    {
+                        length = "N/A";
+                    }
+
+
+                    Log($"Download Size: {length}");
                 }
             }
             else

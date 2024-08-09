@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor.Cli
             Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
         }
 
-        protected void Log(string message)
+        protected void Log(string message = null)
         {
             Console.WriteLine(message);
         }
