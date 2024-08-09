@@ -106,9 +106,13 @@ namespace SAPTeam.Kryptor.Cli
             List<ISession> flaggedSessions = new List<ISession>();
 
             var lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
+            int maxLines = Console.BufferHeight - 1;
 
             while (true)
             {
+                bool isCompleted = blockingSessions.All(x => x.Status == SessionStatus.Ended);
+                int curLines = extraLines;
+
                 double totalProg = 0;
                 int count = 0;
 
@@ -139,16 +143,28 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (!session.IsHidden && (!isRedirected || session.Status == SessionStatus.Ended))
                     {
+                        if (isRedirected)
+                        {
+                            flaggedSessions.Add(session);
+                        }
+                        else
+                        {
+                            if (!isCompleted && lines > maxLines)
+                            {
+                                if (session.Status != SessionStatus.Running || curLines >= maxLines)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+
                         Color color;
                         string prog, desc;
                         GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, session, out color, out prog, out desc);
 
                         Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
 
-                        if (isRedirected)
-                        {
-                            flaggedSessions.Add(session);
-                        }
+                        curLines++;
                     }
                 };
 
@@ -157,8 +173,6 @@ namespace SAPTeam.Kryptor.Cli
                     sessions.Remove(session);
                 }
                 flaggedSessions.Clear();
-
-                bool isCompleted = blockingSessions.All(x => x.Status == SessionStatus.Ended);
 
                 if (showOverall && (!isRedirected || isCompleted))
                 {
@@ -203,7 +217,7 @@ namespace SAPTeam.Kryptor.Cli
                     await Task.Delay(100);
 
                     Console.CursorLeft = 0;
-                    Console.CursorTop -= lines;
+                    Console.CursorTop -= Math.Min(curLines, maxLines);
                 }
             }
         }

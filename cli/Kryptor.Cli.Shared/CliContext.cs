@@ -53,5 +53,10 @@ namespace SAPTeam.Kryptor.Cli
                 Directory.CreateDirectory(WordlistDirectory);
             }
         }
+
+        protected override void DisposeContext()
+        {
+            base.DisposeContext();
+        }
     }
 }
