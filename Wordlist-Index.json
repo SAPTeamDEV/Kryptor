@@ -69,6 +69,11 @@
       "Name": "Names wordlist +10K",
       "DownloadUri": "https://github.com/danielmiessler/SecLists/raw/master/Usernames/Names/names.txt",
       "QuickCheckPriority": 0
+    },
+    "rockyou": {
+      "Name": "rockyou +14M",
+      "DownloadUri": "https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt",
+      "QuickCheckPriority": 1
     }
   }
 }
