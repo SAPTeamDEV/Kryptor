@@ -110,7 +110,10 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             var downloader = new WordlistDownloadSession(Index[id].Uri, id);
-            var compiler = new WordlistCompileSession(downloader.FilePath, Converting ? Path.GetTempPath() : Path.Combine(Program.Context.WordlistDirectory, id), Index[id], Converting);
+
+            var localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
+
+            var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], Converting);
             compiler.SessionDependencies.Add(downloader);
 
             NewSession(downloader);
