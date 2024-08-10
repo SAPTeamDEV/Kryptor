@@ -113,6 +113,8 @@ namespace SAPTeam.Kryptor.Cli
                 await DownloadService.DownloadFileTaskAsync(Uri.ToString(), FilePath, cancellationToken);
             }
 
+            DownloadService.Dispose();
+
             if (Exception != null)
             {
                 throw Exception;
