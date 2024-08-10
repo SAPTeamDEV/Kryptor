@@ -30,7 +30,6 @@ namespace SAPTeam.Kryptor.Cli
             Id = id;
             FileDir = Path.Combine(CacheDir, id);
 
-
             PackPath = Path.Combine(FileDir, "package.json");
             FilePath = Path.Combine(FileDir, "wordlist.txt");
 

@@ -17,8 +17,8 @@ namespace SAPTeam.Kryptor.Cli
     {
         Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
 
-        string filePath;
-        string destPath;
+        public string FilePath;
+        public string DestPath;
 
         public WordlistIndexEntryV2 IndexEntry;
 
@@ -26,8 +26,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting)
         {
-            filePath = path;
-            destPath = destination;
+            FilePath = path;
+            DestPath = destination;
 
             IndexEntry = entry;
 
@@ -36,14 +36,14 @@ namespace SAPTeam.Kryptor.Cli
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            if (!File.Exists(filePath))
+            if (!File.Exists(FilePath))
             {
-                throw new FileNotFoundException(filePath);
+                throw new FileNotFoundException(FilePath);
             }
 
-            if (!Directory.Exists(destPath))
+            if (!Directory.Exists(DestPath))
             {
-                Directory.CreateDirectory(destPath);
+                Directory.CreateDirectory(DestPath);
             }
             else if (!Converting)
             {
@@ -53,7 +53,7 @@ namespace SAPTeam.Kryptor.Cli
             Description = $"Importing {IndexEntry.Id}";
             long words = 0;
 
-            using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
+            using (StreamReader streamReader = new StreamReader(FilePath, Encoding.UTF8))
             {
                 try
                 {
@@ -100,7 +100,7 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (!fileStreams.ContainsKey(c))
                     {
-                        fileStreams[c] = File.OpenWrite(Path.Combine(destPath, c + ".txt"));
+                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c + ".txt"));
                     }
 
                     var data = Encoding.UTF8.GetBytes(line + "\n");
@@ -121,7 +121,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (!Converting)
             {
-                IndexEntry.InstallDirectory = destPath;
+                IndexEntry.InstallDirectory = DestPath;
             }
 
             IndexEntry.Words = words;

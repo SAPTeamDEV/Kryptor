@@ -94,6 +94,11 @@ namespace SAPTeam.Kryptor.Cli
                     {
                         DebugLog($"Adding {compiler.IndexEntry.Id} to local index");
                         LocalIndex.Add(compiler.IndexEntry);
+
+                        if (File.Exists(compiler.FilePath))
+                        {
+                            File.Delete(compiler.FilePath);
+                        }
                     }
                 }
 
