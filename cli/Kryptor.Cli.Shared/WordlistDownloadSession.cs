@@ -84,7 +84,11 @@ namespace SAPTeam.Kryptor.Cli
         private void UpdateProgress(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
             Progress = e.ProgressPercentage;
-            Description = $"{Id}: {Utilities.ConvertBytes(e.ReceivedBytesSize)}/{Utilities.ConvertBytes(e.TotalBytesToReceive)}   {Utilities.ConvertBytes((long)e.BytesPerSecondSpeed)}/s";
+            Description = $"{Id}: {Utilities.ConvertBytes(e.ReceivedBytesSize)}/{Utilities.ConvertBytes(e.TotalBytesToReceive)}";
+            if (e.AverageBytesPerSecondSpeed > 1024 * 100)
+            {
+                Description += $"   {Utilities.ConvertBytes((long)e.AverageBytesPerSecondSpeed)}/s";
+            }
         }
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
