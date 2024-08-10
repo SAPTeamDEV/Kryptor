@@ -86,7 +86,7 @@ namespace SAPTeam.Kryptor.Cli
                     }
                 }
 
-                ShowProgressMonitored(true).Wait();
+                ShowProgressMonitored(true, false).Wait();
 
                 foreach (var session in Container.Sessions)
                 {

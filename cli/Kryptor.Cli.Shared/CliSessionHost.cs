@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected async Task ShowProgress(bool showOverall)
+        protected async Task ShowProgress(bool showOverall, bool showRemaining = true)
         {
             bool isRedirected = Console.IsOutputRedirected;
             int bufferWidth = Console.BufferWidth;
@@ -107,6 +107,7 @@ namespace SAPTeam.Kryptor.Cli
 
             var lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
             int maxLines = Console.BufferHeight - 1;
+            int ceilingLine = 0;
 
             while (true)
             {
@@ -190,12 +191,25 @@ namespace SAPTeam.Kryptor.Cli
 
                     ovText += $"Elapsed: {elapsedTime:hh\\:mm\\:ss}";
 
-                    if (runningRem > 0)
+                    if (showRemaining && runningRem > 0)
                     {
                         ovText += $" Remaining: {remainingTime:hh\\:mm\\:ss}";
                     }
 
                     Console.WriteLine(ovText.PadRight(paddingBufferSize));
+                }
+
+                if (curLines > ceilingLine)
+                {
+                    ceilingLine = curLines;
+                }
+                else if (curLines < ceilingLine)
+                {
+                    while (curLines < ceilingLine)
+                    {
+                        Console.WriteLine("".PadRight(paddingBufferSize));
+                        curLines++;
+                    }
                 }
 
                 loadingStep = (++loadingStep) % loadingSteps.Count;
@@ -218,7 +232,7 @@ namespace SAPTeam.Kryptor.Cli
                     await Task.Delay(100);
 
                     Console.CursorLeft = 0;
-                    Console.CursorTop -= Math.Min(curLines, maxLines);
+                    Console.CursorTop -= Math.Min(ceilingLine, maxLines);
                 }
             }
         }
@@ -269,9 +283,9 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected Task ShowProgressMonitored(bool showOverall)
+        protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
         {
-            var pTask = ShowProgress(showOverall);
+            var pTask = ShowProgress(showOverall, showRemaining);
             MonitorTask(pTask);
             return pTask;
         }
