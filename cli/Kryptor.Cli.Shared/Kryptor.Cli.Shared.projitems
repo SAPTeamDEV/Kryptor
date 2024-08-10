@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreAnalyzeSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreAnalyzeSessionHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SchemaJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistCompileSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistConverterSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WordlistDownloadSession.cs" />
