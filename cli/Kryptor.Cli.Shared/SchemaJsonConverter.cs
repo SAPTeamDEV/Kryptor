@@ -18,11 +18,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             try
             {
-                var settings = new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                };
-                JObject obj = JObject.FromObject(value, JsonSerializer.Create(settings));
+                JObject obj = JObject.FromObject(value, serializer);
                 obj.AddFirst(new JProperty("$schema", _schemaUrl));
                 obj.WriteTo(writer);
             }
