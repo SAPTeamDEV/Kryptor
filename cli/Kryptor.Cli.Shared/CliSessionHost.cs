@@ -69,6 +69,19 @@ namespace SAPTeam.Kryptor.Cli
             };
             int loadingStep = 0;
 
+            List<string> waitingSteps = new List<string>()
+            {
+                "|---",
+                "||--",
+                "|||-",
+                "||||",
+                "-|||",
+                "--||",
+                "---|",
+                "----",
+            };
+            int waitingStep = 0;
+
             if (!isRedirected)
             {
                 Console.CursorVisible = false;
@@ -152,7 +165,7 @@ namespace SAPTeam.Kryptor.Cli
 
                         Color color;
                         string prog, desc;
-                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, session, out color, out prog, out desc);
+                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, waitingSteps, waitingStep, session, out color, out prog, out desc);
 
                         Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
 
@@ -190,7 +203,8 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine(ovText.PadRight(paddingBufferSize));
                 }
 
-                loadingStep = (loadingStep + 1) % loadingSteps.Count;
+                loadingStep = (++loadingStep) % loadingSteps.Count;
+                waitingStep = (++waitingStep) % waitingSteps.Count;
 
                 if (isCompleted)
                 {
@@ -214,10 +228,10 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private static void GetSessionInfo(bool isRedirected, int bufferWidth, List<string> loadingSteps, int loadingStep, ISession session, out Color color, out string prog, out string desc)
+        private static void GetSessionInfo(bool isRedirected, int bufferWidth, List<string> loadingSteps, int loadingStep, List<string> waitingSteps, int waitingStep, ISession session, out Color color, out string prog, out string desc)
         {
-            color = Color.LightSlateGray;
-            prog = "waiting";
+            color = Color.DarkCyan;
+            prog = waitingSteps[waitingStep];
 
             if (session.IsRunning)
             {
@@ -237,11 +251,11 @@ namespace SAPTeam.Kryptor.Cli
                         prog = "error";
                         break;
                     case SessionEndReason.Cancelled:
-                        color = Color.OrangeRed;
+                        color = Color.Orange;
                         prog = "cancelled";
                         break;
                     case SessionEndReason.Skipped:
-                        color = Color.DimGray;
+                        color = Color.Silver;
                         prog = "skipped";
                         break;
                     default:
