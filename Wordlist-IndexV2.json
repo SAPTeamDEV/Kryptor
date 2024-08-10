@@ -57,6 +57,22 @@
       "Words": 930
     },
     {
+      "Id": "darc0de",
+      "Name": "darc0de +1.4M",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/darkc0de.txt",
+      "Hash": "f/b9xUf4+mZJ+wkUDAwvWaNYjQ1vuKu2T9DwlxL22rI=",
+      "Importance": 1,
+      "Words": 1450052
+    },
+    {
+      "Id": "darkweb2017-top10k",
+      "Name": "Darkweb 2017 10K",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/darkweb2017-top10000.txt",
+      "Hash": "R58JWw37rgdUYkVEH2SkW3E3NSYXtMryW4HqVR5nya8=",
+      "Importance": 0,
+      "Words": 9870
+    },
+    {
       "Id": "openwall",
       "Name": "openwall.net +3.7M",
       "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/openwall.net-all.txt",
@@ -71,6 +87,30 @@
       "Hash": "bu18aCr7CwhbGiZkw/S+bfkzx/z75DiQI8tR5KtN4Vo=",
       "Importance": 0,
       "Words": 18912
+    },
+    {
+      "Id": "xato-net-10m",
+      "Name": "xato net 10M",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords.txt",
+      "Hash": "yVmJ/s+unJGqn1xzA0TVyr1jNbsJTJxgq6Fr8XQqcv4=",
+      "Importance": 1,
+      "Words": 5186518
+    },
+    {
+      "Id": "xato-net-10m-top100k",
+      "Name": "xato net 10M - top 100K",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords-100000.txt",
+      "Hash": "FHKq+iVh314yk67iUq7jymYMErOZooPPgIuwGzm+OIs=",
+      "Importance": 0,
+      "Words": 99922
+    },
+    {
+      "Id": "names",
+      "Name": "Names wordlist +10K",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Usernames/Names/names.txt",
+      "Hash": "Y9qxtSlVoLPL5n8gxc09ChBYWkB1Otp0vRpTwvhk+bM=",
+      "Importance": 0,
+      "Words": 9711
     }
   ]
 }
