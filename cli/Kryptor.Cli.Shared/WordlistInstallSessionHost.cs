@@ -93,11 +93,26 @@ namespace SAPTeam.Kryptor.Cli
                     if (session is WordlistCompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
                     {
                         DebugLog($"Adding {compiler.IndexEntry.Id} to local index");
-                        LocalIndex.Add(compiler.IndexEntry);
 
-                        if (File.Exists(compiler.FilePath))
+                        try
                         {
-                            File.Delete(compiler.FilePath);
+                            LocalIndex.Add(compiler.IndexEntry);
+                        }
+                        catch
+                        {
+                            Log($"Cannot add {compiler.IndexEntry.Id}")
+                        }
+
+                        try
+                        {
+                            if (File.Exists(compiler.FilePath))
+                            {
+                                File.Delete(compiler.FilePath);
+                            }
+                        }
+                        catch
+                        {
+
                         }
                     }
                 }

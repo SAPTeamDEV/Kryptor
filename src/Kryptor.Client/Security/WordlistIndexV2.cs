@@ -45,6 +45,15 @@ namespace SAPTeam.Kryptor.Client.Security
                 throw new ArgumentException($"The id {entry.Id} is already exists");
             }
 
+            if (entry.Hash != null)
+            {
+                foreach (var e in Wordlists.Where(x => x.Hash != null))
+                {
+                    e.Hash.SequenceEqual(entry.Hash);
+                    throw new ArgumentException("A wordlist with this hash already exists");
+                }
+            }
+
             Wordlists.Add(entry);
         }
 
