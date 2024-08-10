@@ -19,12 +19,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public virtual string LocalIndexPath => Path.Combine(Program.Context.WordlistDirectory, "index.json");
 
-        public JsonSerializerSettings LocalIndexParserSettings { get; set; } = new JsonSerializerSettings()
-        {
-            Formatting = Formatting.Indented,
-            NullValueHandling = NullValueHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        };
+        public JsonSerializerSettings LocalIndexParserSettings { get; set; } = new JsonSerializerSettings();
 
         public WordlistSessionHost(bool verbose) : base(verbose)
         {
