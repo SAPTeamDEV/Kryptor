@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client.Security;
@@ -47,6 +48,11 @@ namespace SAPTeam.Kryptor.Cli
                 entryV2.Name = entry.Value.Name;
                 entryV2.Uri = entry.Value.DownloadUri;
                 entryV2.Importance = entry.Value.QuickCheckPriority;
+            }
+
+            if (File.Exists(indexV2Path))
+            {
+                File.Delete(indexV2Path);
             }
 
             this.Index = IndexV2;
