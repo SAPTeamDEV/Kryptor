@@ -38,6 +38,6 @@ jobs:
           bin/kryptor w c Wordlist-Index.json Wordlist-IndexV2.json
         shell: bash
       - uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: Update wordlist index
+        with:
+          commit_message: Update wordlist index
       
