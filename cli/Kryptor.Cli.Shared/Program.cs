@@ -182,6 +182,26 @@ namespace SAPTeam.Kryptor.Cli
 
             wlCmd.AddCommand(wlQuryCmd);
 
+            var convertSource = new Argument<string>("source", "The source index v1 file");
+            
+            var convertDest = new Argument<string>("destination", "The destination index v2 file");
+
+            var wlConCmd = new Command("convert", "Converts v1 index file to v2 index file")
+            {
+                convertSource,
+                convertDest
+            };
+
+            wlConCmd.AddAlias("c");
+
+            wlConCmd.SetHandler((verboseT, convertSourceT, convertDestT) =>
+            {
+                var sessionHost = new WordlistConverterSessionHost(verboseT, convertSourceT, convertDestT);
+                Context.NewSessionHost(sessionHost);
+            }, verbose, convertSource, convertDest);
+
+            wlCmd.AddCommand(wlConCmd);
+
             var installList = new Option<bool>("--list", "Lists all available wordlists");
             installList.AddAlias("-l");
 

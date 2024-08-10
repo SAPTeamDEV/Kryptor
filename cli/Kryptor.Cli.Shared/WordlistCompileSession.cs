@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using SAPTeam.Kryptor.Client.Security;
 using System.Security.Policy;
+using SAPTeam.Kryptor.Extensions;
+using System.Linq;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -18,16 +20,18 @@ namespace SAPTeam.Kryptor.Cli
         string filePath;
         string destPath;
 
-        public string Id;
-        public WordlistIndexEntry IndexEntry;
+        public WordlistIndexEntryV2 IndexEntry;
 
-        public WordlistCompileSession(string path, string destination, string id, WordlistIndexEntry entry)
+        bool Converting;
+
+        public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting)
         {
             filePath = path;
             destPath = destination;
 
             IndexEntry = entry;
-            Id = id;
+
+            Converting = converting;
         }
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
@@ -41,16 +45,45 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Directory.CreateDirectory(destPath);
             }
-            else
+            else if (!Converting)
             {
                 throw new InvalidOperationException("This file already compiled");
             }
 
-            Description = $"Importing {Id}";
+            Description = $"Importing {IndexEntry.Id}";
             long words = 0;
 
             using (StreamReader streamReader = new StreamReader(filePath, Encoding.UTF8))
             {
+                try
+                {
+                    var buffer = new byte[streamReader.BaseStream.Length];
+                    await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length);
+                    var hash = buffer.Sha256();
+
+                    if (Converting)
+                    {
+                        IndexEntry.Hash = hash;
+                    }
+                    else if (IndexEntry.Hash != null)
+                    {
+                        if (!IndexEntry.Hash.SequenceEqual(hash))
+                        {
+                            throw new InvalidDataException("Downloaded file is corrupted");
+                        }
+                    }
+                }
+                catch (InvalidDataException)
+                {
+                    throw;
+                }
+                catch (Exception e)
+                {
+                    // Ignore hash errors
+                }
+                
+                streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
+
                 double steps = (1.0 / streamReader.BaseStream.Length) * 100;
 
                 string line;
@@ -86,7 +119,11 @@ namespace SAPTeam.Kryptor.Cli
                 f.Dispose();
             }
 
-            IndexEntry.InstallDirectory = destPath;
+            if (!Converting)
+            {
+                IndexEntry.InstallDirectory = destPath;
+            }
+
             IndexEntry.Words = words;
             return true;
         }

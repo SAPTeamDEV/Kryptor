@@ -15,15 +15,13 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistQuerySession : Session
     {
-        string Id;
-        WordlistIndexEntry Entry;
+        WordlistIndexEntryV2 Entry;
         string Word;
 
         public bool Result = false;
 
-        public WordlistQuerySession(string id, WordlistIndexEntry entry, string word)
+        public WordlistQuerySession(WordlistIndexEntryV2 entry, string word)
         {
-            Id = id;
             Entry = entry;
             Word = word;
         }
@@ -31,13 +29,13 @@ namespace SAPTeam.Kryptor.Cli
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             Progress = -1;
-            Description = $"Querying in {Id}";
+            Description = $"Querying in {Entry.Id}";
 
             var wl = new Wordlist(Entry.InstallDirectory);
             var result = await wl.ContainsAsync(Word, cancellationToken);
 
             Result = result;
-            Description += " : " + (Result ? "Found".Color(Color.Aqua) : "Not found".Color(Color.Orange));
+            Description += " : " + (Result ? "Found" : "Not found");
             return true;
         }
     }

@@ -13,10 +13,10 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistSessionHost : CliSessionHost
     {
-        Config<WordlistIndex> LocalIndexContainer { get; set; }
-        public WordlistIndex LocalIndex => LocalIndexContainer.Prefs;
+        Config<WordlistIndexV2> LocalIndexContainer { get; set; }
+        public WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
 
-        public string LocalIndexPath { get; } = Path.Combine(Program.Context.WordlistDirectory, "index.json");
+        public virtual string LocalIndexPath => Path.Combine(Program.Context.WordlistDirectory, "index.json");
 
         public WordlistSessionHost(bool verbose) : base(verbose)
         {
@@ -28,7 +28,7 @@ namespace SAPTeam.Kryptor.Cli
             base.Start();
 
             DebugLog("Loading local index...");
-            LocalIndexContainer = new Config<WordlistIndex>(LocalIndexPath);
+            LocalIndexContainer = new Config<WordlistIndexV2>(LocalIndexPath);
         }
 
         protected void UpdateLocalIndex()

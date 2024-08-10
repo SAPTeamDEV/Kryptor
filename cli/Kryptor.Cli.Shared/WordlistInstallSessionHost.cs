@@ -21,9 +21,11 @@ namespace SAPTeam.Kryptor.Cli
         bool Recommended;
         string[] Ids;
 
-        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-Index.json");
+        bool Converting;
 
-        public WordlistIndex Index { get; private set; }
+        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+
+        public WordlistIndexV2 Index { get; protected set; }
 
         public WordlistInstallSessionHost(bool verbose, bool list, bool all, bool recommended, string[] ids) : base(verbose)
         {
@@ -31,18 +33,28 @@ namespace SAPTeam.Kryptor.Cli
             All = all;
             Recommended = recommended;
             Ids = ids;
+
+            Converting = this is WordlistConverterSessionHost;
         }
 
         public override void Start()
         {
             base.Start();
 
-            DebugLog("Getting wordlist index...");
+            if (Converting)
+            {
+                Log("Converting v1 index to v2");
+            }
 
-            var client = new HttpClient();
-            var rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
+            if (Index == null)
+            {
+                DebugLog("Getting wordlist index...");
 
-            Index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
+                var client = new HttpClient();
+                var rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
+
+                Index = JsonConvert.DeserializeObject<WordlistIndexV2>(rawIndex);
+            }
 
             if (List)
             {
@@ -54,16 +66,16 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     foreach (var wordlist in Index.Wordlists)
                     {
-                        Install(wordlist.Key);
+                        Install(wordlist.Id);
                     }
                 }
                 else if (Recommended)
                 {
                     foreach (var wordlist in Index.Wordlists)
                     {
-                        if (wordlist.Value.QuickCheckPriority > 0) continue;
+                        if (wordlist.Importance > 0) continue;
 
-                        Install(wordlist.Key);
+                        Install(wordlist.Id);
                     }
                 }
                 else
@@ -80,8 +92,8 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     if (session is WordlistCompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
                     {
-                        DebugLog($"Adding {compiler.Id} to local index");
-                        LocalIndex.Wordlists.Add(compiler.Id, compiler.IndexEntry);
+                        DebugLog($"Adding {compiler.IndexEntry.Id} to local index");
+                        LocalIndex.Add(compiler.IndexEntry);
                     }
                 }
 
@@ -91,14 +103,14 @@ namespace SAPTeam.Kryptor.Cli
 
         private void Install(string id)
         {
-            if (LocalIndex.Wordlists.ContainsKey(id))
+            if (LocalIndex.ContainsId(id))
             {
                 Log($"{id} already installed");
                 return;
             }
 
-            var downloader = new WordlistDownloadSession(Index.Wordlists[id].DownloadUri, id);
-            var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(Program.Context.WordlistDirectory, id), id, Index[id]);
+            var downloader = new WordlistDownloadSession(Index[id].Uri, id);
+            var compiler = new WordlistCompileSession(downloader.FilePath, Converting ? Path.GetTempPath() : Path.Combine(Program.Context.WordlistDirectory, id), Index[id], Converting);
             compiler.SessionDependencies.Add(downloader);
 
             NewSession(downloader);
@@ -109,10 +121,10 @@ namespace SAPTeam.Kryptor.Cli
         {
             foreach (var wordlist in Index.Wordlists)
             {
-                Log($"\n{wordlist.Key}:");
-                Log($"Description: {wordlist.Value.Name}");
+                Log($"\n{wordlist.Id}:");
+                Log($"Description: {wordlist.Name}");
 
-                var request = WebRequest.CreateHttp(wordlist.Value.DownloadUri);
+                var request = WebRequest.CreateHttp(wordlist.Uri);
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
                 request.Method = "HEAD";
 
@@ -129,7 +141,6 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     length = "N/A";
                 }
-
 
                 Log($"Download Size: {length}");
             }

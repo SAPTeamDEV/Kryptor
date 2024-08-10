@@ -29,15 +29,15 @@ namespace SAPTeam.Kryptor.Cli
 
             if (string.IsNullOrEmpty(Wordlist))
             {
-                foreach (var wl in LocalIndex.Wordlists)
+                foreach (var entry in LocalIndex.Wordlists)
                 {
-                    var session = new WordlistQuerySession(wl.Key, wl.Value, Query);
+                    var session = new WordlistQuerySession(entry, Query);
                     NewSession(session);
                 }
             }
             else
             {
-                var session = new WordlistQuerySession(Wordlist, LocalIndex[Wordlist], Query);
+                var session = new WordlistQuerySession(LocalIndex[Wordlist], Query);
                 NewSession(session);
             }
 
