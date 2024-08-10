@@ -32,7 +32,7 @@ jobs:
           dotnet restore
       - name: Build
         run: |
-            dotnet build cli/Kryptor.Cli/Kryptor.Cli.csproj --configuration Debug --no-restore -o bin
+            dotnet build cli/Kryptor.Cli/Kryptor.Cli.csproj -f net6.0 --configuration Debug --no-restore -o bin
         shell: bash
       - name: Update Index
         run: |
