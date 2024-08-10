@@ -100,7 +100,7 @@ namespace SAPTeam.Kryptor.Cli
                         }
                         catch
                         {
-                            Log($"Cannot add {compiler.IndexEntry.Id}")
+                            Log($"Cannot add {compiler.IndexEntry.Id}");
                         }
 
                         try
