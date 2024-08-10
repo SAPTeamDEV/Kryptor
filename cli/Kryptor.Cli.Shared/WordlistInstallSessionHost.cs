@@ -105,8 +105,15 @@ namespace SAPTeam.Kryptor.Cli
         {
             if (LocalIndex.ContainsId(id))
             {
-                Log($"{id} already installed");
-                return;
+                if (LocalIndex[id].Hash.SequenceEqual(Index[id].Hash))
+                {
+                    Log($"{id} already installed");
+                    return;
+                }
+                else
+                {
+                    RemoveWordlist(id);
+                }
             }
 
             var downloader = new WordlistDownloadSession(Index[id].Uri, id);
@@ -124,7 +131,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             foreach (var wordlist in Index.Wordlists)
             {
-                Log($"\n{wordlist.Id}:");
+                var status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) ? "(Installed)" : "(Update Avaiable)";
+
+                Log($"\n{wordlist.Id}: {status}");
                 Log($"Description: {wordlist.Name}");
 
                 var request = WebRequest.CreateHttp(wordlist.Uri);

@@ -35,5 +35,19 @@ namespace SAPTeam.Kryptor.Cli
         {
             LocalIndexContainer.Write();
         }
+
+        protected void RemoveWordlist(string id)
+        {
+            var entry = LocalIndex[id];
+
+            if (entry.InstallDirectory != null)
+            {
+                Directory.Delete(entry.InstallDirectory, true);
+            }
+
+            LocalIndex.Wordlists.Remove(entry);
+
+            UpdateLocalIndex();
+        }
     }
 }
