@@ -88,6 +88,11 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             List<ISession> sessions = Container.Sessions.ToList();
+            if (!sessions.Any())
+            {
+                return;
+            }
+
             var blockingSessions = sessions.Where(x => x.Status != SessionStatus.Managed);
 
             List<ISession> flaggedSessions = new List<ISession>();
