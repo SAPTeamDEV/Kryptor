@@ -87,7 +87,9 @@ namespace SAPTeam.Kryptor.Cli
                 Console.CursorVisible = false;
             }
 
-            if (!isRedirected && bufferWidth < 50)
+            List<ISession> sessions = Container.Sessions.ToList();
+
+            if (!sessions.Any() || (!isRedirected && bufferWidth < 50))
             {
                 showOverall = false;
             }
@@ -100,14 +102,7 @@ namespace SAPTeam.Kryptor.Cli
                 extraLines++;
             }
 
-            List<ISession> sessions = Container.Sessions.ToList();
-            if (!sessions.Any())
-            {
-                return;
-            }
-
             var blockingSessions = sessions.Where(x => x.Status != SessionStatus.Managed);
-
             List<ISession> flaggedSessions = new List<ISession>();
 
             var lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
