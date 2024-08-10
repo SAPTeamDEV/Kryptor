@@ -74,6 +74,41 @@
       "Name": "rockyou +14M",
       "DownloadUri": "https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt",
       "QuickCheckPriority": 1
-    }
+    },
+    "md5decrypt": {
+      "Name": "MD5 Decrypt +3.4M",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/md5decryptor.txt",
+      "QuickCheckPriority": 1
+    },
+    "probable-wpa": {
+      "Name": "Probable WPA +4K",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/probable_wpa.txt",
+      "QuickCheckPriority": 0
+    },
+    "lpmi": {
+      "Name": "lpmi 1K",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/ipmi_passwords.txt",
+      "QuickCheckPriority": 0
+    },
+    "honeynet": {
+      "Name": "Honey Net +450K",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/honeynet.txt",
+      "QuickCheckPriority": 1
+    },
+    "hak5": {
+      "Name": "hak5 +2K",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/hak5.txt",
+      "QuickCheckPriority": 0
+    },
+    "dutch": {
+      "Name": "Dutch Passwords +4.2M",
+      "DownloadUri": "https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/passwords/dutch_passwords.txt",
+      "QuickCheckPriority": 1
+    },
+    "service-pass": {
+      "Name": "Default Passwords For Services +1K",
+      "DownloadUri": "https://github.com/kkrypt0nn/wordlists/raw/main/wordlists/passwords/default_passwords_for_services.txt",
+      "QuickCheckPriority": 0
+    },
   }
 }
