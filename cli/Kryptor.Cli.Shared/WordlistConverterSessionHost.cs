@@ -47,7 +47,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 entryV2.Name = entry.Value.Name;
                 entryV2.Uri = entry.Value.DownloadUri;
-                entryV2.Importance = entry.Value.QuickCheckPriority;
+                entryV2.Enforced = entry.Value.QuickCheckPriority == 0;
             }
 
             if (File.Exists(indexV2Path))

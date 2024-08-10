@@ -73,7 +73,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     foreach (var wordlist in Index.Wordlists)
                     {
-                        if (wordlist.Importance > 0) continue;
+                        if (!wordlist.Enforced) continue;
 
                         Install(wordlist.Id);
                     }
@@ -155,26 +155,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 Log($"\n{wordlist.Id}: {status}");
                 Log($"Description: {wordlist.Name}");
-
-                var request = WebRequest.CreateHttp(wordlist.Uri);
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1";
-                request.Method = "HEAD";
-
-                string length;
-
-                try
-                {
-                    using (var response = request.GetResponseAsync().Result)
-                    {
-                        length = $"{Utilities.ConvertBytes(response.ContentLength)}";
-                    }
-                }
-                catch
-                {
-                    length = "N/A";
-                }
-
-                Log($"Download Size: {length}");
+                Log($"Download Size: {Utilities.ConvertBytes(wordlist.Size)}");
             }
         }
     }

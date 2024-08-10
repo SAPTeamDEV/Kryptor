@@ -85,6 +85,10 @@ namespace SAPTeam.Kryptor.Cli
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 double steps = (1.0 / streamReader.BaseStream.Length) * 100;
+                if (Converting)
+                {
+                    IndexEntry.Size = streamReader.BaseStream.Length;
+                }
 
                 string line;
                 int readChars = 0;

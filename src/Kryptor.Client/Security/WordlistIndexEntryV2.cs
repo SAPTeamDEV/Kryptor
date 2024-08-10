@@ -32,9 +32,9 @@ namespace SAPTeam.Kryptor.Client.Security
         public byte[] Hash { get; set; }
 
         /// <summary>
-        /// Gets or sets the importance of the wordlist in the quick checks might be made by clients. 0 means the highest importance and 2 means lowest importance.
+        /// Gets or sets enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning.
         /// </summary>
-        public int Importance { get; set; }
+        public bool Enforced { get; set; }
 
         /// <summary>
         /// Gets or sets the install directory of thw wordlist.
@@ -45,5 +45,10 @@ namespace SAPTeam.Kryptor.Client.Security
         /// Gets or sets the number of words in this wordlist.
         /// </summary>
         public long Words {  get; set; }
+
+        /// <summary>
+        /// Gets or sets the wordlist file size.
+        /// </summary>
+        public long Size { get; set; }
     }
 }
