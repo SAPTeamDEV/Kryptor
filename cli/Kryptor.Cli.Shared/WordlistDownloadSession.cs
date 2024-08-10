@@ -5,6 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Downloader;
+
+using Newtonsoft.Json;
+
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
@@ -18,12 +21,17 @@ namespace SAPTeam.Kryptor.Cli
 
         public string CacheDir = Path.Combine(Program.Context.WordlistDirectory, "_cache");
         public string FileDir { get; private set; }
+
+        public string PackPath { get; private set; }
         public string FilePath { get; private set; }
 
         public WordlistDownloadSession(Uri uri, string id)
         {
             Id = id;
             FileDir = Path.Combine(CacheDir, id);
+
+
+            PackPath = Path.Combine(FileDir, "package.json");
             FilePath = Path.Combine(FileDir, "wordlist.txt");
 
             Uri = uri;
@@ -69,6 +77,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             if (e.Error != null)
             {
+                File.WriteAllText(PackPath, JsonConvert.SerializeObject(DownloadService.Package));
                 Exception = e.Error;
             }
         }
@@ -93,7 +102,17 @@ namespace SAPTeam.Kryptor.Cli
                 Directory.CreateDirectory(FileDir);
             }
 
-            await DownloadService.DownloadFileTaskAsync(Uri.ToString(), FilePath, cancellationToken);
+            if (File.Exists(PackPath))
+            {
+                var package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackPath));
+                File.Delete(PackPath);
+
+                await DownloadService.DownloadFileTaskAsync(package, cancellationToken);
+            }
+            else
+            {
+                await DownloadService.DownloadFileTaskAsync(Uri.ToString(), FilePath, cancellationToken);
+            }
 
             if (Exception != null)
             {
