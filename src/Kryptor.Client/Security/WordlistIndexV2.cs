@@ -49,8 +49,10 @@ namespace SAPTeam.Kryptor.Client.Security
             {
                 foreach (var e in Wordlists.Where(x => x.Hash != null))
                 {
-                    e.Hash.SequenceEqual(entry.Hash);
-                    throw new ArgumentException("A wordlist with this hash already exists");
+                    if (e.Hash.SequenceEqual(entry.Hash))
+                    {
+                        throw new ArgumentException("A wordlist with this hash already exists");
+                    }
                 }
             }
 
