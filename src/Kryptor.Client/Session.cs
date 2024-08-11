@@ -39,7 +39,10 @@ namespace SAPTeam.Kryptor.Client
         public Stopwatch Timer { get; protected set; }
 
         /// <inheritdoc/>
-        public List<ISession> SessionDependencies { get; }
+        public List<ISession> Dependencies { get; }
+
+        /// <inheritdoc/>
+        public List<string> Messages { get; }
 
         /// <summary>
         /// Sets all session properties to thir default data.
@@ -54,7 +57,8 @@ namespace SAPTeam.Kryptor.Client
             Exception = null;
 
             Timer = new Stopwatch();
-            SessionDependencies = new List<ISession>();
+            Dependencies = new List<ISession>();
+            Messages = new List<string>();
         }
 
         /// <inheritdoc/>
@@ -86,7 +90,14 @@ namespace SAPTeam.Kryptor.Client
             }
             catch (Exception ex)
             {
+                if (ex is AggregateException aex && aex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                }
+
                 Description = $"{ex.GetType().Name}: {ex.Message}";
+                Messages.Add(Description);
+
                 EndReason = SessionEndReason.Failed;
                 Exception = ex;
             }
@@ -106,7 +117,7 @@ namespace SAPTeam.Kryptor.Client
                 return false;
             }
 
-            foreach (var session in SessionDependencies)
+            foreach (var session in Dependencies)
             {
                 if (session.Status == SessionStatus.Ended)
                 {

@@ -56,7 +56,12 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets the dependency list of the session. This session only starts when all of dependency sessions where completed successfully.
         /// </summary>
-        List<ISession> SessionDependencies { get; }
+        List<ISession> Dependencies { get; }
+
+        /// <summary>
+        /// Gets the message queue of the session. All message will be handled and shown by client application.
+        /// </summary>
+        List<string> Messages { get; }
 
         /// <summary>
         /// Starts the task asynchronously.

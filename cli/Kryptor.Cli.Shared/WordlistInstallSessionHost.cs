@@ -133,7 +133,7 @@ namespace SAPTeam.Kryptor.Cli
             var localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
 
             var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
-            compiler.SessionDependencies.Add(downloader);
+            compiler.Dependencies.Add(downloader);
 
             NewSession(downloader);
             NewSession(compiler);
