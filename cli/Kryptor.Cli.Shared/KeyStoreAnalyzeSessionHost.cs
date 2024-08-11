@@ -26,12 +26,18 @@ namespace SAPTeam.Kryptor.Cli
             base.Start();
 
             var ksLoadSession = CreateKeyStoreLoadSession(ks);
+            NewSession(ksLoadSession);
 
             var calcSession = new KeyStoreAnalyzeRootSession(MaxRunningSessions);
             calcSession.SessionDependencies.Add(ksLoadSession);
             NewSession(calcSession);
 
             ShowProgressMonitored(true).Wait();
+
+            if (!Container.Sessions.All(x => x.EndReason == SessionEndReason.Completed))
+            {
+                return;
+            }
 
             KeyStore = ksLoadSession.KeyStore;
 

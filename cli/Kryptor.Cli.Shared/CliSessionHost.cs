@@ -301,12 +301,17 @@ namespace SAPTeam.Kryptor.Cli
         protected KeyStore LoadKeyStore(string keyStore)
         {
             KeyStore ks;
-            KeyStoreLoadSession session;
 
-            session = CreateKeyStoreLoadSession(keyStore);
+            KeyStoreLoadSession session = CreateKeyStoreLoadSession(keyStore);
+            NewSession(session, true);
 
             ShowProgressMonitored(false).Wait();
             ks = session.KeyStore;
+
+            if (session.EndReason != SessionEndReason.Completed)
+            {
+                throw new ApplicationException("KeyStoreLoad failed");
+            }
 
             DebugLog($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
 
@@ -340,7 +345,6 @@ namespace SAPTeam.Kryptor.Cli
                 throw new FileNotFoundException(keyStore);
             }
 
-            NewSession(session, true);
             return session;
         }
     }
