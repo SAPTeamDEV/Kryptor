@@ -150,12 +150,25 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Waits until all sessions have been ended.
         /// </summary>
-        public async void WaitAll()
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
+        public async void WaitAll(CancellationToken cancellationToken)
         {
             while (Sessions.All(x => x.Status == SessionStatus.Ended))
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    foreach (var token in TokenSources)
+                    {
+                        token.Cancel();
+                    }
+                }
+
                 await Task.Delay(1);
             }
+
+            cancellationToken.ThrowIfCancellationRequested();
         }
 
         /// <summary>
