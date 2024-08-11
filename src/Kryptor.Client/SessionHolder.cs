@@ -13,6 +13,11 @@ namespace SAPTeam.Kryptor.Client
     public class SessionHolder
     {
         /// <summary>
+        /// Gets the id of the session holder in the container.
+        /// </summary>
+        public int Id { get; internal set; }
+
+        /// <summary>
         /// Gets the session instance.
         /// </summary>
         public ISession Session { get; }
@@ -28,7 +33,6 @@ namespace SAPTeam.Kryptor.Client
         public CancellationTokenSource TokenSource { get; set; }
 
         internal bool AutoRemove { get; set; }
-        internal int Id { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SessionHolder"/> class.

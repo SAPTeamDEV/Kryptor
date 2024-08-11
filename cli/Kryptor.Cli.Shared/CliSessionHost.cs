@@ -96,7 +96,8 @@ namespace SAPTeam.Kryptor.Cli
                 Console.CursorVisible = false;
             }
 
-            List<ISession> sessions = Container.Sessions.ToList();
+            SessionHolder[] holders = Container.Holders.ToArray();
+            List<ISession> sessions = holders.Select(x => x.Session).ToList();
 
             if (!sessions.Any() || (!isRedirected && bufferWidth < 50))
             {
@@ -231,6 +232,21 @@ namespace SAPTeam.Kryptor.Cli
                     if (!isRedirected)
                     {
                         Console.CursorVisible = true;
+                    }
+
+                    var _sessions = holders.Select(x => x.Session);
+                    foreach (var holder in holders.Where(x => x.Session.Messages.Count > 0))
+                    {
+                        bool showId = _sessions.Where(x => x.GetType().IsAssignableFrom(holder.Session.GetType())).Count() > 1;
+                        string prefix = $"{holder.Session.GetType().Name}";
+                        if (showId)
+                        {
+                            prefix += $"({holder.Id})";
+                        }
+                        foreach (var message in holder.Session.Messages)
+                        {
+                            Log($"{prefix} -> {message}");
+                        }
                     }
 
                     break;
