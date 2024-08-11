@@ -88,6 +88,9 @@ namespace SAPTeam.Kryptor.Cli
                 "--||",
                 "---|",
                 "----",
+                "----",
+                "----",
+                "----",
             };
             int waitingStep = 0;
 
