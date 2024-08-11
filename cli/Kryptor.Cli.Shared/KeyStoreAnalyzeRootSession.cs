@@ -20,6 +20,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public KeyStoreAnalyzeRootSession(int maxRunningSessions)
         {
+            Progress = -1;
+
             container = new SessionContainer(maxRunningSessions);
 
             CalcTimer = new Stopwatch();
@@ -27,7 +29,6 @@ namespace SAPTeam.Kryptor.Cli
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            Progress = -1;
             Description = "Calculating crack time";
 
             var sample = new byte[3] { 127, 255, 255 };
