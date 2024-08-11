@@ -62,10 +62,16 @@ namespace SAPTeam.Kryptor.Cli
 
             List<string> loadingSteps = new List<string>()
             {
-                " - ",
-                " \\ ",
-                " | ",
-                " / ",
+                "||--",
+                "|||-",
+                "-|||",
+                "--||",
+                "---|",
+                "--||",
+                "-|||",
+                "|||-",
+                "||--",
+                "|---",
             };
             int loadingStep = 0;
 
