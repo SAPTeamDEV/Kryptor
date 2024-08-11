@@ -62,10 +62,10 @@ namespace SAPTeam.Kryptor.Cli
 
             List<string> loadingSteps = new List<string>()
             {
-                "-",
-                "\\",
-                "|",
-                "/",
+                " - ",
+                " \\ ",
+                " | ",
+                " / ",
             };
             int loadingStep = 0;
 
@@ -245,7 +245,7 @@ namespace SAPTeam.Kryptor.Cli
             if (session.IsRunning)
             {
                 color = Color.Yellow;
-                prog = session.Progress < 0 || session.Progress > 100.0 ? $" {loadingSteps[loadingStep]} " : (Math.Round(session.Progress, 2).ToString() + "%");
+                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : (Math.Round(session.Progress, 2).ToString() + "%");
             }
             else if (session.Status == SessionStatus.Ended)
             {
