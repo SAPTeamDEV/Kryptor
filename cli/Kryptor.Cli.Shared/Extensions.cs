@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
+
 
 #if NETFRAMEWORK
 using Pastel;
@@ -12,6 +14,18 @@ namespace SAPTeam.Kryptor.Cli
         internal static string FormatFingerprint(this byte[] src)
         {
             return BitConverter.ToString(src).Replace("-", ":");
+        }
+
+        internal static string ToLowerIfUnix(this string src)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return src;
+            }
+            else
+            {
+                return src.ToLower();
+            }
         }
 
 #if NETFRAMEWORK

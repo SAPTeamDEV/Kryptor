@@ -18,9 +18,9 @@ namespace SAPTeam.Kryptor.Cli
         /// <summary>
         /// The root application data folder.
         /// </summary>
-        public string ApplicationDataDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Kryptor");
+        public string ApplicationDataDirectory { get; }
 
-        public string WordlistDirectory => Path.Combine(ApplicationDataDirectory, "Wordlist");
+        public string WordlistDirectory { get; }
 
 #if DEBUG
         public string CliVersion => Assembly.GetAssembly(typeof(CliSessionHost)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
@@ -37,6 +37,21 @@ namespace SAPTeam.Kryptor.Cli
             }
 #endif
         }
+
+        public CliContext()
+        {
+            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string unixHome = Environment.GetEnvironmentVariable("HOME");
+            if (unixHome == null)
+            {
+                unixHome = Path.GetFullPath(".");
+            }
+            string altAppData = Path.Combine(unixHome, ".config");
+
+            ApplicationDataDirectory = Path.Combine(string.IsNullOrEmpty(localAppData) ? altAppData : localAppData, "Kryptor".ToLowerIfUnix());
+            WordlistDirectory = Path.Combine(ApplicationDataDirectory, "Wordlist".ToLowerIfUnix());
+        }
+
         protected override void CreateContext()
         {
             base.CreateContext();
