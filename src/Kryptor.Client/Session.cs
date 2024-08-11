@@ -67,7 +67,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                if (!IsReady())
+                if (!IsReady(cancellationToken))
                 {
                     throw new InvalidOperationException("You may not start this session at the moment");
                 }
@@ -98,8 +98,14 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public virtual bool IsReady()
+        public virtual bool IsReady(CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                SkipSession();
+                return false;
+            }
+
             foreach (var session in SessionDependencies)
             {
                 if (session.Status == SessionStatus.Ended)
@@ -109,14 +115,19 @@ namespace SAPTeam.Kryptor.Client
                         continue;
                     }
 
-                    EndReason = SessionEndReason.Skipped;
-                    Status = SessionStatus.Ended;
+                    SkipSession();
                 }
 
                 return false;
             }
 
             return true;
+        }
+
+        private void SkipSession()
+        {
+            EndReason = SessionEndReason.Skipped;
+            Status = SessionStatus.Ended;
         }
 
         /// <summary>

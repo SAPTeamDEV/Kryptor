@@ -61,6 +61,7 @@ namespace SAPTeam.Kryptor.Cli
             int paddingBufferSize = isRedirected ? 1 : bufferWidth;
 
             Stopwatch sw = null;
+            int qCounter = 0;
 
             List<string> loadingSteps = new List<string>()
             {
@@ -233,6 +234,11 @@ namespace SAPTeam.Kryptor.Cli
                     }
 
                     break;
+                }
+
+                if (MasterToken.IsCancellationRequested && qCounter++ % 10 == 6)
+                {
+                    Container.StartQueuedSessions();
                 }
 
                 if (!isRedirected)

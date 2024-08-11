@@ -70,7 +70,10 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Asks from session whether it could be started right now.
         /// </summary>
+        /// <param name="cancellationToken">
+        /// A cancellation token to monitor the task.
+        /// </param>
         /// <returns><see langword="true"/> if the session has been ready and <see langword="false"/> when it's not ready.</returns>
-        bool IsReady();
+        bool IsReady(CancellationToken cancellationToken);
     }
 }

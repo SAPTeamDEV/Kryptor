@@ -60,6 +60,9 @@ namespace SAPTeam.Kryptor.Client
                 }
 
                 MasterToken.Cancel();
+
+                // Tell to the SessionManager to do whatever needed
+                Container.StartQueuedSessions();
             }
 
             Task.WaitAll(Container.Tasks);

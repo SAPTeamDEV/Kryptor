@@ -196,7 +196,7 @@ namespace SAPTeam.Kryptor.Client
         public void StartQueuedSessions()
         {
             var running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
-            var waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady());
+            var waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady(x.TokenSource.Token));
 
             if (waiting.Count() == 0 || running.Count() >= maxRunningSessions) return;
 
