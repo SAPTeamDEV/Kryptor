@@ -42,6 +42,9 @@ namespace SAPTeam.Kryptor.Client.Security
         /// <param name="word">
         /// Word to search.
         /// </param>
+        /// <param name="cancellationToken">
+        /// The token to monitor for cancellation requests.
+        /// </param>
         /// <returns></returns>
         public async Task<bool> ContainsAsync(string word, CancellationToken cancellationToken)
         {
