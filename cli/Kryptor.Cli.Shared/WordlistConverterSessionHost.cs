@@ -8,8 +8,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistConverterSessionHost : WordlistInstallSessionHost
     {
-        string indexPath;
-        string indexV2Path;
+        private readonly string indexPath;
+        private readonly string indexV2Path;
 
         public override string LocalIndexPath => indexV2Path;
 
@@ -21,14 +21,14 @@ namespace SAPTeam.Kryptor.Cli
 
         public override void Start()
         {
-            var IndexContainer = new Config<WordlistIndex>(indexPath);
+            Config<WordlistIndex> IndexContainer = new Config<WordlistIndex>(indexPath);
 
-            var Index = IndexContainer.Prefs;
-            var IndexV2 = new WordlistIndexV2();
+            WordlistIndex Index = IndexContainer.Prefs;
+            WordlistIndexV2 IndexV2 = new WordlistIndexV2();
 
-            foreach (var entry in Index.Wordlists)
+            foreach (System.Collections.Generic.KeyValuePair<string, WordlistIndexEntry> entry in Index.Wordlists)
             {
-                var id = entry.Key;
+                string id = entry.Key;
                 WordlistIndexEntryV2 entryV2;
 
                 if (IndexV2.ContainsId(id))

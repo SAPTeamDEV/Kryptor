@@ -9,10 +9,10 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSession : Session
     {
-        KeyStore keyStore;
-        CryptoProviderConfiguration configuration;
-        int blockSize;
-        string file;
+        private readonly KeyStore keyStore;
+        private readonly CryptoProviderConfiguration configuration;
+        private readonly int blockSize;
+        private readonly string file;
 
         public DecryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, string file)
         {
@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             this.file = file;
         }
 
-        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             if (!File.Exists(file))
             {
@@ -35,10 +35,10 @@ namespace SAPTeam.Kryptor.Cli
 
             Description = "Reading header";
 
-            var sourceStream = File.OpenRead(file);
-            var header = Header.ReadHeader<CliHeader>(sourceStream);
+            FileStream sourceStream = File.OpenRead(file);
+            CliHeader header = Header.ReadHeader<CliHeader>(sourceStream);
 
-            var destFileName = "decrypted file.dec";
+            string destFileName = "decrypted file.dec";
 
             int hVerbose = (int)header.Verbosity;
 
@@ -49,14 +49,9 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (header.Version != Kes.Version)
                 {
-                    if (header.ClientName != null)
-                    {
-                        Description = $"You must use {header.ClientName} v{header.ClientVersion}";
-                    }
-                    else
-                    {
-                        Description = $"You must use a client with engine version {header.EngineVersion} or api version {header.Version}";
-                    }
+                    Description = header.ClientName != null
+                        ? $"You must use {header.ClientName} v{header.ClientVersion}"
+                        : $"You must use a client with engine version {header.EngineVersion} or api version {header.Version}";
 
                     EndReason = SessionEndReason.Failed;
                     return false;
@@ -82,7 +77,7 @@ namespace SAPTeam.Kryptor.Cli
             kes.OnProgress += UpdateProgress;
 
             destFileName = Utilities.GetNewFileName(file, destFileName);
-            var destStream = File.OpenWrite(destFileName);
+            FileStream destStream = File.OpenWrite(destFileName);
 
             try
             {

@@ -1,13 +1,10 @@
-using System;
-using System.Drawing;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 #if !NETFRAMEWORK
 using ANSIConsole;
 #endif
 
-using SAPTeam.Kryptor.Cli;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
@@ -15,8 +12,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistQuerySession : Session
     {
-        WordlistIndexEntryV2 Entry;
-        string Word;
+        private readonly WordlistIndexEntryV2 Entry;
+        private readonly string Word;
 
         public bool Result = false;
 
@@ -31,8 +28,8 @@ namespace SAPTeam.Kryptor.Cli
             Progress = -1;
             Description = $"Querying in {Entry.Id}";
 
-            var wl = new Wordlist(Entry.InstallDirectory);
-            var result = await wl.ContainsAsync(Word, cancellationToken);
+            Wordlist wl = new Wordlist(Entry.InstallDirectory);
+            bool result = await wl.ContainsAsync(Word, cancellationToken);
 
             Result = result;
             Description += " : " + (Result ? "Found" : "Not found");

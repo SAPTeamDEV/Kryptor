@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,17 +7,16 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreTokenLoadSession : KeyStoreLoadSession
     {
-        TransformerToken token;
-        CancellationToken cancellationToken;
-
-        const int ChunckSize = 4096;
+        private TransformerToken token;
+        private CancellationToken cancellationToken;
+        private const int ChunckSize = 4096;
 
         public KeyStoreTokenLoadSession(TransformerToken token)
         {
             this.token = token;
         }
 
-        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             this.cancellationToken = cancellationToken;
             Description = "Generating keystore";
@@ -31,7 +28,7 @@ namespace SAPTeam.Kryptor.Cli
             return true;
         }
 
-        void UpdateProgress(double progress)
+        private void UpdateProgress(double progress)
         {
             if (progress == -1)
             {

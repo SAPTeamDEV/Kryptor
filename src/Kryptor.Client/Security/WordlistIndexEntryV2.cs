@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -44,7 +40,7 @@ namespace SAPTeam.Kryptor.Client.Security
         /// <summary>
         /// Gets or sets the number of words in this wordlist.
         /// </summary>
-        public long Words {  get; set; }
+        public long Words { get; set; }
 
         /// <summary>
         /// Gets or sets the wordlist file size.

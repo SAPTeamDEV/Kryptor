@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -18,13 +14,7 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The id of the wordlist.
         /// </param>
         /// <returns></returns>
-        public WordlistIndexEntry this[string id]
-        {
-            get
-            {
-                return Wordlists[id];
-            }
-        }
+        public WordlistIndexEntry this[string id] => Wordlists[id];
 
         /// <summary>
         /// Gets or sets the wordlists container.

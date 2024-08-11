@@ -9,9 +9,9 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSession : Session
     {
-        Kes kes;
-        int hVerbose;
-        string file;
+        private readonly Kes kes;
+        private readonly int hVerbose;
+        private readonly string file;
 
         public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file)
         {
@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             this.file = file;
         }
 
-        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             Description = "Prepairing";
 
@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor.Cli
                 return false;
             }
 
-            var header = CliHeader.Create();
+            ClientHeader header = CliHeader.Create();
 
             if (hVerbose > 1)
             {
@@ -44,9 +44,9 @@ namespace SAPTeam.Kryptor.Cli
 
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
-            var sourceStream = File.OpenRead(file);
-            var destFileName = Utilities.GetNewFileName(file, file + ".kef");
-            var destStream = File.OpenWrite(destFileName);
+            FileStream sourceStream = File.OpenRead(file);
+            string destFileName = Utilities.GetNewFileName(file, file + ".kef");
+            FileStream destStream = File.OpenWrite(destFileName);
 
             try
             {

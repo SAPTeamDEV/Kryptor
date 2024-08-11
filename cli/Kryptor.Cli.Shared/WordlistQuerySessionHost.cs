@@ -4,8 +4,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistQuerySessionHost : WordlistSessionHost
     {
-        string Query;
-        string Wordlist;
+        private readonly string Query;
+        private readonly string Wordlist;
 
         public WordlistQuerySessionHost(bool verbose, string query, string wordlist) : base(verbose)
         {
@@ -29,15 +29,15 @@ namespace SAPTeam.Kryptor.Cli
 
             if (string.IsNullOrEmpty(Wordlist))
             {
-                foreach (var entry in LocalIndex.Wordlists)
+                foreach (Client.Security.WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
                 {
-                    var session = new WordlistQuerySession(entry, Query);
+                    WordlistQuerySession session = new WordlistQuerySession(entry, Query);
                     NewSession(session);
                 }
             }
             else
             {
-                var session = new WordlistQuerySession(LocalIndex[Wordlist], Query);
+                WordlistQuerySession session = new WordlistQuerySession(LocalIndex[Wordlist], Query);
                 NewSession(session);
             }
 

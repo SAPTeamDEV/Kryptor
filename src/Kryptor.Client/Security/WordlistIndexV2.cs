@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -18,13 +16,7 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The id of the wordlist.
         /// </param>
         /// <returns></returns>
-        public WordlistIndexEntryV2 this[string id]
-        {
-            get
-            {
-                return Wordlists.Where(x => x.Id == id).First();
-            }
-        }
+        public WordlistIndexEntryV2 this[string id] => Wordlists.Where(x => x.Id == id).First();
 
         /// <summary>
         /// Gets or sets the wordlists container.
@@ -47,7 +39,7 @@ namespace SAPTeam.Kryptor.Client.Security
 
             if (entry.Hash != null)
             {
-                foreach (var e in Wordlists.Where(x => x.Hash != null))
+                foreach (WordlistIndexEntryV2 e in Wordlists.Where(x => x.Hash != null))
                 {
                     if (e.Hash.SequenceEqual(entry.Hash))
                     {

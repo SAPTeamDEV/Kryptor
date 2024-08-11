@@ -1,7 +1,7 @@
+using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using System;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -18,7 +18,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             try
             {
-                var settings = new JsonSerializerSettings
+                JsonSerializerSettings settings = new JsonSerializerSettings
                 {
                     Formatting = Formatting.Indented,
                     NullValueHandling = NullValueHandling.Ignore,

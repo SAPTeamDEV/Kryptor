@@ -54,13 +54,13 @@ namespace SAPTeam.Kryptor.Client.Security
 
             if (!Subsets.ContainsKey(id))
             {
-                var lPath = Path.Combine(WordlistPath, id.ToString() + ".txt");
+                string lPath = Path.Combine(WordlistPath, id.ToString() + ".txt");
                 if (!File.Exists(lPath))
                 {
                     return false;
                 }
 
-                var hashes = new HashSet<string>();
+                HashSet<string> hashes = new HashSet<string>();
 
                 using (StreamReader streamReader = new StreamReader(lPath, Encoding.UTF8))
                 {

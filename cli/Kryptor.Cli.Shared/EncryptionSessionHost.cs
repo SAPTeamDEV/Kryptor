@@ -1,8 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSessionHost : DataProcessingSessionHost
@@ -18,9 +13,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            foreach (var file in Files)
+            foreach (string file in Files)
             {
-                var session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, file);
+                EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, file);
                 NewSession(session);
             }
 

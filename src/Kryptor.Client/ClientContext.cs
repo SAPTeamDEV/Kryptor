@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Generators;
@@ -22,7 +16,7 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         public string EngineVersion => Utilities.GetShortVersionString(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
-        readonly CryptoRandom random = new CryptoRandom();
+        private readonly CryptoRandom random = new CryptoRandom();
 
         /// <summary>
         /// Gets the application session host.
@@ -33,7 +27,7 @@ namespace SAPTeam.Kryptor.Client
         protected override void CreateContext()
         {
             // Just for initializing the EntroX generator.
-            var _d = new byte[8];
+            byte[] _d = new byte[8];
             random.NextBytes(_d);
             EntroX.AddEntropy(_d);
         }

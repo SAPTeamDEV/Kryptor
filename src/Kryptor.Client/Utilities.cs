@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -19,7 +15,7 @@ namespace SAPTeam.Kryptor.Client
         /// <returns></returns>
         public static string GetShortVersionString(string verStr)
         {
-            var ver = new Version(verStr);
+            Version ver = new Version(verStr);
             return string.Join(".", ver.Major, ver.Minor, ver.Build);
         }
 
@@ -100,8 +96,8 @@ namespace SAPTeam.Kryptor.Client
         /// <returns></returns>
         public static double CalculateRemainingTime(double progress, long elapsedMilliseconds)
         {
-            var rProg = Math.Round(progress);
-            var remTime = progress > 0 ? elapsedMilliseconds / progress * (100 - progress) : 0;
+            double rProg = Math.Round(progress);
+            double remTime = progress > 0 ? elapsedMilliseconds / progress * (100 - progress) : 0;
             return remTime;
         }
 

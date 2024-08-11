@@ -1,9 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Reflection;
 
 using Newtonsoft.Json;
 
@@ -16,14 +14,41 @@ namespace SAPTeam.Kryptor.Cli
     {
         public override int MaxRunningSessions => 2;
 
-        bool List;
-        bool All;
-        bool Recommended;
-        string[] Ids;
+        private readonly bool List;
+        private readonly bool All;
+        private readonly bool Recommended;
+        private readonly string[] Ids;
+        private readonly bool Converting;
 
-        bool Converting;
 
+/* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
+Before:
         static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+After:
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+*/
+
+/* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
+Before:
+        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+After:
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+*/
+
+/* Unmerged change from project 'Kryptor.Cli (net8.0)'
+Before:
+        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+After:
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+*/
+
+/* Unmerged change from project 'Kryptor.Cli (net6.0)'
+Before:
+        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+After:
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+*/
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
 
         public WordlistIndexV2 Index { get; protected set; }
 
@@ -50,8 +75,8 @@ namespace SAPTeam.Kryptor.Cli
             {
                 DebugLog("Getting wordlist index...");
 
-                var client = new HttpClient();
-                var rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
+                HttpClient client = new HttpClient();
+                string rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
 
                 Index = JsonConvert.DeserializeObject<WordlistIndexV2>(rawIndex);
             }
@@ -64,14 +89,14 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (All)
                 {
-                    foreach (var wordlist in Index.Wordlists)
+                    foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
                     {
                         Install(wordlist.Id);
                     }
                 }
                 else if (Recommended)
                 {
-                    foreach (var wordlist in Index.Wordlists)
+                    foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
                     {
                         if (!wordlist.Enforced) continue;
 
@@ -80,7 +105,7 @@ namespace SAPTeam.Kryptor.Cli
                 }
                 else
                 {
-                    foreach (var id in Ids)
+                    foreach (string id in Ids)
                     {
                         Install(id);
                     }
@@ -88,7 +113,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 ShowProgressMonitored(true, false).Wait();
 
-                foreach (var session in Container.Sessions)
+                foreach (ISession session in Container.Sessions)
                 {
                     if (session is WordlistCompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
                     {
@@ -128,22 +153,22 @@ namespace SAPTeam.Kryptor.Cli
                 return;
             }
 
-            var downloader = new WordlistDownloadSession(Index[id].Uri, id);
+            WordlistDownloadSession downloader = new WordlistDownloadSession(Index[id].Uri, id);
 
-            var localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
+            string localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
 
-            var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
+            WordlistCompileSession compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
             compiler.Dependencies.Add(downloader);
 
             NewSession(downloader);
             NewSession(compiler);
         }
 
-        void PrintList()
+        private void PrintList()
         {
-            foreach (var wordlist in Index.Wordlists)
+            foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
             {
-                var status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) ? "(Installed)" : "(Update Avaiable)";
+                string status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) ? "(Installed)" : "(Update Avaiable)";
 
                 Log($"\n{wordlist.Id}: {status}");
                 Log($"Description: {wordlist.Name}");

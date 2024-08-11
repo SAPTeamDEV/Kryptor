@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSessionHost : DataProcessingSessionHost
@@ -13,9 +11,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            foreach (var file in Files)
+            foreach (string file in Files)
             {
-                var session = new DecryptionSession(KeyStore, Configuration, BlockSize, file);
+                DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, file);
                 NewSession(session);
             }
 
