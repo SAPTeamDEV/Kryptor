@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace SAPTeam.Kryptor.Client
     public class SessionContainer
     {
         static CryptoRandom crng = new CryptoRandom();
+
+        readonly int maxRunningSessions;
 
         readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         readonly List<Task> TaskPool = new List<Task>();
@@ -89,6 +92,17 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SessionContainer"/> class.
+        /// </summary>
+        /// <param name="maxRunningSessions">
+        /// The maximum allowed running sessions.
+        /// </param>
+        public SessionContainer(int maxRunningSessions)
+        {
+            this.maxRunningSessions = maxRunningSessions;
+        }
+
+        /// <summary>
         /// Adds new session to the container.
         /// </summary>
         /// <returns>The unique identifier of this entry.</returns>
@@ -141,6 +155,59 @@ namespace SAPTeam.Kryptor.Client
             while (Sessions.All(x => x.Status == SessionStatus.Ended))
             {
                 await Task.Delay(1);
+            }
+        }
+
+        /// <summary>
+        /// Starts a new session in this container.
+        /// </summary>
+        /// <param name="session">
+        /// A session with status <see cref="SessionStatus.NotStarted"/>.
+        /// </param>
+        /// <param name="autoRemove">
+        /// Determines whether to automatically remove session after end.
+        /// </param>
+        public void NewSession(ISession session, bool autoRemove)
+        {
+            if (session.Status != SessionStatus.NotStarted)
+            {
+                throw new ArgumentException("The session is already started.");
+            }
+
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+            SessionHolder sessionHolder = new SessionHolder(session, tokenSource);
+
+            sessionHolder.AutoRemove = autoRemove;
+
+            Add(sessionHolder);
+            StartQueuedSessions();
+        }
+
+        /// <summary>
+        /// Starts registered sessions in a managed way.
+        /// </summary>
+        public void StartQueuedSessions()
+        {
+            var running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
+            var waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady());
+
+            if (waiting.Count() == 0 || running.Count() >= maxRunningSessions) return;
+
+            int toBeStarted = Math.Min(maxRunningSessions - running.Count(), waiting.Count());
+            for (int i = 0; i < toBeStarted; i++)
+            {
+                var sessionHolder = waiting.ElementAt(i);
+                var task = sessionHolder.StartTask(false);
+                if (task != null)
+                {
+                    task.ContinueWith(x => StartQueuedSessions());
+
+                    if (sessionHolder.AutoRemove)
+                    {
+                        task.ContinueWith(x => Remove(sessionHolder.Id));
+                    }
+                }
             }
         }
 

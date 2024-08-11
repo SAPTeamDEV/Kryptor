@@ -77,7 +77,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     throw;
                 }
-                catch (Exception e)
+                catch
                 {
                     // Ignore hash errors
                 }

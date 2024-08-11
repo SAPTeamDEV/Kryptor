@@ -15,12 +15,20 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets the session container.
         /// </summary>
-        protected SessionContainer Container { get; } = new SessionContainer();
+        protected SessionContainer Container { get; }
 
         /// <summary>
         /// Gets the maximum allowed running sessions.
         /// </summary>
         public virtual int MaxRunningSessions { get; } = Environment.ProcessorCount - 1;
+
+        /// <summary>
+        /// Initializes all <see cref="SessionHost"/> instances.
+        /// </summary>
+        protected SessionHost()
+        {
+            Container = new SessionContainer(MaxRunningSessions);
+        }
 
         /// <inheritdoc/>
         public abstract void Start();
@@ -44,46 +52,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public void NewSession(ISession session, bool autoRemove = false)
         {
-            if (session.Status != SessionStatus.NotStarted)
-            {
-                throw new ArgumentException("The session is already started.");
-            }
-
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-            SessionHolder sessionHolder = new SessionHolder(session, tokenSource);
-
-            sessionHolder.AutoRemove = autoRemove;
-
-            Container.Add(sessionHolder);
-            StartQueuedSessions();
-        }
-
-        /// <summary>
-        /// Starts registered sessions in a managed way.
-        /// </summary>
-        public void StartQueuedSessions()
-        {
-            var running = Container.Holders.Where(x => x.Session.Status == SessionStatus.Running);
-            var waiting = Container.Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady());
-
-            if (waiting.Count() == 0 || running.Count() >= MaxRunningSessions) return;
-
-            int toBeStarted = Math.Min(MaxRunningSessions - running.Count(), waiting.Count());
-            for (int i = 0; i < toBeStarted; i++)
-            {
-                var sessionHolder = waiting.ElementAt(i);
-                var task = sessionHolder.StartTask(false);
-                if (task != null)
-                {
-                    task.ContinueWith(x => StartQueuedSessions());
-
-                    if (sessionHolder.AutoRemove)
-                    {
-                        task.ContinueWith(x => Container.Remove(sessionHolder.Id));
-                    }
-                }
-            }
+            Container.NewSession(session, autoRemove);
         }
 
         /// <summary>
