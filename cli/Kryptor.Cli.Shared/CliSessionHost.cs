@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using static System.Collections.Specialized.BitVector32;
+using MoreLinq;
+
 
 
 
@@ -278,7 +280,7 @@ namespace SAPTeam.Kryptor.Cli
             if (session.IsRunning)
             {
                 color = Color.Yellow;
-                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : (Math.Round(session.Progress, 2).ToString() + "%");
+                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : $"{Math.Round(session.Progress, 2)}%".PadRight(6);
             }
             else if (session.Status == SessionStatus.Ended)
             {
