@@ -12,6 +12,8 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public abstract class SessionHost : ISessionHost
     {
+        bool _ending;
+
         /// <summary>
         /// Gets the session container.
         /// </summary>
@@ -23,11 +25,17 @@ namespace SAPTeam.Kryptor.Client
         public virtual int MaxRunningSessions { get; } = Environment.ProcessorCount - 1;
 
         /// <summary>
+        /// Gets the special cancellation token to use in non-standard codes. (Blocking codes outside of sessions)
+        /// </summary>
+        protected CancellationTokenSource MasterToken { get; }
+
+        /// <summary>
         /// Initializes all <see cref="SessionHost"/> instances.
         /// </summary>
         protected SessionHost()
         {
             Container = new SessionContainer(MaxRunningSessions);
+            MasterToken = new CancellationTokenSource();
         }
 
         /// <inheritdoc/>
@@ -36,6 +44,12 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public virtual void End(bool cancelled)
         {
+            if (_ending)
+            {
+                return;
+            }
+            _ending = true;
+
             if (cancelled)
             {
                 var vts = Container.TokenSources.Where(x => !x.IsCancellationRequested);
@@ -44,6 +58,8 @@ namespace SAPTeam.Kryptor.Client
                 {
                     token.Cancel();
                 }
+
+                MasterToken.Cancel();
             }
 
             Task.WaitAll(Container.Tasks);
@@ -55,12 +71,7 @@ namespace SAPTeam.Kryptor.Client
             Container.NewSession(session, autoRemove);
         }
 
-        /// <summary>
-        /// Adds given task to the task pool and be monitored by the session host.
-        /// </summary>
-        /// <param name="task">
-        /// The task to be monitored.
-        /// </param>
+        /// <inheritdoc/>
         public void MonitorTask(Task task)
         {
             Container.AddMonitoringTask(task);

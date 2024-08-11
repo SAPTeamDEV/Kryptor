@@ -34,5 +34,13 @@ namespace SAPTeam.Kryptor.Client
         /// Determines whether to automatically remove session after end.
         /// </param>
         void NewSession(ISession session, bool autoRemove);
+
+        /// <summary>
+        /// Adds given task to the task pool and be monitored by the session host.
+        /// </summary>
+        /// <param name="task">
+        /// The task to be monitored.
+        /// </param>
+        void MonitorTask(Task task);
     }
 }
