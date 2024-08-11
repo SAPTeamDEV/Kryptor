@@ -186,13 +186,11 @@ namespace SAPTeam.Kryptor.Cli
             
             var convertDest = new Argument<string>("destination", "The destination index v2 file");
 
-            var wlConCmd = new Command("convert", "Converts v1 index file to v2 index file")
+            var wlConCmd = new Command("convert", "Converts v1 index file to v2 index file (Internal use)")
             {
                 convertSource,
                 convertDest
             };
-
-            wlConCmd.AddAlias("c");
 
             wlConCmd.SetHandler((verboseT, convertSourceT, convertDestT) =>
             {
@@ -231,6 +229,57 @@ namespace SAPTeam.Kryptor.Cli
             }, verbose, installList, installAll, installRecommended, installIds);
 
             wlCmd.AddCommand(wlInsCmd);
+
+            var removeList = new Option<bool>("--list", "Lists all installed wordlists");
+            removeList.AddAlias("-l");
+
+            var removeAll = new Option<bool>("--all", "Removes all installed wordlists");
+            removeAll.AddAlias("-a");
+
+            var removeIds = new Argument<string[]>("wordlist", "Id of wordlists to remove, list of all installed wordlists could be found by --list option");
+            removeIds.HelpName = "id";
+
+            var wlRemCmd = new Command("remove", "Removes installed wordlists")
+            {
+                removeList,
+                removeAll,
+                removeIds
+            };
+
+            wlRemCmd.AddAlias("r");
+
+            wlRemCmd.SetHandler((verboseT, removeListT, removeAllT, removeIdsT) =>
+            {
+                var sessionHost = new WordlistRemoveSessionHost(verboseT, removeListT, removeAllT, removeIdsT);
+                Context.NewSessionHost(sessionHost);
+            }, verbose, removeList, removeAll, removeIds);
+
+            wlCmd.AddCommand(wlRemCmd);
+
+            var importId = new Option<string>("--id", "Determines the wordlist's unique id");
+            importId.AddAlias("-i");
+            importId.IsRequired = true;
+
+            var importEnforce = new Option<bool>("--enforce", "Determines enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning");
+            importEnforce.AddAlias("-e");
+
+            var importFile = new Argument<string>("file", "The text file to import");
+
+            var wlImpCmd = new Command("import", "Compiles and imports given file as wordlist")
+            {
+                importId, 
+                importEnforce,
+                importFile
+            };
+
+            wlImpCmd.SetHandler((verboseT, importIdT, importEnforceT, importFileT) =>
+            {
+                var sessionHost = new WordlistImportSessionHost(verboseT, importIdT, importEnforceT, importFileT);
+                Context.NewSessionHost(sessionHost);
+            },verbose, importId, importEnforce, importFile);
+
+            wlCmd.AddCommand(wlImpCmd);
+
             root.AddCommand(wlCmd);
             #endregion
 

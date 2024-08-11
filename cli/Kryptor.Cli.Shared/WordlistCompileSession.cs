@@ -23,8 +23,10 @@ namespace SAPTeam.Kryptor.Cli
         public WordlistIndexEntryV2 IndexEntry;
 
         bool Converting;
+        bool Importing;
+        bool Bypass => Converting || Importing;
 
-        public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting)
+        public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
         {
             FilePath = path;
             DestPath = destination;
@@ -32,6 +34,7 @@ namespace SAPTeam.Kryptor.Cli
             IndexEntry = entry;
 
             Converting = converting;
+            Importing = importing;
         }
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
@@ -41,14 +44,11 @@ namespace SAPTeam.Kryptor.Cli
                 throw new FileNotFoundException(FilePath);
             }
 
-            if (!Directory.Exists(DestPath))
+            if (Directory.Exists(DestPath))
             {
-                Directory.CreateDirectory(DestPath);
+                Directory.Delete(DestPath, true);
             }
-            else if (!Converting)
-            {
-                throw new InvalidOperationException("This file already compiled");
-            }
+            Directory.CreateDirectory(DestPath);
 
             Description = $"Importing {IndexEntry.Id}";
             long words = 0;
@@ -61,7 +61,7 @@ namespace SAPTeam.Kryptor.Cli
                     await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length);
                     var hash = buffer.Sha256();
 
-                    if (Converting)
+                    if (Bypass && IndexEntry.Hash == null)
                     {
                         IndexEntry.Hash = hash;
                     }
@@ -69,7 +69,7 @@ namespace SAPTeam.Kryptor.Cli
                     {
                         if (!IndexEntry.Hash.SequenceEqual(hash))
                         {
-                            throw new InvalidDataException("Downloaded file is corrupted");
+                            throw new InvalidDataException("File is corrupted");
                         }
                     }
                 }
@@ -85,7 +85,7 @@ namespace SAPTeam.Kryptor.Cli
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 double steps = (1.0 / streamReader.BaseStream.Length) * 100;
-                if (Converting)
+                if (Bypass && IndexEntry.Size <= 0)
                 {
                     IndexEntry.Size = streamReader.BaseStream.Length;
                 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Policy;
@@ -42,6 +43,35 @@ namespace SAPTeam.Kryptor.Cli
         protected void UpdateLocalIndex()
         {
             LocalIndexContainer.Write();
+        }
+
+        protected void ListInstalledWordlists()
+        {
+            foreach (var wl in LocalIndex.Wordlists)
+            {
+                Log($"\n{wl.Id}:");
+                Log($"Description: {wl.Name}");
+                Log($"Enforced: {wl.Enforced}");
+                Log($"Words: {wl.Words}");
+            }
+        }
+
+        protected bool GetInstallationPermission(WordlistIndexEntryV2 entry)
+        {
+            if (LocalIndex.ContainsId(entry.Id))
+            {
+                if (LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash))
+                {
+                    Log($"{entry.Id} is already installed");
+                    return false;
+                }
+                else
+                {
+                    RemoveWordlist(entry.Id);
+                }
+            }
+
+            return true;
         }
 
         protected void RemoveWordlist(string id)

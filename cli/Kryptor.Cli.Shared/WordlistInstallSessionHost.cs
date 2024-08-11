@@ -56,7 +56,7 @@ namespace SAPTeam.Kryptor.Cli
                 Index = JsonConvert.DeserializeObject<WordlistIndexV2>(rawIndex);
             }
 
-            if (List)
+            if (List || (!All && !Recommended && !Ids.Any()))
             {
                 PrintList();
             }
@@ -123,24 +123,16 @@ namespace SAPTeam.Kryptor.Cli
 
         private void Install(string id)
         {
-            if (LocalIndex.ContainsId(id))
+            if (!GetInstallationPermission(Index[id]))
             {
-                if (LocalIndex[id].Hash.SequenceEqual(Index[id].Hash))
-                {
-                    Log($"{id} already installed");
-                    return;
-                }
-                else
-                {
-                    RemoveWordlist(id);
-                }
+                return;
             }
 
             var downloader = new WordlistDownloadSession(Index[id].Uri, id);
 
             var localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
 
-            var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], Converting);
+            var compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
             compiler.SessionDependencies.Add(downloader);
 
             NewSession(downloader);

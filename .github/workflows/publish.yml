@@ -36,7 +36,7 @@ jobs:
         shell: bash
       - name: Update Index
         run: |
-          bin/Kryptor w c Wordlist-Index.json Wordlist-IndexV2.json
+          bin/Kryptor w convert Wordlist-Index.json Wordlist-IndexV2.json
         shell: bash
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
