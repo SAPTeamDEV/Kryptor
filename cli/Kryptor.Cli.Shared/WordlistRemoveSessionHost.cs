@@ -30,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli
                 Wordlists = LocalIndex.Wordlists.Select(x => x.Id).ToArray();
                 if (Wordlists.Length == 0)
                 {
-                    Log("There is no installed wordlist");
+                    Log("There is no installed wordlist to remove");
                     return;
                 }
             }

@@ -47,6 +47,12 @@ namespace SAPTeam.Kryptor.Cli
 
         protected void ListInstalledWordlists()
         {
+            if (LocalIndex.Wordlists.Count == 0)
+            {
+                Log("No wordlists are installed");
+                return;
+            }
+
             foreach (var wl in LocalIndex.Wordlists)
             {
                 Log($"\n{wl.Id}:");
