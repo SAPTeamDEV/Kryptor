@@ -13,12 +13,14 @@ namespace SAPTeam.Kryptor.Cli
     public class KeyStoreAnalyzeSessionHost : CliSessionHost
     {
         string ks;
+        int maxRunningSessions;
 
         KeyStore KeyStore { get; set; }
 
-        public KeyStoreAnalyzeSessionHost(bool verbose, string keystore) : base(verbose)
+        public KeyStoreAnalyzeSessionHost(bool verbose, int jobs, string keystore) : base(verbose)
         {
             ks = keystore;
+            maxRunningSessions = jobs > 0 ? jobs : MaxRunningSessions - 2;
         }
 
         public override void Start()
@@ -28,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli
             var ksLoadSession = CreateKeyStoreLoadSession(ks);
             NewSession(ksLoadSession);
 
-            var calcSession = new KeyStoreAnalyzeRootSession(MaxRunningSessions);
+            var calcSession = new KeyStoreAnalyzeRootSession(maxRunningSessions);
             calcSession.Dependencies.Add(ksLoadSession);
             NewSession(calcSession);
 

@@ -142,18 +142,22 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Analyze Options
+            var analyzeJobs = new Option<int>("--jobs", "Determines the number of concurrent jobs");
+            analyzeJobs.AddAlias("-j");
+
             var anCmd = new Command("analyze", "Analyzes the keystore security")
             {
+                analyzeJobs,
                 keystore
             };
 
             anCmd.AddAlias("a");
 
-            anCmd.SetHandler((verboseT, keystoreT) =>
+            anCmd.SetHandler((verboseT, analyzeJobsT, keystoreT) =>
             {
-                var sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, keystoreT);
+                var sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, analyzeJobsT, keystoreT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, keystore);
+            }, verbose, analyzeJobs, keystore);
 
             root.AddCommand(anCmd);
             #endregion
