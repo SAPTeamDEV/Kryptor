@@ -108,15 +108,8 @@ namespace SAPTeam.Kryptor.Client
         /// <returns>The unique identifier of this entry.</returns>
         public int Add(SessionHolder sessionHolder)
         {
-            int rn;
-            while (true)
-            {
-                rn = crng.Next();
-                if (!SessionPool.ContainsKey(rn))
-                {
-                    break;
-                }
-            }
+            int rn = SessionPool.Keys.LastOrDefault() + 1;
+
             sessionHolder.Id = rn;
             SessionPool[rn] = sessionHolder;
             ResetCache();
