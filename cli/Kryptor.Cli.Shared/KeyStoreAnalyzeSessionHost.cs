@@ -25,12 +25,15 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            KeyStore = LoadKeyStore(ks);
+            var ksLoadSession = CreateKeyStoreLoadSession(ks);
 
             var calcSession = new KeyStoreAnalyzeRootSession(MaxRunningSessions);
+            calcSession.SessionDependencies.Add(ksLoadSession);
             NewSession(calcSession);
 
             ShowProgressMonitored(true).Wait();
+
+            KeyStore = ksLoadSession.KeyStore;
 
             double ratio = Math.Pow(2, 32) / Math.Pow(2, 3);
             double estimatedTimeFor32ByteArray = calcSession.CalcTimer.Elapsed.TotalSeconds * ratio;

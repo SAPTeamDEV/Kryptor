@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using static System.Collections.Specialized.BitVector32;
+
 
 
 
@@ -299,14 +301,25 @@ namespace SAPTeam.Kryptor.Cli
         protected KeyStore LoadKeyStore(string keyStore)
         {
             KeyStore ks;
+            KeyStoreLoadSession session;
 
+            session = CreateKeyStoreLoadSession(keyStore);
+
+            ShowProgressMonitored(false).Wait();
+            ks = session.KeyStore;
+
+            DebugLog($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
+
+            return ks;
+        }
+
+        protected KeyStoreLoadSession CreateKeyStoreLoadSession(string keyStore)
+        {
+            KeyStoreLoadSession session;
             if (File.Exists(keyStore))
             {
                 DebugLog($"Keystore file: {keyStore}");
-                var session = new KeyStoreFileLoadSession(keyStore);
-                NewSession(session, true);
-                ShowProgressMonitored(false).Wait();
-                ks = session.KeyStore;
+                session = new KeyStoreFileLoadSession(keyStore);
 
             }
             else if (TransformerToken.IsValid(keyStore))
@@ -320,19 +333,15 @@ namespace SAPTeam.Kryptor.Cli
                     DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 
-                var session = new KeyStoreTokenLoadSession(token);
-                NewSession(session, true);
-                ShowProgressMonitored(false).Wait();
-                ks = session.KeyStore;
+                session = new KeyStoreTokenLoadSession(token);
             }
             else
             {
                 throw new FileNotFoundException(keyStore);
             }
 
-            DebugLog($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
-
-            return ks;
+            NewSession(session, true);
+            return session;
         }
     }
 }

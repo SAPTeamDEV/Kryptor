@@ -7,11 +7,9 @@ using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class KeyStoreFileLoadSession : Session
+    public class KeyStoreFileLoadSession : KeyStoreLoadSession
     {
         string path;
-
-        public KeyStore KeyStore { get; protected set; }
 
         const int ChunckSize = 4096;
 

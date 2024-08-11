@@ -7,12 +7,10 @@ using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class KeyStoreTokenLoadSession : Session
+    public class KeyStoreTokenLoadSession : KeyStoreLoadSession
     {
         TransformerToken token;
         CancellationToken cancellationToken;
-
-        public KeyStore KeyStore { get; protected set; }
 
         const int ChunckSize = 4096;
 
