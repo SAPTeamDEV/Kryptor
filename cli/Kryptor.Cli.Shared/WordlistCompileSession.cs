@@ -28,6 +28,11 @@ namespace SAPTeam.Kryptor.Cli
 
         public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
         {
+            if (converting || !importing)
+            {
+                Description = "Waiting for download";
+            }
+
             FilePath = path;
             DestPath = destination;
 
@@ -116,6 +121,7 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             Progress = 100;
+            Description = $"Imported {IndexEntry.Id} wordlist";
 
             foreach (var f in fileStreams.Values)
             {

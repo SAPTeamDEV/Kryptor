@@ -28,6 +28,9 @@ namespace SAPTeam.Kryptor.Cli
         public WordlistDownloadSession(Uri uri, string id)
         {
             Id = id;
+
+            Description = $"{Id}: Initializing download";
+
             FileDir = Path.Combine(CacheDir, id);
 
             PackPath = Path.Combine(FileDir, "package.json");
@@ -70,6 +73,8 @@ namespace SAPTeam.Kryptor.Cli
             DownloadService = new DownloadService(Configuration);
             DownloadService.DownloadProgressChanged += UpdateProgress;
             DownloadService.DownloadFileCompleted += SetEndStatus;
+
+            Description = $"{Id}: Ready";
         }
 
         private void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -78,6 +83,10 @@ namespace SAPTeam.Kryptor.Cli
             {
                 File.WriteAllText(PackPath, JsonConvert.SerializeObject(DownloadService.Package));
                 Exception = e.Error;
+            }
+            else
+            {
+                Description = $"{Id}: Download completed";
             }
         }
 
