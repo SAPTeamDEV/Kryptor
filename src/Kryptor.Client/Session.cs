@@ -19,6 +19,9 @@ namespace SAPTeam.Kryptor.Client
         private Exception exception;
 
         /// <inheritdoc/>
+        public virtual string Name => GetType().Name;
+
+        /// <inheritdoc/>
         public virtual double Progress
         {
             get

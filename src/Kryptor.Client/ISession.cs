@@ -12,6 +12,11 @@ namespace SAPTeam.Kryptor.Client
     public interface ISession
     {
         /// <summary>
+        /// Gets the user-friendly name of the session.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Gets the progress percentage of this session.
         /// </summary>
         double Progress { get; }
