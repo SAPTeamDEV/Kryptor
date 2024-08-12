@@ -11,6 +11,7 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class SessionContainer
     {
+        private object _lock = new object();
         private ISessionHost _sessionHost;
         private readonly int maxRunningSessions;
         private bool _cancellationRequested;
@@ -189,6 +190,14 @@ namespace SAPTeam.Kryptor.Client
         /// Starts registered sessions in a managed way.
         /// </summary>
         public void StartQueuedSessions()
+        {
+            lock (_lock)
+            {
+                QueueProcessImpl();
+            }
+        }
+
+        private void QueueProcessImpl()
         {
             IEnumerable<SessionHolder> running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
             IEnumerable<SessionHolder> waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady(x.TokenSource.Token));
