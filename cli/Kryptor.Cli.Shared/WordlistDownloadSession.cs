@@ -14,10 +14,10 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistDownloadSession : Session
     {
-        string Id;
-        Uri Uri;
-        DownloadConfiguration Configuration;
-        DownloadService DownloadService;
+        private readonly string Id;
+        private readonly Uri Uri;
+        private readonly DownloadConfiguration Configuration;
+        private readonly DownloadService DownloadService;
 
         public string CacheDir = Path.Combine(Program.Context.WordlistDirectory, "_cache");
         public string FileDir { get; private set; }
@@ -128,12 +128,7 @@ namespace SAPTeam.Kryptor.Cli
 
             DownloadService.Dispose();
 
-            if (Exception != null)
-            {
-                throw Exception;
-            }
-
-            return true;
+            return Exception != null ? throw Exception : true;
         }
     }
 }

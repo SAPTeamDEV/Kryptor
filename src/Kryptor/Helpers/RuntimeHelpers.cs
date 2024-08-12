@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using SAPTeam.Kryptor.Helpers;
+﻿using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -34,10 +28,7 @@ namespace System
                 throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
             }
 
-            if (fromEnd)
-                _value = ~value;
-            else
-                _value = value;
+            _value = fromEnd ? ~value : value;
         }
 
         // The following private constructors mainly created for perf reason to avoid the checks
@@ -57,12 +48,7 @@ namespace System
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Index FromStart(int value)
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
-            }
-
-            return new Index(value);
+            return value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(value);
         }
 
         /// <summary>Create an Index from the end at the position indicated by the value.</summary>
@@ -70,12 +56,7 @@ namespace System
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Index FromEnd(int value)
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
-            }
-
-            return new Index(~value);
+            return value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(~value);
         }
 
         /// <summary>Returns the index value.</summary>
@@ -83,14 +64,7 @@ namespace System
         {
             get
             {
-                if (_value < 0)
-                {
-                    return ~_value;
-                }
-                else
-                {
-                    return _value;
-                }
+                return _value < 0 ? ~_value : _value;
             }
         }
 
@@ -137,10 +111,7 @@ namespace System
         /// <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
         public override string ToString()
         {
-            if (IsFromEnd)
-                return "^" + ((uint)Value).ToString();
-
-            return ((uint)Value).ToString();
+            return IsFromEnd ? "^" + ((uint)Value).ToString() : ((uint)Value).ToString();
         }
     }
 
@@ -214,24 +185,15 @@ namespace System
         {
             int start;
             var startIndex = Start;
-            if (startIndex.IsFromEnd)
-                start = length - startIndex.Value;
-            else
-                start = startIndex.Value;
+            start = startIndex.IsFromEnd ? length - startIndex.Value : startIndex.Value;
 
             int end;
             var endIndex = End;
-            if (endIndex.IsFromEnd)
-                end = length - endIndex.Value;
-            else
-                end = endIndex.Value;
+            end = endIndex.IsFromEnd ? length - endIndex.Value : endIndex.Value;
 
-            if ((uint)end > (uint)length || (uint)start > (uint)end)
-            {
-                throw new ArgumentOutOfRangeException(nameof(length));
-            }
-
-            return (start, end - start);
+            return (uint)end > (uint)length || (uint)start > (uint)end
+                ? throw new ArgumentOutOfRangeException(nameof(length))
+                : ((int Offset, int Length))(start, end - start);
         }
     }
 }

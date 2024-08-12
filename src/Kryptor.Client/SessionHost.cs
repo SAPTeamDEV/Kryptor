@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public abstract class SessionHost : ISessionHost
     {
-        bool _ending;
+        private bool _ending;
 
         /// <summary>
         /// Gets the session container.

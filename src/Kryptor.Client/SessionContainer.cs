@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -15,17 +11,13 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class SessionContainer
     {
-        static CryptoRandom crng = new CryptoRandom();
-
-        readonly int maxRunningSessions;
-
-        readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
-        readonly List<Task> TaskPool = new List<Task>();
-
-        ISession[] sessions;
-        Task[] tasks;
-        CancellationTokenSource[] tokenSources;
-        ICollection<SessionHolder> holders;
+        private readonly int maxRunningSessions;
+        private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
+        private readonly List<Task> TaskPool = new List<Task>();
+        private ISession[] sessions;
+        private Task[] tasks;
+        private CancellationTokenSource[] tokenSources;
+        private ICollection<SessionHolder> holders;
 
         /// <summary>
         /// Gets an array of all sessions.
@@ -38,7 +30,7 @@ namespace SAPTeam.Kryptor.Client
                 {
                     sessions = SessionPool.Values.Select(x => x.Session).ToArray();
                 }
-                
+
                 return sessions;
             }
         }
@@ -182,9 +174,10 @@ namespace SAPTeam.Kryptor.Client
 
             CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-            SessionHolder sessionHolder = new SessionHolder(session, tokenSource);
-
-            sessionHolder.AutoRemove = autoRemove;
+            SessionHolder sessionHolder = new SessionHolder(session, tokenSource)
+            {
+                AutoRemove = autoRemove
+            };
 
             Add(sessionHolder);
             StartQueuedSessions();

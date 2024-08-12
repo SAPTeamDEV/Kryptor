@@ -26,7 +26,7 @@ namespace SAPTeam.Kryptor
         /// Gets the Encryption Chunk Size.
         /// </summary>
         public readonly int EncryptionChunkSize = 31;
-        
+
         private CryptoProviderConfiguration configuration;
 
         /// <summary>
@@ -81,14 +81,7 @@ namespace SAPTeam.Kryptor
         {
             KeyStore = keyStore;
 
-            if (configuration != null)
-            {
-                Configuration = configuration;
-            }
-            else
-            {
-                Configuration = new CryptoProviderConfiguration();
-            }
+            Configuration = configuration ?? new CryptoProviderConfiguration();
         }
 
         /// <summary>

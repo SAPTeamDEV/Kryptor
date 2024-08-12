@@ -16,13 +16,13 @@ namespace SAPTeam.Kryptor.Cli
 
     public class DataProcessingOptionsBinder : BinderBase<DataProcessingOptions>
     {
-        Option<int> blockSize;
-        Option<string> provider;
-        Option<bool> continuous;
-        Option<bool> removeHash;
-        Option<bool> dbp;
-        Option<string> keyStore;
-        Argument<string[]> files;
+        private readonly Option<int> blockSize;
+        private readonly Option<string> provider;
+        private readonly Option<bool> continuous;
+        private readonly Option<bool> removeHash;
+        private readonly Option<bool> dbp;
+        private readonly Option<string> keyStore;
+        private readonly Argument<string[]> files;
 
         public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> keyStore, Argument<string[]> files)
         {

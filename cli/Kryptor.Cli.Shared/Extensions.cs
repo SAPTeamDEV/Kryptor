@@ -18,14 +18,7 @@ namespace SAPTeam.Kryptor.Cli
 
         internal static string ToLowerIfUnix(this string src)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                return src;
-            }
-            else
-            {
-                return src.ToLower();
-            }
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? src : src.ToLower();
         }
 
 #if NETFRAMEWORK

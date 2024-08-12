@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Linq;
 
 #if !NETFRAMEWORK
 using ANSIConsole;
 #endif
 
-using SAPTeam.Kryptor;
-using SAPTeam.Kryptor.Cli;
-
-using CommandLine;
-using System.Diagnostics;
-using SAPTeam.Kryptor.Generators;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 
@@ -33,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli
             return Parse(args);
         }
 
-        static int Parse(string[] args)
+        private static int Parse(string[] args)
         {
             var root = new RootCommand("Kryptor Command-Line Interface");
 
@@ -187,7 +174,7 @@ namespace SAPTeam.Kryptor.Cli
             wlCmd.AddCommand(wlQuryCmd);
 
             var convertSource = new Argument<string>("source", "The source index v1 file");
-            
+
             var convertDest = new Argument<string>("destination", "The destination index v2 file");
 
             var wlConCmd = new Command("convert", "Converts v1 index file to v2 index file (Internal use)")
@@ -213,12 +200,14 @@ namespace SAPTeam.Kryptor.Cli
             var installRecommended = new Option<bool>("--recommended", "Installs all small-sized wordlists");
             installRecommended.AddAlias("-r");
 
-            var installIds = new Argument<string[]>("wordlist", "Id of wordlists to install, list of available wordlists could be found by --list option");
-            installIds.HelpName = "id";
+            var installIds = new Argument<string[]>("wordlist", "Id of wordlists to install, list of available wordlists could be found by --list option")
+            {
+                HelpName = "id"
+            };
 
             var wlInsCmd = new Command("install", "Installs new wordlists")
             {
-                installList, 
+                installList,
                 installAll,
                 installRecommended,
                 installIds
@@ -240,8 +229,10 @@ namespace SAPTeam.Kryptor.Cli
             var removeAll = new Option<bool>("--all", "Removes all installed wordlists");
             removeAll.AddAlias("-a");
 
-            var removeIds = new Argument<string[]>("wordlist", "Id of wordlists to remove, list of all installed wordlists could be found by --list option");
-            removeIds.HelpName = "id";
+            var removeIds = new Argument<string[]>("wordlist", "Id of wordlists to remove, list of all installed wordlists could be found by --list option")
+            {
+                HelpName = "id"
+            };
 
             var wlRemCmd = new Command("remove", "Removes installed wordlists")
             {
@@ -271,7 +262,7 @@ namespace SAPTeam.Kryptor.Cli
 
             var wlImpCmd = new Command("import", "Compiles and imports given file as wordlist")
             {
-                importId, 
+                importId,
                 importEnforce,
                 importFile
             };
@@ -280,7 +271,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 var sessionHost = new WordlistImportSessionHost(verboseT, importIdT, importEnforceT, importFileT);
                 Context.NewSessionHost(sessionHost);
-            },verbose, importId, importEnforce, importFile);
+            }, verbose, importId, importEnforce, importFile);
 
             wlCmd.AddCommand(wlImpCmd);
 

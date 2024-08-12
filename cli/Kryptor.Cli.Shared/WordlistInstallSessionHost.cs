@@ -21,33 +21,33 @@ namespace SAPTeam.Kryptor.Cli
         private readonly bool Converting;
 
 
-/* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
-Before:
-        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-After:
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-*/
+        /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
+        Before:
+                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        After:
+                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        */
 
-/* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
-Before:
-        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-After:
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-*/
+        /* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
+        Before:
+                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        After:
+                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        */
 
-/* Unmerged change from project 'Kryptor.Cli (net8.0)'
-Before:
-        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-After:
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-*/
+        /* Unmerged change from project 'Kryptor.Cli (net8.0)'
+        Before:
+                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        After:
+                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        */
 
-/* Unmerged change from project 'Kryptor.Cli (net6.0)'
-Before:
-        static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-After:
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-*/
+        /* Unmerged change from project 'Kryptor.Cli (net6.0)'
+        Before:
+                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        After:
+                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        */
         public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
 
         public WordlistIndexV2 Index { get; protected set; }
@@ -81,7 +81,7 @@ After:
                 Index = JsonConvert.DeserializeObject<WordlistIndexV2>(rawIndex);
             }
 
-            if (List || (!All && !Recommended && !Ids.Any()))
+            if (List || (!All && !Recommended && Ids.Length == 0))
             {
                 PrintList();
             }

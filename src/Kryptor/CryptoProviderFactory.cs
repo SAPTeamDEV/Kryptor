@@ -74,7 +74,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        static internal string GetRegisteredCryptoProviderId(Type provider)
+        internal static string GetRegisteredCryptoProviderId(Type provider)
         {
             foreach (var item in GlobalProviders)
             {
@@ -102,17 +102,7 @@ namespace SAPTeam.Kryptor
                 id = $"kryptor:{id}";
             }
 
-            if (GlobalProviders.ContainsKey(id))
-            {
-                return id;
-            }
-
-            if (GlobalHints.ContainsKey(id))
-            {
-                return GlobalHints[id];
-            }
-
-            throw new KeyNotFoundException(id);
+            return GlobalProviders.ContainsKey(id) ? id : GlobalHints.ContainsKey(id) ? GlobalHints[id] : throw new KeyNotFoundException(id);
         }
 
         /// <summary>

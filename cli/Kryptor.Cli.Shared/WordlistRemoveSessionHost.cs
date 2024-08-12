@@ -4,9 +4,9 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistRemoveSessionHost : WordlistSessionHost
     {
-        bool List;
-        bool All;
-        string[] Wordlists;
+        private readonly bool List;
+        private readonly bool All;
+        private string[] Wordlists;
 
         public WordlistRemoveSessionHost(bool verbose, bool list, bool all, string[] wordlists) : base(verbose)
         {
@@ -19,7 +19,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            if (List || (!All && !Wordlists.Any()))
+            if (List || (!All && Wordlists.Length == 0))
             {
                 ListInstalledWordlists();
                 return;

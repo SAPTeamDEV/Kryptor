@@ -12,8 +12,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreAnalyzeRootSession : Session
     {
-        SessionContainer container;
-        byte[] test;
+        private readonly SessionContainer container;
+        private byte[] test;
 
         public Stopwatch CalcTimer { get; }
         public bool Found { get; private set; }
@@ -48,7 +48,7 @@ namespace SAPTeam.Kryptor.Cli
             return true;
         }
 
-        void StopTimer()
+        private void StopTimer()
         {
             CalcTimer.Stop();
             Found = true;

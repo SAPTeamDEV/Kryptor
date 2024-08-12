@@ -97,7 +97,7 @@ namespace SAPTeam.Kryptor.Client
         public static double CalculateRemainingTime(double progress, long elapsedMilliseconds)
         {
             double rProg = Math.Round(progress);
-            double remTime = progress > 0 ? elapsedMilliseconds / progress * (100 - progress) : 0;
+            double remTime = progress > 0 ? elapsedMilliseconds / rProg * (100 - rProg) : 0;
             return remTime;
         }
 
@@ -117,7 +117,7 @@ namespace SAPTeam.Kryptor.Client
             while (len >= 1024 && order < sizes.Length - 1)
             {
                 order++;
-                len = len / 1024;
+                len /= 1024;
             }
 
             return $"{len:0.##}{sizes[order]}";

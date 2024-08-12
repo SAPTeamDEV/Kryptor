@@ -1,15 +1,10 @@
 using System;
 using System.Drawing;
-using System.Reflection;
 using System.Threading.Tasks;
-
-using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using static System.Collections.Specialized.BitVector32;
-using MoreLinq;
 
 
 
@@ -104,7 +99,7 @@ namespace SAPTeam.Kryptor.Cli
             SessionHolder[] holders = Container.Holders.ToArray();
             List<ISession> sessions = holders.Select(x => x.Session).ToList();
 
-            if (!sessions.Any() || (!isRedirected && bufferWidth < 50))
+            if (sessions.Count == 0 || (!isRedirected && bufferWidth < 50))
             {
                 showOverall = false;
             }
@@ -174,9 +169,7 @@ namespace SAPTeam.Kryptor.Cli
                             }
                         }
 
-                        Color color;
-                        string prog, desc;
-                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, waitingSteps, waitingStep, session, out color, out prog, out desc);
+                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, waitingSteps, waitingStep, session, out Color color, out string prog, out string desc);
 
                         Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
 
@@ -314,7 +307,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (!isRedirected && desc.Length > expectedLength)
             {
-                desc = "..." + desc.Substring(desc.Length - expectedLength + 3);
+                desc = $"...{desc.Substring(desc.Length - expectedLength + 3)}";
             }
         }
 

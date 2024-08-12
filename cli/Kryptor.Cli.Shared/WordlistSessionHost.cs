@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistSessionHost : CliSessionHost
     {
-        Config<WordlistIndexV2> LocalIndexContainer { get; set; }
+        private Config<WordlistIndexV2> LocalIndexContainer { get; set; }
         public WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
 
         public virtual string LocalIndexPath => Path.Combine(Program.Context.WordlistDirectory, "index.json");

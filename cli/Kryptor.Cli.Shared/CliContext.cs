@@ -1,9 +1,9 @@
 using System;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
 
 using SAPTeam.Kryptor.Client;
-using System.Reflection;
-using System.IO;
-using System.Drawing;
 
 #if !NETFRAMEWORK
 using ANSIConsole;
@@ -41,11 +41,7 @@ namespace SAPTeam.Kryptor.Cli
         public CliContext()
         {
             var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string unixHome = Environment.GetEnvironmentVariable("HOME");
-            if (unixHome == null)
-            {
-                unixHome = Path.GetFullPath(".");
-            }
+            string unixHome = Environment.GetEnvironmentVariable("HOME") ?? Path.GetFullPath(".");
             string altAppData = Path.Combine(unixHome, ".config");
 
             ApplicationDataDirectory = Path.Combine(string.IsNullOrEmpty(localAppData) ? altAppData : localAppData, "Kryptor".ToLowerIfUnix());

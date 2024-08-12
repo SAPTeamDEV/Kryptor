@@ -9,7 +9,6 @@ namespace SAPTeam.Kryptor.Cli
     {
         private TransformerToken token;
         private CancellationToken cancellationToken;
-        private const int ChunckSize = 4096;
 
         public KeyStoreTokenLoadSession(TransformerToken token)
         {

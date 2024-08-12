@@ -7,8 +7,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistImportSessionHost : WordlistSessionHost
     {
-        WordlistIndexEntryV2 IndexEntry;
-        string FilePath;
+        private readonly WordlistIndexEntryV2 IndexEntry;
+        private readonly string FilePath;
 
         public WordlistImportSessionHost(bool verbose, string id, bool enforce, string file) : base(verbose)
         {

@@ -60,14 +60,7 @@ namespace SAPTeam.Kryptor.Client
         {
             if (Task != null)
             {
-                if (throwIfRunning)
-                {
-                    throw new InvalidOperationException("Session is already started.");
-                }
-                else
-                {
-                    return null;
-                }
+                return throwIfRunning ? throw new InvalidOperationException("Session is already started.") : (Task)null;
             }
 
             Task = Session.StartAsync(TokenSource.Token);

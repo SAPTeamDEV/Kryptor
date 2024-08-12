@@ -112,10 +112,7 @@ namespace SAPTeam.Kryptor.Generators
         /// </exception>
         public override int Next(int maxValue)
         {
-            if (maxValue < 0)
-                throw new ArgumentOutOfRangeException("maxValue");
-
-            return Next(0, maxValue);
+            return maxValue < 0 ? throw new ArgumentOutOfRangeException("maxValue") : Next(0, maxValue);
         }
 
         /// <summary>

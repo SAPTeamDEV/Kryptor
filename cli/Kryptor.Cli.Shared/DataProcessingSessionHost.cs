@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-
-using SAPTeam.Kryptor.Client;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class DataProcessingSessionHost : CliSessionHost
@@ -12,9 +7,10 @@ namespace SAPTeam.Kryptor.Cli
         public CryptoProviderConfiguration Configuration { get; }
 
         public KeyStore KeyStore { get; private set; }
-        string ks;
 
-        public string[] Files {  get; }
+        private readonly string ks;
+
+        public string[] Files { get; }
 
         public DataProcessingSessionHost(bool verbose, DataProcessingOptions options) : base(verbose)
         {

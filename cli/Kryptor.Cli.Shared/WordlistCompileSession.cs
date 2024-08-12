@@ -1,30 +1,29 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
-using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.Client;
-using System.Threading.Tasks;
-using System.Threading;
 using SAPTeam.Kryptor.Client.Security;
-using System.Security.Policy;
 using SAPTeam.Kryptor.Extensions;
-using System.Linq;
 
 namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistCompileSession : Session
     {
-        Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
+        private readonly Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
 
         public string FilePath;
         public string DestPath;
 
         public WordlistIndexEntryV2 IndexEntry;
+        private readonly bool Converting;
+        private readonly bool Importing;
 
-        bool Converting;
-        bool Importing;
-        bool Bypass => Converting || Importing;
+        private bool Bypass => Converting || Importing;
 
         public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
         {
@@ -63,7 +62,7 @@ namespace SAPTeam.Kryptor.Cli
                 try
                 {
                     var buffer = new byte[streamReader.BaseStream.Length];
-                    await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length);
+                    await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
                     var hash = buffer.Sha256();
 
                     if (Bypass && IndexEntry.Hash == null)
@@ -86,7 +85,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     // Ignore hash errors
                 }
-                
+
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 double steps = (1.0 / streamReader.BaseStream.Length) * 100;

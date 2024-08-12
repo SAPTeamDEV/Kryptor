@@ -3,22 +3,19 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-using SAPTeam.Kryptor.Client;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreFileLoadSession : KeyStoreLoadSession
     {
-        string path;
-
-        const int ChunckSize = 4096;
+        private readonly string path;
+        private const int ChunckSize = 4096;
 
         public KeyStoreFileLoadSession(string path)
         {
             this.path = path;
         }
 
-        protected async override Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
             using (var f = File.OpenRead(path))
             {
