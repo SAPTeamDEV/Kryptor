@@ -13,6 +13,7 @@ namespace SAPTeam.Kryptor.Client
     {
         private ISessionHost _sessionHost;
         private readonly int maxRunningSessions;
+        private bool _cancellationRequested;
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;
@@ -147,12 +148,14 @@ namespace SAPTeam.Kryptor.Client
         {
             while (!Sessions.All(x => x.Status == SessionStatus.Ended))
             {
-                if (cancellationToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested && !_cancellationRequested)
                 {
                     foreach (CancellationTokenSource token in TokenSources)
                     {
                         token.Cancel();
                     }
+
+                    _cancellationRequested = true;
                 }
 
                 await Task.Delay(5);

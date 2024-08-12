@@ -14,6 +14,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public Stopwatch CalcTimer { get; }
         public bool Found { get; private set; }
+        public bool Verbose => false;
 
         public KeyStoreAnalyzeRootSession(int maxRunningSessions)
         {
@@ -37,7 +38,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 KeyStoreAnalyzeSession session = new KeyStoreAnalyzeSession(i, test);
                 session.OnVerify += StopTimer;
-                container.NewSession(session, false);
+                NewSession(session, false);
             }
 
             await container.WaitAll(cancellationToken);
@@ -59,6 +60,6 @@ namespace SAPTeam.Kryptor.Cli
         public void Start(ClientContext context) => throw new System.NotImplementedException();
         public void End(bool cancelled) => throw new System.NotImplementedException();
         public void NewSession(ISession session, bool autoRemove) => container.NewSession(session, autoRemove);
-        public void MonitorTask(Task task) => container.AddMonitoringTask(task);
+        public void MonitorTask(Task task) => throw new System.NotImplementedException();
     }
 }

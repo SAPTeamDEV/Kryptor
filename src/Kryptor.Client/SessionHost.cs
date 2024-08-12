@@ -19,7 +19,7 @@ namespace SAPTeam.Kryptor.Client
         protected SessionContainer Container { get; }
 
         /// <inheritdoc/>
-        public bool Verbose { get; }
+        public bool Verbose { get; protected set; }
 
         /// <summary>
         /// Gets the maximum allowed running sessions.

@@ -16,16 +16,16 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class CliSessionHost : SessionHost
     {
-        public bool Verbose { get; }
-
         public CliSessionHost(bool verbose)
         {
             Verbose = verbose;
-            Program.Context.CatchExceptions = !Verbose;
         }
 
         public override void Start(ClientContext context)
         {
+            CliContext cliContext = context as CliContext;
+            cliContext.CatchExceptions = !Verbose;
+
             Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.Color(Color.Cyan)}");
             Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
         }
@@ -37,7 +37,9 @@ namespace SAPTeam.Kryptor.Cli
             if (Verbose)
             {
                 Console.WriteLine(message);
+#if DEBUG
                 File.AppendAllText("debug.txt", DateTime.Now.ToString() + " - " + message + "\r\n");
+#endif
             }
         }
 
