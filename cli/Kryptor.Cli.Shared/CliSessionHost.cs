@@ -238,7 +238,7 @@ namespace SAPTeam.Kryptor.Cli
                     foreach (SessionHolder holder in holders.Where(x => x.Session.Messages.Count > 0))
                     {
                         bool showId = _sessions.Where(x => x.GetType().IsAssignableFrom(holder.Session.GetType())).Count() > 1;
-                        string prefix = $"{holder.Session.GetType().Name}";
+                        string prefix = $"{holder.Session.Name}";
                         if (showId)
                         {
                             prefix += $"({holder.Id})";
