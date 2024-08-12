@@ -100,7 +100,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             Description = $"{Id}: Starting download";
 

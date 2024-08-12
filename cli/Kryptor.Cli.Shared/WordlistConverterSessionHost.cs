@@ -2,6 +2,7 @@ using System;
 using System.IO;
 
 using SAPTeam.CommonTK;
+using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Cli
@@ -19,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli
             this.indexV2Path = indexV2Path;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
             Config<WordlistIndex> IndexContainer = new Config<WordlistIndex>(indexPath);
 
@@ -56,7 +57,7 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             this.Index = IndexV2;
-            base.Start();
+            base.Start(context);
         }
     }
 }

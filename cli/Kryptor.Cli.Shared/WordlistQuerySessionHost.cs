@@ -1,5 +1,7 @@
 using System;
 
+using SAPTeam.Kryptor.Client;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistQuerySessionHost : WordlistSessionHost
@@ -13,9 +15,9 @@ namespace SAPTeam.Kryptor.Cli
             Wordlist = wordlist;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             if (string.IsNullOrEmpty(Query))
             {

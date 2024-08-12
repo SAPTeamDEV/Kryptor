@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
+using SAPTeam.Kryptor.Client;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreFileLoadSession : KeyStoreLoadSession
@@ -12,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public KeyStoreFileLoadSession(string path) => this.path = path;
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             using (FileStream f = File.OpenRead(path))
             {

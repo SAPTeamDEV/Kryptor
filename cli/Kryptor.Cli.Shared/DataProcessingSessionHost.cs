@@ -1,3 +1,5 @@
+using SAPTeam.Kryptor.Client;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class DataProcessingSessionHost : CliSessionHost
@@ -29,9 +31,9 @@ namespace SAPTeam.Kryptor.Cli
             ks = options.KeyStore;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             KeyStore = LoadKeyStore(ks);
         }

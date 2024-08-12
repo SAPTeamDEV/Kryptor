@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             this.file = file;
         }
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             if (!File.Exists(file))
             {

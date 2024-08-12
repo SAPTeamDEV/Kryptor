@@ -1,5 +1,7 @@
 using System.Linq;
 
+using SAPTeam.Kryptor.Client;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistRemoveSessionHost : WordlistSessionHost
@@ -15,9 +17,9 @@ namespace SAPTeam.Kryptor.Cli
             Wordlists = wordlists;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             if (List || (!All && Wordlists.Length == 0))
             {

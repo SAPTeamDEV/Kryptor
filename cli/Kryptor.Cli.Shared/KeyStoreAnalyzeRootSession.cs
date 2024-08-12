@@ -7,7 +7,7 @@ using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class KeyStoreAnalyzeRootSession : Session
+    public class KeyStoreAnalyzeRootSession : Session, ISessionHost
     {
         private readonly SessionContainer container;
         private byte[] test;
@@ -19,12 +19,12 @@ namespace SAPTeam.Kryptor.Cli
         {
             Progress = -1;
 
-            container = new SessionContainer(maxRunningSessions);
+            container = new SessionContainer(this, maxRunningSessions);
 
             CalcTimer = new Stopwatch();
         }
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             Description = "Calculating crack time";
 
@@ -55,5 +55,10 @@ namespace SAPTeam.Kryptor.Cli
                 token.Cancel();
             }
         }
+
+        public void Start(ClientContext context) => throw new System.NotImplementedException();
+        public void End(bool cancelled) => throw new System.NotImplementedException();
+        public void NewSession(ISession session, bool autoRemove) => container.NewSession(session, autoRemove);
+        public void MonitorTask(Task task) => container.AddMonitoringTask(task);
     }
 }

@@ -61,9 +61,9 @@ namespace SAPTeam.Kryptor.Cli
             Converting = this is WordlistConverterSessionHost;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             if (Converting)
             {

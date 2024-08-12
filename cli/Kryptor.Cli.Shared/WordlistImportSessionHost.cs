@@ -1,5 +1,6 @@
 using System.IO;
 
+using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
 
@@ -21,9 +22,9 @@ namespace SAPTeam.Kryptor.Cli
             FilePath = file;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             using (FileStream f = File.OpenRead(FilePath))
             {

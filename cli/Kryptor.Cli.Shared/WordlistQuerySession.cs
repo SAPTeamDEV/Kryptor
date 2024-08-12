@@ -23,7 +23,7 @@ namespace SAPTeam.Kryptor.Cli
             Word = word;
         }
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             Progress = -1;
             Description = $"Querying in {Entry.Id}";

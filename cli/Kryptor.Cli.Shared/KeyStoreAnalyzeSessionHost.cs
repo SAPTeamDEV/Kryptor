@@ -18,9 +18,9 @@ namespace SAPTeam.Kryptor.Cli
             maxRunningSessions = jobs > 0 ? jobs : MaxRunningSessions - 2;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             KeyStoreLoadSession ksLoadSession = CreateKeyStoreLoadSession(ks);
             NewSession(ksLoadSession);

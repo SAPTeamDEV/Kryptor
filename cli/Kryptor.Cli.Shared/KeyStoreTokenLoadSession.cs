@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public KeyStoreTokenLoadSession(TransformerToken token) => this.token = token;
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             this.cancellationToken = cancellationToken;
             Description = "Generating keystore";

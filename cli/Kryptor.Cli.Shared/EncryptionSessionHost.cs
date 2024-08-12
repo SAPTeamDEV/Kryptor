@@ -1,3 +1,5 @@
+using SAPTeam.Kryptor.Client;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSessionHost : DataProcessingSessionHost
@@ -6,9 +8,9 @@ namespace SAPTeam.Kryptor.Cli
 
         public EncryptionSessionHost(bool verbose, DataProcessingOptions options, int hVerbose) : base(verbose, options) => HeaderVerbosity = hVerbose;
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             foreach (string file in Files)
             {

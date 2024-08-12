@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 
 using SAPTeam.CommonTK;
+using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Cli
@@ -25,9 +26,9 @@ namespace SAPTeam.Kryptor.Cli
 
         public WordlistSessionHost(bool verbose) : base(verbose) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
-            base.Start();
+            base.Start(context);
 
             DebugLog("Loading local index...");
             LocalIndexContainer = new Config<WordlistIndexV2>(LocalIndexPath, LocalIndexParserSettings);

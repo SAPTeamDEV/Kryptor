@@ -23,7 +23,7 @@ namespace SAPTeam.Kryptor.Cli
             Test = test;
         }
 
-        protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             await Task.Delay(2);
 

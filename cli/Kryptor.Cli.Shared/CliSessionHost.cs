@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             Program.Context.CatchExceptions = !Verbose;
         }
 
-        public override void Start()
+        public override void Start(ClientContext context)
         {
             Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.Color(Color.Cyan)}");
             Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
