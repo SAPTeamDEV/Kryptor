@@ -18,6 +18,9 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         protected SessionContainer Container { get; }
 
+        /// <inheritdoc/>
+        public bool Verbose { get; }
+
         /// <summary>
         /// Gets the maximum allowed running sessions.
         /// </summary>
@@ -69,9 +72,9 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public void NewSession(ISession session, bool autoRemove = false) => Container.NewSession(session, autoRemove);
+        public virtual void NewSession(ISession session, bool autoRemove = false) => Container.NewSession(session, autoRemove);
 
         /// <inheritdoc/>
-        public void MonitorTask(Task task) => Container.AddMonitoringTask(task);
+        public virtual void MonitorTask(Task task) => Container.AddMonitoringTask(task);
     }
 }

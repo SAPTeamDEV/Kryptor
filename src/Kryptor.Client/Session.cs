@@ -13,10 +13,10 @@ namespace SAPTeam.Kryptor.Client
     public abstract class Session : ISession
     {
         /// <inheritdoc/>
-        public double Progress { get; protected set; }
+        public virtual double Progress { get; protected set; }
 
         /// <inheritdoc/>
-        public string Description { get; protected set; }
+        public virtual string Description { get; protected set; }
 
         /// <inheritdoc/>
         public bool IsRunning => Status == SessionStatus.Running || Status == SessionStatus.Managed;
@@ -94,7 +94,7 @@ namespace SAPTeam.Kryptor.Client
                 }
 
                 Description = $"{ex.GetType().Name}: {ex.Message}";
-                Messages.Add(Description);
+                Messages.Add(sessionHost.Verbose ? ex.ToString() : Description);
 
                 EndReason = SessionEndReason.Failed;
                 Exception = ex;

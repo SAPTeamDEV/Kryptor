@@ -8,6 +8,11 @@ namespace SAPTeam.Kryptor.Client
     public interface ISessionHost
     {
         /// <summary>
+        /// Gets the verbosity of the session host.
+        /// </summary>
+        bool Verbose { get; }
+
+        /// <summary>
         /// Starts the host session in the current thread.
         /// </summary>
         /// <param name="context">
