@@ -154,7 +154,7 @@ namespace SAPTeam.Kryptor.Cli
                         {
                             if (!isCompleted && lines > maxLines)
                             {
-                                if (session.Status != SessionStatus.Running || curLines >= maxLines)
+                                if (!session.IsRunning || curLines >= maxLines)
                                 {
                                     continue;
                                 }
@@ -276,7 +276,7 @@ namespace SAPTeam.Kryptor.Cli
             if (session.IsRunning)
             {
                 color = Color.Yellow;
-                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : $"{Math.Round(session.Progress, 2)}%".PadRight(6);
+                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : $"{Math.Round(session.Progress, 2)}%".PadBoth(6);
             }
             else if (session.Status == SessionStatus.Ended)
             {

@@ -12,6 +12,13 @@ namespace SAPTeam.Kryptor.Cli
     {
         internal static string FormatFingerprint(this byte[] src) => BitConverter.ToString(src).Replace("-", ":");
 
+        public static string PadBoth(this string str, int length)
+        {
+            int spaces = length - str.Length;
+            int padLeft = spaces / 2 + str.Length;
+            return str.PadLeft(padLeft).PadRight(length);
+        }
+
         internal static string ToLowerIfUnix(this string src) => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? src : src.ToLower();
 
 #if NETFRAMEWORK
