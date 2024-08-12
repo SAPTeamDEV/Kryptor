@@ -181,7 +181,16 @@ namespace SAPTeam.Kryptor.Cli
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
                     runningRem = runningCount > 0 ? runningRem / runningCount : 0;
                     TimeSpan elapsedTime = sw.Elapsed;
-                    TimeSpan remainingTime = TimeSpan.FromMilliseconds(runningRem);
+                    TimeSpan remainingTime;
+
+                    try
+                    {
+                        remainingTime = TimeSpan.FromMilliseconds(runningRem);
+                    }
+                    catch
+                    {
+                        remainingTime = default;
+                    }
 
                     string ovText = "";
 
@@ -192,7 +201,7 @@ namespace SAPTeam.Kryptor.Cli
 
                     ovText += $"Elapsed: {elapsedTime:hh\\:mm\\:ss}";
 
-                    if (showRemaining && runningRem > 0)
+                    if (showRemaining && runningRem > 0 && remainingTime != default)
                     {
                         ovText += $" Remaining: {remainingTime:hh\\:mm\\:ss}";
                     }
