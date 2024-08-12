@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,12 +53,7 @@ namespace SAPTeam.Kryptor.Client
 
             if (cancelled)
             {
-                IEnumerable<CancellationTokenSource> vts = Container.TokenSources.Where(x => !x.IsCancellationRequested);
-
-                foreach (CancellationTokenSource token in vts)
-                {
-                    token.Cancel();
-                }
+                Container.Cancel();
 
                 MasterToken.Cancel();
 
@@ -68,7 +61,7 @@ namespace SAPTeam.Kryptor.Client
                 Container.StartQueuedSessions();
             }
 
-            Task.WaitAll(Container.Tasks);
+            Container.WaitForRunningTasks();
         }
 
         /// <inheritdoc/>

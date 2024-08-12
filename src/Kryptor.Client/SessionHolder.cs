@@ -42,6 +42,11 @@ namespace SAPTeam.Kryptor.Client
         /// </param>
         public SessionHolder(ISession session, CancellationTokenSource tokenSource)
         {
+            if (session.Status != SessionStatus.NotStarted)
+            {
+                throw new ArgumentException("The session is already started.");
+            }
+
             Session = session;
             TokenSource = tokenSource;
         }

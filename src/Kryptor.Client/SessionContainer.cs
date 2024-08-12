@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,12 +8,8 @@ namespace SAPTeam.Kryptor.Client
     /// <summary>
     /// Represents container to store sessions.
     /// </summary>
-    public class SessionContainer
+    public partial class SessionContainer
     {
-        private object _lock = new object();
-        private ISessionHost _sessionHost;
-        private readonly int maxRunningSessions;
-        private bool _cancellationRequested;
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;
@@ -92,7 +87,7 @@ namespace SAPTeam.Kryptor.Client
         public SessionContainer(ISessionHost sessionHost, int maxRunningSessions)
         {
             _sessionHost = sessionHost;
-            this.maxRunningSessions = maxRunningSessions;
+            _maxRunningSessions = maxRunningSessions;
         }
 
         /// <summary>
@@ -131,94 +126,6 @@ namespace SAPTeam.Kryptor.Client
         {
             SessionPool.Remove(id);
             ResetCache();
-        }
-
-        /// <summary>
-        /// Waits until all sessions have been ended.
-        /// </summary>
-        /// <param name="cancellationToken">
-        /// The token to monitor for cancellation requests.
-        /// </param>
-        public async Task WaitAll(CancellationToken cancellationToken)
-        {
-            while (!Sessions.All(x => x.Status == SessionStatus.Ended))
-            {
-                if (cancellationToken.IsCancellationRequested && !_cancellationRequested)
-                {
-                    foreach (CancellationTokenSource token in TokenSources)
-                    {
-                        token.Cancel();
-                    }
-
-                    _cancellationRequested = true;
-                }
-
-                await Task.Delay(5);
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-
-        /// <summary>
-        /// Starts a new session in this container.
-        /// </summary>
-        /// <param name="session">
-        /// A session with status <see cref="SessionStatus.NotStarted"/>.
-        /// </param>
-        /// <param name="autoRemove">
-        /// Determines whether to automatically remove session after end.
-        /// </param>
-        public void NewSession(ISession session, bool autoRemove)
-        {
-            if (session.Status != SessionStatus.NotStarted)
-            {
-                throw new ArgumentException("The session is already started.");
-            }
-
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-            SessionHolder sessionHolder = new SessionHolder(session, tokenSource)
-            {
-                AutoRemove = autoRemove
-            };
-
-            Add(sessionHolder);
-            StartQueuedSessions();
-        }
-
-        /// <summary>
-        /// Starts registered sessions in a managed way.
-        /// </summary>
-        public void StartQueuedSessions()
-        {
-            lock (_lock)
-            {
-                QueueProcessImpl();
-            }
-        }
-
-        private void QueueProcessImpl()
-        {
-            IEnumerable<SessionHolder> running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
-            IEnumerable<SessionHolder> waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady(x.TokenSource.Token));
-
-            if (waiting.Count() == 0 || running.Count() >= maxRunningSessions) return;
-
-            int toBeStarted = Math.Min(maxRunningSessions - running.Count(), waiting.Count());
-            for (int i = 0; i < toBeStarted; i++)
-            {
-                SessionHolder sessionHolder = waiting.ElementAt(i);
-                Task task = sessionHolder.StartTask(_sessionHost, false);
-                if (task != null)
-                {
-                    task.ContinueWith(x => StartQueuedSessions());
-
-                    if (sessionHolder.AutoRemove)
-                    {
-                        task.ContinueWith(x => Remove(sessionHolder.Id));
-                    }
-                }
-            }
         }
 
         private void ResetCache()
