@@ -15,6 +15,8 @@ namespace SAPTeam.Kryptor.Client
         private double progress = 0;
         private string description = "";
         private SessionStatus status = SessionStatus.NotStarted;
+        private SessionEndReason endReason;
+        private Exception exception;
 
         /// <inheritdoc/>
         public virtual double Progress
@@ -26,8 +28,11 @@ namespace SAPTeam.Kryptor.Client
 
             protected set
             {
+                ThrowIfEnded();
+                if (value == progress) return;
+
                 progress = value;
-                OnProgressChanged();
+                if (IsRunning) OnProgressChanged();
             }
         }
 
@@ -41,8 +46,11 @@ namespace SAPTeam.Kryptor.Client
 
             protected set
             {
+                ThrowIfEnded();
+                if (value == description) return;
+
                 description = value;
-                OnDescriptionChanged();
+                if (IsRunning) OnDescriptionChanged();
             }
         }
 
@@ -62,6 +70,10 @@ namespace SAPTeam.Kryptor.Client
 
             protected set
             {
+                ThrowIfEnded();
+                if (value == status) return;
+                if (value < status) throw new InvalidOperationException("Cannot revert the session's status");
+
                 status = value;
                 if (value == SessionStatus.Managed) return;
 
@@ -79,13 +91,37 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public SessionEndReason EndReason { get; protected set; }
+        public SessionEndReason EndReason
+        {
+            get
+            {
+                return endReason;
+            }
+
+            protected set
+            {
+                ThrowIfEnded();
+                endReason = value;
+            }
+        }
 
         /// <inheritdoc/>
-        public Exception Exception { get; protected set; }
+        public Exception Exception
+        {
+            get
+            {
+                return exception;
+            }
+
+            protected set
+            {
+                ThrowIfEnded();
+                exception = value;
+            }
+        }
 
         /// <inheritdoc/>
-        public Stopwatch Timer { get; protected set; }
+        public Stopwatch Timer { get; }
 
         /// <inheritdoc/>
         public List<string> Messages { get; }
@@ -133,6 +169,13 @@ namespace SAPTeam.Kryptor.Client
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
+
+                ThrowIfEnded();
+
+                if (IsRunning)
+                {
+                    throw new InvalidOperationException("The session is already running");
+                }
 
                 if (!IsReady(cancellationToken))
                 {
@@ -209,6 +252,8 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public virtual bool IsReady(CancellationToken cancellationToken)
         {
+            if (Status == SessionStatus.Ended) return false;
+
             if (cancellationToken.IsCancellationRequested)
             {
                 SkipSession();
@@ -299,6 +344,15 @@ namespace SAPTeam.Kryptor.Client
         protected void OnSessionEnded()
         {
             SessionEnded?.Invoke(this, CollectSessionData());
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if the session is ended.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        protected void ThrowIfEnded()
+        {
+            if (Status == SessionStatus.Ended) throw new InvalidOperationException("The session is ended");
         }
 
         /// <summary>
