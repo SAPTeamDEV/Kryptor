@@ -178,35 +178,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (showOverall && (!isRedirected || isCompleted))
                 {
-                    totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
-                    runningRem = runningCount > 0 ? runningRem / runningCount : 0;
-                    TimeSpan elapsedTime = sw.Elapsed;
-                    TimeSpan remainingTime;
-
-                    try
-                    {
-                        remainingTime = TimeSpan.FromMilliseconds(runningRem);
-                    }
-                    catch
-                    {
-                        remainingTime = default;
-                    }
-
-                    string ovText = "";
-
-                    if (totalProg > 0)
-                    {
-                        ovText = $"[{totalProg}%] ";
-                    }
-
-                    ovText += $"Elapsed: {elapsedTime:hh\\:mm\\:ss}";
-
-                    if (showRemaining && runningRem > 0 && remainingTime != default)
-                    {
-                        ovText += $" Remaining: {remainingTime:hh\\:mm\\:ss}";
-                    }
-
-                    Console.WriteLine(ovText.PadRight(paddingBufferSize));
+                    ShowOverallTime(showRemaining, paddingBufferSize, sw, ref totalProg, count, ref runningRem, runningCount);
                 }
 
                 if (curLines > ceilingLine)
@@ -234,21 +206,7 @@ namespace SAPTeam.Kryptor.Cli
                         Console.CursorVisible = true;
                     }
 
-                    IEnumerable<ISession> _sessions = holders.Select(x => x.Session);
-                    foreach (SessionHolder holder in holders.Where(x => x.Session.Messages.Count > 0))
-                    {
-                        bool showId = _sessions.Where(x => x.GetType().IsAssignableFrom(holder.Session.GetType())).Count() > 1;
-                        string prefix = $"{holder.Session.Name}";
-                        if (showId)
-                        {
-                            prefix += $"({holder.Id})";
-                        }
-
-                        foreach (string message in holder.Session.Messages)
-                        {
-                            Log($"{prefix} -> {message}");
-                        }
-                    }
+                    PrintMessages(holders);
 
                     break;
                 }
@@ -266,6 +224,58 @@ namespace SAPTeam.Kryptor.Cli
                     Console.CursorTop -= Math.Min(ceilingLine, maxLines);
                 }
             }
+        }
+
+        private void PrintMessages(SessionHolder[] holders)
+        {
+            IEnumerable<ISession> _sessions = holders.Select(x => x.Session);
+            foreach (SessionHolder holder in holders.Where(x => x.Session.Messages.Count > 0))
+            {
+                bool showId = _sessions.Where(x => x.GetType().IsAssignableFrom(holder.Session.GetType())).Count() > 1;
+                string prefix = $"{holder.Session.Name}";
+                if (showId)
+                {
+                    prefix += $"({holder.Id})";
+                }
+
+                foreach (string message in holder.Session.Messages)
+                {
+                    Log($"{prefix} -> {message}");
+                }
+            }
+        }
+
+        private static void ShowOverallTime(bool showRemaining, int paddingBufferSize, Stopwatch sw, ref double totalProg, int count, ref double runningRem, int runningCount)
+        {
+            totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
+            runningRem = runningCount > 0 ? runningRem / runningCount : 0;
+            TimeSpan elapsedTime = sw.Elapsed;
+            TimeSpan remainingTime;
+
+            try
+            {
+                remainingTime = TimeSpan.FromMilliseconds(runningRem);
+            }
+            catch
+            {
+                remainingTime = default;
+            }
+
+            string ovText = "";
+
+            if (totalProg > 0)
+            {
+                ovText = $"[{totalProg}%] ";
+            }
+
+            ovText += $"Elapsed: {elapsedTime:hh\\:mm\\:ss}";
+
+            if (showRemaining && runningRem > 0 && remainingTime != default)
+            {
+                ovText += $" Remaining: {remainingTime:hh\\:mm\\:ss}";
+            }
+
+            Console.WriteLine(ovText.PadRight(paddingBufferSize));
         }
 
         private static void GetSessionInfo(bool isRedirected, int bufferWidth, List<string> loadingSteps, int loadingStep, List<string> waitingSteps, int waitingStep, ISession session, out Color color, out string prog, out string desc)
