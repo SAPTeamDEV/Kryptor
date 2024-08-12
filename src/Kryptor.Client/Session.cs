@@ -12,11 +12,39 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public abstract class Session : ISession
     {
-        /// <inheritdoc/>
-        public virtual double Progress { get; protected set; }
+        private double progress = 0;
+        private string description = "";
+        private SessionStatus status = SessionStatus.NotStarted;
 
         /// <inheritdoc/>
-        public virtual string Description { get; protected set; }
+        public virtual double Progress
+        {
+            get
+            {
+                return progress;
+            }
+
+            protected set
+            {
+                progress = value;
+                OnProgressChanged();
+            }
+        }
+
+        /// <inheritdoc/>
+        public virtual string Description
+        {
+            get
+            {
+                return description;
+            }
+
+            protected set
+            {
+                description = value;
+                OnDescriptionChanged();
+            }
+        }
 
         /// <inheritdoc/>
         public bool IsRunning => Status == SessionStatus.Running || Status == SessionStatus.Managed;
@@ -25,7 +53,30 @@ namespace SAPTeam.Kryptor.Client
         public virtual bool IsHidden => false;
 
         /// <inheritdoc/>
-        public SessionStatus Status { get; protected set; }
+        public SessionStatus Status
+        {
+            get
+            {
+                return status;
+            }
+
+            protected set
+            {
+                status = value;
+                if (value == SessionStatus.Managed) return;
+
+                OnStatusChanged();
+
+                if (value == SessionStatus.Running)
+                {
+                    OnSessionStarted();
+                }
+                else if (value == SessionStatus.Ended)
+                {
+                    OnSessionEnded();
+                }
+            }
+        }
 
         /// <inheritdoc/>
         public SessionEndReason EndReason { get; protected set; }
@@ -49,18 +100,26 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         protected List<ISession> Dependents { get; }
 
+        /// <inheritdoc/>
+        public event EventHandler<SessionEventArgs> SessionStarted;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionUpdateEventArgs> ProgressChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionUpdateEventArgs> DescriptionChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionEventArgs> StatusChanged;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionEventArgs> SessionEnded;
+
         /// <summary>
         /// Sets all session properties to thir default data.
         /// </summary>
         protected Session()
         {
-            Progress = 0;
-            Description = "";
-
-            Status = SessionStatus.NotStarted;
-            EndReason = SessionEndReason.None;
-            Exception = null;
-
             Timer = new Stopwatch();
             Messages = new List<string>();
 
@@ -71,9 +130,6 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public async Task StartAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            Status = SessionStatus.Running;
-            Timer.Start();
-
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -82,6 +138,9 @@ namespace SAPTeam.Kryptor.Client
                 {
                     throw new InvalidOperationException("You may not start this session at the moment");
                 }
+
+                Status = SessionStatus.Running;
+                Timer.Start();
 
                 bool result = await RunAsync(sessionHost, cancellationToken);
 
@@ -178,6 +237,68 @@ namespace SAPTeam.Kryptor.Client
         {
             EndReason = SessionEndReason.Skipped;
             Status = SessionStatus.Ended;
+        }
+
+        private SessionUpdateEventArgs CollectSessionUpdateData()
+        {
+            return new SessionUpdateEventArgs()
+            {
+                Progress = Progress,
+                Description = Description
+            };
+        }
+
+        private SessionEventArgs CollectSessionData()
+        {
+            return new SessionEventArgs()
+            {
+                Progress = Progress,
+                Description = Description,
+                Status = Status,
+                EndReason = EndReason,
+                Exception = Exception,
+                Messages = Messages.ToArray()
+            };
+        }
+
+        /// <summary>
+        /// Triggers the <see cref="SessionStarted"/> event.
+        /// </summary>
+        protected void OnSessionStarted()
+        {
+            SessionStarted?.Invoke(this, CollectSessionData());
+        }
+
+        /// <summary>
+        /// Triggers the <see cref="ProgressChanged"/> event.
+        /// </summary>
+        protected void OnProgressChanged()
+        {
+            ProgressChanged?.Invoke(this, CollectSessionUpdateData());
+        }
+
+        /// <summary>
+        /// Triggers the <see cref="DescriptionChanged"/> event.
+        /// </summary>
+        protected void OnDescriptionChanged()
+        {
+            DescriptionChanged?.Invoke(this, CollectSessionUpdateData());
+        }
+
+        /// <summary>
+        /// Triggers the <see cref="StatusChanged"/> event.
+        /// </summary>
+        protected void OnStatusChanged()
+        {
+            StatusChanged?.Invoke(this, CollectSessionData());
+        }
+
+        /// <summary>
+        /// Triggers the <see cref="SessionEnded"/> event.
+        /// </summary>
+        protected void OnSessionEnded()
+        {
+            SessionEnded?.Invoke(this, CollectSessionData());
         }
 
         /// <summary>

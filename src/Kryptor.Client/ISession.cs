@@ -57,6 +57,31 @@ namespace SAPTeam.Kryptor.Client
         List<string> Messages { get; }
 
         /// <summary>
+        /// Occurs when the session started by SessionManager.
+        /// </summary>
+        event EventHandler<SessionEventArgs> SessionStarted;
+
+        /// <summary>
+        /// Occurs when the progress value of the session is changed.
+        /// </summary>
+        event EventHandler<SessionUpdateEventArgs> ProgressChanged;
+
+        /// <summary>
+        /// Occurs when the description value is changed.
+        /// </summary>
+        event EventHandler<SessionUpdateEventArgs> DescriptionChanged;
+
+        /// <summary>
+        /// Occurs when the status of the session is changed.
+        /// </summary>
+        event EventHandler<SessionEventArgs> StatusChanged;
+
+        /// <summary>
+        /// Occurs when the session is ended.
+        /// </summary>
+        event EventHandler<SessionEventArgs> SessionEnded;
+
+        /// <summary>
         /// Starts the task asynchronously.
         /// </summary>
         /// <param name="sessionHost">
