@@ -6,13 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-
-
-
-
-
-
-
 #if !NETFRAMEWORK
 using ANSIConsole;
 #endif
@@ -37,10 +30,7 @@ namespace SAPTeam.Kryptor.Cli
             Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
         }
 
-        protected void Log(string message = null)
-        {
-            Console.WriteLine(message);
-        }
+        protected void Log(string message = null) => Console.WriteLine(message);
 
         protected void DebugLog(string message)
         {
@@ -104,7 +94,7 @@ namespace SAPTeam.Kryptor.Cli
                 showOverall = false;
             }
 
-            var extraLines = 0;
+            int extraLines = 0;
 
             if (showOverall)
             {
@@ -112,10 +102,10 @@ namespace SAPTeam.Kryptor.Cli
                 extraLines++;
             }
 
-            var blockingSessions = sessions.Where(x => x.Status != SessionStatus.Managed);
+            IEnumerable<ISession> blockingSessions = sessions.Where(x => x.Status != SessionStatus.Managed);
             List<ISession> flaggedSessions = new List<ISession>();
 
-            var lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
+            int lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
             int maxLines = Console.BufferHeight - 1;
             int ceilingLine = 0;
 
@@ -131,7 +121,7 @@ namespace SAPTeam.Kryptor.Cli
                 double runningRem = 0;
                 int runningCount = 0;
 
-                foreach (var session in sessions)
+                foreach (ISession session in sessions)
                 {
                     if (session.Progress >= 0
                         && (session.IsRunning
@@ -139,7 +129,7 @@ namespace SAPTeam.Kryptor.Cli
                             || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed
                                                                           || session.EndReason == SessionEndReason.Cancelled))))
                     {
-                        var sProg = session.Progress;
+                        double sProg = session.Progress;
 
                         totalProg += sProg;
                         count++;
@@ -177,18 +167,19 @@ namespace SAPTeam.Kryptor.Cli
                     }
                 };
 
-                foreach (var session in flaggedSessions)
+                foreach (ISession session in flaggedSessions)
                 {
                     sessions.Remove(session);
                 }
+
                 flaggedSessions.Clear();
 
                 if (showOverall && (!isRedirected || isCompleted))
                 {
                     totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
                     runningRem = runningCount > 0 ? runningRem / runningCount : 0;
-                    var elapsedTime = sw.Elapsed;
-                    var remainingTime = TimeSpan.FromMilliseconds(runningRem);
+                    TimeSpan elapsedTime = sw.Elapsed;
+                    TimeSpan remainingTime = TimeSpan.FromMilliseconds(runningRem);
 
                     string ovText = "";
 
@@ -232,8 +223,8 @@ namespace SAPTeam.Kryptor.Cli
                         Console.CursorVisible = true;
                     }
 
-                    var _sessions = holders.Select(x => x.Session);
-                    foreach (var holder in holders.Where(x => x.Session.Messages.Count > 0))
+                    IEnumerable<ISession> _sessions = holders.Select(x => x.Session);
+                    foreach (SessionHolder holder in holders.Where(x => x.Session.Messages.Count > 0))
                     {
                         bool showId = _sessions.Where(x => x.GetType().IsAssignableFrom(holder.Session.GetType())).Count() > 1;
                         string prefix = $"{holder.Session.GetType().Name}";
@@ -241,7 +232,8 @@ namespace SAPTeam.Kryptor.Cli
                         {
                             prefix += $"({holder.Id})";
                         }
-                        foreach (var message in holder.Session.Messages)
+
+                        foreach (string message in holder.Session.Messages)
                         {
                             Log($"{prefix} -> {message}");
                         }
@@ -313,7 +305,7 @@ namespace SAPTeam.Kryptor.Cli
 
         protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
         {
-            var pTask = ShowProgress(showOverall, showRemaining);
+            Task pTask = ShowProgress(showOverall, showRemaining);
             MonitorTask(pTask);
             return pTask;
         }
@@ -350,11 +342,11 @@ namespace SAPTeam.Kryptor.Cli
             else if (TransformerToken.IsValid(keyStore))
             {
                 DebugLog($"Transformer token: {keyStore}");
-                var token = TransformerToken.Parse(keyStore);
+                TransformerToken token = TransformerToken.Parse(keyStore);
 
                 if (Verbose)
                 {
-                    var tranformer = Transformers.GetTranformer(token);
+                    ITranformer tranformer = Transformers.GetTranformer(token);
                     DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Generators;
 
@@ -36,10 +37,7 @@ namespace SAPTeam.Kryptor
             }
         }
 
-        private static byte[] GenerateSalt(TransformerToken token)
-        {
-            return Pick(token.SecretKey.Sha256(), 16, token.Rotate > 0 ? token.KeySize * token.Rotate : token.KeySize).ToArray();
-        }
+        private static byte[] GenerateSalt(TransformerToken token) => Pick(token.SecretKey.Sha256(), 16, token.Rotate > 0 ? token.KeySize * token.Rotate : token.KeySize).ToArray();
 
         /// <summary>
         /// Rotates the elements of an array by a specified number of positions.
@@ -99,7 +97,7 @@ namespace SAPTeam.Kryptor
         {
             List<T> combinedList = new List<T>();
 
-            foreach (var collection in collections)
+            foreach (IEnumerable<T> collection in collections)
             {
                 combinedList.AddRange(collection);
             }
@@ -119,7 +117,7 @@ namespace SAPTeam.Kryptor
         /// <param name="seed">The seed value for the randomization.</param>
         public static void Shuffle<T>(T[] array, int seed)
         {
-            using (var sha256 = SHA256.Create())
+            using (SHA256 sha256 = SHA256.Create())
             {
                 int n = array.Length;
 
@@ -141,10 +139,7 @@ namespace SAPTeam.Kryptor
         /// <param name="collection">The collection of bytes.</param>
         /// <param name="seed">The seed value for the randomization.</param>
         /// <returns>The resulting 32-bit integer.</returns>
-        public static int ToAbsInt32(IEnumerable<byte> collection, int seed)
-        {
-            return Math.Abs(ToInt32(collection, seed));
-        }
+        public static int ToAbsInt32(IEnumerable<byte> collection, int seed) => Math.Abs(ToInt32(collection, seed));
 
         /// <summary>
         /// Converts a sequence of bytes to a 32-bit integer using a hash-based random index.
@@ -152,10 +147,7 @@ namespace SAPTeam.Kryptor
         /// <param name="collection">The collection of bytes.</param>
         /// <param name="seed">The seed value for the randomization.</param>
         /// <returns>The resulting 32-bit integer.</returns>
-        public static int ToInt32(IEnumerable<byte> collection, int seed)
-        {
-            return BitConverter.ToInt32(Pick(collection, 4, seed).ToArray(), 0);
-        }
+        public static int ToInt32(IEnumerable<byte> collection, int seed) => BitConverter.ToInt32(Pick(collection, 4, seed).ToArray(), 0);
 
         /// <summary>
         /// Converts a sequence of bytes to a 64-bit integer using a hash-based random index.
@@ -163,10 +155,7 @@ namespace SAPTeam.Kryptor
         /// <param name="collection">The collection of bytes.</param>
         /// <param name="seed">The seed value for the randomization.</param>
         /// <returns>The resulting 64-bit integer.</returns>
-        public static long ToInt64(IEnumerable<byte> collection, int seed)
-        {
-            return BitConverter.ToInt64(Pick(collection, 8, seed).ToArray(), 0);
-        }
+        public static long ToInt64(IEnumerable<byte> collection, int seed) => BitConverter.ToInt64(Pick(collection, 8, seed).ToArray(), 0);
 
         /// <summary>
         /// Creates a transformed key.
@@ -181,10 +170,10 @@ namespace SAPTeam.Kryptor
         public static byte[] CreateKey(KeyStore keyStore, CryptoProcess process)
         {
             int seed = ToAbsInt32(process.BlockHash, process.BlockIndex + process.ChunkIndex);
-            var sets = Pick(keyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
+            IEnumerable<byte> sets = Pick(keyStore.Keys, (seed % 8) + 1, seed).SelectMany(x => x);
 
-            var mixed = Mix(seed, sets);
-            var key = Pick(mixed, 32, seed);
+            byte[] mixed = Mix(seed, sets);
+            IEnumerable<byte> key = Pick(mixed, 32, seed);
 
             return key.ToArray();
         }
@@ -199,9 +188,6 @@ namespace SAPTeam.Kryptor
         /// The key store to process.
         /// </param>
         /// <returns></returns>
-        public static byte[] CreateIV(KeyStore keyStore, CryptoProcess process)
-        {
-            return Pick(keyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
-        }
+        public static byte[] CreateIV(KeyStore keyStore, CryptoProcess process) => Pick(keyStore.Keys, 1, (process.BlockHash[5] % (process.BlockHash[19] + 4)) - process.ChunkIndex).First().Take(16).ToArray();
     }
 }

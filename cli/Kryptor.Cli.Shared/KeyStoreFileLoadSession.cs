@@ -10,25 +10,22 @@ namespace SAPTeam.Kryptor.Cli
         private readonly string path;
         private const int ChunckSize = 4096;
 
-        public KeyStoreFileLoadSession(string path)
-        {
-            this.path = path;
-        }
+        public KeyStoreFileLoadSession(string path) => this.path = path;
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {
-            using (var f = File.OpenRead(path))
+            using (FileStream f = File.OpenRead(path))
             {
                 Description = "Reading Keystore file";
 
-                var result = new byte[f.Length];
+                byte[] result = new byte[f.Length];
 
-                var step = (double)((double)ChunckSize / f.Length) * 100;
+                double step = (double)((double)ChunckSize / f.Length) * 100;
                 int prog = 1;
 
                 for (int i = 0; i < f.Length; i += ChunckSize)
                 {
-                    var buffer = new byte[Math.Min(f.Length - f.Position, ChunckSize)];
+                    byte[] buffer = new byte[Math.Min(f.Length - f.Position, ChunckSize)];
                     await f.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
                     Array.Copy(buffer, 0, result, i, buffer.Length);
 

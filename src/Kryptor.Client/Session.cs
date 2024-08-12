@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -117,7 +115,7 @@ namespace SAPTeam.Kryptor.Client
                 return false;
             }
 
-            foreach (var session in Dependencies)
+            foreach (ISession session in Dependencies)
             {
                 if (session.Status == SessionStatus.Ended)
                 {

@@ -48,6 +48,5 @@ namespace SAPTeam.Kryptor.Cli
 
             return true;
         }
-
     }
 }

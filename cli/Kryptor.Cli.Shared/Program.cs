@@ -22,34 +22,34 @@ namespace SAPTeam.Kryptor.Cli
 
         private static int Parse(string[] args)
         {
-            var root = new RootCommand("Kryptor Command-Line Interface");
+            RootCommand root = new RootCommand("Kryptor Command-Line Interface");
 
-            var verbose = new Option<bool>("--verbose", "Shows more detailed informations in console output");
+            Option<bool> verbose = new Option<bool>("--verbose", "Shows more detailed informations in console output");
             verbose.AddAlias("-v");
             root.AddGlobalOption(verbose);
 
             #region Common Data Processing Options
-            var blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
+            Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
             blockSize.AddAlias("-b");
 
-            var provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
+            Option<string> provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
             provider.AddAlias("-p");
 
-            var continuous = new Option<bool>("--continuous", "Enables using the Continuous method");
+            Option<bool> continuous = new Option<bool>("--continuous", "Enables using the Continuous method");
             continuous.AddAlias("-c");
 
-            var removeHash = new Option<bool>("--remove-hash", "Removes the block hash to increase the security");
+            Option<bool> removeHash = new Option<bool>("--remove-hash", "Removes the block hash to increase the security");
             removeHash.AddAlias("-r");
 
-            var dbp = new Option<bool>("--dbp", "Enables the Dynamic Block Processing");
+            Option<bool> dbp = new Option<bool>("--dbp", "Enables the Dynamic Block Processing");
             dbp.AddAlias("-d");
 
-            var keystore = new Option<string>("--keystore", "Keystore file path or transformer token");
+            Option<string> keystore = new Option<string>("--keystore", "Keystore file path or transformer token");
             keystore.AddAlias("-k");
             keystore.IsRequired = true;
             keystore.AddValidator(x =>
             {
-                var _inKs = x.Tokens.First().Value;
+                string _inKs = x.Tokens.First().Value;
                 if (File.Exists(_inKs) || TransformerToken.IsValid(_inKs))
                 {
                     return;
@@ -60,7 +60,7 @@ namespace SAPTeam.Kryptor.Cli
                 }
             });
 
-            var files = new Argument<string[]>(
+            Argument<string[]> files = new Argument<string[]>(
                 name: "files",
                 description: "Files to be processed",
                 isDefault: true,
@@ -80,9 +80,9 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Encryption Options
-            var hVerbose = new Option<int>("--header", () => 2, "Determines the amount of data stored in the header. 0 means no data and 3 means all data needed to decrypt the file (except the keystore)");
+            Option<int> hVerbose = new Option<int>("--header", () => 2, "Determines the amount of data stored in the header. 0 means no data and 3 means all data needed to decrypt the file (except the keystore)");
 
-            var encCmd = new Command("encrypt", "Encrypts files with keystore")
+            Command encCmd = new Command("encrypt", "Encrypts files with keystore")
             {
                 blockSize,
                 provider,
@@ -98,7 +98,7 @@ namespace SAPTeam.Kryptor.Cli
 
             encCmd.SetHandler((verboseT, dpoT, hVerboseT) =>
             {
-                var sessionHost = new EncryptionSessionHost(verboseT, dpoT, hVerboseT);
+                EncryptionSessionHost sessionHost = new EncryptionSessionHost(verboseT, dpoT, hVerboseT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose);
 
@@ -106,7 +106,7 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Decryption Options
-            var decCmd = new Command("decrypt", "Decrypts files with keystore")
+            Command decCmd = new Command("decrypt", "Decrypts files with keystore")
             {
                 blockSize,
                 provider,
@@ -121,7 +121,7 @@ namespace SAPTeam.Kryptor.Cli
 
             decCmd.SetHandler((verboseT, dpoT) =>
             {
-                var sessionHost = new DecryptionSessionHost(verboseT, dpoT);
+                DecryptionSessionHost sessionHost = new DecryptionSessionHost(verboseT, dpoT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
 
@@ -129,10 +129,10 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Analyze Options
-            var analyzeJobs = new Option<int>("--jobs", "Determines the number of concurrent jobs");
+            Option<int> analyzeJobs = new Option<int>("--jobs", "Determines the number of concurrent jobs");
             analyzeJobs.AddAlias("-j");
 
-            var anCmd = new Command("analyze", "Analyzes the keystore security")
+            Command anCmd = new Command("analyze", "Analyzes the keystore security")
             {
                 analyzeJobs,
                 keystore
@@ -142,7 +142,7 @@ namespace SAPTeam.Kryptor.Cli
 
             anCmd.SetHandler((verboseT, analyzeJobsT, keystoreT) =>
             {
-                var sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, analyzeJobsT, keystoreT);
+                KeyStoreAnalyzeSessionHost sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, analyzeJobsT, keystoreT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, analyzeJobs, keystore);
 
@@ -150,15 +150,15 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Wordlist Options
-            var wlCmd = new Command("wordlist", "Queries the given word in installed wordlists");
+            Command wlCmd = new Command("wordlist", "Queries the given word in installed wordlists");
             wlCmd.AddAlias("w");
 
-            var queryWord = new Argument<string>("word", "The word to query in wordlists");
+            Argument<string> queryWord = new Argument<string>("word", "The word to query in wordlists");
 
-            var queryWordlist = new Option<string>("--wordlist", "The wordlist to do query. if not specified, all installed wordlists will be queried.");
+            Option<string> queryWordlist = new Option<string>("--wordlist", "The wordlist to do query. if not specified, all installed wordlists will be queried.");
             queryWordlist.AddAlias("-w");
 
-            var wlQuryCmd = new Command("query", "searches for the given word in the wordlists")
+            Command wlQuryCmd = new Command("query", "searches for the given word in the wordlists")
             {
                 queryWord,
                 queryWordlist
@@ -167,17 +167,17 @@ namespace SAPTeam.Kryptor.Cli
 
             wlQuryCmd.SetHandler((verboseT, queryWordT, queryWordlistT) =>
             {
-                var sessionHost = new WordlistQuerySessionHost(verboseT, queryWordT, queryWordlistT);
+                WordlistQuerySessionHost sessionHost = new WordlistQuerySessionHost(verboseT, queryWordT, queryWordlistT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, queryWord, queryWordlist);
 
             wlCmd.AddCommand(wlQuryCmd);
 
-            var convertSource = new Argument<string>("source", "The source index v1 file");
+            Argument<string> convertSource = new Argument<string>("source", "The source index v1 file");
 
-            var convertDest = new Argument<string>("destination", "The destination index v2 file");
+            Argument<string> convertDest = new Argument<string>("destination", "The destination index v2 file");
 
-            var wlConCmd = new Command("convert", "Converts v1 index file to v2 index file (Internal use)")
+            Command wlConCmd = new Command("convert", "Converts v1 index file to v2 index file (Internal use)")
             {
                 convertSource,
                 convertDest
@@ -185,27 +185,27 @@ namespace SAPTeam.Kryptor.Cli
 
             wlConCmd.SetHandler((verboseT, convertSourceT, convertDestT) =>
             {
-                var sessionHost = new WordlistConverterSessionHost(verboseT, convertSourceT, convertDestT);
+                WordlistConverterSessionHost sessionHost = new WordlistConverterSessionHost(verboseT, convertSourceT, convertDestT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, convertSource, convertDest);
 
             wlCmd.AddCommand(wlConCmd);
 
-            var installList = new Option<bool>("--list", "Lists all available wordlists");
+            Option<bool> installList = new Option<bool>("--list", "Lists all available wordlists");
             installList.AddAlias("-l");
 
-            var installAll = new Option<bool>("--all", "Installs all available wordlists");
+            Option<bool> installAll = new Option<bool>("--all", "Installs all available wordlists");
             installAll.AddAlias("-a");
 
-            var installRecommended = new Option<bool>("--recommended", "Installs all small-sized wordlists");
+            Option<bool> installRecommended = new Option<bool>("--recommended", "Installs all small-sized wordlists");
             installRecommended.AddAlias("-r");
 
-            var installIds = new Argument<string[]>("wordlist", "Id of wordlists to install, list of available wordlists could be found by --list option")
+            Argument<string[]> installIds = new Argument<string[]>("wordlist", "Id of wordlists to install, list of available wordlists could be found by --list option")
             {
                 HelpName = "id"
             };
 
-            var wlInsCmd = new Command("install", "Installs new wordlists")
+            Command wlInsCmd = new Command("install", "Installs new wordlists")
             {
                 installList,
                 installAll,
@@ -217,24 +217,24 @@ namespace SAPTeam.Kryptor.Cli
 
             wlInsCmd.SetHandler((verboseT, installListT, installAllT, installRecommendedT, installIdsT) =>
             {
-                var sessionHost = new WordlistInstallSessionHost(verboseT, installListT, installAllT, installRecommendedT, installIdsT);
+                WordlistInstallSessionHost sessionHost = new WordlistInstallSessionHost(verboseT, installListT, installAllT, installRecommendedT, installIdsT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, installList, installAll, installRecommended, installIds);
 
             wlCmd.AddCommand(wlInsCmd);
 
-            var removeList = new Option<bool>("--list", "Lists all installed wordlists");
+            Option<bool> removeList = new Option<bool>("--list", "Lists all installed wordlists");
             removeList.AddAlias("-l");
 
-            var removeAll = new Option<bool>("--all", "Removes all installed wordlists");
+            Option<bool> removeAll = new Option<bool>("--all", "Removes all installed wordlists");
             removeAll.AddAlias("-a");
 
-            var removeIds = new Argument<string[]>("wordlist", "Id of wordlists to remove, list of all installed wordlists could be found by --list option")
+            Argument<string[]> removeIds = new Argument<string[]>("wordlist", "Id of wordlists to remove, list of all installed wordlists could be found by --list option")
             {
                 HelpName = "id"
             };
 
-            var wlRemCmd = new Command("remove", "Removes installed wordlists")
+            Command wlRemCmd = new Command("remove", "Removes installed wordlists")
             {
                 removeList,
                 removeAll,
@@ -245,22 +245,22 @@ namespace SAPTeam.Kryptor.Cli
 
             wlRemCmd.SetHandler((verboseT, removeListT, removeAllT, removeIdsT) =>
             {
-                var sessionHost = new WordlistRemoveSessionHost(verboseT, removeListT, removeAllT, removeIdsT);
+                WordlistRemoveSessionHost sessionHost = new WordlistRemoveSessionHost(verboseT, removeListT, removeAllT, removeIdsT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, removeList, removeAll, removeIds);
 
             wlCmd.AddCommand(wlRemCmd);
 
-            var importId = new Option<string>("--id", "Determines the wordlist's unique id");
+            Option<string> importId = new Option<string>("--id", "Determines the wordlist's unique id");
             importId.AddAlias("-i");
             importId.IsRequired = true;
 
-            var importEnforce = new Option<bool>("--enforce", "Determines enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning");
+            Option<bool> importEnforce = new Option<bool>("--enforce", "Determines enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning");
             importEnforce.AddAlias("-e");
 
-            var importFile = new Argument<string>("file", "The text file to import");
+            Argument<string> importFile = new Argument<string>("file", "The text file to import");
 
-            var wlImpCmd = new Command("import", "Compiles and imports given file as wordlist")
+            Command wlImpCmd = new Command("import", "Compiles and imports given file as wordlist")
             {
                 importId,
                 importEnforce,
@@ -269,7 +269,7 @@ namespace SAPTeam.Kryptor.Cli
 
             wlImpCmd.SetHandler((verboseT, importIdT, importEnforceT, importFileT) =>
             {
-                var sessionHost = new WordlistImportSessionHost(verboseT, importIdT, importEnforceT, importFileT);
+                WordlistImportSessionHost sessionHost = new WordlistImportSessionHost(verboseT, importIdT, importEnforceT, importFileT);
                 Context.NewSessionHost(sessionHost);
             }, verbose, importId, importEnforce, importFile);
 

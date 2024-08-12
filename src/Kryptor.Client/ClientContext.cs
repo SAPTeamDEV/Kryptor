@@ -33,10 +33,7 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        protected override void DisposeContext()
-        {
-            Host?.End(true);
-        }
+        protected override void DisposeContext() => Host?.End(true);
 
         /// <summary>
         /// Starts a new session host.
@@ -61,9 +58,6 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the session host
         /// </summary>
-        protected virtual void StartSessionHost()
-        {
-            Host.Start();
-        }
+        protected virtual void StartSessionHost() => Host.Start();
     }
 }

@@ -1,12 +1,7 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
 using SAPTeam.Kryptor.Client;
-using SAPTeam.Kryptor.Extensions;
-
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -27,10 +22,10 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            var ksLoadSession = CreateKeyStoreLoadSession(ks);
+            KeyStoreLoadSession ksLoadSession = CreateKeyStoreLoadSession(ks);
             NewSession(ksLoadSession);
 
-            var calcSession = new KeyStoreAnalyzeRootSession(maxRunningSessions);
+            KeyStoreAnalyzeRootSession calcSession = new KeyStoreAnalyzeRootSession(maxRunningSessions);
             calcSession.Dependencies.Add(ksLoadSession);
             NewSession(calcSession);
 

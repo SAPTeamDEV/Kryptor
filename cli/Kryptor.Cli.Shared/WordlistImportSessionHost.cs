@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start();
 
-            using (var f = File.OpenRead(FilePath))
+            using (FileStream f = File.OpenRead(FilePath))
             {
                 IndexEntry.Size = f.Length;
 
@@ -37,7 +37,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (GetInstallationPermission(IndexEntry))
             {
-                var compiler = new WordlistCompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, converting: false, importing: true);
+                WordlistCompileSession compiler = new WordlistCompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, converting: false, importing: true);
                 NewSession(compiler);
                 ShowProgressMonitored(true).Wait();
             }

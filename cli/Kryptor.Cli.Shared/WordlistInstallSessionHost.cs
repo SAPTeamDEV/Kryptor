@@ -20,7 +20,6 @@ namespace SAPTeam.Kryptor.Cli
         private readonly string[] Ids;
         private readonly bool Converting;
 
-
         /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
         Before:
                 static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");

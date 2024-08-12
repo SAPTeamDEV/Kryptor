@@ -45,6 +45,7 @@ namespace SAPTeam.Kryptor.Helpers
                     {
                         await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
                     }
+
                     return msEncrypt.ToArray();
                 }
             }
@@ -142,6 +143,7 @@ namespace SAPTeam.Kryptor.Helpers
                     {
                         await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
                     }
+
                     return msEncrypt.ToArray();
                 }
             }

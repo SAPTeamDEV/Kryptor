@@ -116,7 +116,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (File.Exists(PackPath))
             {
-                var package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackPath));
+                DownloadPackage package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackPath));
                 File.Delete(PackPath);
 
                 await DownloadService.DownloadFileTaskAsync(package, cancellationToken);

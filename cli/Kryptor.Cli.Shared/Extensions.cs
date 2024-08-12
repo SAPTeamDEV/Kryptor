@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-
 #if NETFRAMEWORK
 using Pastel;
 #endif
@@ -11,21 +10,12 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static class Extensions
     {
-        internal static string FormatFingerprint(this byte[] src)
-        {
-            return BitConverter.ToString(src).Replace("-", ":");
-        }
+        internal static string FormatFingerprint(this byte[] src) => BitConverter.ToString(src).Replace("-", ":");
 
-        internal static string ToLowerIfUnix(this string src)
-        {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? src : src.ToLower();
-        }
+        internal static string ToLowerIfUnix(this string src) => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? src : src.ToLower();
 
 #if NETFRAMEWORK
-        internal static string Color(this string src, ConsoleColor color)
-        {
-            return color == ConsoleColor.Green ? src.Pastel(System.Drawing.Color.GreenYellow) : src.Pastel(color);
-        }
+        internal static string Color(this string src, ConsoleColor color) => color == ConsoleColor.Green ? src.Pastel(System.Drawing.Color.GreenYellow) : src.Pastel(color);
 
         internal static string Color(this string src, Color color)
         {

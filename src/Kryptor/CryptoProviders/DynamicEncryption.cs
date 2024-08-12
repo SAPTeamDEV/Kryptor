@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Helpers;
 
@@ -38,28 +39,22 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <inheritdoc/>
         public override async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
-            var decData = await base.DecryptBlockAsync(data, process, cancellationToken);
+            byte[] decData = await base.DecryptBlockAsync(data, process, cancellationToken);
             process.ProcessData[$"b{process.BlockIndex}.sha512"] = decData.Sha512();
             return decData;
         }
 
         /// <inheritdoc/>
-        protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken)
-        {
-            return await AesHelper.EncryptAesCbcAsync(chunk, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
-        }
+        protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken) => await AesHelper.EncryptAesCbcAsync(chunk, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
 
         /// <inheritdoc/>
-        protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process, CancellationToken cancellationToken)
-        {
-            return await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
-        }
+        protected override async Task<IEnumerable<byte>> DecryptChunkAsync(byte[] cipher, CryptoProcess process, CancellationToken cancellationToken) => await AesHelper.DecryptAesCbcAsync(cipher, CreateDynamicKey(process), CreateMixedIV(KeyStore, process), cancellationToken);
 
         private byte[] CreateDynamicKey(CryptoProcess process)
         {
-            var key1 = KeyStore[Configuration.Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
-            var key2 = KeyStore[process.ChunkIndex - (Configuration.RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
-            var key3 = KeyStore[process.ChunkIndex + process.BlockSize];
+            byte[] key1 = KeyStore[Configuration.Continuous ? (process.ChunkIndex + process.BlockIndex) * 7 : (process.ChunkIndex - process.BlockIndex) * 3];
+            byte[] key2 = KeyStore[process.ChunkIndex - (Configuration.RemoveHash ? key1[4] : process.BlockHash[key1[27] % 32])];
+            byte[] key3 = KeyStore[process.ChunkIndex + process.BlockSize];
 
             byte[] mKey = process.BlockIndex > 0
                 ? ((byte[])process.ProcessData[$"b{process.BlockIndex - 1}.sha512"]).Concat(key1).Concat(key2).Concat(key3).Concat(process.BlockHash).ToArray()

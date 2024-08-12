@@ -12,10 +12,7 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagedSession"/> class.
         /// </summary>
-        public ManagedSession() : base()
-        {
-            Status = SessionStatus.Managed;
-        }
+        public ManagedSession() : base() => Status = SessionStatus.Managed;
 
         /// <summary>
         /// Sets a new value for session's progress.
@@ -23,10 +20,7 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="progress">
         /// The new value from -1 to 100.
         /// </param>
-        public void SetProgress(double progress)
-        {
-            Progress = progress;
-        }
+        public void SetProgress(double progress) => Progress = progress;
 
         /// <summary>
         /// Sets a new value for session's description.
@@ -34,10 +28,7 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="description">
         /// The new description.
         /// </param>
-        public void SetDescription(string description)
-        {
-            Description = description;
-        }
+        public void SetDescription(string description) => Description = description;
 
         /// <summary>
         /// Sets the session status to <see cref="SessionStatus.Ended"/> and sets the end reason and exception.
@@ -52,9 +43,6 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        protected override Task<bool> RunAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        protected override Task<bool> RunAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

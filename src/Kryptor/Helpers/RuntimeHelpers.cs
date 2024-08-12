@@ -32,10 +32,7 @@ namespace System
         }
 
         // The following private constructors mainly created for perf reason to avoid the checks
-        private Index(int value)
-        {
-            _value = value;
-        }
+        private Index(int value) => _value = value;
 
         /// <summary>Create an Index pointing at first element.</summary>
         public static Index Start => new Index(0);
@@ -46,27 +43,15 @@ namespace System
         /// <summary>Create an Index from the start at the position indicated by the value.</summary>
         /// <param name="value">The index value from the start.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Index FromStart(int value)
-        {
-            return value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(value);
-        }
+        public static Index FromStart(int value) => value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(value);
 
         /// <summary>Create an Index from the end at the position indicated by the value.</summary>
         /// <param name="value">The index value from the end.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Index FromEnd(int value)
-        {
-            return value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(~value);
-        }
+        public static Index FromEnd(int value) => value < 0 ? throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative") : new Index(~value);
 
         /// <summary>Returns the index value.</summary>
-        public int Value
-        {
-            get
-            {
-                return _value < 0 ? ~_value : _value;
-            }
-        }
+        public int Value => _value < 0 ? ~_value : _value;
 
         /// <summary>Indicates whether the index is from the start or the end.</summary>
         public bool IsFromEnd => _value < 0;
@@ -82,7 +67,7 @@ namespace System
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetOffset(int length)
         {
-            var offset = _value;
+            int offset = _value;
             if (IsFromEnd)
             {
                 // offset = length - (~value)
@@ -91,6 +76,7 @@ namespace System
 
                 offset += length + 1;
             }
+
             return offset;
         }
 
@@ -109,10 +95,7 @@ namespace System
         public static implicit operator Index(int value) => FromStart(value);
 
         /// <summary>Converts the value of the current Index object to its equivalent string representation.</summary>
-        public override string ToString()
-        {
-            return IsFromEnd ? "^" + ((uint)Value).ToString() : ((uint)Value).ToString();
-        }
+        public override string ToString() => IsFromEnd ? "^" + ((uint)Value).ToString() : ((uint)Value).ToString();
     }
 
     /// <summary>Represent a range has start and end indexes.</summary>
@@ -153,16 +136,10 @@ namespace System
         public bool Equals(Range other) => other.Start.Equals(Start) && other.End.Equals(End);
 
         /// <summary>Returns the hash code for this instance.</summary>
-        public override int GetHashCode()
-        {
-            return Start.GetHashCode() * 31 + End.GetHashCode();
-        }
+        public override int GetHashCode() => (Start.GetHashCode() * 31) + End.GetHashCode();
 
         /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
-        public override string ToString()
-        {
-            return Start + ".." + End;
-        }
+        public override string ToString() => Start + ".." + End;
 
         /// <summary>Create a Range object starting from start index to the end of the collection.</summary>
         public static Range StartAt(Index start) => new Range(start, Index.End);
@@ -184,11 +161,11 @@ namespace System
         public (int Offset, int Length) GetOffsetAndLength(int length)
         {
             int start;
-            var startIndex = Start;
+            Index startIndex = Start;
             start = startIndex.IsFromEnd ? length - startIndex.Value : startIndex.Value;
 
             int end;
-            var endIndex = End;
+            Index endIndex = End;
             end = endIndex.IsFromEnd ? length - endIndex.Value : endIndex.Value;
 
             return (uint)end > (uint)length || (uint)start > (uint)end
@@ -223,14 +200,14 @@ namespace System.Runtime.CompilerServices
                     return Array.Empty<T>();
                 }
 
-                var dest = new T[length];
+                T[] dest = new T[length];
                 Array.Copy(array, offset, dest, 0, length);
                 return dest;
             }
             else
             {
                 // The array is actually a U[] where U:T.
-                var dest = (T[])Array.CreateInstance(array.GetType().GetElementType(), length);
+                T[] dest = (T[])Array.CreateInstance(array.GetType().GetElementType(), length);
                 Array.Copy(array, offset, dest, 0, length);
                 return dest;
             }

@@ -31,18 +31,12 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.DecryptBlockAsync"/>.
         /// </summary>
-        public int GetDecryptionBufferSize(CryptoProcess process = default)
-        {
-            return (process.BlockSize > 0 ? process.BlockSize : BlockSize) * Provider.DecryptionChunkSize;
-        }
+        public int GetDecryptionBufferSize(CryptoProcess process = default) => (process.BlockSize > 0 ? process.BlockSize : BlockSize) * Provider.DecryptionChunkSize;
 
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync"/>.
         /// </summary>
-        public int GetEncryptionBufferSize(CryptoProcess process = default)
-        {
-            return ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.Configuration.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
-        }
+        public int GetEncryptionBufferSize(CryptoProcess process = default) => ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.Configuration.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
 
         #endregion
 
@@ -71,10 +65,7 @@ namespace SAPTeam.Kryptor
         /// <param name="blockSize">
         /// The block size used to read and process data.
         /// </param>
-        public Kes(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize = default) : this(blockSize)
-        {
-            Provider = CryptoProviderFactory.Create(keyStore, configuration);
-        }
+        public Kes(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize = default) : this(blockSize) => Provider = CryptoProviderFactory.Create(keyStore, configuration);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class.
@@ -85,10 +76,7 @@ namespace SAPTeam.Kryptor
         /// <param name="blockSize">
         /// The block size used to read and process data.
         /// </param>
-        public Kes(CryptoProvider provider, int blockSize = default) : this(blockSize)
-        {
-            Provider = provider;
-        }
+        public Kes(CryptoProvider provider, int blockSize = default) : this(blockSize) => Provider = provider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class.
@@ -127,10 +115,7 @@ namespace SAPTeam.Kryptor
         /// <param name="dest">
         /// The stream of destination target with write access.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest)
-        {
-            await EncryptAsync(source, dest, null, CancellationToken.None);
-        }
+        public async Task EncryptAsync(Stream source, Stream dest) => await EncryptAsync(source, dest, null, CancellationToken.None);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -144,10 +129,7 @@ namespace SAPTeam.Kryptor
         /// <param name="cancellationToken">
         /// The token to monitor for cancellation requests.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest, CancellationToken cancellationToken)
-        {
-            await EncryptAsync(source, dest, null, cancellationToken);
-        }
+        public async Task EncryptAsync(Stream source, Stream dest, CancellationToken cancellationToken) => await EncryptAsync(source, dest, null, cancellationToken);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -161,10 +143,7 @@ namespace SAPTeam.Kryptor
         /// <param name="header">
         /// The header to write in the beginning of destination stream. if null, a new header will be created automatically.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest, Header header)
-        {
-            await EncryptAsync(source, dest, header, CancellationToken.None);
-        }
+        public async Task EncryptAsync(Stream source, Stream dest, Header header) => await EncryptAsync(source, dest, header, CancellationToken.None);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -203,7 +182,7 @@ namespace SAPTeam.Kryptor
 
             if (header.Verbosity > 0)
             {
-                var hArray = header.CreatePayload();
+                byte[] hArray = header.CreatePayload();
                 await dest.WriteAsync(hArray, 0, hArray.Length, cancellationToken);
             }
 
@@ -219,10 +198,7 @@ namespace SAPTeam.Kryptor
         /// <param name="dest">
         /// The stream of destination target with write access.
         /// </param>
-        public async Task DecryptAsync(Stream source, Stream dest)
-        {
-            await DecryptAsync(source, dest, CancellationToken.None);
-        }
+        public async Task DecryptAsync(Stream source, Stream dest) => await DecryptAsync(source, dest, CancellationToken.None);
 
         /// <summary>
         /// Decrypts the given data stream and writes the decrypted data to the destination data stream.
@@ -293,11 +269,11 @@ namespace SAPTeam.Kryptor
 
                     byte[] slice = new byte[actualSize];
                     await source.ReadAsync(slice, 0, slice.Length, cancellationToken);
-                    var eSlice = await cryptoCallback(slice, process);
+                    byte[] eSlice = await cryptoCallback(slice, process);
                     await dest.WriteAsync(eSlice, 0, eSlice.Length, cancellationToken);
 
                     counter += blockSize / chunckSize;
-                    var prog = step * counter;
+                    double prog = step * counter;
                     OnProgress?.Invoke(Math.Min(prog, 100));
 
                     process.NextBlock(!Provider.Configuration.Continuous);
@@ -315,10 +291,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <param name="data">The raw data block.</param>
         /// <returns>Encrypted data block.</returns>
-        public async Task<byte[]> EncryptBlockAsync(byte[] data)
-        {
-            return await EncryptBlockAsync(data, CancellationToken.None);
-        }
+        public async Task<byte[]> EncryptBlockAsync(byte[] data) => await EncryptBlockAsync(data, CancellationToken.None);
 
         /// <summary>
         /// Encrypts block of data asynchronously.
@@ -343,10 +316,7 @@ namespace SAPTeam.Kryptor
         /// The crypto process data holder.
         /// </param>
         /// <returns>Encrypted data block.</returns>
-        public async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process)
-        {
-            return await EncryptBlockAsync(data, process, CancellationToken.None);
-        }
+        public async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process) => await EncryptBlockAsync(data, process, CancellationToken.None);
 
         /// <summary>
         /// Encrypts block of data asynchronously.
@@ -366,7 +336,7 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{GetEncryptionBufferSize(process)}");
             }
 
-            var result = await Provider.EncryptBlockAsync(data, process, cancellationToken);
+            byte[] result = await Provider.EncryptBlockAsync(data, process, cancellationToken);
 
             return result.Length > GetDecryptionBufferSize(process)
                 ? throw new OverflowException("Resulting buffer size is larger than the allowed size")
@@ -378,10 +348,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <param name="data">The raw encrypted data block.</param>
         /// <returns>Decrypted data block.</returns>
-        public async Task<byte[]> DecryptBlockAsync(byte[] data)
-        {
-            return await DecryptBlockAsync(data, CancellationToken.None);
-        }
+        public async Task<byte[]> DecryptBlockAsync(byte[] data) => await DecryptBlockAsync(data, CancellationToken.None);
 
         /// <summary>
         /// Decrypts block of data asynchronously.
@@ -406,10 +373,7 @@ namespace SAPTeam.Kryptor
         /// The crypto process data holder.
         /// </param>
         /// <returns>Decrypted data block.</returns>
-        public async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process)
-        {
-            return await DecryptBlockAsync(data, process, CancellationToken.None);
-        }
+        public async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process) => await DecryptBlockAsync(data, process, CancellationToken.None);
 
         /// <summary>
         /// Decrypts block of data asynchronously.
@@ -429,7 +393,7 @@ namespace SAPTeam.Kryptor
                 throw new ArgumentException($"Max allowed size for input buffer is :{GetDecryptionBufferSize(process)}");
             }
 
-            var result = await Provider.DecryptBlockAsync(data, process, cancellationToken);
+            byte[] result = await Provider.DecryptBlockAsync(data, process, cancellationToken);
 
             return result.Length > GetEncryptionBufferSize(process)
                 ? throw new OverflowException("Resulting buffer size is larger than the allowed size")

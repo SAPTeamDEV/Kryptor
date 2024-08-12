@@ -1,12 +1,9 @@
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Extensions;
-
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -31,14 +28,14 @@ namespace SAPTeam.Kryptor.Cli
         {
             Description = "Calculating crack time";
 
-            var sample = new byte[3] { 127, 255, 255 };
+            byte[] sample = new byte[3] { 127, 255, 255 };
             test = sample.Sha256();
 
             CalcTimer.Start();
 
             for (int i = 0; i < 256; i++)
             {
-                var session = new KeyStoreAnalyzeSession(i, test);
+                KeyStoreAnalyzeSession session = new KeyStoreAnalyzeSession(i, test);
                 session.OnVerify += StopTimer;
                 container.NewSession(session, false);
             }
@@ -53,7 +50,7 @@ namespace SAPTeam.Kryptor.Cli
             CalcTimer.Stop();
             Found = true;
 
-            foreach (var token in container.TokenSources)
+            foreach (CancellationTokenSource token in container.TokenSources)
             {
                 token.Cancel();
             }

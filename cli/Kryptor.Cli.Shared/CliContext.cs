@@ -40,7 +40,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public CliContext()
         {
-            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string unixHome = Environment.GetEnvironmentVariable("HOME") ?? Path.GetFullPath(".");
             string altAppData = Path.Combine(unixHome, ".config");
 

@@ -76,7 +76,7 @@ namespace SAPTeam.Kryptor
 
         internal static string GetRegisteredCryptoProviderId(Type provider)
         {
-            foreach (var item in GlobalProviders)
+            foreach (KeyValuePair<string, (string DisplayName, Type Type)> item in GlobalProviders)
             {
                 if (item.Value.Type == provider)
                 {
@@ -116,7 +116,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static string GetDisplayName(string id)
         {
-            var realId = GetRegisteredCryptoProviderId(id);
+            string realId = GetRegisteredCryptoProviderId(id);
 
             string result = GlobalProviders[realId].DisplayName;
 
@@ -135,10 +135,7 @@ namespace SAPTeam.Kryptor
         /// The id/hint of a registered crypto provider.
         /// </param>
         /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
-        public static Type ResolveProviderById(string id)
-        {
-            return GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
-        }
+        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
 
         /// <summary>
         /// Creates a <see cref="CryptoProvider"/> object to use with KES engine.

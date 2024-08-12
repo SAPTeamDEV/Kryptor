@@ -1,12 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Policy;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
 
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client.Security;
@@ -27,10 +23,7 @@ namespace SAPTeam.Kryptor.Cli
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        public WordlistSessionHost(bool verbose) : base(verbose)
-        {
-            LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
-        }
+        public WordlistSessionHost(bool verbose) : base(verbose) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
 
         public override void Start()
         {
@@ -40,10 +33,7 @@ namespace SAPTeam.Kryptor.Cli
             LocalIndexContainer = new Config<WordlistIndexV2>(LocalIndexPath, LocalIndexParserSettings);
         }
 
-        protected void UpdateLocalIndex()
-        {
-            LocalIndexContainer.Write();
-        }
+        protected void UpdateLocalIndex() => LocalIndexContainer.Write();
 
         protected void ListInstalledWordlists()
         {
@@ -53,7 +43,7 @@ namespace SAPTeam.Kryptor.Cli
                 return;
             }
 
-            foreach (var wl in LocalIndex.Wordlists)
+            foreach (WordlistIndexEntryV2 wl in LocalIndex.Wordlists)
             {
                 Log($"\n{wl.Id}:");
                 Log($"Description: {wl.Name}");
@@ -82,7 +72,7 @@ namespace SAPTeam.Kryptor.Cli
 
         protected void RemoveWordlist(string id)
         {
-            var entry = LocalIndex[id];
+            WordlistIndexEntryV2 entry = LocalIndex[id];
 
             if (entry.InstallDirectory != null)
             {

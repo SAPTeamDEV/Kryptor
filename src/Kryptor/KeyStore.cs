@@ -2,6 +2,7 @@
 using System.Linq;
 
 using EnsureThat;
+
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Generators;
 

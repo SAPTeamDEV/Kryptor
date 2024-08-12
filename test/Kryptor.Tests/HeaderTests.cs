@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace SAPTeam.Kryptor.Tests
 {
@@ -11,7 +7,7 @@ namespace SAPTeam.Kryptor.Tests
         [Fact]
         public void HeaderFunctionalityTest()
         {
-            var ex = new Dictionary<string, string>
+            Dictionary<string, string> ex = new Dictionary<string, string>
             {
                 ["test"] = "1",
                 ["2"] = "test"
@@ -33,7 +29,7 @@ namespace SAPTeam.Kryptor.Tests
                 Extra = ex,
             };
 
-            var mem = new MemoryStream(header.CreatePayload());
+            MemoryStream mem = new MemoryStream(header.CreatePayload());
 
             Header h2 = Header.ReadHeader<Header>(mem);
 
@@ -50,10 +46,10 @@ namespace SAPTeam.Kryptor.Tests
 
             Kes kp = new Kes(KeyStore.Generate(), header.Configuration, header.BlockSize);
 
-            var mem2 = new MemoryStream(Encoding.UTF8.GetBytes("test"));
-            var mem3 = new MemoryStream();
+            MemoryStream mem2 = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+            MemoryStream mem3 = new MemoryStream();
 
-            var ex2 = new Dictionary<string, string>
+            Dictionary<string, string> ex2 = new Dictionary<string, string>
             {
                 ["test"] = "1",
                 ["2"] = "test"

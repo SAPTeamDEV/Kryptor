@@ -34,7 +34,7 @@ namespace SAPTeam.Kryptor
         /// </summary>
         public CryptoProviderConfiguration Configuration
         {
-            get { return configuration; }
+            get => configuration;
             set
             {
                 string selfId = CryptoProviderFactory.GetRegisteredCryptoProviderId(GetType());
@@ -108,9 +108,9 @@ namespace SAPTeam.Kryptor
             byte[] hash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
-            foreach (var chunk in data.Chunk(EncryptionChunkSize))
+            foreach (byte[] chunk in data.Chunk(EncryptionChunkSize))
             {
-                var c = await EncryptChunkAsync(chunk, process, cancellationToken);
+                IEnumerable<byte> c = await EncryptChunkAsync(chunk, process, cancellationToken);
                 result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
                 process.ChunkIndex++;
             }
@@ -146,20 +146,20 @@ namespace SAPTeam.Kryptor
             }
             else
             {
-                var _hash = data.Take(32).ToArray();
+                byte[] _hash = data.Take(32).ToArray();
                 process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
             List<byte> result = new List<byte>();
 
-            foreach (var chunk in chunks)
+            foreach (byte[] chunk in chunks)
             {
                 result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process, cancellationToken));
                 process.ChunkIndex++;
             }
 
-            var array = result.ToArray();
+            byte[] array = result.ToArray();
 
             return !Configuration.RemoveHash && !process.BlockHash.SequenceEqual(array.Sha256()) ? throw new InvalidDataException("Hash mismatch") : array;
         }

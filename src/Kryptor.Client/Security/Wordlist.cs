@@ -91,9 +91,6 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The word to calculate.
         /// </param>
         /// <returns></returns>
-        public static int GetWordIdentifier(string word)
-        {
-            return Math.Abs(word[0] + word[1] + word[2]) % 64;
-        }
+        public static int GetWordIdentifier(string word) => Math.Abs(word[0] + word[1] + word[2]) % 64;
     }
 }

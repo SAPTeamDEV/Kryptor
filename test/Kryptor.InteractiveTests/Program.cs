@@ -20,14 +20,14 @@ internal class Program
         int mult = 0;
 
         Console.Write("Enter CryptoProvider numeric ID: ");
-        var pIn = Console.ReadLine();
+        string? pIn = Console.ReadLine();
 
-        var con = new CryptoProviderConfiguration()
+        CryptoProviderConfiguration con = new CryptoProviderConfiguration()
         {
             Id = pIn,
         };
 
-        var inHeader = new Header()
+        Header inHeader = new Header()
         {
             Verbosity = HeaderVerbosity.Normal,
         };
@@ -82,8 +82,8 @@ internal class Program
 
             text = string.Concat(input.Repeat(mult));
 
-            var source = new MemoryStream(Encoding.UTF8.GetBytes(text));
-            var dest = new MemoryStream();
+            MemoryStream source = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            MemoryStream dest = new MemoryStream();
 
             await kp.EncryptAsync(source, dest);
 
@@ -119,11 +119,13 @@ internal class Program
                     Console.WriteLine($"Extra data:\n{string.Join(Environment.NewLine, header.Extra)}");
             }
 
-            var decStream = new MemoryStream();
+            MemoryStream decStream = new MemoryStream();
             await kp.DecryptAsync(dest, decStream);
 
             if (printlog && echoTexts)
+            {
                 Console.WriteLine(Encoding.UTF8.GetString(decStream.ToArray()));
+            }
             else
             {
                 Console.WriteLine("Success");

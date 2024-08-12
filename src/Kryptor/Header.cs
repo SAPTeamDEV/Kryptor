@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Newtonsoft.Json;
+
 using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor
@@ -94,7 +95,7 @@ namespace SAPTeam.Kryptor
 
                 if (startPos == -1)
                 {
-                    var ts = buffer.LocatePattern(StartHeaderPattern);
+                    int ts = buffer.LocatePattern(StartHeaderPattern);
                     if (ts != -1)
                     {
                         startPos = ts + StartHeaderPattern.Length;
@@ -104,7 +105,7 @@ namespace SAPTeam.Kryptor
 
                 if (startPos > -1 && endPos == -1)
                 {
-                    var te = buffer.LocatePattern(EndHeaderPattern);
+                    int te = buffer.LocatePattern(EndHeaderPattern);
                     if (te != -1)
                     {
                         endPos = te;
@@ -129,7 +130,7 @@ namespace SAPTeam.Kryptor
 
             stream.Seek(startPos, SeekOrigin.Begin);
 
-            var dataBuffer = new byte[endPos - startPos];
+            byte[] dataBuffer = new byte[endPos - startPos];
             stream.Read(dataBuffer, 0, dataBuffer.Length);
 
             T header = ReadJson<T>(dataBuffer.Base64DecodeToString());
@@ -164,14 +165,8 @@ namespace SAPTeam.Kryptor
             NullValueHandling = NullValueHandling.Ignore,
         };
 
-        private static string ToJson(object obj)
-        {
-            return JsonConvert.SerializeObject(obj, jSettings);
-        }
+        private static string ToJson(object obj) => JsonConvert.SerializeObject(obj, jSettings);
 
-        private static T ReadJson<T>(string json)
-        {
-            return JsonConvert.DeserializeObject<T>(json, jSettings);
-        }
+        private static T ReadJson<T>(string json) => JsonConvert.DeserializeObject<T>(json, jSettings);
     }
 }

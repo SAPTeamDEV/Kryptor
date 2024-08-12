@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,13 +47,14 @@ namespace SAPTeam.Kryptor.Client
             {
                 return;
             }
+
             _ending = true;
 
             if (cancelled)
             {
-                var vts = Container.TokenSources.Where(x => !x.IsCancellationRequested);
+                IEnumerable<CancellationTokenSource> vts = Container.TokenSources.Where(x => !x.IsCancellationRequested);
 
-                foreach (var token in vts)
+                foreach (CancellationTokenSource token in vts)
                 {
                     token.Cancel();
                 }
@@ -69,15 +69,9 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public void NewSession(ISession session, bool autoRemove = false)
-        {
-            Container.NewSession(session, autoRemove);
-        }
+        public void NewSession(ISession session, bool autoRemove = false) => Container.NewSession(session, autoRemove);
 
         /// <inheritdoc/>
-        public void MonitorTask(Task task)
-        {
-            Container.AddMonitoringTask(task);
-        }
+        public void MonitorTask(Task task) => Container.AddMonitoringTask(task);
     }
 }

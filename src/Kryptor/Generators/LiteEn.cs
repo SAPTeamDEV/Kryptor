@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
-using MoreLinq;
+using
+/* Unmerged change from project 'Kryptor (net461)'
+Before:
 using MoreLinq.Extensions;
 using SAPTeam.Kryptor.Extensions;
+After:
+using MoreLinq.Extensions;
+
+using SAPTeam.Kryptor.Extensions;
+*/
+SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Generators
 {
@@ -52,7 +59,7 @@ namespace SAPTeam.Kryptor.Generators
 
             if (rotate < 1)
             {
-                rotate = Transformers.ToAbsInt32(_salt, buffer.Length % 41 + _seed[28] + _salt[0]) % 10;
+                rotate = Transformers.ToAbsInt32(_salt, (buffer.Length % 41) + _seed[28] + _salt[0]) % 10;
             }
 
             byte[] tl = new byte[5]
@@ -64,9 +71,9 @@ namespace SAPTeam.Kryptor.Generators
                 (byte)(buffer.Length * 13 % 64),
             };
 
-            var tl2 = _sha384.ComputeHash(Transformers.Mix((buffer.Length + rotate) * _seed[17], tl, _salt));
+            byte[] tl2 = _sha384.ComputeHash(Transformers.Mix((buffer.Length + rotate) * _seed[17], tl, _salt));
 
-            byte[] vf = _sha512.ComputeHash(tl).Concat(_sha256.ComputeHash(ChangeCase(tl2.Base64Encode(), _salt[23] + buffer.Length % 14).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
+            byte[] vf = _sha512.ComputeHash(tl).Concat(_sha256.ComputeHash(ChangeCase(tl2.Base64Encode(), _salt[23] + (buffer.Length % 14)).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();
             byte[] vt = _sha256.ComputeHash(vf.Concat(_sha384.ComputeHash(tl2.Select(x => (byte)(x * 6 % 256)).ToArray())).ToArray());
 
             int i = 0;

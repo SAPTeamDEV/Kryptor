@@ -10,10 +10,7 @@ namespace SAPTeam.Kryptor.Cli
         private TransformerToken token;
         private CancellationToken cancellationToken;
 
-        public KeyStoreTokenLoadSession(TransformerToken token)
-        {
-            this.token = token;
-        }
+        public KeyStoreTokenLoadSession(TransformerToken token) => this.token = token;
 
         protected override async Task<bool> RunAsync(CancellationToken cancellationToken)
         {

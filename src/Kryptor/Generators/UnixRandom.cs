@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Generators
 {
@@ -18,7 +14,7 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
-            using (var file = File.OpenRead("/dev/random"))
+            using (FileStream file = File.OpenRead("/dev/random"))
             {
                 file.Read(buffer, 0, buffer.Length);
             }

@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Cli
             }
             else
             {
-                Wordlists = Wordlists.Where(x => LocalIndex.ContainsId(x)).ToArray();
+                Wordlists = Wordlists.Where(LocalIndex.ContainsId).ToArray();
                 if (Wordlists.Length == 0)
                 {
                     Log("No valid id are supplied");

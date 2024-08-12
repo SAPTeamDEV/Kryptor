@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Generators
 {
@@ -57,7 +54,8 @@ namespace SAPTeam.Kryptor.Generators
                 {
                     TransformEntropy();
                 }
-                var data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
+
+                byte[] data = _sha512.ComputeHash(entropy).Concat(QueryEntropy(24, 96)).ToArray();
                 Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
                 totalProgress += (double)data.Length / buffer.Length;
@@ -114,7 +112,7 @@ namespace SAPTeam.Kryptor.Generators
 
         private static void AddEntropyInternal(byte[] data)
         {
-            foreach (var i in data)
+            foreach (byte i in data)
             {
                 int n = crng.Next(entropy.Length);
                 entropy[n] = i;

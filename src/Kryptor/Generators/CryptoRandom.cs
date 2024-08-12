@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Generators
 {
@@ -58,10 +52,7 @@ namespace SAPTeam.Kryptor.Generators
         /// optional random buffer.
         /// </summary>
         /// <param name="enableRandomPool">set to <c>true</c> to enable the random pool buffer for increased performance.</param>
-        public CryptoRandom(bool enableRandomPool)
-        {
-            IsRandomPoolEnabled = enableRandomPool;
-        }
+        public CryptoRandom(bool enableRandomPool) => IsRandomPoolEnabled = enableRandomPool;
 
         private void InitBuffer()
         {
@@ -94,11 +85,19 @@ namespace SAPTeam.Kryptor.Generators
         /// <returns>
         /// A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
         /// </returns>
-        public override int Next()
-        {
+
+        /* Unmerged change from project 'Kryptor (net461)'
+        Before:
+                public override int Next()
+                {
+                    // Mask away the sign bit so that we always return nonnegative integers
+        After:
+                public override int Next() =>
+                    // Mask away the sign bit so that we always return nonnegative integers
+        */
+        public override int Next() =>
             // Mask away the sign bit so that we always return nonnegative integers
-            return (int)GetRandomUInt32() & 0x7FFFFFFF;
-        }
+            (int)GetRandomUInt32() & 0x7FFFFFFF;
 
         /// <summary>
         /// Returns a nonnegative random number less than the specified maximum.
@@ -110,10 +109,7 @@ namespace SAPTeam.Kryptor.Generators
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         ///     <paramref name="maxValue"/> is less than zero.
         /// </exception>
-        public override int Next(int maxValue)
-        {
-            return maxValue < 0 ? throw new ArgumentOutOfRangeException("maxValue") : Next(0, maxValue);
-        }
+        public override int Next(int maxValue) => maxValue < 0 ? throw new ArgumentOutOfRangeException("maxValue") : Next(0, maxValue);
 
         /// <summary>
         /// Returns a random number within a specified range.
@@ -154,10 +150,7 @@ namespace SAPTeam.Kryptor.Generators
         /// <returns>
         /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </returns>
-        public override double NextDouble()
-        {
-            return GetRandomUInt32() / (1.0 + uint.MaxValue);
-        }
+        public override double NextDouble() => GetRandomUInt32() / (1.0 + uint.MaxValue);
 
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers.

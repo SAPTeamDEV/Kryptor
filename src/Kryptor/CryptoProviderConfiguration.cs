@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -32,9 +28,6 @@ namespace SAPTeam.Kryptor
         public virtual bool DynamicBlockProccessing { get; set; }
 
         /// <inheritdoc/>
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public object Clone() => MemberwiseClone();
     }
 }

@@ -89,10 +89,7 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="maxRunningSessions">
         /// The maximum allowed running sessions.
         /// </param>
-        public SessionContainer(int maxRunningSessions)
-        {
-            this.maxRunningSessions = maxRunningSessions;
-        }
+        public SessionContainer(int maxRunningSessions) => this.maxRunningSessions = maxRunningSessions;
 
         /// <summary>
         /// Adds new session to the container.
@@ -144,7 +141,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    foreach (var token in TokenSources)
+                    foreach (CancellationTokenSource token in TokenSources)
                     {
                         token.Cancel();
                     }
@@ -188,16 +185,16 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         public void StartQueuedSessions()
         {
-            var running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
-            var waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady(x.TokenSource.Token));
+            IEnumerable<SessionHolder> running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
+            IEnumerable<SessionHolder> waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && x.Session.IsReady(x.TokenSource.Token));
 
             if (waiting.Count() == 0 || running.Count() >= maxRunningSessions) return;
 
             int toBeStarted = Math.Min(maxRunningSessions - running.Count(), waiting.Count());
             for (int i = 0; i < toBeStarted; i++)
             {
-                var sessionHolder = waiting.ElementAt(i);
-                var task = sessionHolder.StartTask(false);
+                SessionHolder sessionHolder = waiting.ElementAt(i);
+                Task task = sessionHolder.StartTask(false);
                 if (task != null)
                 {
                     task.ContinueWith(x => StartQueuedSessions());

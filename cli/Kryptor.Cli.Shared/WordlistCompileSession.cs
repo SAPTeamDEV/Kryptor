@@ -52,6 +52,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Directory.Delete(DestPath, true);
             }
+
             Directory.CreateDirectory(DestPath);
 
             Description = $"Importing {IndexEntry.Id}";
@@ -61,9 +62,9 @@ namespace SAPTeam.Kryptor.Cli
             {
                 try
                 {
-                    var buffer = new byte[streamReader.BaseStream.Length];
+                    byte[] buffer = new byte[streamReader.BaseStream.Length];
                     await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                    var hash = buffer.Sha256();
+                    byte[] hash = buffer.Sha256();
 
                     if (Bypass && IndexEntry.Hash == null)
                     {
@@ -88,7 +89,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
-                double steps = (1.0 / streamReader.BaseStream.Length) * 100;
+                double steps = 1.0 / streamReader.BaseStream.Length * 100;
                 if (Bypass && IndexEntry.Size <= 0)
                 {
                     IndexEntry.Size = streamReader.BaseStream.Length;
@@ -111,7 +112,7 @@ namespace SAPTeam.Kryptor.Cli
                         fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c + ".txt"));
                     }
 
-                    var data = Encoding.UTF8.GetBytes(line + "\n");
+                    byte[] data = Encoding.UTF8.GetBytes(line + "\n");
 
                     fileStreams[c].Write(data, 0, data.Length);
 
@@ -122,7 +123,7 @@ namespace SAPTeam.Kryptor.Cli
             Progress = 100;
             Description = $"Imported {IndexEntry.Id} wordlist";
 
-            foreach (var f in fileStreams.Values)
+            foreach (FileStream f in fileStreams.Values)
             {
                 f.Flush();
                 f.Dispose();

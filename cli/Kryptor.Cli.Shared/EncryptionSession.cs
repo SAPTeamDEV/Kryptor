@@ -64,9 +64,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private void UpdateProgress(double value)
-        {
-            Progress = value;
-        }
+        private void UpdateProgress(double value) => Progress = value;
     }
 }

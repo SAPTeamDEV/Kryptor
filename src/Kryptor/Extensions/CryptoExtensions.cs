@@ -54,7 +54,7 @@ namespace SAPTeam.Kryptor.Extensions
         /// <returns>The computed hash array.</returns>
         public static byte[] HmacSha256(this byte[] buffer, byte[] key)
         {
-            using (var hmacSha256 = new HMACSHA256(key))
+            using (HMACSHA256 hmacSha256 = new HMACSHA256(key))
             {
                 return hmacSha256.ComputeHash(buffer);
             }
@@ -68,7 +68,7 @@ namespace SAPTeam.Kryptor.Extensions
         /// <returns>The computed hash array.</returns>
         public static byte[] HmacSha384(this byte[] buffer, byte[] key)
         {
-            using (var hmacSha384 = new HMACSHA384(key))
+            using (HMACSHA384 hmacSha384 = new HMACSHA384(key))
             {
                 return hmacSha384.ComputeHash(buffer);
             }
@@ -82,7 +82,7 @@ namespace SAPTeam.Kryptor.Extensions
         /// <returns>The computed hash array.</returns>
         public static byte[] HmacSha512(this byte[] buffer, byte[] key)
         {
-            using (var hmacSha512 = new HMACSHA512(key))
+            using (HMACSHA512 hmacSha512 = new HMACSHA512(key))
             {
                 return hmacSha512.ComputeHash(buffer);
             }

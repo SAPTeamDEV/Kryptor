@@ -9,10 +9,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         private readonly string _schemaUrl;
 
-        public SchemaJsonConverter(string schemaUrl)
-        {
-            _schemaUrl = schemaUrl;
-        }
+        public SchemaJsonConverter(string schemaUrl) => _schemaUrl = schemaUrl;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -36,15 +33,9 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) => throw new NotImplementedException();
 
-        public override bool CanConvert(Type objectType)
-        {
-            return true;
-        }
+        public override bool CanConvert(Type objectType) => true;
 
         public override bool CanRead => false;
     }

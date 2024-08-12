@@ -101,7 +101,7 @@ namespace SAPTeam.Kryptor.Tests
         public void RotateDeterministicTest()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var emptyCollection = Enumerable.Empty<int>();
+            IEnumerable<int> emptyCollection = Enumerable.Empty<int>();
 
             int[] result1 = (int[])array.Clone();
             int[] result2 = (int[])array.Clone();
@@ -126,11 +126,11 @@ namespace SAPTeam.Kryptor.Tests
         [Fact]
         public void PickDeterministicTest()
         {
-            var collection = new List<int> { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+            List<int> collection = new List<int> { 10, 20, 30, 40, 50, 60, 70, 80, 90 };
             int[] expect = { 50, 70, 20 };
 
-            var result1 = Transformers.Pick(collection, 3, seed: 123);
-            var result2 = Transformers.Pick(collection, 3, seed: 124);
+            IEnumerable<int> result1 = Transformers.Pick(collection, 3, seed: 123);
+            IEnumerable<int> result2 = Transformers.Pick(collection, 3, seed: 124);
 
             Assert.NotEqual(collection, result1); // Shuffled
             Assert.Equal(expect, result1);
@@ -141,13 +141,13 @@ namespace SAPTeam.Kryptor.Tests
         [Fact]
         public void MixDeterministicTest()
         {
-            var collection1 = new List<string> { "A", "B", "C" };
-            var collection2 = new List<string> { "X", "Y", "Z" };
+            List<string> collection1 = new List<string> { "A", "B", "C" };
+            List<string> collection2 = new List<string> { "X", "Y", "Z" };
 
             string[] expect = { "Z", "Y", "B", "X", "C", "A" };
 
-            var result1 = Transformers.Mix(seed: 456, collection1, collection2);
-            var result2 = Transformers.Mix(seed: 457, collection1, collection2);
+            string[] result1 = Transformers.Mix(seed: 456, collection1, collection2);
+            string[] result2 = Transformers.Mix(seed: 457, collection1, collection2);
 
             Assert.NotEqual(collection1.Concat(collection2), result1); // Shuffled
             Assert.Equal(expect, result1);

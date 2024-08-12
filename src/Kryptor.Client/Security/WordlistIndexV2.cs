@@ -58,9 +58,6 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The id to search.
         /// </param>
         /// <returns></returns>
-        public bool ContainsId(string id)
-        {
-            return Wordlists.Where(x => x.Id == id).Count() > 0;
-        }
+        public bool ContainsId(string id) => Wordlists.Where(x => x.Id == id).Count() > 0;
     }
 }
