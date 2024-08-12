@@ -11,6 +11,7 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class SessionContainer
     {
+        private ISessionHost _sessionHost;
         private readonly int maxRunningSessions;
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
@@ -86,10 +87,17 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="SessionContainer"/> class.
         /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
         /// <param name="maxRunningSessions">
         /// The maximum allowed running sessions.
         /// </param>
-        public SessionContainer(int maxRunningSessions) => this.maxRunningSessions = maxRunningSessions;
+        public SessionContainer(ISessionHost sessionHost, int maxRunningSessions)
+        {
+            _sessionHost = sessionHost;
+            this.maxRunningSessions = maxRunningSessions;
+        }
 
         /// <summary>
         /// Adds new session to the container.
@@ -194,7 +202,7 @@ namespace SAPTeam.Kryptor.Client
             for (int i = 0; i < toBeStarted; i++)
             {
                 SessionHolder sessionHolder = waiting.ElementAt(i);
-                Task task = sessionHolder.StartTask(false);
+                Task task = sessionHolder.StartTask(_sessionHost, false);
                 if (task != null)
                 {
                     task.ContinueWith(x => StartQueuedSessions());

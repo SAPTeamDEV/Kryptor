@@ -64,11 +64,16 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the task asynchronously.
         /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token to monitor the task.
         /// </param>
-        /// <returns></returns>
-        Task StartAsync(CancellationToken cancellationToken);
+        /// <returns>
+        /// A new <see cref="Task"/> representation of the session.
+        /// </returns>
+        Task StartAsync(ISessionHost sessionHost, CancellationToken cancellationToken);
 
         /// <summary>
         /// Asks from session whether it could be started right now.

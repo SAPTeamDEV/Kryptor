@@ -33,12 +33,12 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         protected SessionHost()
         {
-            Container = new SessionContainer(MaxRunningSessions);
+            Container = new SessionContainer(this, MaxRunningSessions);
             MasterToken = new CancellationTokenSource();
         }
 
         /// <inheritdoc/>
-        public abstract void Start();
+        public abstract void Start(ClientContext context);
 
         /// <inheritdoc/>
         public virtual void End(bool cancelled)

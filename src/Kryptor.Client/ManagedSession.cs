@@ -43,6 +43,6 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        protected override Task<bool> RunAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
+        protected override Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken) => throw new NotImplementedException();
     }
 }

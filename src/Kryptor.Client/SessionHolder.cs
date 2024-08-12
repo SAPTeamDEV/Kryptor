@@ -49,18 +49,21 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the session task.
         /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
         /// <param name="throwIfRunning">
         /// Throw exception if the task already started.
         /// </param>
         /// <exception cref="InvalidOperationException"></exception>
-        public Task StartTask(bool throwIfRunning = true)
+        public Task StartTask(ISessionHost sessionHost, bool throwIfRunning = true)
         {
             if (Task != null)
             {
                 return throwIfRunning ? throw new InvalidOperationException("Session is already started.") : (Task)null;
             }
 
-            Task = Session.StartAsync(TokenSource.Token);
+            Task = Session.StartAsync(sessionHost, TokenSource.Token);
             return Task;
         }
     }

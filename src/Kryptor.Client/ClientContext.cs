@@ -58,6 +58,6 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the session host
         /// </summary>
-        protected virtual void StartSessionHost() => Host.Start();
+        protected virtual void StartSessionHost() => Host.Start(this);
     }
 }

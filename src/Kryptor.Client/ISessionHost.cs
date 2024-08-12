@@ -10,7 +10,10 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the host session in the current thread.
         /// </summary>
-        void Start();
+        /// <param name="context">
+        /// The caller context.
+        /// </param>
+        void Start(ClientContext context);
 
         /// <summary>
         /// Ends the host session.

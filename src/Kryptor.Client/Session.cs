@@ -60,7 +60,7 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
             Status = SessionStatus.Running;
             Timer.Start();
@@ -74,7 +74,7 @@ namespace SAPTeam.Kryptor.Client
                     throw new InvalidOperationException("You may not start this session at the moment");
                 }
 
-                bool result = await RunAsync(cancellationToken);
+                bool result = await RunAsync(sessionHost, cancellationToken);
 
                 if (result)
                 {
@@ -142,12 +142,15 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Starts the session in a managed manner.
         /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token to monitor the task.
         /// </param>
         /// <returns>
         /// true if the session ends successfully and false when the session ends with a handled error.
         /// </returns>
-        protected abstract Task<bool> RunAsync(CancellationToken cancellationToken);
+        protected abstract Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken);
     }
 }
