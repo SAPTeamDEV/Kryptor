@@ -52,11 +52,6 @@ namespace SAPTeam.Kryptor.Client
         Stopwatch Timer { get; }
 
         /// <summary>
-        /// Gets the dependency list of the session. This session only starts when all of dependency sessions where completed successfully.
-        /// </summary>
-        List<ISession> Dependencies { get; }
-
-        /// <summary>
         /// Gets the message queue of the session. All message will be handled and shown by client application.
         /// </summary>
         List<string> Messages { get; }
@@ -74,6 +69,25 @@ namespace SAPTeam.Kryptor.Client
         /// A new <see cref="Task"/> representation of the session.
         /// </returns>
         Task StartAsync(ISessionHost sessionHost, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Sets this session as dependency for the given <paramref name="session"/>. The session waits for this session to successfully end.
+        /// </summary>
+        /// <param name="session">
+        /// A session with status <see cref="SessionStatus.NotStarted"/>.
+        /// </param>
+        void ContinueWith(ISession session);
+
+        /// <summary>
+        /// Adds the given <paramref name="session"/> as dependency. this session won't start unless all dependecy session completed successfully. All dependencies must be set before starting the session otherwise it won't have any effects.
+        /// </summary>
+        /// <param name="session">
+        /// The session to be added as dependency.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if the <paramref name="session"/> is added to the dependency list and <see langword="false"/> if the <paramref name="session"/> is not added because this session already started or duplicated <paramref name="session"/>.
+        /// </returns>
+        bool AddDependency(ISession session);
 
         /// <summary>
         /// Asks from session whether it could be started right now.

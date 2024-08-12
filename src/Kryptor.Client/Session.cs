@@ -37,10 +37,17 @@ namespace SAPTeam.Kryptor.Client
         public Stopwatch Timer { get; protected set; }
 
         /// <inheritdoc/>
-        public List<ISession> Dependencies { get; }
-
-        /// <inheritdoc/>
         public List<string> Messages { get; }
+
+        /// <summary>
+        /// Gets the dependency list of the session. This session only starts when all of dependency sessions where completed successfully.
+        /// </summary>
+        protected List<ISession> Dependencies { get; }
+
+        /// <summary>
+        /// Gets the list of the dependents sessions. These sessions only starts when this session where completed successfully. Note this list is only intended for inter session communications and if you want to bind a session with this session you must call either <see cref="ContinueWith(ISession)"/> or add this session to the target session's <see cref="Dependencies"/> property.
+        /// </summary>
+        protected List<ISession> Dependents { get; }
 
         /// <summary>
         /// Sets all session properties to thir default data.
@@ -55,8 +62,10 @@ namespace SAPTeam.Kryptor.Client
             Exception = null;
 
             Timer = new Stopwatch();
-            Dependencies = new List<ISession>();
             Messages = new List<string>();
+
+            Dependencies = new List<ISession>();
+            Dependents = new List<ISession>();
         }
 
         /// <inheritdoc/>
@@ -104,6 +113,38 @@ namespace SAPTeam.Kryptor.Client
                 Timer.Stop();
                 Status = SessionStatus.Ended;
             }
+        }
+
+        /// <inheritdoc/>
+        public virtual void ContinueWith(ISession session)
+        {
+            if (session.Status == SessionStatus.NotStarted)
+            {
+                var result = session.AddDependency(this);
+
+                if (!result)
+                {
+                    throw new ApplicationException("Cannot add this session as dependency of " + session);
+                }
+
+                Dependents.Add(session);
+            }
+            else
+            {
+                throw new ArgumentException("The session is already started.");
+            }
+        }
+
+        /// <inheritdoc/>
+        public virtual bool AddDependency(ISession session)
+        {
+            if (Status != SessionStatus.NotStarted || Dependencies.Contains(session))
+            {
+                return false;
+            }
+
+            Dependencies.Add(session);
+            return true;
         }
 
         /// <inheritdoc/>
