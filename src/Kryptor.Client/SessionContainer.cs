@@ -17,7 +17,6 @@ namespace SAPTeam.Kryptor.Client
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;
-        private Task[] tasks;
         private CancellationTokenSource[] tokenSources;
         private ICollection<SessionHolder> holders;
 
@@ -44,12 +43,7 @@ namespace SAPTeam.Kryptor.Client
         {
             get
             {
-                if (tasks == null)
-                {
-                    tasks = SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
-                }
-
-                return tasks;
+                return SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
             }
         }
 
@@ -221,7 +215,6 @@ namespace SAPTeam.Kryptor.Client
         private void ResetCache()
         {
             sessions = null;
-            tasks = null;
             tokenSources = null;
             holders = null;
         }
