@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
             KeyStoreLoadSession ksLoadSession = CreateKeyStoreLoadSession(ks);
             NewSession(ksLoadSession);
 
-            KeyStoreAnalyzeRootSession calcSession = new KeyStoreAnalyzeRootSession(maxRunningSessions);
+            KeyStoreAnalyzeCrackSession calcSession = new KeyStoreAnalyzeCrackSession(maxRunningSessions);
             ksLoadSession.ContinueWith(calcSession);
             NewSession(calcSession);
 

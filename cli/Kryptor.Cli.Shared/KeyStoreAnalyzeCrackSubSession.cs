@@ -8,7 +8,7 @@ using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class KeyStoreAnalyzeSession : Session
+    public class KeyStoreAnalyzeCrackSubSession : Session
     {
         public int Index;
         private readonly byte[] Test;
@@ -17,7 +17,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public override bool IsHidden => true;
 
-        public KeyStoreAnalyzeSession(int index, byte[] test) : base()
+        public KeyStoreAnalyzeCrackSubSession(int index, byte[] test) : base()
         {
             Index = index;
             Test = test;

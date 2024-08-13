@@ -7,7 +7,7 @@ using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class KeyStoreAnalyzeRootSession : Session, ISessionHost
+    public class KeyStoreAnalyzeCrackSession : Session, ISessionHost
     {
         private readonly SessionContainer container;
         private byte[] test;
@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor.Cli
         public bool Found { get; private set; }
         public bool Verbose => false;
 
-        public KeyStoreAnalyzeRootSession(int maxRunningSessions)
+        public KeyStoreAnalyzeCrackSession(int maxRunningSessions)
         {
             Progress = -1;
 
@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Cli
 
             for (int i = 0; i < 256; i++)
             {
-                KeyStoreAnalyzeSession session = new KeyStoreAnalyzeSession(i, test);
+                KeyStoreAnalyzeCrackSubSession session = new KeyStoreAnalyzeCrackSubSession(i, test);
                 session.OnVerify += StopTimer;
                 NewSession(session, false);
             }
