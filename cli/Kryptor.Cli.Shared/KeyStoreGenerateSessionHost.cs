@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor.Cli
         public KeyStoreGenerateSessionHost(GlobalOptions globalOptions, KeyStoreGenerator generator, int size, TransformerToken token, int magin, string output) : base(globalOptions)
         {
             Generator = generator;
-            Size = size;
+            Size = size > 0 ? size : KeyStore.GetRandomOddNumber();
             Token = token;
             Margin = magin;
             Output = output;
@@ -26,22 +26,22 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            Log("This feature is not completed and may have bugs");
+            Log("This feature is not completed yet and may have bugs");
 
             KeyStoreLoadSession ksLoader;
 
-            if (Generator != KeyStoreGenerator.None)
-            {
-                string kSize = Margin > 0 ? $"{Size}+{Margin}" : $"{Size}";
-                Log($"Generating keystore with {kSize} keys using {Generator}");
-                ksLoader = new KeyStoreRandomLoadSession(Generator, Size, Margin);
-            }
-            else
+            if (Token.IsValid())
             {
                 ITranformer tranformer = Transformers.GetTranformer(Token);
                 string kSize = Margin > 0 ? $"{Token.KeySize}+{Margin}" : $"{Token.KeySize}";
                 Log($"Generating keystore with {kSize} keys using {tranformer.GetType().Name}");
                 ksLoader = new KeyStoreTokenLoadSession(Token, Margin);
+            }
+            else
+            {
+                string kSize = Margin > 0 ? $"{Size}+{Margin}" : $"{Size}";
+                Log($"Generating keystore with {kSize} keys using {Generator}");
+                ksLoader = new KeyStoreRandomLoadSession(Generator, Size, Margin);
             }
 
             NewSession(ksLoader);
