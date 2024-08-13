@@ -86,6 +86,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
 
                 ShowProgressMonitored(true, false).Wait();
+
+                SortIndex();
             }
         }
 

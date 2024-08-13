@@ -84,5 +84,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             UpdateLocalIndex();
         }
+
+        protected void SortIndex()
+        {
+            LocalIndex.Wordlists = LocalIndex.Wordlists.OrderBy(x => x.Id).ToList();
+            UpdateLocalIndex();
+        }
     }
 }
