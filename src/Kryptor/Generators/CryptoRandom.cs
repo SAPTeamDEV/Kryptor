@@ -74,6 +74,8 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
+            OnProgress?.Invoke(-1);
+
             NextBytes(buffer);
 
             OnProgress?.Invoke(100);
