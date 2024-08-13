@@ -47,15 +47,6 @@
       "Size": 3491
     },
     {
-      "Id": "bt4",
-      "Name": "bt4 +1.5M",
-      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/bt4-password.txt",
-      "Hash": "5OAkI8AHuo/sTnqqgLatlEpItSrcaWS/GvlGhsf+YjE=",
-      "Enforced": false,
-      "Words": 1622070,
-      "Size": 15663259
-    },
-    {
       "Id": "cirt",
       "Name": "cirt +1K",
       "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/cirt-default-passwords.txt",
@@ -63,6 +54,15 @@
       "Enforced": true,
       "Words": 930,
       "Size": 7841
+    },
+    {
+      "Id": "bt4",
+      "Name": "bt4 +1.5M",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/bt4-password.txt",
+      "Hash": "5OAkI8AHuo/sTnqqgLatlEpItSrcaWS/GvlGhsf+YjE=",
+      "Enforced": false,
+      "Words": 1622070,
+      "Size": 15663259
     },
     {
       "Id": "darc0de",
@@ -83,15 +83,6 @@
       "Size": 82603
     },
     {
-      "Id": "openwall",
-      "Name": "openwall.net +3.7M",
-      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/openwall.net-all.txt",
-      "Hash": "DVS6q9P9fYy61ucYHDp9NIL1scuBObjcOf/AvuDo9yU=",
-      "Enforced": false,
-      "Words": 3686557,
-      "Size": 40999980
-    },
-    {
       "Id": "richelieu",
       "Name": "richelieu french top 20K",
       "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/richelieu-french-top20000.txt",
@@ -101,13 +92,13 @@
       "Size": 154919
     },
     {
-      "Id": "xato-net-10m",
-      "Name": "xato net 10M",
-      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords.txt",
-      "Hash": "yVmJ/s+unJGqn1xzA0TVyr1jNbsJTJxgq6Fr8XQqcv4=",
+      "Id": "openwall",
+      "Name": "openwall.net +3.7M",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/openwall.net-all.txt",
+      "Hash": "DVS6q9P9fYy61ucYHDp9NIL1scuBObjcOf/AvuDo9yU=",
       "Enforced": false,
-      "Words": 5186518,
-      "Size": 48312893
+      "Words": 3686557,
+      "Size": 40999980
     },
     {
       "Id": "xato-net-10m-top100k",
@@ -128,13 +119,13 @@
       "Size": 71039
     },
     {
-      "Id": "rockyou",
-      "Name": "rockyou +14M",
-      "Uri": "https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt",
-      "Hash": "bfp2qg4CMDmU/RBi0KyYPwtp7OVHTYWlu6NjYuGcEHY=",
+      "Id": "xato-net-10m",
+      "Name": "xato net 10M",
+      "Uri": "https://github.com/danielmiessler/SecLists/raw/master/Passwords/xato-net-10-million-passwords.txt",
+      "Hash": "yVmJ/s+unJGqn1xzA0TVyr1jNbsJTJxgq6Fr8XQqcv4=",
       "Enforced": false,
-      "Words": 14341515,
-      "Size": 139921497
+      "Words": 5186518,
+      "Size": 48312893
     },
     {
       "Id": "md5decrypt",
@@ -182,13 +173,13 @@
       "Size": 24712
     },
     {
-      "Id": "dutch",
-      "Name": "Dutch Passwords +4.2M",
-      "Uri": "https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/passwords/dutch_passwords.txt",
-      "Hash": "X4UcJcy3MAmwLIuQxe+DMsRum4e5opq3aUusIwlOqcA=",
+      "Id": "rockyou",
+      "Name": "rockyou +14M",
+      "Uri": "https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt",
+      "Hash": "bfp2qg4CMDmU/RBi0KyYPwtp7OVHTYWlu6NjYuGcEHY=",
       "Enforced": false,
-      "Words": 4306726,
-      "Size": 43164170
+      "Words": 14341515,
+      "Size": 139921497
     },
     {
       "Id": "service-pass",
@@ -225,6 +216,15 @@
       "Enforced": true,
       "Words": 773,
       "Size": 5765
+    },
+    {
+      "Id": "dutch",
+      "Name": "Dutch Passwords +4.2M",
+      "Uri": "https://raw.githubusercontent.com/kkrypt0nn/wordlists/main/wordlists/passwords/dutch_passwords.txt",
+      "Hash": "X4UcJcy3MAmwLIuQxe+DMsRum4e5opq3aUusIwlOqcA=",
+      "Enforced": false,
+      "Words": 4306726,
+      "Size": 43164170
     },
     {
       "Id": "000webhost",
