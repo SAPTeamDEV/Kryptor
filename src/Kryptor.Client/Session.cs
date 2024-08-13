@@ -169,11 +169,11 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public async Task StartAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
+            ThrowIfEnded();
+
             try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-
-                ThrowIfEnded();
 
                 if (IsRunning)
                 {
