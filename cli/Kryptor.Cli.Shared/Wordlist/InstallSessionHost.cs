@@ -22,7 +22,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private readonly string[] Ids;
         private readonly bool Converting;
 
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/Wordlist-IndexV2.json");
 
         public WordlistIndexV2 Index { get; protected set; }
 

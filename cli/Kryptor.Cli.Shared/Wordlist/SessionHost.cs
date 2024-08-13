@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        public SessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
+        public SessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/schema-v2.json"));
 
         public override void Start(ClientContext context)
         {
