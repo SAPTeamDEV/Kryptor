@@ -20,6 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyStoreGenerateSessionHost.cs" />
+    <Compile Include="..\Kryptor.Cli.Shared\KeyStoreGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyStoreRandomLoadSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\CompileSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\ConverterSessionHost.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\DownloadSession.cs" />

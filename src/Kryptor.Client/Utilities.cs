@@ -28,13 +28,16 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="progressReport">
         /// Called when a part of work is done.
         /// </param>
+        /// <param name="margin">
+        /// The requested extra size to make the keystore even more secure.
+        /// </param>
         /// <returns></returns>
-        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, Action<double> progressReport)
+        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, Action<double> progressReport, int margin = 0)
         {
             ITranformer tranformer = Transformers.GetTranformer(token);
             tranformer.OnProgress += progressReport;
 
-            byte[] buffer = new byte[token.KeySize * 32];
+            byte[] buffer = new byte[(token.KeySize * 32) + margin];
             tranformer.Generate(buffer, token.Rotate);
 
             progressReport(-1);

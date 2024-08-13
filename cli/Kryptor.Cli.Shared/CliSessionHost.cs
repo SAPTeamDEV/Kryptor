@@ -382,7 +382,7 @@ namespace SAPTeam.Kryptor.Cli
                     DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 
-                session = new KeyStoreTokenLoadSession(token);
+                session = new KeyStoreTokenLoadSession(token, 0);
             }
             else
             {

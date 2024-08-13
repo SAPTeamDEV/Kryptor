@@ -8,9 +8,15 @@ namespace SAPTeam.Kryptor.Cli
     public class KeyStoreTokenLoadSession : KeyStoreLoadSession
     {
         private TransformerToken token;
+        private int margin;
+
         private CancellationToken cancellationToken;
 
-        public KeyStoreTokenLoadSession(TransformerToken token) => this.token = token;
+        public KeyStoreTokenLoadSession(TransformerToken token, int margin)
+        {
+            this.token = token;
+            this.margin = margin;
+        }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
@@ -18,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             Description = "Generating keystore";
             await Task.Delay(1);
 
-            KeyStore = Utilities.GenerateKeyStoreFromToken(token, UpdateProgress);
+            KeyStore = Utilities.GenerateKeyStoreFromToken(token, UpdateProgress, margin);
 
             Description = "Keystore loaded";
             return true;
