@@ -41,7 +41,7 @@ namespace SAPTeam.Kryptor.Cli
             }
             else
             {
-                if (Generator == KeyStoreGenerator.EntroX)
+                if (!Quiet && Generator == KeyStoreGenerator.EntroX)
                 {
                     CollectEntropy();
                 }
