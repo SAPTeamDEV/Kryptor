@@ -1,0 +1,79 @@
+using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+using SAPTeam.Kryptor.Client;
+
+namespace SAPTeam.Kryptor.Cli
+{
+    public class FileSaveSession : Session
+    {
+        private string filePath;
+
+        public string FilePath
+        {
+            get
+            {
+                return filePath;
+            }
+
+            set
+            {
+                filePath = string.IsNullOrEmpty(value) ? value : Path.GetFullPath(value);
+            }
+        }
+
+        public byte[] Data { get; set; }
+
+        public FileSaveSession(string filePath, byte[] data)
+        {
+            FilePath = filePath;
+            Data = data;
+
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                Description = FilePath;
+            }
+        }
+
+        protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
+        {
+            Description = FilePath;
+
+            try
+            {
+                await WriteAsync(cancellationToken);
+
+                return true;
+            }
+            catch
+            {
+                if (File.Exists(FilePath))
+                {
+                    File.Delete(FilePath);
+                }
+
+                throw;
+            }
+        }
+
+        private async Task WriteAsync(CancellationToken cancellationToken)
+        {
+            using (var f = File.OpenWrite(FilePath))
+            {
+                var steps = (1.0 / Data.Length) * 100;
+                int wroteBytes = 0;
+
+                while (wroteBytes < Data.Length)
+                {
+                    var chunk = Math.Min(Data.Length - wroteBytes, 1024);
+
+                    await f.WriteAsync(Data, 0, chunk, cancellationToken);
+                    wroteBytes += chunk;
+                    Progress = wroteBytes * steps;
+                }
+            }
+        }
+    }
+}

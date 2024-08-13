@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
@@ -44,20 +41,13 @@ namespace SAPTeam.Kryptor.Cli
                 ksLoader = new KeyStoreRandomLoadSession(true, Generator, Size, Margin);
             }
 
+            var fileWriter = new FileSaveSession(Output, null);
+            ksLoader.ContinueWith(fileWriter);
+
             NewSession(ksLoader);
+            NewSession(fileWriter);
+
             ShowProgressMonitored(true).Wait();
-
-            if (ksLoader.EndReason == SessionEndReason.Completed)
-            {
-                KeyStore ks = ksLoader.KeyStore;
-
-                if (string.IsNullOrEmpty(Output))
-                {
-                    Output = BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";
-                }
-
-                File.WriteAllBytes(Output, ks.Raw);
-            }
         }
     }
 }
