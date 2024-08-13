@@ -23,8 +23,6 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            Log("This feature is not completed yet and may have bugs");
-
             KeyStoreLoadSession ksLoader;
 
             if (Token.IsValid())
