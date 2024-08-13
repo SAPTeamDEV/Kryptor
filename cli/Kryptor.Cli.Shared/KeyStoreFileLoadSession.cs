@@ -12,7 +12,10 @@ namespace SAPTeam.Kryptor.Cli
         private readonly string path;
         private const int ChunckSize = 4096;
 
-        public KeyStoreFileLoadSession(string path) => this.path = path;
+        public KeyStoreFileLoadSession(bool showFingerprint, string path) : base(showFingerprint)
+        {
+            this.path = path;
+        }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
@@ -39,7 +42,7 @@ namespace SAPTeam.Kryptor.Cli
                 Progress = -1;
                 KeyStore = new KeyStore(result);
 
-                Description = "Keystore loaded";
+                SetEndDescription();
                 return true;
             }
         }

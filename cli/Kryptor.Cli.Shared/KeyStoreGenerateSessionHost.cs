@@ -35,13 +35,13 @@ namespace SAPTeam.Kryptor.Cli
                 ITranformer tranformer = Transformers.GetTranformer(Token);
                 string kSize = Margin > 0 ? $"{Token.KeySize}+{Margin}" : $"{Token.KeySize}";
                 Log($"Generating keystore with {kSize} keys using {tranformer.GetType().Name}");
-                ksLoader = new KeyStoreTokenLoadSession(Token, Margin);
+                ksLoader = new KeyStoreTokenLoadSession(true, Token, Margin);
             }
             else
             {
                 string kSize = Margin > 0 ? $"{Size}+{Margin}" : $"{Size}";
                 Log($"Generating keystore with {kSize} keys using {Generator}");
-                ksLoader = new KeyStoreRandomLoadSession(Generator, Size, Margin);
+                ksLoader = new KeyStoreRandomLoadSession(true, Generator, Size, Margin);
             }
 
             NewSession(ksLoader);
@@ -51,7 +51,6 @@ namespace SAPTeam.Kryptor.Cli
             {
                 KeyStore ks = ksLoader.KeyStore;
 
-                Log($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
                 if (string.IsNullOrEmpty(Output))
                 {
                     Output = BitConverter.ToString(ks.Fingerprint).Replace("-", "").ToLower() + ".kks";

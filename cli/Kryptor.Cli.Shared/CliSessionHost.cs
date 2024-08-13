@@ -357,8 +357,6 @@ namespace SAPTeam.Kryptor.Cli
                 throw new ApplicationException("KeyStoreLoad failed");
             }
 
-            DebugLog($"Keystore fingerprint: {ks.Fingerprint.FormatFingerprint()}");
-
             return ks;
         }
 
@@ -368,7 +366,7 @@ namespace SAPTeam.Kryptor.Cli
             if (File.Exists(keyStore))
             {
                 DebugLog($"Keystore file: {keyStore}");
-                session = new KeyStoreFileLoadSession(keyStore);
+                session = new KeyStoreFileLoadSession(Verbose, keyStore);
 
             }
             else if (TransformerToken.IsValid(keyStore))
@@ -382,7 +380,7 @@ namespace SAPTeam.Kryptor.Cli
                     DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 
-                session = new KeyStoreTokenLoadSession(token, 0);
+                session = new KeyStoreTokenLoadSession(Verbose, token, 0);
             }
             else
             {

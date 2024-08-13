@@ -13,7 +13,7 @@ namespace SAPTeam.Kryptor.Cli
         private KeyStoreGenerator Generator;
         private int Size;
 
-        public KeyStoreRandomLoadSession(KeyStoreGenerator generator, int size, int margin)
+        public KeyStoreRandomLoadSession(bool showFingerprint, KeyStoreGenerator generator, int size, int margin) : base(showFingerprint)
         {
             Generator = generator;
             Size = (size * 32) + margin;
@@ -54,7 +54,7 @@ namespace SAPTeam.Kryptor.Cli
             Progress = -1;
             KeyStore = new KeyStore(buffer);
 
-            Description = "Keystore loaded";
+            SetEndDescription();
             return true;
         }
 

@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private CancellationToken cancellationToken;
 
-        public KeyStoreTokenLoadSession(TransformerToken token, int margin)
+        public KeyStoreTokenLoadSession(bool showFingerprint, TransformerToken token, int margin) : base(showFingerprint)
         {
             this.token = token;
             this.margin = margin;
@@ -26,7 +26,7 @@ namespace SAPTeam.Kryptor.Cli
 
             KeyStore = Utilities.GenerateKeyStoreFromToken(token, UpdateProgress, margin);
 
-            Description = "Keystore loaded";
+            SetEndDescription();
             return true;
         }
 
