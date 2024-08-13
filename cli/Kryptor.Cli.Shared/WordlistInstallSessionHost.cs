@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public WordlistIndexV2 Index { get; protected set; }
 
-        public WordlistInstallSessionHost(bool verbose, bool list, bool all, bool recommended, string[] ids) : base(verbose)
+        public WordlistInstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, string[] ids) : base(globalOptions)
         {
             List = list;
             All = all;
@@ -67,7 +67,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (Converting)
             {
-                Log("Converting v1 index to v2");
+                DebugLog("Converting v1 index to v2");
             }
 
             if (Index == null)
@@ -124,7 +124,7 @@ namespace SAPTeam.Kryptor.Cli
                         }
                         catch
                         {
-                            Log($"Cannot add {compiler.IndexEntry.Id}");
+                            LogError($"Cannot add {compiler.IndexEntry.Id}");
                         }
 
                         try

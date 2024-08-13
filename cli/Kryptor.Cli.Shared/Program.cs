@@ -28,6 +28,15 @@ namespace SAPTeam.Kryptor.Cli
             verbose.AddAlias("-v");
             root.AddGlobalOption(verbose);
 
+            Option<bool> quiet = new Option<bool>("--quiet", "Prevents showing output in console. Only errors and crashes will be shown.");
+            quiet.AddAlias("-q");
+            root.AddGlobalOption(quiet);
+
+            Option<bool> noColor = new Option<bool>("--no-color", "Disables showing messages with colors");
+            root.AddGlobalOption(noColor);
+
+            var globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
+
             #region Common Data Processing Options
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
             blockSize.AddAlias("-b");
@@ -96,11 +105,11 @@ namespace SAPTeam.Kryptor.Cli
 
             encCmd.AddAlias("e");
 
-            encCmd.SetHandler((verboseT, dpoT, hVerboseT) =>
+            encCmd.SetHandler((globalOptionsT, dpoT, hVerboseT) =>
             {
-                EncryptionSessionHost sessionHost = new EncryptionSessionHost(verboseT, dpoT, hVerboseT);
+                EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose);
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose);
 
             root.AddCommand(encCmd);
             #endregion
@@ -119,11 +128,11 @@ namespace SAPTeam.Kryptor.Cli
 
             decCmd.AddAlias("d");
 
-            decCmd.SetHandler((verboseT, dpoT) =>
+            decCmd.SetHandler((globalOptionsT, dpoT) =>
             {
-                DecryptionSessionHost sessionHost = new DecryptionSessionHost(verboseT, dpoT);
+                DecryptionSessionHost sessionHost = new DecryptionSessionHost(globalOptionsT, dpoT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
 
             root.AddCommand(decCmd);
             #endregion
@@ -140,11 +149,11 @@ namespace SAPTeam.Kryptor.Cli
 
             anCmd.AddAlias("a");
 
-            anCmd.SetHandler((verboseT, analyzeJobsT, keystoreT) =>
+            anCmd.SetHandler((globalOptionsT, analyzeJobsT, keystoreT) =>
             {
-                KeyStoreAnalyzeSessionHost sessionHost = new KeyStoreAnalyzeSessionHost(verboseT, analyzeJobsT, keystoreT);
+                KeyStoreAnalyzeSessionHost sessionHost = new KeyStoreAnalyzeSessionHost(globalOptionsT, analyzeJobsT, keystoreT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, analyzeJobs, keystore);
+            }, globalOptionsBinder, analyzeJobs, keystore);
 
             root.AddCommand(anCmd);
             #endregion
@@ -165,11 +174,11 @@ namespace SAPTeam.Kryptor.Cli
             };
             wlQuryCmd.AddAlias("q");
 
-            wlQuryCmd.SetHandler((verboseT, queryWordT, queryWordlistT) =>
+            wlQuryCmd.SetHandler((globalOptionsT, queryWordT, queryWordlistT) =>
             {
-                WordlistQuerySessionHost sessionHost = new WordlistQuerySessionHost(verboseT, queryWordT, queryWordlistT);
+                WordlistQuerySessionHost sessionHost = new WordlistQuerySessionHost(globalOptionsT, queryWordT, queryWordlistT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, queryWord, queryWordlist);
+            }, globalOptionsBinder, queryWord, queryWordlist);
 
             wlCmd.AddCommand(wlQuryCmd);
 
@@ -183,11 +192,11 @@ namespace SAPTeam.Kryptor.Cli
                 convertDest
             };
 
-            wlConCmd.SetHandler((verboseT, convertSourceT, convertDestT) =>
+            wlConCmd.SetHandler((globalOptionsT, convertSourceT, convertDestT) =>
             {
-                WordlistConverterSessionHost sessionHost = new WordlistConverterSessionHost(verboseT, convertSourceT, convertDestT);
+                WordlistConverterSessionHost sessionHost = new WordlistConverterSessionHost(globalOptionsT, convertSourceT, convertDestT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, convertSource, convertDest);
+            }, globalOptionsBinder, convertSource, convertDest);
 
             wlCmd.AddCommand(wlConCmd);
 
@@ -215,11 +224,11 @@ namespace SAPTeam.Kryptor.Cli
 
             wlInsCmd.AddAlias("i");
 
-            wlInsCmd.SetHandler((verboseT, installListT, installAllT, installRecommendedT, installIdsT) =>
+            wlInsCmd.SetHandler((globalOptionsT, installListT, installAllT, installRecommendedT, installIdsT) =>
             {
-                WordlistInstallSessionHost sessionHost = new WordlistInstallSessionHost(verboseT, installListT, installAllT, installRecommendedT, installIdsT);
+                WordlistInstallSessionHost sessionHost = new WordlistInstallSessionHost(globalOptionsT, installListT, installAllT, installRecommendedT, installIdsT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, installList, installAll, installRecommended, installIds);
+            }, globalOptionsBinder, installList, installAll, installRecommended, installIds);
 
             wlCmd.AddCommand(wlInsCmd);
 
@@ -243,11 +252,11 @@ namespace SAPTeam.Kryptor.Cli
 
             wlRemCmd.AddAlias("r");
 
-            wlRemCmd.SetHandler((verboseT, removeListT, removeAllT, removeIdsT) =>
+            wlRemCmd.SetHandler((globalOptionsT, removeListT, removeAllT, removeIdsT) =>
             {
-                WordlistRemoveSessionHost sessionHost = new WordlistRemoveSessionHost(verboseT, removeListT, removeAllT, removeIdsT);
+                WordlistRemoveSessionHost sessionHost = new WordlistRemoveSessionHost(globalOptionsT, removeListT, removeAllT, removeIdsT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, removeList, removeAll, removeIds);
+            }, globalOptionsBinder, removeList, removeAll, removeIds);
 
             wlCmd.AddCommand(wlRemCmd);
 
@@ -267,11 +276,11 @@ namespace SAPTeam.Kryptor.Cli
                 importFile
             };
 
-            wlImpCmd.SetHandler((verboseT, importIdT, importEnforceT, importFileT) =>
+            wlImpCmd.SetHandler((globalOptionsT, importIdT, importEnforceT, importFileT) =>
             {
-                WordlistImportSessionHost sessionHost = new WordlistImportSessionHost(verboseT, importIdT, importEnforceT, importFileT);
+                WordlistImportSessionHost sessionHost = new WordlistImportSessionHost(globalOptionsT, importIdT, importEnforceT, importFileT);
                 Context.NewSessionHost(sessionHost);
-            }, verbose, importId, importEnforce, importFile);
+            }, globalOptionsBinder, importId, importEnforce, importFile);
 
             wlCmd.AddCommand(wlImpCmd);
 

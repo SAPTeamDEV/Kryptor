@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        public WordlistSessionHost(bool verbose) : base(verbose) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
+        public WordlistSessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
 
         public override void Start(ClientContext context)
         {
@@ -40,7 +40,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             if (LocalIndex.Wordlists.Count == 0)
             {
-                Log("No wordlists are installed");
+                LogError("No wordlists are installed");
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash))
                 {
-                    Log($"{entry.Id} is already installed");
+                    LogError($"{entry.Id} is already installed");
                     return false;
                 }
                 else
@@ -75,7 +75,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             WordlistIndexEntryV2 entry = LocalIndex[id];
 
-            if (entry.InstallDirectory != null)
+            if (entry.InstallDirectory != null && Directory.Exists(entry.InstallDirectory))
             {
                 Directory.Delete(entry.InstallDirectory, true);
             }

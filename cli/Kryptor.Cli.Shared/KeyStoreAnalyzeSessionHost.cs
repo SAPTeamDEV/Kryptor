@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private KeyStore KeyStore { get; set; }
 
-        public KeyStoreAnalyzeSessionHost(bool verbose, int jobs, string keystore) : base(verbose)
+        public KeyStoreAnalyzeSessionHost(GlobalOptions globalOptions, int jobs, string keystore) : base(globalOptions)
         {
             ks = keystore;
             maxRunningSessions = jobs > 0 ? jobs : MaxRunningSessions - 2;

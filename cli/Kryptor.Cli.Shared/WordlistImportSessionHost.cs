@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor.Cli
         private readonly WordlistIndexEntryV2 IndexEntry;
         private readonly string FilePath;
 
-        public WordlistImportSessionHost(bool verbose, string id, bool enforce, string file) : base(verbose)
+        public WordlistImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, string file) : base(globalOptions)
         {
             IndexEntry = new WordlistIndexEntryV2()
             {

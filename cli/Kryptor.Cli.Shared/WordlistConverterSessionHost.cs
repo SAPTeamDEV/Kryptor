@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public override string LocalIndexPath => indexV2Path;
 
-        public WordlistConverterSessionHost(bool verbose, string indexPath, string indexV2Path) : base(verbose, list: false, all: true, recommended: false, ids: Array.Empty<string>())
+        public WordlistConverterSessionHost(GlobalOptions globalOptions, string indexPath, string indexV2Path) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
         {
             this.indexPath = indexPath;
             this.indexV2Path = indexV2Path;

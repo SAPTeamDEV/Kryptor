@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public string[] Files { get; }
 
-        public DataProcessingSessionHost(bool verbose, DataProcessingOptions options) : base(verbose)
+        public DataProcessingSessionHost(GlobalOptions globalOptions, DataProcessingOptions options) : base(globalOptions)
         {
             BlockSize = options.BlockSize;
 

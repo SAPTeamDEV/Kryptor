@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor.Cli
         private readonly bool All;
         private string[] Wordlists;
 
-        public WordlistRemoveSessionHost(bool verbose, bool list, bool all, string[] wordlists) : base(verbose)
+        public WordlistRemoveSessionHost(GlobalOptions globalOptions, bool list, bool all, string[] wordlists) : base(globalOptions)
         {
             List = list;
             All = all;
@@ -32,7 +32,7 @@ namespace SAPTeam.Kryptor.Cli
                 Wordlists = LocalIndex.Wordlists.Select(x => x.Id).ToArray();
                 if (Wordlists.Length == 0)
                 {
-                    Log("There is no installed wordlist to remove");
+                    LogError("There is no installed wordlist to remove");
                     return;
                 }
             }
@@ -41,7 +41,7 @@ namespace SAPTeam.Kryptor.Cli
                 Wordlists = Wordlists.Where(LocalIndex.ContainsId).ToArray();
                 if (Wordlists.Length == 0)
                 {
-                    Log("No valid id are supplied");
+                    LogError("No valid id are supplied");
                 }
             }
 

@@ -1,14 +1,10 @@
 using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
-
-#if !NETFRAMEWORK
-using ANSIConsole;
-#endif
+using System.Linq;
+using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.Client;
 
@@ -16,21 +12,36 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class CliSessionHost : SessionHost
     {
-        public CliSessionHost(bool verbose)
+        public bool Quiet { get; }
+        public bool NoColor { get; }
+
+        private MemoryStream mem;
+
+        public CliSessionHost(GlobalOptions globalOptions)
         {
-            Verbose = verbose;
+            Verbose = globalOptions.Verbose;
+            Quiet = globalOptions.Quiet;
+            NoColor = globalOptions.NoColor;
         }
 
         public override void Start(ClientContext context)
         {
             CliContext cliContext = context as CliContext;
             cliContext.CatchExceptions = !Verbose;
+            cliContext.NoColor = NoColor;
 
-            Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.Color(Color.Cyan)}");
-            Log($"Engine version: {Program.Context.EngineVersion.Color(Color.Cyan)}");
+            if (Quiet)
+            {
+                var tw = new StreamWriter(mem = new MemoryStream());
+                Console.SetOut(tw);
+            }
+
+            Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.WithColor(Color.Cyan)}");
+            Log($"Engine version: {Program.Context.EngineVersion.WithColor(Color.Cyan)}");
         }
 
         protected void Log(string message = null) => Console.WriteLine(message);
+        protected void LogError(string message = null) => Console.Error.WriteLine(message);
 
         protected void DebugLog(string message)
         {
@@ -45,7 +56,7 @@ namespace SAPTeam.Kryptor.Cli
 
         protected async Task ShowProgress(bool showOverall, bool showRemaining = true)
         {
-            bool isRedirected = Console.IsOutputRedirected;
+            bool isRedirected = Console.IsOutputRedirected || Quiet;
             int bufferWidth = Console.BufferWidth;
             int paddingBufferSize = isRedirected ? 1 : bufferWidth;
 
@@ -163,7 +174,7 @@ namespace SAPTeam.Kryptor.Cli
 
                         GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, waitingSteps, waitingStep, session, out Color color, out string prog, out string desc);
 
-                        Console.WriteLine($"[{prog.Color(color)}] {desc}".PadRight(paddingBufferSize));
+                        Console.WriteLine($"[{prog.WithColor(color)}] {desc}".PadRight(paddingBufferSize));
 
                         curLines++;
                     }
@@ -240,7 +251,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 foreach (string message in holder.Session.Messages)
                 {
-                    Log($"{prefix} -> {message}");
+                    LogError($"{prefix} -> {message}");
                 }
             }
         }

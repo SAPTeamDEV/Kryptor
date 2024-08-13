@@ -9,7 +9,7 @@ namespace SAPTeam.Kryptor.Cli
         private readonly string Query;
         private readonly string Wordlist;
 
-        public WordlistQuerySessionHost(bool verbose, string query, string wordlist) : base(verbose)
+        public WordlistQuerySessionHost(GlobalOptions globalOptions, string query, string wordlist) : base(globalOptions)
         {
             Query = query;
             Wordlist = wordlist;

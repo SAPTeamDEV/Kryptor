@@ -6,7 +6,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         public int HeaderVerbosity { get; }
 
-        public EncryptionSessionHost(bool verbose, DataProcessingOptions options, int hVerbose) : base(verbose, options) => HeaderVerbosity = hVerbose;
+        public EncryptionSessionHost(GlobalOptions globalOptions, DataProcessingOptions options, int hVerbose) : base(globalOptions, options) => HeaderVerbosity = hVerbose;
 
         public override void Start(ClientContext context)
         {

@@ -15,6 +15,8 @@ namespace SAPTeam.Kryptor.Cli
     {
         public bool CatchExceptions { get; set; }
 
+        public bool NoColor { get; set; }
+
         /// <summary>
         /// The root application data folder.
         /// </summary>
@@ -78,7 +80,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (CatchExceptions)
                 {
-                    Console.WriteLine($"{ex.GetType().Name.Color(Color.Red)}: {ex.Message}");
+                    Console.Error.WriteLine($"{ex.GetType().Name.WithColor(Color.Red)}: {ex.Message}");
                     Environment.Exit(255);
                 }
                 else

@@ -4,7 +4,7 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSessionHost : DataProcessingSessionHost
     {
-        public DecryptionSessionHost(bool verbose, DataProcessingOptions options) : base(verbose, options)
+        public DecryptionSessionHost(GlobalOptions globalOptions, DataProcessingOptions options) : base(globalOptions, options)
         {
 
         }
