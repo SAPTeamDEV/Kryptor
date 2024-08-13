@@ -24,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cli", "cli", "{8DD2F2EA-C83B-4D3C-B142-605C30814D5C}"
 	ProjectSection(SolutionItems) = preProject
 		cli\Directory.Build.props = cli\Directory.Build.props
+		cli\version.json = cli\version.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kryptor.Cli", "cli\Kryptor.Cli\Kryptor.Cli.csproj", "{D5C3404E-62AD-4E3D-BE1B-8D6978B582CF}"
