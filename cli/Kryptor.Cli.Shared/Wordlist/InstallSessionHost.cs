@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistInstallSessionHost : WordlistSessionHost
+    public class InstallSessionHost : SessionHost
     {
         public override int MaxRunningSessions => 2;
 
@@ -51,14 +51,14 @@ namespace SAPTeam.Kryptor.Cli
 
         public WordlistIndexV2 Index { get; protected set; }
 
-        public WordlistInstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, string[] ids) : base(globalOptions)
+        public InstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, string[] ids) : base(globalOptions)
         {
             List = list;
             All = all;
             Recommended = recommended;
             Ids = ids;
 
-            Converting = this is WordlistConverterSessionHost;
+            Converting = this is ConverterSessionHost;
         }
 
         public override void Start(ClientContext context)
@@ -114,7 +114,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 foreach (ISession session in Container.Sessions)
                 {
-                    if (session is WordlistCompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
+                    if (session is CompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
                     {
                         DebugLog($"Adding {compiler.IndexEntry.Id} to local index");
 
@@ -152,11 +152,11 @@ namespace SAPTeam.Kryptor.Cli
                 return;
             }
 
-            WordlistDownloadSession downloader = new WordlistDownloadSession(Index[id].Uri, id);
+            DownloadSession downloader = new DownloadSession(Index[id].Uri, id);
 
             string localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
 
-            WordlistCompileSession compiler = new WordlistCompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
+            CompileSession compiler = new CompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
             downloader.ContinueWith(compiler);
 
             NewSession(downloader);

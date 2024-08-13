@@ -5,16 +5,16 @@ using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistConverterSessionHost : WordlistInstallSessionHost
+    public class ConverterSessionHost : InstallSessionHost
     {
         private readonly string indexPath;
         private readonly string indexV2Path;
 
         public override string LocalIndexPath => indexV2Path;
 
-        public WordlistConverterSessionHost(GlobalOptions globalOptions, string indexPath, string indexV2Path) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
+        public ConverterSessionHost(GlobalOptions globalOptions, string indexPath, string indexV2Path) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
         {
             this.indexPath = indexPath;
             this.indexV2Path = indexV2Path;

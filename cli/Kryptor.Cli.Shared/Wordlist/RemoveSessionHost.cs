@@ -2,15 +2,15 @@ using System.Linq;
 
 using SAPTeam.Kryptor.Client;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistRemoveSessionHost : WordlistSessionHost
+    public class RemoveSessionHost : SessionHost
     {
         private readonly bool List;
         private readonly bool All;
         private string[] Wordlists;
 
-        public WordlistRemoveSessionHost(GlobalOptions globalOptions, bool list, bool all, string[] wordlists) : base(globalOptions)
+        public RemoveSessionHost(GlobalOptions globalOptions, bool list, bool all, string[] wordlists) : base(globalOptions)
         {
             List = list;
             All = all;

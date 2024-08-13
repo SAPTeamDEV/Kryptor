@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 using SAPTeam.Kryptor.Client;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistDownloadSession : Session
+    public class DownloadSession : Session
     {
         private readonly string Id;
         private readonly Uri Uri;
@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
         public string PackPath { get; private set; }
         public string FilePath { get; private set; }
 
-        public WordlistDownloadSession(Uri uri, string id)
+        public DownloadSession(Uri uri, string id)
         {
             Id = id;
 

@@ -2,14 +2,14 @@ using System;
 
 using SAPTeam.Kryptor.Client;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistQuerySessionHost : WordlistSessionHost
+    public class QuerySessionHost : SessionHost
     {
         private readonly string Query;
         private readonly string Wordlist;
 
-        public WordlistQuerySessionHost(GlobalOptions globalOptions, string query, string wordlist) : base(globalOptions)
+        public QuerySessionHost(GlobalOptions globalOptions, string query, string wordlist) : base(globalOptions)
         {
             Query = query;
             Wordlist = wordlist;
@@ -33,13 +33,13 @@ namespace SAPTeam.Kryptor.Cli
             {
                 foreach (Client.Security.WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
                 {
-                    WordlistQuerySession session = new WordlistQuerySession(entry, Query);
+                    QuerySession session = new QuerySession(entry, Query);
                     NewSession(session);
                 }
             }
             else
             {
-                WordlistQuerySession session = new WordlistQuerySession(LocalIndex[Wordlist], Query);
+                QuerySession session = new QuerySession(LocalIndex[Wordlist], Query);
                 NewSession(session);
             }
 

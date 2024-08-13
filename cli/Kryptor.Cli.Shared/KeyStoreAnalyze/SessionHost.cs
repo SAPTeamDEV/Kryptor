@@ -3,16 +3,16 @@ using System.Linq;
 
 using SAPTeam.Kryptor.Client;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 {
-    public class KeyStoreAnalyzeSessionHost : CliSessionHost
+    public sealed class SessionHost : CliSessionHost
     {
         private readonly string ks;
         private readonly int maxRunningSessions;
 
         private KeyStore KeyStore { get; set; }
 
-        public KeyStoreAnalyzeSessionHost(GlobalOptions globalOptions, int jobs, string keystore) : base(globalOptions)
+        public SessionHost(GlobalOptions globalOptions, int jobs, string keystore) : base(globalOptions)
         {
             ks = keystore;
             maxRunningSessions = jobs > 0 ? jobs : MaxRunningSessions - 2;
@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
             KeyStoreLoadSession ksLoadSession = CreateKeyStoreLoadSession(ks);
             NewSession(ksLoadSession);
 
-            KeyStoreAnalyzeCrackSession calcSession = new KeyStoreAnalyzeCrackSession(maxRunningSessions);
+            CrackSession calcSession = new CrackSession(maxRunningSessions);
             ksLoadSession.ContinueWith(calcSession);
             NewSession(calcSession);
 

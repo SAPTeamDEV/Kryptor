@@ -4,14 +4,14 @@ using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistImportSessionHost : WordlistSessionHost
+    public class ImportSessionHost : SessionHost
     {
         private readonly WordlistIndexEntryV2 IndexEntry;
         private readonly string FilePath;
 
-        public WordlistImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, string file) : base(globalOptions)
+        public ImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, string file) : base(globalOptions)
         {
             IndexEntry = new WordlistIndexEntryV2()
             {
@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (GetInstallationPermission(IndexEntry))
             {
-                WordlistCompileSession compiler = new WordlistCompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, converting: false, importing: true);
+                CompileSession compiler = new CompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, converting: false, importing: true);
                 NewSession(compiler);
                 ShowProgressMonitored(true).Wait();
             }

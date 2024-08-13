@@ -10,9 +10,9 @@ using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistCompileSession : Session
+    public class CompileSession : Session
     {
         private readonly Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
 
@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private bool Bypass => Converting || Importing;
 
-        public WordlistCompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
+        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
         {
             if (converting || !importing)
             {
@@ -104,12 +104,12 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (string.IsNullOrEmpty(line) || line.Length < 4) continue;
 
-                    string c = Wordlist.GetWordIdentifier(line).ToString();
+                    string c = WordlistFragmentCollection.GetWordIdentifier(line).ToString();
                     words++;
 
                     if (!fileStreams.ContainsKey(c))
                     {
-                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c + ".txt"));
+                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c));
                     }
 
                     byte[] data = Encoding.UTF8.GetBytes(line + "\n");

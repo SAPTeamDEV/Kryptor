@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Extensions;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 {
-    public class KeyStoreAnalyzeCrackSubSession : Session
+    public class CrackSubSession : Session
     {
         public int Index;
         private readonly byte[] Test;
@@ -17,7 +17,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public override bool IsHidden => true;
 
-        public KeyStoreAnalyzeCrackSubSession(int index, byte[] test) : base()
+        public CrackSubSession(int index, byte[] test) : base()
         {
             Index = index;
             Test = test;

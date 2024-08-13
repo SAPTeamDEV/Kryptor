@@ -8,9 +8,9 @@ using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistSessionHost : CliSessionHost
+    public class SessionHost : CliSessionHost
     {
         private Config<WordlistIndexV2> LocalIndexContainer { get; set; }
         public WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        public WordlistSessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
+        public SessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/schema-v2.json"));
 
         public override void Start(ClientContext context)
         {

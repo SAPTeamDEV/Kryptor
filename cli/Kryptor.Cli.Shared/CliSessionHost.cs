@@ -10,7 +10,7 @@ using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class CliSessionHost : SessionHost
+    public class CliSessionHost : Client.SessionHost
     {
         public bool Quiet { get; }
         public bool NoColor { get; }

@@ -8,16 +8,16 @@ using ANSIConsole;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
-namespace SAPTeam.Kryptor.Cli
+namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class WordlistQuerySession : Session
+    public class QuerySession : Session
     {
         private readonly WordlistIndexEntryV2 Entry;
         private readonly string Word;
 
         public bool Result = false;
 
-        public WordlistQuerySession(WordlistIndexEntryV2 entry, string word)
+        public QuerySession(WordlistIndexEntryV2 entry, string word)
         {
             Entry = entry;
             Word = word;
@@ -28,8 +28,8 @@ namespace SAPTeam.Kryptor.Cli
             Progress = -1;
             Description = $"Querying in {Entry.Id}";
 
-            Wordlist wl = new Wordlist(Entry.InstallDirectory);
-            bool result = await wl.ContainsAsync(Word, cancellationToken);
+            var wfc = new WordlistFragmentCollection(Entry.InstallDirectory);
+            bool result = await wfc.LookupAsync(Word, cancellationToken);
 
             Result = result;
             Description += " : " + (Result ? "Found" : "Not found");
