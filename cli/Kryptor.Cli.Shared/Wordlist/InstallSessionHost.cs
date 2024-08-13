@@ -14,39 +14,14 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         public override int MaxRunningSessions => 2;
 
+        private object _lockObj = new object();
+
         private readonly bool List;
         private readonly bool All;
         private readonly bool Recommended;
         private readonly string[] Ids;
         private readonly bool Converting;
 
-        /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
-        Before:
-                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        After:
-                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        */
-
-        /* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
-        Before:
-                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        After:
-                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        */
-
-        /* Unmerged change from project 'Kryptor.Cli (net8.0)'
-        Before:
-                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        After:
-                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        */
-
-        /* Unmerged change from project 'Kryptor.Cli (net6.0)'
-        Before:
-                static public Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        After:
-                public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
-        */
         public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Kryptor/master/Wordlist-IndexV2.json");
 
         public WordlistIndexV2 Index { get; protected set; }
@@ -111,37 +86,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
 
                 ShowProgressMonitored(true, false).Wait();
-
-                foreach (ISession session in Container.Sessions)
-                {
-                    if (session is CompileSession compiler && compiler.Status == SessionStatus.Ended && compiler.EndReason == SessionEndReason.Completed)
-                    {
-                        DebugLog($"Adding {compiler.IndexEntry.Id} to local index");
-
-                        try
-                        {
-                            LocalIndex.Add(compiler.IndexEntry);
-                        }
-                        catch
-                        {
-                            LogError($"Cannot add {compiler.IndexEntry.Id}");
-                        }
-
-                        try
-                        {
-                            if (File.Exists(compiler.FilePath))
-                            {
-                                File.Delete(compiler.FilePath);
-                            }
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                }
-
-                UpdateLocalIndex();
             }
         }
 
@@ -161,6 +105,15 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             NewSession(downloader);
             NewSession(compiler);
+        }
+
+        public void FinalizeInstallation(WordlistIndexEntryV2 entry)
+        {
+            lock (_lockObj)
+            {
+                LocalIndex.Add(entry);
+                UpdateLocalIndex();
+            }
         }
 
         private void PrintList()

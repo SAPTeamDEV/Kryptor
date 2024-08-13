@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MoreLinq;
+
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
@@ -14,6 +16,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class CompileSession : Session
     {
+        private bool cleaned;
         private readonly Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
 
         public string FilePath;
@@ -43,49 +46,71 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            if (!File.Exists(FilePath))
+            try
             {
-                throw new FileNotFoundException(FilePath);
+                var installer = PreCheck(sessionHost);
+
+                Description = $"Importing {IndexEntry.Id}";
+
+                IndexEntry.Words = await Compile(cancellationToken);
+
+                Progress = 100;
+                Description = $"Imported {IndexEntry.Id} wordlist";
+
+                if (!Converting)
+                {
+                    IndexEntry.InstallDirectory = DestPath;
+                }
+
+                installer.FinalizeInstallation(IndexEntry);
+
+                if (Converting)
+                {
+                    Description = $"{IndexEntry.Id} Converted";
+                }
+                else
+                {
+                    Description = $"{IndexEntry.Id} Installed";
+                }
+            }
+            catch
+            {
+                Cleanup(true);
+                throw;
+            }
+            finally
+            {
+                Cleanup(false);
             }
 
-            if (Directory.Exists(DestPath))
+            return true;
+        }
+
+        private void Cleanup(bool deleteInstallation)
+        {
+            if (cleaned) return;
+            cleaned = true;
+
+            foreach (FileStream f in fileStreams.Values)
+            {
+                f.Flush();
+                f.Dispose();
+            }
+
+            Dependencies.OfType<DownloadSession>().ForEach(x => x.DeleteCache());
+
+            if (deleteInstallation && Directory.Exists(DestPath))
             {
                 Directory.Delete(DestPath, true);
             }
+        }
 
-            Directory.CreateDirectory(DestPath);
-
-            Description = $"Importing {IndexEntry.Id}";
+        private async Task<long> Compile(CancellationToken cancellationToken)
+        {
             long words = 0;
-
             using (StreamReader streamReader = new StreamReader(FilePath, Encoding.UTF8))
             {
-                try
-                {
-                    byte[] buffer = new byte[streamReader.BaseStream.Length];
-                    await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                    byte[] hash = buffer.Sha256();
-
-                    if (Bypass && IndexEntry.Hash == null)
-                    {
-                        IndexEntry.Hash = hash;
-                    }
-                    else if (IndexEntry.Hash != null)
-                    {
-                        if (!IndexEntry.Hash.SequenceEqual(hash))
-                        {
-                            throw new InvalidDataException("File is corrupted");
-                        }
-                    }
-                }
-                catch (InvalidDataException)
-                {
-                    throw;
-                }
-                catch
-                {
-                    // Ignore hash errors
-                }
+                await VerifyHash(streamReader, cancellationToken);
 
                 streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
 
@@ -95,8 +120,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     IndexEntry.Size = streamReader.BaseStream.Length;
                 }
 
-                string line;
                 int readChars = 0;
+                string line;
                 while ((line = await streamReader.ReadLineAsync()) != null)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -120,22 +145,65 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
             }
 
-            Progress = 100;
-            Description = $"Imported {IndexEntry.Id} wordlist";
+            return words;
+        }
 
-            foreach (FileStream f in fileStreams.Values)
+        private InstallSessionHost PreCheck(ISessionHost sessionHost)
+        {
+            InstallSessionHost installSessionHost;
+
+            if (sessionHost is InstallSessionHost ish)
             {
-                f.Flush();
-                f.Dispose();
+                installSessionHost = ish;
+            }
+            else
+            {
+                throw new InvalidOperationException("This session started from an unknown session host. you may start this session only via InstallSessionHost");
             }
 
-            if (!Converting)
+            if (!File.Exists(FilePath))
             {
-                IndexEntry.InstallDirectory = DestPath;
+                throw new FileNotFoundException(FilePath);
             }
 
-            IndexEntry.Words = words;
-            return true;
+            if (Directory.Exists(DestPath))
+            {
+                Directory.Delete(DestPath, true);
+            }
+
+            Directory.CreateDirectory(DestPath);
+
+            return installSessionHost;
+        }
+
+        private async Task VerifyHash(StreamReader streamReader, CancellationToken cancellationToken)
+        {
+            try
+            {
+                byte[] buffer = new byte[streamReader.BaseStream.Length];
+                await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                byte[] hash = buffer.Sha256();
+
+                if (Bypass && IndexEntry.Hash == null)
+                {
+                    IndexEntry.Hash = hash;
+                }
+                else if (IndexEntry.Hash != null)
+                {
+                    if (!IndexEntry.Hash.SequenceEqual(hash))
+                    {
+                        throw new InvalidDataException("File is corrupted");
+                    }
+                }
+            }
+            catch (InvalidDataException)
+            {
+                throw;
+            }
+            catch
+            {
+                // Ignore hash errors
+            }
         }
     }
 }

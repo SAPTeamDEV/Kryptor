@@ -130,5 +130,13 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             return Exception != null ? throw Exception : true;
         }
+
+        public void DeleteCache()
+        {
+            if (Directory.Exists(FileDir))
+            {
+                Directory.Delete(FileDir, true);
+            }
+        }
     }
 }
