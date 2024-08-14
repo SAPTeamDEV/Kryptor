@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor.Cli
             if (Token.IsValid())
             {
                 ITranformer tranformer = Transformers.GetTranformer(Token);
-                string kSize = Margin > 0 ? $"{Token.KeySize}+{Margin}" : $"{Token.KeySize}";
+                string kSize = Margin > 0 ? $"{Token.KeySize.FormatWithCommas()}+{Margin.FormatWithCommas()}" : $"{Token.KeySize.FormatWithCommas()}";
                 Log($"Generating keystore with {kSize} keys using {tranformer.GetType().Name}");
                 ksLoader = new KeyStoreTokenLoadSession(true, Token, Margin);
             }
@@ -46,7 +46,7 @@ namespace SAPTeam.Kryptor.Cli
                     CollectEntropy();
                 }
 
-                string kSize = Margin > 0 ? $"{Size}+{Margin}" : $"{Size}";
+                string kSize = Margin > 0 ? $"{Size.FormatWithCommas()}+{Margin.FormatWithCommas()}" : $"{Size.FormatWithCommas()}";
                 Log($"Generating keystore with {kSize} keys using {Generator}");
                 ksLoader = new KeyStoreRandomLoadSession(true, Generator, Size, Margin);
             }

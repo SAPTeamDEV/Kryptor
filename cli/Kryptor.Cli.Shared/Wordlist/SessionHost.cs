@@ -49,7 +49,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 Log($"\n{wl.Id}:");
                 Log($"Description: {wl.Name}");
                 Log($"Enforced: {wl.Enforced}");
-                Log($"Words: {wl.Words}");
+                Log($"Words: {wl.Words.FormatWithCommas()}");
             }
         }
 

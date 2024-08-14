@@ -65,7 +65,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 foreach (WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
                 {
-                    string text = $"| {entry.Id} | {entry.Name} | {entry.Words} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
+                    string text = $"| {entry.Id} | {entry.Name} | {entry.Words.FormatWithCommas()} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
                     buffer = Encoding.UTF8.GetBytes(text);
                     f.Write(buffer, 0, buffer.Length);
                 }
