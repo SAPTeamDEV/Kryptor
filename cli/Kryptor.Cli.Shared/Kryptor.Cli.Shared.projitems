@@ -25,7 +25,7 @@
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreRandomLoadSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\CompileSession.cs" />
-    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\ConverterSessionHost.cs" />
+    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\IndexSessionHost.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\DownloadSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\ImportSessionHost.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\InstallSessionHost.cs" />

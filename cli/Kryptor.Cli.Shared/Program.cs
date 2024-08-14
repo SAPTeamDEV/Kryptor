@@ -249,20 +249,20 @@ namespace SAPTeam.Kryptor.Cli
 
             wlCmd.AddCommand(wlQuryCmd);
 
-            Argument<string> convertSource = new Argument<string>("source", "The source index v1 file");
+            Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");
 
-            Command wlConCmd = new Command("index", "Generates index files (Internal use)")
+            Command wlIndexCmd = new Command("index", "Generates index files (Internal use)")
             {
-                convertSource
+                indexSource
             };
 
-            wlConCmd.SetHandler((globalOptionsT, convertSourceT) =>
+            wlIndexCmd.SetHandler((globalOptionsT, indexSourceT) =>
             {
-                Wordlist.ConverterSessionHost sessionHost = new Wordlist.ConverterSessionHost(globalOptionsT, convertSourceT);
+                Wordlist.IndexSessionHost sessionHost = new Wordlist.IndexSessionHost(globalOptionsT, indexSourceT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, convertSource);
+            }, globalOptionsBinder, indexSource);
 
-            wlCmd.AddCommand(wlConCmd);
+            wlCmd.AddCommand(wlIndexCmd);
 
             Option<bool> installList = new Option<bool>("--list", "Lists all available wordlists");
             installList.AddAlias("-l");

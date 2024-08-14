@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             if (GetInstallationPermission(IndexEntry))
             {
-                CompileSession compiler = new CompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, converting: false, importing: true);
+                CompileSession compiler = new CompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, indexing: false, importing: true);
                 NewSession(compiler);
 
                 ShowProgressMonitored(true).Wait();

@@ -20,9 +20,10 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private readonly bool All;
         private readonly bool Recommended;
         private readonly string[] Ids;
-        private readonly bool Converting;
+        private readonly bool Indexing;
 
         public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/index.json");
+        public static string TempDir { get; } = Path.Combine(Program.Context.WordlistDirectory, "_temp");
 
         public WordlistIndexV2 Index { get; protected set; }
 
@@ -33,17 +34,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Recommended = recommended;
             Ids = ids;
 
-            Converting = this is ConverterSessionHost;
+            Indexing = this is IndexSessionHost;
         }
 
         public override void Start(ClientContext context)
         {
             base.Start(context);
-
-            if (Converting)
-            {
-                DebugLog("Converting v1 index to v2");
-            }
 
             if (Index == null)
             {
@@ -88,6 +84,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 ShowProgressMonitored(true, false).Wait();
 
                 SortIndex();
+
+                if (Directory.Exists(TempDir))
+                {
+                    Directory.Delete(TempDir, true);
+                }
             }
         }
 
@@ -100,9 +101,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             DownloadSession downloader = new DownloadSession(Index[id].Uri, id);
 
-            string localRepo = Converting ? Path.Combine(Program.Context.WordlistDirectory, "_temp") : Program.Context.WordlistDirectory;
+            string localRepo = Indexing ? TempDir : Program.Context.WordlistDirectory;
 
-            CompileSession compiler = new CompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], converting: Converting, importing: false);
+            CompileSession compiler = new CompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], indexing: Indexing, importing: false);
             downloader.ContinueWith(compiler);
 
             NewSession(downloader);

@@ -23,14 +23,14 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public string DestPath;
 
         public WordlistIndexEntryV2 IndexEntry;
-        private readonly bool Converting;
+        private readonly bool Indexing;
         private readonly bool Importing;
 
-        private bool Bypass => Converting || Importing;
+        private bool Bypass => Indexing || Importing;
 
-        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool converting, bool importing)
+        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool indexing, bool importing)
         {
-            if (converting || !importing)
+            if (indexing || !importing)
             {
                 Description = "Waiting for download";
             }
@@ -40,7 +40,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             IndexEntry = entry;
 
-            Converting = converting;
+            Indexing = indexing;
             Importing = importing;
         }
 
@@ -57,16 +57,16 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 Progress = 100;
                 Description = $"Imported {IndexEntry.Id} wordlist";
 
-                if (!Converting)
+                if (!Indexing)
                 {
                     IndexEntry.InstallDirectory = DestPath;
                 }
 
                 installer.FinalizeInstallation(IndexEntry);
 
-                if (Converting)
+                if (Indexing)
                 {
-                    Description = $"{IndexEntry.Id} Converted";
+                    Description = $"{IndexEntry.Id} Indexed";
                 }
                 else
                 {

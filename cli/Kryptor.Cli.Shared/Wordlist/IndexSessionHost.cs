@@ -8,7 +8,7 @@ using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
-    public class ConverterSessionHost : InstallSessionHost
+    public class IndexSessionHost : InstallSessionHost
     {
         private readonly string indexPath;
 
@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override string LocalIndexPath => indexV2Path;
 
-        public ConverterSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
+        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
         {
             this.indexPath = indexPath;
         }
@@ -62,7 +62,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             using (var f = File.OpenWrite("Index.md"))
             {
-                var header = "## Index\n\n| Identifier | Name | Words | Size | Download |\n| :--------: | :--: | :---: | :--: | :------: |\n";
+                var header = "# Wordlist Index\n\n| Identifier | Name | Words | Size | Download |\n| :--------: | :--: | :---: | :--: | :------: |\n";
                 var buffer = Encoding.UTF8.GetBytes(header);
                 f.Write(buffer, 0, buffer.Length);
 
