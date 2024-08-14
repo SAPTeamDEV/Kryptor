@@ -1,6 +1,6 @@
 namespace SAPTeam.Kryptor.Cli
 {
-    public struct PauseRequest
+    public class PauseRequest
     {
         public string Message { get; set; }
 

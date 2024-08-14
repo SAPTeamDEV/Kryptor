@@ -114,6 +114,10 @@ namespace SAPTeam.Kryptor.Cli
             string[] pauseSteps = new string[]
             {
                 "||||",
+                "||||",
+                "----",
+                "----",
+                "----",
                 "----",
             };
             int pauseStep = 0;
@@ -231,13 +235,13 @@ namespace SAPTeam.Kryptor.Cli
 
                     if (doListen)
                     {
-                        Console.Write(Request.Message);
+                        Console.Write(Request.Message + " (Y/n)");
                     }
 
                     var key = KeyQueue;
                     if (key != default)
                     {
-                        if (doListen)
+                        if (doListen && (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N))
                         {
                             Request.SetResponse(key.Key == ConsoleKey.Y);
                         }
@@ -462,7 +466,7 @@ namespace SAPTeam.Kryptor.Cli
             return session;
         }
 
-        public PauseRequest Request { get; private set; }
+        public PauseRequest Request { get; private set; } = new PauseRequest(null);
 
         public override bool OnSessionPaused(ISession session, string message)
         {
