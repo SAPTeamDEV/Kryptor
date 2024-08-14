@@ -251,19 +251,16 @@ namespace SAPTeam.Kryptor.Cli
 
             Argument<string> convertSource = new Argument<string>("source", "The source index v1 file");
 
-            Argument<string> convertDest = new Argument<string>("destination", "The destination index v2 file");
-
-            Command wlConCmd = new Command("convert", "Converts v1 index file to v2 index file (Internal use)")
+            Command wlConCmd = new Command("index", "Generates index files (Internal use)")
             {
-                convertSource,
-                convertDest
+                convertSource
             };
 
-            wlConCmd.SetHandler((globalOptionsT, convertSourceT, convertDestT) =>
+            wlConCmd.SetHandler((globalOptionsT, convertSourceT) =>
             {
-                Wordlist.ConverterSessionHost sessionHost = new Wordlist.ConverterSessionHost(globalOptionsT, convertSourceT, convertDestT);
+                Wordlist.ConverterSessionHost sessionHost = new Wordlist.ConverterSessionHost(globalOptionsT, convertSourceT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, convertSource, convertDest);
+            }, globalOptionsBinder, convertSource);
 
             wlCmd.AddCommand(wlConCmd);
 

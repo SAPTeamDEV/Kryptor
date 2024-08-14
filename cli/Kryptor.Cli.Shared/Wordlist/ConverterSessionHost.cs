@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client;
@@ -10,14 +11,14 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     public class ConverterSessionHost : InstallSessionHost
     {
         private readonly string indexPath;
-        private readonly string indexV2Path;
+
+        private readonly string indexV2Path = "index.json";
 
         public override string LocalIndexPath => indexV2Path;
 
-        public ConverterSessionHost(GlobalOptions globalOptions, string indexPath, string indexV2Path) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
+        public ConverterSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
         {
             this.indexPath = indexPath;
-            this.indexV2Path = indexV2Path;
         }
 
         public override void Start(ClientContext context)
@@ -58,6 +59,20 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             this.Index = IndexV2;
             base.Start(context);
+
+            using (var f = File.OpenWrite("Index.md"))
+            {
+                var header = "## Index\n\n| Identifier | Name | Words | Size | Download |\n| :--------: | :--: | :---: | :--: | :------: |\n";
+                var buffer = Encoding.UTF8.GetBytes(header);
+                f.Write(buffer, 0, buffer.Length);
+
+                foreach (var entry in LocalIndex.Wordlists)
+                {
+                    var text = $"| {entry.Id} | {entry.Name} | {entry.Words} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
+                    buffer = Encoding.UTF8.GetBytes(text);
+                    f.Write(buffer, 0, buffer.Length);
+                }
+            }
         }
     }
 }
