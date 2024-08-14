@@ -16,6 +16,22 @@ namespace SAPTeam.Kryptor.Cli
         public bool NoColor { get; }
 
         private MemoryStream mem;
+        private ConsoleKeyInfo cKey;
+
+        protected ConsoleKeyInfo KeyQueue
+        {
+            get
+            {
+                var key = cKey;
+                cKey = default;
+                return key;
+            }
+
+            set
+            {
+                cKey = value;
+            }
+        }
 
         public CliSessionHost(GlobalOptions globalOptions)
         {
@@ -54,7 +70,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected async Task ShowProgress(bool showOverall, bool showRemaining = true)
+        private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
             bool isRedirected = Console.IsOutputRedirected || Quiet;
             int bufferWidth = Console.BufferWidth;
@@ -200,6 +216,12 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (!isRedirected)
                 {
+                    var key = KeyQueue;
+                    if (key != default)
+                    {
+                        // Handle key presees
+                    }
+
                     FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
                 }
 
@@ -347,6 +369,24 @@ namespace SAPTeam.Kryptor.Cli
             {
                 desc = $"...{desc.Substring(desc.Length - expectedLength + 3)}";
             }
+        }
+
+        private async Task ReadKey()
+        {
+            await Task.Delay(2);
+
+            while (true)
+            {
+                KeyQueue = Console.ReadKey(true);
+            }
+        }
+
+        protected Task ShowProgress(bool showOverall, bool showRemaining)
+        {
+            Task pTask = ShowProgressImpl(showOverall, showRemaining);
+
+            ReadKey();
+            return pTask;
         }
 
         protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
