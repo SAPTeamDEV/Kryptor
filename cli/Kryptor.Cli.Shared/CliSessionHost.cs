@@ -198,17 +198,9 @@ namespace SAPTeam.Kryptor.Cli
                     ShowOverallTime(showRemaining, paddingBufferSize, sw, ref totalProg, count, ref runningRem, runningCount);
                 }
 
-                if (curLines > ceilingLine)
+                if (!isRedirected)
                 {
-                    ceilingLine = curLines;
-                }
-                else if (curLines < ceilingLine)
-                {
-                    while (curLines < ceilingLine)
-                    {
-                        Console.WriteLine("".PadRight(paddingBufferSize));
-                        curLines++;
-                    }
+                    FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
                 }
 
                 loadingStep = (++loadingStep) % loadingSteps.Count;
@@ -239,6 +231,22 @@ namespace SAPTeam.Kryptor.Cli
 
                     Console.CursorLeft = 0;
                     Console.CursorTop -= Math.Min(ceilingLine, maxLines);
+                }
+            }
+        }
+
+        private static void FillToCeiling(int paddingBufferSize, ref int ceilingLine, ref int curLines)
+        {
+            if (curLines > ceilingLine)
+            {
+                ceilingLine = curLines;
+            }
+            else if (curLines < ceilingLine)
+            {
+                while (curLines < ceilingLine)
+                {
+                    Console.WriteLine("".PadRight(paddingBufferSize));
+                    curLines++;
                 }
             }
         }
