@@ -280,7 +280,10 @@ namespace SAPTeam.Kryptor.Client
         {
             IsPaused = true;
 
-            return sessionHost.OnSessionPaused(this, message);
+            var result = sessionHost.OnSessionPaused(this, message);
+
+            IsPaused = false;
+            return result;
         }
 
         private SessionUpdateEventArgs CollectSessionUpdateData()
