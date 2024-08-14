@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace SAPTeam.Kryptor.Generators
 {
@@ -10,6 +11,18 @@ namespace SAPTeam.Kryptor.Generators
     {
         /// <inheritdoc/>
         public event Action<double> OnProgress;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnixRandom"/> class.
+        /// </summary>
+        /// <exception cref="PlatformNotSupportedException"></exception>
+        public UnixRandom()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || !File.Exists("/dev/random"))
+            {
+                throw new PlatformNotSupportedException();
+            }
+        }
 
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
