@@ -134,6 +134,9 @@ namespace SAPTeam.Kryptor.Cli
                 double runningRem = 0;
                 int runningCount = 0;
 
+                string curLoadingStep = loadingSteps[loadingStep];
+                string curWaitingStep = waitingSteps[waitingStep];
+
                 foreach (ISession session in sessions)
                 {
                     if (session.Progress >= 0
@@ -172,9 +175,12 @@ namespace SAPTeam.Kryptor.Cli
                             }
                         }
 
-                        GetSessionInfo(isRedirected, bufferWidth, loadingSteps, loadingStep, waitingSteps, waitingStep, session, out Color color, out string prog, out string desc);
+                        GetSessionInfo(isRedirected, bufferWidth, curLoadingStep, curWaitingStep, session, out Color color, out string prog, out string desc);
 
-                        Console.WriteLine($"[{prog.WithColor(color)}] {desc}".PadRight(paddingBufferSize));
+                        Console.Write($"[{prog.WithColor(color)}] {desc}");
+
+                        int padLength = paddingBufferSize - prog.Length - 3 - desc.Length;
+                        Console.WriteLine("".PadRight(padLength > -1 ? padLength : 0));
 
                         curLines++;
                     }
@@ -289,15 +295,15 @@ namespace SAPTeam.Kryptor.Cli
             Console.WriteLine(ovText.PadRight(paddingBufferSize));
         }
 
-        private static void GetSessionInfo(bool isRedirected, int bufferWidth, List<string> loadingSteps, int loadingStep, List<string> waitingSteps, int waitingStep, ISession session, out Color color, out string prog, out string desc)
+        private static void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, ISession session, out Color color, out string prog, out string desc)
         {
             color = Color.DarkCyan;
-            prog = waitingSteps[waitingStep];
+            prog = waiting;
 
             if (session.IsRunning)
             {
                 color = Color.Yellow;
-                prog = session.Progress < 0 || session.Progress > 100.0 ? loadingSteps[loadingStep] : $"{Math.Round(session.Progress, 2)}%".PadBoth(6);
+                prog = session.Progress <= 0 || session.Progress > 100.00 ? loading : $"{Math.Round(session.Progress, 2)}%".PadBoth(6);
             }
             else if (session.Status == SessionStatus.Ended)
             {
