@@ -46,5 +46,19 @@ namespace SAPTeam.Kryptor.Client
         /// The task to be monitored.
         /// </param>
         void MonitorTask(Task task);
+
+        /// <summary>
+        /// Called when the session paused and requests an action from session host or the user.
+        /// </summary>
+        /// <param name="session">
+        /// The paused session.
+        /// </param>
+        /// <param name="message">
+        /// The request message.
+        /// </param>
+        /// <returns>
+        /// The session host or user response.
+        /// </returns>
+        bool OnSessionPaused(ISession session, string message);
     }
 }

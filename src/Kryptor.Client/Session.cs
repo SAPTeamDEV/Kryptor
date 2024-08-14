@@ -55,6 +55,9 @@ namespace SAPTeam.Kryptor.Client
         public bool IsRunning => Status == SessionStatus.Running || Status == SessionStatus.Managed;
 
         /// <inheritdoc/>
+        public bool IsPaused { get; protected set; }
+
+        /// <inheritdoc/>
         public virtual bool IsHidden => false;
 
         /// <inheritdoc/>
@@ -270,6 +273,14 @@ namespace SAPTeam.Kryptor.Client
         {
             EndReason = SessionEndReason.Skipped;
             Status = SessionStatus.Ended;
+        }
+
+        /// <inheritdoc/>
+        public virtual bool RequestPause(ISessionHost sessionHost, string message)
+        {
+            IsPaused = true;
+
+            return sessionHost.OnSessionPaused(this, message);
         }
 
         private SessionUpdateEventArgs CollectSessionUpdateData()

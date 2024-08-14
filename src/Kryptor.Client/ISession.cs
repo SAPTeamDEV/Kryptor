@@ -32,7 +32,12 @@ namespace SAPTeam.Kryptor.Client
         bool IsRunning { get; }
 
         /// <summary>
-        /// Gets the Hidden status of this session.
+        /// Gets whether this session is paused.
+        /// </summary>
+        bool IsPaused { get; }
+
+        /// <summary>
+        /// Gets whether this session is hidden.
         /// </summary>
         bool IsHidden { get; }
 
@@ -127,5 +132,19 @@ namespace SAPTeam.Kryptor.Client
         /// </param>
         /// <returns><see langword="true"/> if the session has been ready and <see langword="false"/> when it's not ready.</returns>
         bool IsReady(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Sends a pause request with a <paramref name="message"/> to the <paramref name="sessionHost"/> and waits for the response.
+        /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
+        /// <param name="message">
+        /// The text of the request that would be send to the <paramref name="sessionHost"/> and then to the end user.
+        /// </param>
+        /// <returns>
+        /// The response of the end user.
+        /// </returns>
+        bool RequestPause(ISessionHost sessionHost, string message);
     }
 }
