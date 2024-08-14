@@ -16,7 +16,19 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override string LocalIndexPath => indexV2Path;
 
-        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>()) => this.indexPath = indexPath;
+        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions,
+                                                                                      list: false,
+#if DEBUG
+                                                                                      all: false,
+                                                                                      recommended: true,
+#else
+                                                                                      all: true,
+                                                                                      recommended: false,
+#endif
+                                                                                      ids: Array.Empty<string>())
+        {
+            this.indexPath = indexPath;
+        }
 
         public override void Start(ClientContext context)
         {
