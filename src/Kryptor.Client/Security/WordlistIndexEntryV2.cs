@@ -38,7 +38,12 @@ namespace SAPTeam.Kryptor.Client.Security
         public string InstallDirectory { get; set; }
 
         /// <summary>
-        /// Gets or sets the number of words in this wordlist.
+        /// Gets or sets the number of lines in this wordlist.
+        /// </summary>
+        public long Lines { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of actual words in this wordlist.
         /// </summary>
         public long Words { get; set; }
 
