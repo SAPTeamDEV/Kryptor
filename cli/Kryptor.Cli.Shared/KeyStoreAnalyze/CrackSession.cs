@@ -61,5 +61,6 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
         public void End(bool cancelled) => throw new System.NotImplementedException();
         public void NewSession(ISession session, bool autoRemove) => container.NewSession(session, autoRemove);
         public void MonitorTask(Task task) => throw new System.NotImplementedException();
+        public bool OnSessionPaused(ISession session, string message) => throw new System.NotImplementedException();
     }
 }

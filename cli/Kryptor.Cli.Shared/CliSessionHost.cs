@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.Client;
@@ -216,13 +217,23 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (!isRedirected)
                 {
+                    FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
+
+                    var doListen = !Request.IsEmpty() && !Request.IsResponsed;
+
+                    if (doListen)
+                    {
+                        Console.Write(Request.Message);
+                    }
+
                     var key = KeyQueue;
                     if (key != default)
                     {
-                        // Handle key presees
+                        if (doListen)
+                        {
+                            Request.SetResponse(key.Key == ConsoleKey.Y);
+                        }
                     }
-
-                    FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
                 }
 
                 loadingStep = (++loadingStep) % loadingSteps.Count;
@@ -271,6 +282,9 @@ namespace SAPTeam.Kryptor.Cli
                     curLines++;
                 }
             }
+
+            Console.Write("".PadRight(paddingBufferSize));
+            Console.CursorLeft = 0;
         }
 
         private void PrintMessages(SessionHolder[] holders)
@@ -385,7 +399,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             Task pTask = ShowProgressImpl(showOverall, showRemaining);
 
-            ReadKey();
+            _ = ReadKey();
             return pTask;
         }
 
@@ -437,6 +451,20 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             return session;
+        }
+
+        public PauseRequest Request { get; private set; }
+
+        public override bool OnSessionPaused(ISession session, string message)
+        {
+            Request = new PauseRequest(message);
+
+            while (!Request.IsResponsed)
+            {
+                Thread.Sleep(5);
+            }
+
+            return Request.Response;
         }
     }
 }
