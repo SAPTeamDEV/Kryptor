@@ -80,7 +80,7 @@ namespace SAPTeam.Kryptor.Cli
             Stopwatch sw = null;
             int qCounter = 0;
 
-            List<string> loadingSteps = new List<string>()
+            string[] loadingSteps = new string[]
             {
                 "||--",
                 "|||-",
@@ -95,7 +95,7 @@ namespace SAPTeam.Kryptor.Cli
             };
             int loadingStep = 0;
 
-            List<string> waitingSteps = new List<string>()
+            string[] waitingSteps = new string[]
             {
                 "|---",
                 "||--",
@@ -110,6 +110,13 @@ namespace SAPTeam.Kryptor.Cli
                 "----",
             };
             int waitingStep = 0;
+
+            string[] pauseSteps = new string[]
+            {
+                "||||",
+                "----",
+            };
+            int pauseStep = 0;
 
             if (!isRedirected)
             {
@@ -153,6 +160,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 string curLoadingStep = loadingSteps[loadingStep];
                 string curWaitingStep = waitingSteps[waitingStep];
+                string curPauseStep = pauseSteps[pauseStep];
 
                 foreach (ISession session in sessions)
                 {
@@ -192,7 +200,7 @@ namespace SAPTeam.Kryptor.Cli
                             }
                         }
 
-                        GetSessionInfo(isRedirected, bufferWidth, curLoadingStep, curWaitingStep, session, out Color color, out string prog, out string desc);
+                        GetSessionInfo(isRedirected, bufferWidth, curLoadingStep, curWaitingStep, curPauseStep, session, out Color color, out string prog, out string desc);
 
                         Console.Write($"[{prog.WithColor(color)}] {desc}");
 
@@ -236,8 +244,9 @@ namespace SAPTeam.Kryptor.Cli
                     }
                 }
 
-                loadingStep = (++loadingStep) % loadingSteps.Count;
-                waitingStep = (++waitingStep) % waitingSteps.Count;
+                loadingStep = (++loadingStep) % loadingSteps.Length;
+                waitingStep = (++waitingStep) % waitingSteps.Length;
+                pauseStep = (++pauseStep) % pauseSteps.Length;
 
                 if (isCompleted)
                 {
@@ -339,7 +348,7 @@ namespace SAPTeam.Kryptor.Cli
             Console.WriteLine(ovText.PadRight(paddingBufferSize));
         }
 
-        private static void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, ISession session, out Color color, out string prog, out string desc)
+        private static void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, string pause, ISession session, out Color color, out string prog, out string desc)
         {
             color = Color.DarkCyan;
             prog = waiting;
@@ -347,7 +356,7 @@ namespace SAPTeam.Kryptor.Cli
             if (session.IsRunning)
             {
                 color = Color.Yellow;
-                prog = session.Progress <= 0 || session.Progress > 100.00 ? loading : $"{Math.Round(session.Progress, 2)}%".PadBoth(6);
+                prog = session.IsPaused ? pause : session.Progress <= 0 || session.Progress > 100.00 ? loading : $"{Math.Round(session.Progress, 2)}%".PadBoth(6);
             }
             else if (session.Status == SessionStatus.Ended)
             {
