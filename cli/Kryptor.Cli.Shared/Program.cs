@@ -1,12 +1,7 @@
-﻿using System.IO;
-using System.Linq;
-
-#if !NETFRAMEWORK
-using ANSIConsole;
-#endif
-
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Parsing;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace SAPTeam.Kryptor.Cli
