@@ -8,8 +8,11 @@ namespace SAPTeam.Kryptor.Helpers
     public interface IProgressReport
     {
         /// <summary>
-        /// Called when a part of work is done.
+        /// Triggered when the work progress is changed.
         /// </summary>
-        event Action<double> OnProgress;
+        /// <remarks>
+        /// Expected values are 0 - 100 and -1. -1 means unspecifed exact progress value, but the work is being done.
+        /// </remarks>
+        event EventHandler<double> ProgressChanged;
     }
 }

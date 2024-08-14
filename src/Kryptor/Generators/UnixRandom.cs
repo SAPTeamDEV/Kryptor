@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor.Generators
     public class UnixRandom : IGenerator
     {
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnixRandom"/> class.
@@ -27,14 +27,14 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
-            OnProgress?.Invoke(-1);
+            ProgressChanged?.Invoke(this, -1);
 
             using (FileStream file = File.OpenRead("/dev/random"))
             {
                 file.Read(buffer, 0, buffer.Length);
             }
 
-            OnProgress?.Invoke(100);
+            ProgressChanged?.Invoke(this, 100);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Generators
         private static readonly CryptoRandom random = new CryptoRandom();
 
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Generators
                     result.Add(sample);
 
                     totalProgress += (double)sampleSize / buffer.Length;
-                    OnProgress?.Invoke(totalProgress * 100);
+                    ProgressChanged?.Invoke(this, totalProgress * 100);
 
                     tries = 0;
                 }
@@ -49,7 +49,7 @@ namespace SAPTeam.Kryptor.Generators
                 totalTries++;
             }
 
-            OnProgress?.Invoke(-1);
+            ProgressChanged?.Invoke(this, -1);
             result.SelectMany((k) => k).Take(buffer.Length).ToArray().CopyTo(buffer, 0);
         }
     }

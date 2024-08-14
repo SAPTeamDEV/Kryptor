@@ -30,7 +30,7 @@ namespace SAPTeam.Kryptor.Generators
         private readonly SHA512 _sha512;
 
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LiteEn"/> class.
@@ -90,7 +90,7 @@ namespace SAPTeam.Kryptor.Generators
                 Array.Copy(vt, 0, buffer, i, Math.Min(vt.Length, buffer.Length - i));
 
                 totalProgress += (double)vt.Length / buffer.Length;
-                OnProgress.Invoke(totalProgress * 100);
+                ProgressChanged.Invoke(this, totalProgress * 100);
 
                 i += vt.Length;
             }

@@ -18,7 +18,7 @@ namespace SAPTeam.Kryptor.Cli
             Description = "";
 
             kes = new Kes(keyStore, configuration, blockSize);
-            kes.OnProgress += UpdateProgress;
+            kes.ProgressChanged += UpdateProgress;
 
             this.hVerbose = hVerbose;
             this.file = file;
@@ -64,6 +64,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private void UpdateProgress(double value) => Progress = value;
+        private void UpdateProgress(object sender, double value) => Progress = value;
     }
 }

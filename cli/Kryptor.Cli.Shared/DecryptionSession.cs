@@ -74,7 +74,7 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             Kes kes = new Kes(keyStore, config, bs);
-            kes.OnProgress += UpdateProgress;
+            kes.ProgressChanged += UpdateProgress;
 
             destFileName = Utilities.GetNewFileName(file, destFileName);
             FileStream destStream = File.OpenWrite(destFileName);
@@ -94,6 +94,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private void UpdateProgress(double value) => Progress = value;
+        private void UpdateProgress(object sender, double value) => Progress = value;
     }
 }

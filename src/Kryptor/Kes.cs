@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor
         public CryptoProvider Provider { get; set; }
 
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Kes"/> class with a new instance of the requested crypto provider.
@@ -257,7 +257,7 @@ namespace SAPTeam.Kryptor
             int counter = 0;
             int blockSize;
             long i = 0;
-            OnProgress?.Invoke(0);
+            ProgressChanged?.Invoke(this, 0);
 
             try
             {
@@ -274,7 +274,7 @@ namespace SAPTeam.Kryptor
 
                     counter += blockSize / chunckSize;
                     double prog = step * counter;
-                    OnProgress?.Invoke(Math.Min(prog, 100));
+                    ProgressChanged?.Invoke(this, Math.Min(prog, 100));
 
                     process.NextBlock(!Provider.Configuration.Continuous);
                     i += blockSize;

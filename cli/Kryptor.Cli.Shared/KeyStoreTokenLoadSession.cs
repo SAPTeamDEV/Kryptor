@@ -30,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli
             return true;
         }
 
-        private void UpdateProgress(double progress)
+        private void UpdateProgress(object sender, double progress)
         {
             if (progress == -1)
             {

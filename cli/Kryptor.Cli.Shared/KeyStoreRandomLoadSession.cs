@@ -45,7 +45,7 @@ namespace SAPTeam.Kryptor.Cli
                     throw new System.ArgumentException("generator");
             }
 
-            gen.OnProgress += UpdateProgress;
+            gen.ProgressChanged += UpdateProgress;
 
             byte[] buffer = new byte[Size];
             gen.Generate(buffer);
@@ -58,7 +58,7 @@ namespace SAPTeam.Kryptor.Cli
             return true;
         }
 
-        private void UpdateProgress(double progress)
+        private void UpdateProgress(object sender, double progress)
         {
             Progress = progress;
             CancellationToken.ThrowIfCancellationRequested();

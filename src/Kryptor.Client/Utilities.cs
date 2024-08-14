@@ -32,15 +32,15 @@ namespace SAPTeam.Kryptor.Client
         /// The requested extra size to make the keystore even more secure.
         /// </param>
         /// <returns></returns>
-        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, Action<double> progressReport, int margin = 0)
+        public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, EventHandler<double> progressReport, int margin = 0)
         {
-            ITranformer tranformer = Transformers.GetTranformer(token);
-            tranformer.OnProgress += progressReport;
+            ITranformer transformer = Transformers.GetTranformer(token);
+            transformer.ProgressChanged += progressReport;
 
             byte[] buffer = new byte[(token.KeySize * 32) + margin];
-            tranformer.Generate(buffer, token.Rotate);
+            transformer.Generate(buffer, token.Rotate);
 
-            progressReport(-1);
+            progressReport(transformer, -1);
             return new KeyStore(buffer);
         }
 

@@ -29,7 +29,7 @@ namespace SAPTeam.Kryptor.Generators
         public bool IsRandomPoolEnabled { get; private set; }
 
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CryptoRandom"/> class with.
@@ -74,11 +74,11 @@ namespace SAPTeam.Kryptor.Generators
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {
-            OnProgress?.Invoke(-1);
+            ProgressChanged?.Invoke(this, -1);
 
             NextBytes(buffer);
 
-            OnProgress?.Invoke(100);
+            ProgressChanged?.Invoke(this, 100);
         }
 
         /// <summary>

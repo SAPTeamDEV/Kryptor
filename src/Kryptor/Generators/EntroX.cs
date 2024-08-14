@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Generators
         private static readonly SHA512 _sha512;
 
         /// <inheritdoc/>
-        public event Action<double> OnProgress;
+        public event EventHandler<double> ProgressChanged;
 
         static EntroX()
         {
@@ -59,7 +59,7 @@ namespace SAPTeam.Kryptor.Generators
                 Array.Copy(data, 0, buffer, pos, Math.Min(data.Length, buffer.Length - pos));
                 pos += data.Length;
                 totalProgress += (double)data.Length / buffer.Length;
-                OnProgress?.Invoke(totalProgress * 100);
+                ProgressChanged?.Invoke(this, totalProgress * 100);
 
                 tries++;
             }
