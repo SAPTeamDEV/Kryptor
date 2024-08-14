@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         public override int MaxRunningSessions => 2;
 
-        private object _lockObj = new object();
+        private readonly object _lockObj = new object();
 
         private readonly bool List;
         private readonly bool All;

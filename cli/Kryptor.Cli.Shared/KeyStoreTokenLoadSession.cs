@@ -8,7 +8,7 @@ namespace SAPTeam.Kryptor.Cli
     public class KeyStoreTokenLoadSession : KeyStoreLoadSession
     {
         private TransformerToken token;
-        private int margin;
+        private readonly int margin;
 
         private CancellationToken cancellationToken;
 

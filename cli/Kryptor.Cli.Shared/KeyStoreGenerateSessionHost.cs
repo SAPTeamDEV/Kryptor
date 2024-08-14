@@ -11,11 +11,11 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class KeyStoreGenerateSessionHost : CliSessionHost
     {
-        private KeyStoreGenerator Generator;
-        private int Size;
+        private readonly KeyStoreGenerator Generator;
+        private readonly int Size;
         private TransformerToken Token;
-        private int Margin;
-        private string Output;
+        private readonly int Margin;
+        private readonly string Output;
 
         public KeyStoreGenerateSessionHost(GlobalOptions globalOptions, KeyStoreGenerator generator, int size, TransformerToken token, int magin, string output) : base(globalOptions)
         {
@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor.Cli
                 ksLoader = new KeyStoreRandomLoadSession(true, Generator, Size, Margin);
             }
 
-            var fileWriter = new FileSaveSession(Output, null);
+            FileSaveSession fileWriter = new FileSaveSession(Output, null);
             ksLoader.ContinueWith(fileWriter);
 
             NewSession(ksLoader);
@@ -62,16 +62,16 @@ namespace SAPTeam.Kryptor.Cli
 
         public void CollectEntropy()
         {
-            var crng = new CryptoRandom();
+            CryptoRandom crng = new CryptoRandom();
             List<(DateTime start, DateTime end, string data)> entropy = new List<(DateTime start, DateTime end, string data)>();
 
             Console.WriteLine();
             Console.WriteLine("Collecting entropy");
 
             Console.WriteLine("Please enter some random characters. more character and more randomness improves the security of your keystore.");
-            var initTime = DateTime.Now;
-            var initEnt = Console.ReadLine();
-            var initEndTime = DateTime.Now;
+            DateTime initTime = DateTime.Now;
+            string initEnt = Console.ReadLine();
+            DateTime initEndTime = DateTime.Now;
             entropy.Add((initTime, initEndTime, initEnt));
 
             int i = 0;
@@ -79,9 +79,9 @@ namespace SAPTeam.Kryptor.Cli
             while (i < count)
             {
                 Console.Write("Please enter more character: ");
-                var sTime = DateTime.Now;
-                var data = Console.ReadLine();
-                var eTime = DateTime.Now;
+                DateTime sTime = DateTime.Now;
+                string data = Console.ReadLine();
+                DateTime eTime = DateTime.Now;
                 entropy.Add((sTime, eTime, data));
 
                 i++;
@@ -90,17 +90,17 @@ namespace SAPTeam.Kryptor.Cli
             int target = crng.Next(10, 40);
             while (target > 0)
             {
-                var shuffledChars = entropy.SelectMany(x => x.data)
+                byte[] shuffledChars = entropy.SelectMany(x => x.data)
                                            .OrderBy(x => crng.Next())
-                                           .SelectMany(x => BitConverter.GetBytes(x))
-                                           .OrderBy(x => crng.Next())
-                                           .ToArray();
-
-                var shuffledNumbers = entropy.SelectMany(x => BitConverter.GetBytes((x.end - x.start).Ticks))
+                                           .SelectMany(BitConverter.GetBytes)
                                            .OrderBy(x => crng.Next())
                                            .ToArray();
 
-                var shuffledArray = shuffledChars.Concat(shuffledNumbers)
+                byte[] shuffledNumbers = entropy.SelectMany(x => BitConverter.GetBytes((x.end - x.start).Ticks))
+                                           .OrderBy(x => crng.Next())
+                                           .ToArray();
+
+                byte[] shuffledArray = shuffledChars.Concat(shuffledNumbers)
                                                  .Shuffle(crng)
                                                  .ToArray();
 

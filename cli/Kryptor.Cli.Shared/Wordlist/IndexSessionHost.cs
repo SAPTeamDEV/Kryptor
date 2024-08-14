@@ -16,10 +16,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override string LocalIndexPath => indexV2Path;
 
-        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>())
-        {
-            this.indexPath = indexPath;
-        }
+        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions, list: false, all: true, recommended: false, ids: Array.Empty<string>()) => this.indexPath = indexPath;
 
         public override void Start(ClientContext context)
         {
@@ -60,15 +57,15 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             this.Index = IndexV2;
             base.Start(context);
 
-            using (var f = File.OpenWrite("Index.md"))
+            using (FileStream f = File.OpenWrite("Index.md"))
             {
-                var header = "# Wordlist Index\n\n| Identifier | Name | Words | Size | Download |\n| :--------: | :--: | :---: | :--: | :------: |\n";
-                var buffer = Encoding.UTF8.GetBytes(header);
+                string header = "# Wordlist Index\n\n| Identifier | Name | Words | Size | Download |\n| :--------: | :--: | :---: | :--: | :------: |\n";
+                byte[] buffer = Encoding.UTF8.GetBytes(header);
                 f.Write(buffer, 0, buffer.Length);
 
-                foreach (var entry in LocalIndex.Wordlists)
+                foreach (WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
                 {
-                    var text = $"| {entry.Id} | {entry.Name} | {entry.Words} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
+                    string text = $"| {entry.Id} | {entry.Name} | {entry.Words} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
                     buffer = Encoding.UTF8.GetBytes(text);
                     f.Write(buffer, 0, buffer.Length);
                 }

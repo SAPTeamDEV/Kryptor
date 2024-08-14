@@ -35,13 +35,7 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets an array of all tasks.
         /// </summary>
-        public Task[] Tasks
-        {
-            get
-            {
-                return SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
-            }
-        }
+        public Task[] Tasks => SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
 
         /// <summary>
         /// Gets an array of all cancellation tokens.

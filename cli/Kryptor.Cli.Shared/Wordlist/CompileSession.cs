@@ -48,7 +48,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             try
             {
-                var installer = PreCheck(sessionHost);
+                InstallSessionHost installer = PreCheck(sessionHost);
 
                 Description = $"Importing {IndexEntry.Id}";
 
@@ -64,14 +64,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 installer.FinalizeInstallation(IndexEntry);
 
-                if (Indexing)
-                {
-                    Description = $"{IndexEntry.Id} Indexed";
-                }
-                else
-                {
-                    Description = $"{IndexEntry.Id} Installed";
-                }
+                Description = Indexing ? $"{IndexEntry.Id} Indexed" : $"{IndexEntry.Id} Installed";
             }
             catch
             {
@@ -150,17 +143,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         private InstallSessionHost PreCheck(ISessionHost sessionHost)
         {
-            InstallSessionHost installSessionHost;
-
-            if (sessionHost is InstallSessionHost ish)
-            {
-                installSessionHost = ish;
-            }
-            else
-            {
-                throw new InvalidOperationException("This session started from an unknown session host. you may start this session only via InstallSessionHost");
-            }
-
+            InstallSessionHost installSessionHost = sessionHost is InstallSessionHost ish
+                ? ish
+                : throw new InvalidOperationException("This session started from an unknown session host. you may start this session only via InstallSessionHost");
             if (!File.Exists(FilePath))
             {
                 throw new FileNotFoundException(FilePath);

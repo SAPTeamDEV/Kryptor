@@ -94,9 +94,6 @@ namespace SAPTeam.Kryptor
         /// Determines whether this token is valid.
         /// </summary>
         /// <returns></returns>
-        public readonly bool IsValid()
-        {
-            return TransformerName != null && SecretKey != null && KeySize > 0;
-        }
+        public readonly bool IsValid() => TransformerName != null && SecretKey != null && KeySize > 0;
     }
 }

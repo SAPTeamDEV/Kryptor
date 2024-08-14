@@ -38,16 +38,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        protected void SetEndDescription()
-        {
-            if (ShowFingerprint)
-            {
-                Description = $"Keystore fingerprint: {KeyStore.Fingerprint.FormatFingerprint()}";
-            }
-            else
-            {
-                Description = "Keystore loaded";
-            }
-        }
+        protected void SetEndDescription() => Description = ShowFingerprint ? $"Keystore fingerprint: {KeyStore.Fingerprint.FormatFingerprint()}" : "Keystore loaded";
     }
 }

@@ -24,10 +24,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public virtual double Progress
         {
-            get
-            {
-                return progress;
-            }
+            get => progress;
 
             protected set
             {
@@ -42,10 +39,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public virtual string Description
         {
-            get
-            {
-                return description;
-            }
+            get => description;
 
             protected set
             {
@@ -66,10 +60,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public SessionStatus Status
         {
-            get
-            {
-                return status;
-            }
+            get => status;
 
             protected set
             {
@@ -96,10 +87,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public SessionEndReason EndReason
         {
-            get
-            {
-                return endReason;
-            }
+            get => endReason;
 
             protected set
             {
@@ -111,10 +99,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public Exception Exception
         {
-            get
-            {
-                return exception;
-            }
+            get => exception;
 
             protected set
             {
@@ -225,7 +210,7 @@ namespace SAPTeam.Kryptor.Client
         {
             if (session.Status == SessionStatus.NotStarted)
             {
-                var result = session.AddDependency(this);
+                bool result = session.AddDependency(this);
 
                 if (!result)
                 {
@@ -312,42 +297,27 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Triggers the <see cref="SessionStarted"/> event.
         /// </summary>
-        protected void OnSessionStarted()
-        {
-            SessionStarted?.Invoke(this, CollectSessionData());
-        }
+        protected void OnSessionStarted() => SessionStarted?.Invoke(this, CollectSessionData());
 
         /// <summary>
         /// Triggers the <see cref="ProgressChanged"/> event.
         /// </summary>
-        protected void OnProgressChanged()
-        {
-            ProgressChanged?.Invoke(this, CollectSessionUpdateData());
-        }
+        protected void OnProgressChanged() => ProgressChanged?.Invoke(this, CollectSessionUpdateData());
 
         /// <summary>
         /// Triggers the <see cref="DescriptionChanged"/> event.
         /// </summary>
-        protected void OnDescriptionChanged()
-        {
-            DescriptionChanged?.Invoke(this, CollectSessionUpdateData());
-        }
+        protected void OnDescriptionChanged() => DescriptionChanged?.Invoke(this, CollectSessionUpdateData());
 
         /// <summary>
         /// Triggers the <see cref="StatusChanged"/> event.
         /// </summary>
-        protected void OnStatusChanged()
-        {
-            StatusChanged?.Invoke(this, CollectSessionData());
-        }
+        protected void OnStatusChanged() => StatusChanged?.Invoke(this, CollectSessionData());
 
         /// <summary>
         /// Triggers the <see cref="SessionEnded"/> event.
         /// </summary>
-        protected void OnSessionEnded()
-        {
-            SessionEnded?.Invoke(this, CollectSessionData());
-        }
+        protected void OnSessionEnded() => SessionEnded?.Invoke(this, CollectSessionData());
 
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> if the session is ended.

@@ -32,7 +32,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (Quiet)
             {
-                var tw = new StreamWriter(mem = new MemoryStream());
+                StreamWriter tw = new StreamWriter(mem = new MemoryStream());
                 Console.SetOut(tw);
             }
 
@@ -358,12 +358,7 @@ namespace SAPTeam.Kryptor.Cli
             ShowProgressMonitored(false).Wait();
             ks = session.KeyStore;
 
-            if (session.EndReason != SessionEndReason.Completed)
-            {
-                throw new ApplicationException("KeyStoreLoad failed");
-            }
-
-            return ks;
+            return session.EndReason != SessionEndReason.Completed ? throw new ApplicationException("KeyStoreLoad failed") : ks;
         }
 
         protected KeyStoreLoadSession CreateKeyStoreLoadSession(string keyStore)

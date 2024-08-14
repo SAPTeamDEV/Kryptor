@@ -10,8 +10,8 @@ namespace SAPTeam.Kryptor.Cli
     {
         private CancellationToken CancellationToken;
 
-        private KeyStoreGenerator Generator;
-        private int Size;
+        private readonly KeyStoreGenerator Generator;
+        private readonly int Size;
 
         public KeyStoreRandomLoadSession(bool showFingerprint, KeyStoreGenerator generator, int size, int margin) : base(showFingerprint)
         {
@@ -47,7 +47,7 @@ namespace SAPTeam.Kryptor.Cli
 
             gen.OnProgress += UpdateProgress;
 
-            var buffer = new byte[Size];
+            byte[] buffer = new byte[Size];
             gen.Generate(buffer);
 
             Description = "Loading keystore";

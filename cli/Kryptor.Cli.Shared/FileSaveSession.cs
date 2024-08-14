@@ -13,15 +13,9 @@ namespace SAPTeam.Kryptor.Cli
 
         public string FilePath
         {
-            get
-            {
-                return filePath;
-            }
+            get => filePath;
 
-            set
-            {
-                filePath = string.IsNullOrEmpty(value) ? value : Path.GetFullPath(value);
-            }
+            set => filePath = string.IsNullOrEmpty(value) ? value : Path.GetFullPath(value);
         }
 
         public byte[] Data { get; set; }
@@ -60,14 +54,14 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task WriteAsync(CancellationToken cancellationToken)
         {
-            using (var f = File.OpenWrite(FilePath))
+            using (FileStream f = File.OpenWrite(FilePath))
             {
-                var steps = (1.0 / Data.Length) * 100;
+                double steps = 1.0 / Data.Length * 100;
                 int wroteBytes = 0;
 
                 while (wroteBytes < Data.Length)
                 {
-                    var chunk = Math.Min(Data.Length - wroteBytes, 1024);
+                    int chunk = Math.Min(Data.Length - wroteBytes, 1024);
 
                     await f.WriteAsync(Data, 0, chunk, cancellationToken);
                     wroteBytes += chunk;

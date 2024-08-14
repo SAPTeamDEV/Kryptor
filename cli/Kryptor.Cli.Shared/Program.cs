@@ -31,7 +31,7 @@ namespace SAPTeam.Kryptor.Cli
             Option<bool> noColor = new Option<bool>("--no-color", "Disables showing messages with colors");
             root.AddGlobalOption(noColor);
 
-            var globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
+            GlobalOptionsBinder globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
 
             #region Common Data Processing Options
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
@@ -134,28 +134,23 @@ namespace SAPTeam.Kryptor.Cli
             #endregion
 
             #region Generate Options
-            var generateGenerator = new Option<KeyStoreGenerator>(
+            Option<KeyStoreGenerator> generateGenerator = new Option<KeyStoreGenerator>(
                 "--random",
                 () =>
                 {
-                    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && File.Exists("/dev/random"))
-                    {
-                        return KeyStoreGenerator.Unix;
-                    }
-                    else
-                    {
-                        return KeyStoreGenerator.CryptoRng;
-                    }
+                    return !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && File.Exists("/dev/random")
+                        ? KeyStoreGenerator.Unix
+                        : KeyStoreGenerator.CryptoRng;
                 },
                 "Determines a random key generator to generate keystore in a non-deterministic method.");
 
             generateGenerator.AddAlias("-r");
 
-            var generateToken = new Option<TransformerToken>(
+            Option<TransformerToken> generateToken = new Option<TransformerToken>(
                 "--token",
                 parseArgument: (x) =>
                 {
-                    var _tk = x.Tokens.First().Value;
+                    string _tk = x.Tokens.First().Value;
                     if (TransformerToken.IsValid(_tk))
                     {
                         return TransformerToken.Parse(_tk);
@@ -170,16 +165,16 @@ namespace SAPTeam.Kryptor.Cli
 
             generateToken.AddAlias("-t");
 
-            var generateSize = new Option<int>("--size", "Determines the keystore size. it's recommended to choose sizes larger than 256. This argument is not respected in transformer token generation because the token itself has a size argument.");
+            Option<int> generateSize = new Option<int>("--size", "Determines the keystore size. it's recommended to choose sizes larger than 256. This argument is not respected in transformer token generation because the token itself has a size argument.");
             generateSize.AddAlias("-s");
 
-            var generateMargin = new Option<int>("--margin", "Adds an extra small size to the generated keystore size. it could increase the security of the keystore. this option works in both random and token based generation.");
+            Option<int> generateMargin = new Option<int>("--margin", "Adds an extra small size to the generated keystore size. it could increase the security of the keystore. this option works in both random and token based generation.");
             generateMargin.AddAlias("-m");
 
-            var generateOutput = new Option<string>("--output", "Determines the file name of the generated keystore. if no name is specified, the keystore's fingerprint will be used as file name.");
+            Option<string> generateOutput = new Option<string>("--output", "Determines the file name of the generated keystore. if no name is specified, the keystore's fingerprint will be used as file name.");
             generateOutput.AddAlias("-o");
 
-            var genCmd = new Command("generate", "Generates a new keystore")
+            Command genCmd = new Command("generate", "Generates a new keystore")
             {
                 generateGenerator,
                 generateToken,
@@ -192,7 +187,7 @@ namespace SAPTeam.Kryptor.Cli
 
             genCmd.SetHandler((globalOptionsBinderT, generateGeneratorT, generateTokenT, generateSizeT, generateMarginT, generateOutputT) =>
             {
-                var sessionHost = new KeyStoreGenerateSessionHost(globalOptionsBinderT, generateGeneratorT, generateSizeT, generateTokenT, generateMarginT, generateOutputT);
+                KeyStoreGenerateSessionHost sessionHost = new KeyStoreGenerateSessionHost(globalOptionsBinderT, generateGeneratorT, generateSizeT, generateTokenT, generateMarginT, generateOutputT);
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, generateGenerator, generateToken, generateSize, generateMargin, generateOutput);
 

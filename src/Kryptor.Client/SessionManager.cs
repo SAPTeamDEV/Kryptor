@@ -8,8 +8,8 @@ namespace SAPTeam.Kryptor.Client
 {
     public partial class SessionContainer
     {
-        private object _lock = new object();
-        private ISessionHost _sessionHost;
+        private readonly object _lock = new object();
+        private readonly ISessionHost _sessionHost;
         private readonly int _maxRunningSessions;
         private bool _cancellationRequested;
 
@@ -53,10 +53,7 @@ namespace SAPTeam.Kryptor.Client
         /// so using it in sub-session models is not recommended as it could be lead to unexpected session exit and losing control of sub-sessions.
         /// it's highly recommended to use <see cref="WaitAll(CancellationToken)"/> method in that situation.
         /// </remarks>
-        public void WaitForRunningTasks()
-        {
-            Task.WaitAll(Tasks);
-        }
+        public void WaitForRunningTasks() => Task.WaitAll(Tasks);
 
         /// <summary>
         /// Sends cancellation request to all cancellation tokens in this container.
@@ -161,7 +158,6 @@ namespace SAPTeam.Kryptor.Client
                         throw;
                     }
                 }
-
             }
         }
 
