@@ -37,14 +37,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public static string WithColor(this string src, Color color) => Program.Context.NoColor ? src : src.ColorImpl(color);
 
-        public static string FormatWithCommas(this long number)
-        {
-            return number.ToString("N0");
-        }
+        public static string FormatWithCommas(this long number) => number.ToString("N0");
 
-        public static string FormatWithCommas(this int number)
-        {
-            return number.ToString("N0");
-        }
+        public static string FormatWithCommas(this int number) => number.ToString("N0");
     }
 }

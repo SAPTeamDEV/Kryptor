@@ -23,15 +23,12 @@ namespace SAPTeam.Kryptor.Cli
         {
             get
             {
-                var key = cKey;
+                ConsoleKeyInfo key = cKey;
                 cKey = default;
                 return key;
             }
 
-            set
-            {
-                cKey = value;
-            }
+            set => cKey = value;
         }
 
         public CliSessionHost(GlobalOptions globalOptions)
@@ -231,14 +228,14 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
 
-                    var doListen = !Request.IsEmpty() && !Request.IsResponsed;
+                    bool doListen = !Request.IsEmpty() && !Request.IsResponsed;
 
                     if (doListen)
                     {
                         Console.Write(Request.Message + " (Y/n)");
                     }
 
-                    var key = KeyQueue;
+                    ConsoleKeyInfo key = KeyQueue;
                     if (key != default)
                     {
                         if (doListen && (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N))

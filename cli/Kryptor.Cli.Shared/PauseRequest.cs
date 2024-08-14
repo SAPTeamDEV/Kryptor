@@ -21,10 +21,7 @@ namespace SAPTeam.Kryptor.Cli
             Response = response;
         }
 
-        public bool IsEmpty()
-        {
-            return string.IsNullOrEmpty(Message);
-        }
+        public bool IsEmpty() => string.IsNullOrEmpty(Message);
     }
 }
 
