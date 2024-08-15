@@ -82,6 +82,16 @@ namespace SAPTeam.Kryptor.Client
         event EventHandler<SessionUpdateEventArgs> DescriptionChanged;
 
         /// <summary>
+        /// Occurs when the session is paused.
+        /// </summary>
+        event EventHandler<SessionUpdateEventArgs> SessionPaused;
+
+        /// <summary>
+        /// Occurs when the session is resumed.
+        /// </summary>
+        event EventHandler<SessionUpdateEventArgs> SessionResumed;
+
+        /// <summary>
         /// Occurs when the status of the session is changed.
         /// </summary>
         event EventHandler<SessionEventArgs> StatusChanged;

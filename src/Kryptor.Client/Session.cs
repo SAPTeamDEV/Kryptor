@@ -79,6 +79,8 @@ namespace SAPTeam.Kryptor.Client
                 {
                     Timer?.Start();
                 }
+
+                OnPauseStatusChanged();
             }
         }
 
@@ -166,6 +168,12 @@ namespace SAPTeam.Kryptor.Client
 
         /// <inheritdoc/>
         public event EventHandler<SessionEventArgs> SessionEnded;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionUpdateEventArgs> SessionPaused;
+
+        /// <inheritdoc/>
+        public event EventHandler<SessionUpdateEventArgs> SessionResumed;
 
         /// <summary>
         /// Sets all session properties to thir default data.
@@ -348,6 +356,21 @@ namespace SAPTeam.Kryptor.Client
         /// Triggers the <see cref="DescriptionChanged"/> event.
         /// </summary>
         protected void OnDescriptionChanged() => DescriptionChanged?.Invoke(this, CollectSessionUpdateData());
+
+        /// <summary>
+        /// Triggers the <see cref="SessionPaused"/> or <see cref="SessionResumed"/> events.
+        /// </summary>
+        protected void OnPauseStatusChanged()
+        {
+            if (IsPaused)
+            {
+                SessionPaused?.Invoke(this, CollectSessionUpdateData());
+            }
+            else
+            {
+                SessionResumed?.Invoke(this, CollectSessionUpdateData());
+            }
+        }
 
         /// <summary>
         /// Triggers the <see cref="StatusChanged"/> event.
