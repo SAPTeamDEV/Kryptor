@@ -23,6 +23,9 @@ namespace SAPTeam.Kryptor.Cli
 
         public bool IsOutputRedirected { get; }
 
+        public PauseRequest Request { get; private set; } = new PauseRequest(null, false);
+
+        private object _requestLock = new object();
         private MemoryStream mem;
         private ConsoleKeyInfo cKey;
 
@@ -492,9 +495,17 @@ namespace SAPTeam.Kryptor.Cli
             return session;
         }
 
-        public PauseRequest Request { get; private set; } = new PauseRequest(null, false);
-
         public override async Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
+        {
+            await Task.Delay(2);
+
+            lock (_requestLock)
+            {
+                return RequestHandler(session, request, cancellationToken).Result;
+            }
+        }
+
+        private async Task<TResponse> RequestHandler<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
             if (request.DefaultValue is bool)
             {
