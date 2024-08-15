@@ -16,7 +16,20 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The id of the wordlist.
         /// </param>
         /// <returns></returns>
-        public WordlistIndexEntryV2 this[string id] => Wordlists.Where(x => x.Id == id).First();
+        public WordlistIndexEntryV2 this[string id]
+        {
+            get
+            {
+                try
+                {
+                    return Wordlists.First(x => x.Id == id);
+                }
+                catch (InvalidOperationException)
+                {
+                    throw new KeyNotFoundException(id);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the wordlists container.
