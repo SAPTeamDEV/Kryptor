@@ -12,14 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataIntegrityTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="DataIntegrityTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
     <PackageReference Include="Meziantou.Xunit.ParallelTestFramework" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
