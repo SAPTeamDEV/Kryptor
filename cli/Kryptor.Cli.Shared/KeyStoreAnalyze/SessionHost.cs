@@ -40,11 +40,11 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
             double ratio = Math.Pow(2, 32) / Math.Pow(2, 3);
             double estimatedTimeFor32ByteArray = calcSession.CalcTimer.Elapsed.TotalSeconds * ratio;
-            double estimatedTimeForLargeArrayInYears = Math.Round((double)TimeSpan.FromSeconds(estimatedTimeFor32ByteArray).Days / 365 * KeyStore.Keys.Length, 2);
+            double estimatedTimeForLargeArrayInYears = (double)TimeSpan.FromSeconds(estimatedTimeFor32ByteArray).Days / 365 * KeyStore.Keys.Length;
 
             if (calcSession.Found)
             {
-                Console.WriteLine($"Estimated crack time with your cpu is ~{estimatedTimeForLargeArrayInYears} years");
+                Console.WriteLine($"Estimated crack time with your cpu is ~{estimatedTimeForLargeArrayInYears.FormatWithCommas()} years");
             }
             else
             {

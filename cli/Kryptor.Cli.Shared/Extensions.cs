@@ -40,5 +40,7 @@ namespace SAPTeam.Kryptor.Cli
         public static string FormatWithCommas(this long number) => number.ToString("N0");
 
         public static string FormatWithCommas(this int number) => number.ToString("N0");
+
+        public static string FormatWithCommas(this double number) => number.ToString("N2");
     }
 }
