@@ -7,14 +7,21 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using CommandLine;
+
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class CliSessionHost : Client.SessionHost
+    public class CliSessionHost : SessionHost
     {
         public bool Quiet { get; }
+
         public bool NoColor { get; }
+
+        public bool NoInteractions { get; }
+
+        public bool IsOutputRedirected { get; }
 
         private MemoryStream mem;
         private ConsoleKeyInfo cKey;
@@ -36,6 +43,9 @@ namespace SAPTeam.Kryptor.Cli
             Verbose = globalOptions.Verbose;
             Quiet = globalOptions.Quiet;
             NoColor = globalOptions.NoColor;
+
+            IsOutputRedirected = Console.IsOutputRedirected || Quiet;
+            NoInteractions = IsOutputRedirected;
         }
 
         public override void Start(ClientContext context)
@@ -70,9 +80,8 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
-            bool isRedirected = Console.IsOutputRedirected || Quiet;
             int bufferWidth = Console.BufferWidth;
-            int paddingBufferSize = isRedirected ? 1 : bufferWidth;
+            int paddingBufferSize = IsOutputRedirected ? 1 : bufferWidth;
 
             Stopwatch sw = null;
             int qCounter = 0;
@@ -119,7 +128,7 @@ namespace SAPTeam.Kryptor.Cli
             };
             int pauseStep = 0;
 
-            if (!isRedirected)
+            if (!IsOutputRedirected)
             {
                 Console.CursorVisible = false;
             }
@@ -127,7 +136,7 @@ namespace SAPTeam.Kryptor.Cli
             SessionHolder[] holders = Container.Holders.ToArray();
             List<ISession> sessions = holders.Select(x => x.Session).ToList();
 
-            if (sessions.Count == 0 || (!isRedirected && bufferWidth < 50))
+            if (sessions.Count == 0 || (!IsOutputRedirected && bufferWidth < 50))
             {
                 showOverall = false;
             }
@@ -184,9 +193,9 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
 
-                    if (!session.IsHidden && (!isRedirected || session.Status == SessionStatus.Ended))
+                    if (!session.IsHidden && (!IsOutputRedirected || session.Status == SessionStatus.Ended))
                     {
-                        if (isRedirected)
+                        if (IsOutputRedirected)
                         {
                             flaggedSessions.Add(session);
                         }
@@ -201,7 +210,7 @@ namespace SAPTeam.Kryptor.Cli
                             }
                         }
 
-                        GetSessionInfo(isRedirected, bufferWidth, curLoadingStep, curWaitingStep, curPauseStep, session, out Color color, out string prog, out string desc);
+                        GetSessionInfo(bufferWidth, curLoadingStep, curWaitingStep, curPauseStep, session, out Color color, out string prog, out string desc);
 
                         Console.Write($"[{prog.WithColor(color)}] {desc}");
 
@@ -219,18 +228,21 @@ namespace SAPTeam.Kryptor.Cli
 
                 flaggedSessions.Clear();
 
-                if (showOverall && (!isRedirected || isCompleted))
+                if (showOverall && (!IsOutputRedirected || isCompleted))
                 {
                     ShowOverallTime(showRemaining, paddingBufferSize, sw, ref totalProg, count, ref runningRem, runningCount);
                 }
 
-                if (!isRedirected)
+                if (!IsOutputRedirected)
                 {
                     FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
+                }
 
-                    bool doListen = !Request.IsEmpty() && !Request.IsResponsed;
+                bool hasRequest = !Request.IsEmpty() && !Request.IsResponsed;
 
-                    if (doListen)
+                if (!NoInteractions)
+                {
+                    if (hasRequest)
                     {
                         Console.Write(Request.Message + " (Y/n)");
                     }
@@ -238,11 +250,15 @@ namespace SAPTeam.Kryptor.Cli
                     ConsoleKeyInfo key = KeyQueue;
                     if (key != default)
                     {
-                        if (doListen && (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N))
+                        if (hasRequest && (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N))
                         {
                             Request.SetResponse(key.Key == ConsoleKey.Y);
                         }
                     }
+                }
+                else if (hasRequest)
+                {
+                    Request.SetResponse(Request.Default);
                 }
 
                 loadingStep = (++loadingStep) % loadingSteps.Length;
@@ -253,7 +269,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     sw?.Stop();
 
-                    if (!isRedirected)
+                    if (!IsOutputRedirected)
                     {
                         Console.CursorVisible = true;
                     }
@@ -268,7 +284,7 @@ namespace SAPTeam.Kryptor.Cli
                     Container.StartQueuedSessions();
                 }
 
-                if (!isRedirected)
+                if (!IsOutputRedirected)
                 {
                     await Task.Delay(100);
 
@@ -349,7 +365,7 @@ namespace SAPTeam.Kryptor.Cli
             Console.WriteLine(ovText.PadRight(paddingBufferSize));
         }
 
-        private void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, string pause, ISession session, out Color color, out string prog, out string desc)
+        private void GetSessionInfo(int bufferWidth, string loading, string waiting, string pause, ISession session, out Color color, out string prog, out string desc)
         {
             color = Color.DarkCyan;
             prog = waiting;
@@ -394,7 +410,7 @@ namespace SAPTeam.Kryptor.Cli
             desc = session.Description;
             int expectedLength = bufferWidth - prog.Length - 5;
 
-            if (!isRedirected && desc.Length > expectedLength)
+            if (!IsOutputRedirected && desc.Length > expectedLength)
             {
                 desc = $"...{desc.Substring(desc.Length - expectedLength + 3)}";
             }
@@ -468,18 +484,25 @@ namespace SAPTeam.Kryptor.Cli
             return session;
         }
 
-        public PauseRequest Request { get; private set; } = new PauseRequest(null);
+        public PauseRequest Request { get; private set; } = new PauseRequest(null, false);
 
-        public override bool OnSessionPaused(ISession session, string message)
+        public override async Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
-            Request = new PauseRequest(message);
-
-            while (!Request.IsResponsed)
+            if (true.CanCast<TResponse>())
             {
-                Thread.Sleep(5);
-            }
+                Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
 
-            return Request.Response;
+                while (!Request.IsResponsed)
+                {
+                    await Task.Delay(5, cancellationToken);
+                }
+
+                return Request.Response.Cast<TResponse>();
+            }
+            else
+            {
+                throw new NotSupportedException("The request type is not supported");
+            }
         }
     }
 }

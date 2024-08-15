@@ -4,14 +4,16 @@ namespace SAPTeam.Kryptor.Cli
     {
         public string Message { get; set; }
 
+        public bool Default { get; }
+
         public bool Response { get; private set; }
 
         public bool IsResponsed { get; private set; }
 
-        public PauseRequest(string message)
+        public PauseRequest(string message, bool defaultValue)
         {
             Message = message;
-            Response = false;
+            Default = defaultValue;
             IsResponsed = false;
         }
 
