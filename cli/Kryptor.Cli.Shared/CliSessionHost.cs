@@ -458,7 +458,8 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             rKeyTknSrc = new CancellationTokenSource();
-            rKeyTask = ReadKey(rKeyTknSrc.Token);
+            rKeyTask = new Task(async () => await ReadKey(rKeyTknSrc.Token));
+            rKeyTask.Start();
 
             pTask.ContinueWith((x) =>
             {
