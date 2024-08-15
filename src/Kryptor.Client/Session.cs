@@ -325,7 +325,8 @@ namespace SAPTeam.Kryptor.Client
             return new SessionUpdateEventArgs()
             {
                 Progress = Progress,
-                Description = Description
+                Description = Description,
+                IsPause = IsPaused,
             };
         }
 
@@ -335,6 +336,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 Progress = Progress,
                 Description = Description,
+                IsPause = IsPaused,
                 Status = Status,
                 EndReason = EndReason,
                 Exception = Exception,

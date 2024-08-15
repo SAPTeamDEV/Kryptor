@@ -16,5 +16,10 @@ namespace SAPTeam.Kryptor.Client
         /// Gets the current description value of the session.
         /// </summary>
         public string Description { get; internal set; }
+
+        /// <summary>
+        /// Gets whether the session is paused.
+        /// </summary>
+        public bool IsPause { get; internal set; }
     }
 }
