@@ -17,6 +17,7 @@ namespace SAPTeam.Kryptor.Client
         private SessionStatus status = SessionStatus.NotStarted;
         private SessionEndReason endReason;
         private Exception exception;
+        private bool isPaused;
 
         /// <inheritdoc/>
         public virtual string Name => GetType().Name;
@@ -55,7 +56,30 @@ namespace SAPTeam.Kryptor.Client
         public bool IsRunning => Status == SessionStatus.Running || Status == SessionStatus.Managed;
 
         /// <inheritdoc/>
-        public bool IsPaused { get; protected set; }
+        public bool IsPaused
+        {
+            get
+            {
+                return isPaused;
+            }
+
+            protected set
+            {
+                ThrowIfEnded();
+                if (isPaused == value) return;
+
+                isPaused = value;
+
+                if (value)
+                {
+                    Timer?.Stop();
+                }
+                else
+                {
+                    Timer?.Start();
+                }
+            }
+        }
 
         /// <inheritdoc/>
         public virtual bool IsHidden => false;
