@@ -24,6 +24,13 @@ namespace SAPTeam.Kryptor.Cli
             Description = "Generating keystore";
             await Task.Delay(1);
 
+#if DEBUG
+            if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task?", false), cancellationToken))
+            {
+                throw new System.OperationCanceledException();
+            }
+#endif
+
             KeyStore = Utilities.GenerateKeyStoreFromToken(token, UpdateProgress, margin);
 
             SetEndDescription();

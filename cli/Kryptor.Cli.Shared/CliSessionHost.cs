@@ -528,6 +528,11 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task<TResponse> RequestHandler<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
+            if (!session.IsPaused)
+            {
+                throw new InvalidOperationException("The session must be paused before send request");
+            }
+
             if (request.DefaultValue is bool)
             {
                 Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
