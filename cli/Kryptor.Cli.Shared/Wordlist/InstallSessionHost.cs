@@ -12,8 +12,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class InstallSessionHost : SessionHost
     {
-        public override int MaxRunningSessions => 2;
-
         private readonly object _lockObj = new object();
 
         private readonly bool List;
@@ -35,6 +33,10 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Ids = ids;
 
             Indexing = this is IndexSessionHost;
+            if (!Indexing)
+            {
+                Container.MaxRunningSessions = 2;
+            }
         }
 
         public override void Start(ClientContext context)
