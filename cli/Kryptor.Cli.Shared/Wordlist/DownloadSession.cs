@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -9,34 +8,33 @@ using Downloader;
 using Newtonsoft.Json;
 
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class DownloadSession : Session
     {
-        private readonly string Id;
-        private readonly Uri Uri;
+        private WordlistIndexEntryV2 IndexEntry;
+        private FileInfo OutputFile;
+        private FileInfo PackageFile;
+
         private readonly DownloadConfiguration Configuration;
-        private readonly DownloadService DownloadService;
+        private readonly DownloadService Downloader;
 
-        public string CacheDir = Path.Combine(Program.Context.WordlistDirectory, "_cache");
-        public string FileDir { get; private set; }
-
-        public string PackPath { get; private set; }
-        public string FilePath { get; private set; }
-
-        public DownloadSession(Uri uri, string id)
+        public DownloadSession(WordlistIndexEntryV2 entry, DirectoryInfo outputPath) : this(entry, new FileInfo(Path.Combine(outputPath.FullName, entry.Id + ".txt")))
         {
-            Id = id;
 
-            Description = $"{Id}: Initializing download";
+        }
 
-            FileDir = Path.Combine(CacheDir, id);
+        public DownloadSession(WordlistIndexEntryV2 entry, FileInfo output)
+        {
+            IndexEntry = entry;
+            OutputFile = output;
 
-            PackPath = Path.Combine(FileDir, "package.json");
-            FilePath = Path.Combine(FileDir, "wordlist.txt");
+            OutputFile.Directory.Create();
+            PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}.json"));
 
-            Uri = uri;
+            Description = $"{entry.Id}: Initializing download";
 
             Configuration = new DownloadConfiguration()
             {
@@ -70,30 +68,31 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
             };
 
-            DownloadService = new DownloadService(Configuration);
-            DownloadService.DownloadProgressChanged += UpdateProgress;
-            DownloadService.DownloadFileCompleted += SetEndStatus;
+            Downloader = new DownloadService(Configuration);
+            Downloader.DownloadProgressChanged += UpdateProgress;
+            Downloader.DownloadFileCompleted += SetEndStatus;
 
-            Description = $"{Id}: Ready";
+            Description = $"{entry.Id}: Ready";
         }
 
         private void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
-                File.WriteAllText(PackPath, JsonConvert.SerializeObject(DownloadService.Package));
+                File.WriteAllText(PackageFile.FullName, JsonConvert.SerializeObject(Downloader.Package));
                 Exception = e.Error;
             }
             else
             {
-                Description = $"{Id}: Download completed";
+
+                Description = $"{IndexEntry.Id}: Download completed";
             }
         }
 
         private void UpdateProgress(object sender, Downloader.DownloadProgressChangedEventArgs e)
         {
             Progress = e.ProgressPercentage;
-            Description = $"{Id}: {Utilities.ConvertBytes(e.ReceivedBytesSize)}/{Utilities.ConvertBytes(e.TotalBytesToReceive)}";
+            Description = $"{IndexEntry.Id}: {Utilities.ConvertBytes(e.ReceivedBytesSize)}/{Utilities.ConvertBytes(e.TotalBytesToReceive)}";
             if (e.AverageBytesPerSecondSpeed > 1024 * 100)
             {
                 Description += $"   {Utilities.ConvertBytes((long)e.AverageBytesPerSecondSpeed)}/s";
@@ -102,40 +101,30 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            Description = $"{Id}: Starting download";
+            Description = $"{IndexEntry.Id}: Starting download";
 
-            if (!Directory.Exists(CacheDir))
+            if (PackageFile.Exists)
             {
-                Directory.CreateDirectory(CacheDir);
-            }
+                DownloadPackage package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackageFile.FullName));
+                PackageFile.Delete();
 
-            if (!Directory.Exists(FileDir))
-            {
-                Directory.CreateDirectory(FileDir);
-            }
-
-            if (File.Exists(PackPath))
-            {
-                DownloadPackage package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackPath));
-                File.Delete(PackPath);
-
-                await DownloadService.DownloadFileTaskAsync(package, cancellationToken);
+                await Downloader.DownloadFileTaskAsync(package, cancellationToken);
             }
             else
             {
-                await DownloadService.DownloadFileTaskAsync(Uri.ToString(), FilePath, cancellationToken);
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), OutputFile.FullName, cancellationToken);
             }
 
-            DownloadService.Dispose();
+            Downloader.Dispose();
 
             return Exception != null ? throw Exception : true;
         }
 
         public void DeleteCache()
         {
-            if (Directory.Exists(FileDir))
+            if (OutputFile.Exists)
             {
-                Directory.Delete(FileDir, true);
+                OutputFile.Delete();
             }
         }
     }

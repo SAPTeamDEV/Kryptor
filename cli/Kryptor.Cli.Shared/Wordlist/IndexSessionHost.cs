@@ -10,11 +10,17 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class IndexSessionHost : InstallSessionHost
     {
+        public static string IndexBaseDir => Path.Combine(Program.Context.WordlistDirectory, "_index");
+
         private readonly string indexPath;
 
         private readonly string indexV2Path = "index.json";
 
         public override string LocalIndexPath => indexV2Path;
+
+        public override string DownloadDir => Path.Combine(IndexBaseDir, "_downloadCache");
+
+        public override string InstallDir => IndexBaseDir;
 
         public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions,
                                                                                       list: false,
@@ -82,6 +88,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     buffer = Encoding.UTF8.GetBytes(text);
                     f.Write(buffer, 0, buffer.Length);
                 }
+            }
+
+            if (Directory.Exists(IndexBaseDir))
+            {
+                Directory.Delete(IndexBaseDir, true);
             }
         }
     }

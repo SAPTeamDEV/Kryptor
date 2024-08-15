@@ -12,6 +12,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class InstallSessionHost : SessionHost
     {
+        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/index.json");
+
         private readonly object _lockObj = new object();
 
         private readonly bool List;
@@ -20,8 +22,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private readonly string[] Ids;
         private readonly bool Indexing;
 
-        public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/index.json");
-        public static string TempDir { get; } = Path.Combine(Program.Context.WordlistDirectory, "_temp");
+        public virtual string DownloadDir { get; } = Path.Combine(Program.Context.WordlistDirectory, "_cache");
+
+        public virtual string InstallDir { get; } = Program.Context.WordlistDirectory;
 
         public WordlistIndexV2 Index { get; protected set; }
 
@@ -43,6 +46,16 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             base.Start(context);
 
+            if (!Directory.Exists(InstallDir))
+            {
+                Directory.CreateDirectory(InstallDir);
+            }
+
+            if (!Directory.Exists(DownloadDir))
+            {
+                Directory.CreateDirectory(DownloadDir);
+            }
+
             if (Index == null)
             {
                 DebugLog("Getting wordlist index...");
@@ -63,7 +76,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 {
                     foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
                     {
-                        Install(wordlist.Id);
+                        Install(wordlist);
                     }
                 }
                 else if (Recommended)
@@ -72,40 +85,35 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     {
                         if (!wordlist.Enforced) continue;
 
-                        Install(wordlist.Id);
+                        Install(wordlist);
                     }
                 }
                 else
                 {
                     foreach (string id in Ids)
                     {
-                        Install(id);
+                        Install(Index[id]);
                     }
                 }
 
                 ShowProgressMonitored(true, false).Wait();
 
                 SortIndex();
-
-                if (Directory.Exists(TempDir))
-                {
-                    Directory.Delete(TempDir, true);
-                }
             }
         }
 
-        private void Install(string id)
+        private void Install(WordlistIndexEntryV2 entry)
         {
-            if (!GetInstallationPermission(Index[id]))
+            if (!GetInstallationPermission(entry))
             {
                 return;
             }
 
-            DownloadSession downloader = new DownloadSession(Index[id].Uri, id);
+            var downloadPath = Path.Combine(DownloadDir, entry.Id);
+            var installPath = Path.Combine(InstallDir, entry.Id);
 
-            string localRepo = Indexing ? TempDir : Program.Context.WordlistDirectory;
-
-            CompileSession compiler = new CompileSession(downloader.FilePath, Path.Combine(localRepo, id), Index[id], indexing: Indexing, importing: false);
+            DownloadSession downloader = new DownloadSession(entry, new DirectoryInfo(downloadPath));
+            CompileSession compiler = new CompileSession(null, installPath, entry, indexing: Indexing, importing: false);
             downloader.ContinueWith(compiler);
 
             NewSession(downloader);
