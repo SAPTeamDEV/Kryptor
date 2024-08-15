@@ -349,7 +349,7 @@ namespace SAPTeam.Kryptor.Cli
             Console.WriteLine(ovText.PadRight(paddingBufferSize));
         }
 
-        private static void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, string pause, ISession session, out Color color, out string prog, out string desc)
+        private void GetSessionInfo(bool isRedirected, int bufferWidth, string loading, string waiting, string pause, ISession session, out Color color, out string prog, out string desc)
         {
             color = Color.DarkCyan;
             prog = waiting;
@@ -369,7 +369,7 @@ namespace SAPTeam.Kryptor.Cli
                         break;
                     case SessionEndReason.Failed:
                         color = Color.Red;
-                        prog = "error";
+                        prog = "failed";
                         break;
                     case SessionEndReason.Cancelled:
                         color = Color.Orange;
@@ -383,6 +383,11 @@ namespace SAPTeam.Kryptor.Cli
                         color = Color.DarkRed;
                         prog = "unknown";
                         break;
+                }
+
+                if (Verbose && session.Timer != null)
+                {
+                    prog += $" in {((double)session.Timer.ElapsedMilliseconds / 1000).ToString("N1")}s";
                 }
             }
 
