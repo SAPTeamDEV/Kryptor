@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
         public SessionHost(GlobalOptions globalOptions, int jobs, string keystore) : base(globalOptions)
         {
             ks = keystore;
-            maxRunningSessions = jobs > 0 ? jobs : MaxRunningSessions - 2;
+            maxRunningSessions = jobs > 0 ? jobs : Container.MaxRunningSessions - 2;
         }
 
         public override void Start(ClientContext context)

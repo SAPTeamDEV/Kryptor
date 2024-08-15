@@ -20,11 +20,6 @@ namespace SAPTeam.Kryptor.Client
         public bool Verbose { get; protected set; }
 
         /// <summary>
-        /// Gets the maximum allowed running sessions.
-        /// </summary>
-        public virtual int MaxRunningSessions { get; } = Environment.ProcessorCount - 1;
-
-        /// <summary>
         /// Gets the special cancellation token to use in non-standard codes. (Blocking codes outside of sessions)
         /// </summary>
         protected CancellationTokenSource MasterToken { get; }
@@ -34,7 +29,7 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         protected SessionHost()
         {
-            Container = new SessionContainer(this, MaxRunningSessions);
+            Container = new SessionContainer(this, Environment.ProcessorCount - 1);
             MasterToken = new CancellationTokenSource();
         }
 

@@ -10,8 +10,27 @@ namespace SAPTeam.Kryptor.Client
     {
         private readonly object _lock = new object();
         private readonly ISessionHost _sessionHost;
-        private readonly int _maxRunningSessions;
         private bool _cancellationRequested;
+
+        /// <summary>
+        /// Gets or sets the maximum allowed running sessions.
+        /// </summary>
+        public int MaxRunningSessions { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SessionContainer"/> class.
+        /// </summary>
+        /// <param name="sessionHost">
+        /// The parent session host.
+        /// </param>
+        /// <param name="maxRunningSessions">
+        /// The maximum allowed running sessions.
+        /// </param>
+        public SessionContainer(ISessionHost sessionHost, int maxRunningSessions)
+        {
+            _sessionHost = sessionHost;
+            MaxRunningSessions = maxRunningSessions;
+        }
 
         /// <summary>
         /// Waits until all sessions have been ended.
@@ -140,9 +159,9 @@ namespace SAPTeam.Kryptor.Client
             IEnumerable<SessionHolder> running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
             IEnumerable<SessionHolder> waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsRady(x));
 
-            if (waiting.Count() == 0 || running.Count() >= _maxRunningSessions) return;
+            if (waiting.Count() == 0 || running.Count() >= MaxRunningSessions) return;
 
-            int toBeStarted = Math.Min(_maxRunningSessions - running.Count(), waiting.Count());
+            int toBeStarted = Math.Min(MaxRunningSessions - running.Count(), waiting.Count());
             for (int i = 0; i < toBeStarted; i++)
             {
                 try

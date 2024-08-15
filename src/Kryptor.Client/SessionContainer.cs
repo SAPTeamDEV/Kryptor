@@ -70,21 +70,6 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SessionContainer"/> class.
-        /// </summary>
-        /// <param name="sessionHost">
-        /// The parent session host.
-        /// </param>
-        /// <param name="maxRunningSessions">
-        /// The maximum allowed running sessions.
-        /// </param>
-        public SessionContainer(ISessionHost sessionHost, int maxRunningSessions)
-        {
-            _sessionHost = sessionHost;
-            _maxRunningSessions = maxRunningSessions;
-        }
-
-        /// <summary>
         /// Adds new session to the container.
         /// </summary>
         /// <returns>The unique identifier of this entry.</returns>
