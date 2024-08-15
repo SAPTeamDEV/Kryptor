@@ -134,17 +134,23 @@ namespace SAPTeam.Kryptor.Client
         bool IsReady(CancellationToken cancellationToken);
 
         /// <summary>
-        /// Sends a pause request with a <paramref name="message"/> to the <paramref name="sessionHost"/> and waits for the response.
+        /// Pauses this session and sends the request to the <paramref name="sessionHost"/> to process the request.
         /// </summary>
         /// <param name="sessionHost">
         /// The parent session host.
         /// </param>
-        /// <param name="message">
-        /// The text of the request that would be send to the <paramref name="sessionHost"/> and then to the end user.
+        /// <param name="request">
+        /// The request data.
         /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token to monitor the task.
+        /// </param>
+        /// <typeparam name="TResponse">
+        /// The type of requested response from user.
+        /// </typeparam>
         /// <returns>
         /// The response of the end user.
         /// </returns>
-        bool RequestPause(ISessionHost sessionHost, string message);
+        Task<TResponse> SendRequest<TResponse>(ISessionHost sessionHost, SessionRequest<TResponse> request, CancellationToken cancellationToken);
     }
 }

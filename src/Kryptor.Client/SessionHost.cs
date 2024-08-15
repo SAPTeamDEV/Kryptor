@@ -66,6 +66,6 @@ namespace SAPTeam.Kryptor.Client
         public virtual void MonitorTask(Task task) => Container.AddMonitoringTask(task);
 
         /// <inheritdoc/>
-        public abstract bool OnSessionPaused(ISession session, string message);
+        public abstract Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken);
     }
 }

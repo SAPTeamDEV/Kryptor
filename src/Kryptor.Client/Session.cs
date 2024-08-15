@@ -276,14 +276,15 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public virtual bool RequestPause(ISessionHost sessionHost, string message)
+        public virtual async Task<TResponse> SendRequest<TResponse>(ISessionHost sessionHost, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
             IsPaused = true;
 
-            bool result = sessionHost.OnSessionPaused(this, message);
+            var response = await sessionHost.OnSessionRequest(this, request, cancellationToken);
 
             IsPaused = false;
-            return result;
+
+            return response;
         }
 
         private SessionUpdateEventArgs CollectSessionUpdateData()

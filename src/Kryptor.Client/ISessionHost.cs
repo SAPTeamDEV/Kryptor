@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -48,17 +50,30 @@ namespace SAPTeam.Kryptor.Client
         void MonitorTask(Task task);
 
         /// <summary>
-        /// Called when the session paused and requests an action from session host or the user.
+        /// Handles requests from the sessions.
         /// </summary>
+        /// <remarks>
+        /// This method should send requests to user and if it's not possible, it could return the <see cref="SessionRequest{TResponse}.DefaultValue"/> or throws an exception.
+        /// The thrown exception would be catched on the sender session and the session will fail.
+        /// </remarks>
         /// <param name="session">
         /// The paused session.
         /// </param>
-        /// <param name="message">
-        /// The request message.
+        /// <param name="request">
+        /// The request data.
         /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token to monitor the task.
+        /// </param>
+        /// <typeparam name="TResponse">
+        /// The type of requested response from user.
+        /// </typeparam>
         /// <returns>
         /// The session host or user response.
         /// </returns>
-        bool OnSessionPaused(ISession session, string message);
+        /// <exception cref="NotSupportedException">
+        /// This exception thrown when the requested <typeparamref name="TResponse"/> is not supported by this session host.
+        /// </exception>
+        Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken);
     }
 }
