@@ -65,6 +65,7 @@ namespace SAPTeam.Kryptor.Client
 
             protected set
             {
+                ThrowIfNotStarted();
                 ThrowIfEnded();
                 if (isPaused == value) return;
 
@@ -357,6 +358,15 @@ namespace SAPTeam.Kryptor.Client
         /// Triggers the <see cref="SessionEnded"/> event.
         /// </summary>
         protected void OnSessionEnded() => SessionEnded?.Invoke(this, CollectSessionData());
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if the session is not started.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        protected void ThrowIfNotStarted()
+        {
+            if (Status == SessionStatus.NotStarted) throw new InvalidOperationException("The session is not started yet");
+        }
 
         /// <summary>
         /// Throws an <see cref="InvalidOperationException"/> if the session is ended.
