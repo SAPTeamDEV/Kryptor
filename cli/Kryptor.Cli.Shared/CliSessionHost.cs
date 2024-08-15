@@ -488,7 +488,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public override async Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
-            if (true.CanCast<TResponse>())
+            if (request.DefaultValue is bool)
             {
                 Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
 
