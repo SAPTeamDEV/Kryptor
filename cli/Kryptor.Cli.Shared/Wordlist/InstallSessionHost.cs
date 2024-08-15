@@ -113,7 +113,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             var installPath = Path.Combine(InstallDir, entry.Id);
 
             DownloadSession downloader = new DownloadSession(entry, new DirectoryInfo(downloadPath));
-            CompileSession compiler = new CompileSession(null, installPath, entry, indexing: Indexing, importing: false);
+            CompileSession compiler = new CompileSession(downloader.OutputFile.FullName, installPath, entry, indexing: Indexing, importing: false);
             downloader.ContinueWith(compiler);
 
             NewSession(downloader);

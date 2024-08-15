@@ -15,11 +15,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     public class DownloadSession : Session
     {
         private WordlistIndexEntryV2 IndexEntry;
-        private FileInfo OutputFile;
-        private FileInfo PackageFile;
 
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
+
+        public FileInfo OutputFile;
+        public FileInfo PackageFile;
 
         public DownloadSession(WordlistIndexEntryV2 entry, DirectoryInfo outputPath) : this(entry, new FileInfo(Path.Combine(outputPath.FullName, entry.Id + ".txt")))
         {
@@ -125,6 +126,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             if (OutputFile.Exists)
             {
                 OutputFile.Delete();
+            }
+
+            if (OutputFile.Directory.GetFiles().Length == 0)
+            {
+                OutputFile.Directory.Delete();
             }
         }
     }
