@@ -42,7 +42,6 @@ jobs:
   
   publish-debug:
     name: Publish Debug Artifacts
-    needs: build
     runs-on: "ubuntu-latest"
 
     steps:
