@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
             await Task.Delay(1);
 
 #if DEBUG
-            if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task?", false), cancellationToken))
+            if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task?", true), cancellationToken))
             {
                 throw new System.OperationCanceledException();
             }
