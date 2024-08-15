@@ -28,6 +28,8 @@ namespace SAPTeam.Kryptor.Cli
         private object _requestLock = new object();
         private MemoryStream mem;
         private ConsoleKeyInfo cKey;
+        private Task rKeyTask;
+        private CancellationTokenSource rKeyTknSrc;
 
         protected ConsoleKeyInfo KeyQueue
         {
@@ -427,13 +429,12 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private async Task ReadKey()
+        private async Task ReadKey(CancellationToken cancellationToken)
         {
-            await Task.Delay(2);
-
             while (true)
             {
                 KeyQueue = Console.ReadKey(true);
+                await Task.Delay(50, cancellationToken);
             }
         }
 
@@ -441,8 +442,28 @@ namespace SAPTeam.Kryptor.Cli
         {
             Task pTask = ShowProgressImpl(showOverall, showRemaining);
 
-            _ = ReadKey();
+            if (!NoInteractions)
+            {
+                AttachReader(pTask);
+            }
+
             return pTask;
+        }
+
+        private void AttachReader(Task pTask)
+        {
+            if (rKeyTknSrc != null && !rKeyTknSrc.IsCancellationRequested)
+            {
+                rKeyTknSrc.Cancel();
+            }
+
+            rKeyTknSrc = new CancellationTokenSource();
+            rKeyTask = ReadKey(rKeyTknSrc.Token);
+
+            pTask.ContinueWith((x) =>
+            {
+                rKeyTknSrc.Cancel();
+            });
         }
 
         protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
