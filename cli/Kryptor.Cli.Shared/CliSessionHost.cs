@@ -244,15 +244,23 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     if (hasRequest)
                     {
-                        Console.Write(Request.Message + " (Y/n)");
+                        string choices = Request.Default ? "Y/n" : "y/N";
+                        Console.Write($"{Request.Message} ({choices})");
                     }
 
                     ConsoleKeyInfo key = KeyQueue;
                     if (key != default)
                     {
-                        if (hasRequest && (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N))
+                        if (hasRequest)
                         {
-                            Request.SetResponse(key.Key == ConsoleKey.Y);
+                            if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
+                            {
+                                Request.SetResponse(key.Key == ConsoleKey.Y);
+                            }
+                            else if (key.Key == ConsoleKey.Enter)
+                            {
+                                Request.SetResponse(Request.Default);
+                            }
                         }
                     }
                 }
