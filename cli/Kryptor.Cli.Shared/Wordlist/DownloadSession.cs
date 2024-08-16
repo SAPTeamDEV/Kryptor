@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Aspose.Zip;
+using Aspose.Zip.SevenZip;
 
 using Downloader;
 
@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
+
+using SharpCompress.Readers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -102,14 +104,19 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 {
                     Description = $"{IndexEntry.Id}: Extracting file";
 
-                    //var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
-                    //reader.MoveToNextEntry();
-                    //reader.WriteEntryTo(OutputFile);
-                    //reader.Dispose();
-
-                    var reader = new Archive(Downloader.Package.FileName);
-                    reader.Entries.First().Extract(OutputFile.FullName);
-                    reader.Dispose();
+                    if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
+                    {
+                        var svenZipReader = new SevenZipArchive(Downloader.Package.FileName);
+                        svenZipReader.Entries.First().Extract(OutputFile.FullName);
+                        svenZipReader.Dispose();
+                    }
+                    else
+                    {
+                        var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
+                        reader.MoveToNextEntry();
+                        reader.WriteEntryTo(OutputFile);
+                        reader.Dispose();
+                    }
                 }
                 else
                 {
