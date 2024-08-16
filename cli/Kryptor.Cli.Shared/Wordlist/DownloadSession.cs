@@ -9,6 +9,8 @@ using Aspose.Zip.SevenZip;
 
 using Downloader;
 
+using MoreLinq;
+
 using Newtonsoft.Json;
 
 using SAPTeam.Kryptor.Client;
@@ -106,9 +108,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                     if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
                     {
+                        var destStream = OutputFile.Create();
                         var svenZipReader = new SevenZipArchive(Downloader.Package.FileName);
-                        svenZipReader.Entries.First().Extract(OutputFile.FullName);
+                        svenZipReader.Entries.ForEach(x => x.Extract(destStream));
                         svenZipReader.Dispose();
+                        destStream.Dispose();
                     }
                     else
                     {
