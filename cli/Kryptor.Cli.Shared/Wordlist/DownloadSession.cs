@@ -103,6 +103,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
                     reader.MoveToNextEntry();
                     reader.WriteEntryTo(OutputFile);
+                    reader.Dispose();
                 }
                 else
                 {
@@ -197,12 +198,16 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             catch (InvalidDataException idex)
             {
-                Exception = idex;
+                stream?.Dispose();
                 throw;
             }
             catch
             {
                 // Ignore hash errors
+            }
+            finally
+            {
+                stream?.Dispose();
             }
         }
     }
