@@ -92,12 +92,12 @@ namespace SAPTeam.Kryptor.Client.Security
         }
 
         /// <summary>
-        /// Gets the numeric category identifier of the given <paramref name="word"/>.
+        /// Gets the numeric fragment identifier of the given <paramref name="word"/>.
         /// </summary>
         /// <param name="word">
         /// The word to calculate.
         /// </param>
         /// <returns></returns>
-        public static int GetWordIdentifier(string word) => Math.Abs(word[0] + word[1] + word[2]) % 64;
+        public static int GetWordIdentifier(string word) => Math.Abs(word[0] + word[1] + word[2] + word[3]) % 256;
     }
 }
