@@ -211,7 +211,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     }
                 }
             }
-            catch (InvalidDataException idex)
+            catch (InvalidDataException)
             {
                 stream?.Dispose();
                 throw;
