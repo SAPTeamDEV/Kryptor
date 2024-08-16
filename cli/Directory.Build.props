@@ -39,7 +39,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Downloader" Version="3.1.2" />
     <PackageReference Include="SharpCompress" Version="0.37.2" />
-    <PackageReference Include="Aspose.Zip" Version="24.7.0" />
 
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor\Kryptor.csproj" />
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor.Client\Kryptor.Client.csproj" />

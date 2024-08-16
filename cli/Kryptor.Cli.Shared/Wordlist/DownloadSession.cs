@@ -105,12 +105,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                     if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
                     {
-                        //var destStream = OutputFile.Create();
-                        //var svenZipReader = new SevenZipArchive(Downloader.Package.FileName);
-                        //svenZipReader.Entries.ForEach(x => x.Extract(destStream));
-                        //svenZipReader.Dispose();
-                        //destStream.Dispose();
-
                         var reader = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Downloader.Package.FileName);
                         reader.Entries.First().WriteToFile(OutputFile.FullName);
                         reader.Dispose();
