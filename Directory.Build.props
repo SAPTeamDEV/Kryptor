@@ -14,7 +14,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Deterministic>True</Deterministic>
-    
+    <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
+
     <Copyright>Copyright (c) SAP Team</Copyright>
   </PropertyGroup>
 
