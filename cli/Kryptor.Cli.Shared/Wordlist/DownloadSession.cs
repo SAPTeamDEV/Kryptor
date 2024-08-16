@@ -94,14 +94,13 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 Description = $"{IndexEntry.Id}: Verifying file";
 
-                var str = File.OpenRead(Downloader.Package.FileName);
-                VerifyHash(str, CancellationToken).Wait();
+                VerifyHash(File.OpenRead(Downloader.Package.FileName), CancellationToken).Wait();
 
                 if (IndexEntry.Compressed)
                 {
                     Description = $"{IndexEntry.Id}: Extracting file";
 
-                    var reader = ReaderFactory.Open(str);
+                    var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
                     reader.MoveToNextEntry();
                     reader.WriteEntryTo(OutputFile);
                 }
