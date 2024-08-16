@@ -33,6 +33,11 @@ namespace SAPTeam.Kryptor.Client.Security
         public bool Enforced { get; set; }
 
         /// <summary>
+        /// Gets or sets compressed status of the wordlist file. if it's true, the downloader will try to decompress it, otherwise it will be processed as is.
+        /// </summary>
+        public bool Compressed { get; set; }
+
+        /// <summary>
         /// Gets or sets the install directory of thw wordlist.
         /// </summary>
         public string InstallDirectory { get; set; }

@@ -36,6 +36,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public override void Start(ClientContext context)
         {
             Config<WordlistIndex> IndexContainer = new Config<WordlistIndex>(indexPath);
+            IndexContainer.Write();
 
             WordlistIndex Index = IndexContainer.Prefs;
             WordlistIndexV2 IndexV2 = new WordlistIndexV2();
@@ -62,6 +63,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 entryV2.Name = entry.Value.Name;
                 entryV2.Uri = entry.Value.DownloadUri;
                 entryV2.Enforced = entry.Value.QuickCheckPriority == 0;
+                entryV2.Compressed = entry.Value.Compressed;
             }
 
             if (File.Exists(indexV2Path))
@@ -95,7 +97,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 foreach (WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
                 {
-                    string text = $"| {entry.Id} | {entry.Name} | {entry.Lines.FormatWithCommas()} | {entry.Words.FormatWithCommas()} | {Utilities.ConvertBytes(entry.Size)} | [Download]({entry.Uri}) |\n";
+                    string text = $"| {entry.Id} | {entry.Name} | {entry.Lines.FormatWithCommas()} | {entry.Words.FormatWithCommas()} | {Utilities.ConvertBytes(entry.Size)} | [{(entry.Compressed ? "Compressed File" : "Text File")}]({entry.Uri}) |\n";
                     var buffer = Encoding.UTF8.GetBytes(text);
                     f.Write(buffer, 0, buffer.Length);
                 }

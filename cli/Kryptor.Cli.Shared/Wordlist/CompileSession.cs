@@ -10,7 +10,6 @@ using MoreLinq;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
-using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -105,12 +104,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             using (StreamReader streamReader = new StreamReader(FilePath, Encoding.UTF8))
             {
-                await VerifyHash(streamReader, cancellationToken);
-
-                streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
-
                 double steps = 1.0 / streamReader.BaseStream.Length * 100;
-                IndexEntry.Size = streamReader.BaseStream.Length;
 
                 int readChars = 0;
                 string line;
@@ -160,36 +154,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Directory.CreateDirectory(DestPath);
 
             return installSessionHost;
-        }
-
-        private async Task VerifyHash(StreamReader streamReader, CancellationToken cancellationToken)
-        {
-            try
-            {
-                byte[] buffer = new byte[streamReader.BaseStream.Length];
-                await streamReader.BaseStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                byte[] hash = buffer.Sha256();
-
-                if (Bypass && IndexEntry.Hash == null)
-                {
-                    IndexEntry.Hash = hash;
-                }
-                else if (IndexEntry.Hash != null)
-                {
-                    if (!IndexEntry.Hash.SequenceEqual(hash))
-                    {
-                        throw new InvalidDataException("File is corrupted");
-                    }
-                }
-            }
-            catch (InvalidDataException)
-            {
-                throw;
-            }
-            catch
-            {
-                // Ignore hash errors
-            }
         }
     }
 }

@@ -23,8 +23,8 @@ namespace SAPTeam.Kryptor.Client.Security
         public int QuickCheckPriority { get; set; }
 
         /// <summary>
-        /// Gets or sets the install directory of thw wordlist.
+        /// Gets or sets whether this wordlist is compressed.
         /// </summary>
-        public string InstallDirectory { get; set; }
+        public bool Compressed { get; set; }
     }
 }

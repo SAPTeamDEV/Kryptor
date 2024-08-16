@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,13 +10,16 @@ using Newtonsoft.Json;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
+using SAPTeam.Kryptor.Extensions;
+
+using SharpCompress.Readers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class DownloadSession : Session
     {
         private WordlistIndexEntryV2 IndexEntry;
-
+        private CancellationToken CancellationToken;
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
 
@@ -76,7 +80,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Description = $"{entry.Id}: Ready";
         }
 
-        private void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private async void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -85,6 +89,30 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
+                IndexEntry.Size = Downloader.Package.TotalFileSize;
+
+                Description = $"{IndexEntry.Id}: Verifying file";
+
+                var str = File.OpenRead(Downloader.Package.FileName);
+                await VerifyHash(str, CancellationToken);
+
+                if (IndexEntry.Compressed)
+                {
+                    Description = $"{IndexEntry.Id}: Extracting file";
+
+                    var reader = ReaderFactory.Open(str);
+                    reader.MoveToNextEntry();
+                    reader.WriteEntryTo(OutputFile);
+                }
+                else
+                {
+                    File.Move(Downloader.Package.FileName, OutputFile.FullName);
+                }
+
+                if (File.Exists(Downloader.Package.FileName))
+                {
+                    File.Delete(Downloader.Package.FileName);
+                }
 
                 Description = $"{IndexEntry.Id}: Download completed";
             }
@@ -102,6 +130,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
+            CancellationToken = cancellationToken;
             Description = $"{IndexEntry.Id}: Starting download";
 
             if (PackageFile.Exists)
@@ -113,7 +142,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
-                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), OutputFile.FullName, cancellationToken);
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), OutputFile.Directory, cancellationToken);
             }
 
             Downloader.Dispose();
@@ -131,6 +160,36 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             if (OutputFile.Directory.GetFiles().Length == 0)
             {
                 OutputFile.Directory.Delete();
+            }
+        }
+
+        private async Task VerifyHash(Stream stream, CancellationToken cancellationToken)
+        {
+            try
+            {
+                byte[] buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                byte[] hash = buffer.Sha256();
+
+                if (IndexEntry.Hash == null)
+                {
+                    IndexEntry.Hash = hash;
+                }
+                else
+                {
+                    if (!IndexEntry.Hash.SequenceEqual(hash))
+                    {
+                        throw new InvalidDataException("File is corrupted");
+                    }
+                }
+            }
+            catch (InvalidDataException)
+            {
+                throw;
+            }
+            catch
+            {
+                // Ignore hash errors
             }
         }
     }
