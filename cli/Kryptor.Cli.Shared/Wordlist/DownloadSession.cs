@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -106,6 +107,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
                 else
                 {
+                    if (OutputFile.Exists)
+                    {
+                        OutputFile.Delete();
+                    }
+
                     File.Move(Downloader.Package.FileName, OutputFile.FullName);
                 }
 
@@ -142,7 +148,14 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
-                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), OutputFile.Directory, cancellationToken);
+                var dest = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
+
+                if (!dest.Exists)
+                {
+                    dest.Create();
+                }
+
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), dest, cancellationToken);
             }
 
             Downloader.Dispose();
