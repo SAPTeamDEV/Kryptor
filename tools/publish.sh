@@ -2,10 +2,10 @@
 
 cd $(dirname $0)/..
 
-RIDS=("linux-x64" "linux-arm" "linux-arm64" "win-x64" "win-x86")
+RIDS=("linux-x64" "linux-arm64" "win-x64" "win-x86")
 
 FREAMEWORKS=("net6.0" "net8.0")
-FREAMEWORKS_LEGACY=("net481" "net472" "net462")
+FREAMEWORKS_LEGACY=("net481")
 
 if [ "$1" = "-d" ]
 then
