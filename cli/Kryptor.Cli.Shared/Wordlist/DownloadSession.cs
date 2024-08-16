@@ -5,11 +5,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Aspose.Zip.SevenZip;
-
 using Downloader;
-
-using MoreLinq;
 
 using Newtonsoft.Json;
 
@@ -17,6 +13,7 @@ using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
 
+using SharpCompress.Archives;
 using SharpCompress.Readers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
@@ -108,11 +105,15 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                     if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
                     {
-                        var destStream = OutputFile.Create();
-                        var svenZipReader = new SevenZipArchive(Downloader.Package.FileName);
-                        svenZipReader.Entries.ForEach(x => x.Extract(destStream));
-                        svenZipReader.Dispose();
-                        destStream.Dispose();
+                        //var destStream = OutputFile.Create();
+                        //var svenZipReader = new SevenZipArchive(Downloader.Package.FileName);
+                        //svenZipReader.Entries.ForEach(x => x.Extract(destStream));
+                        //svenZipReader.Dispose();
+                        //destStream.Dispose();
+
+                        var reader = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Downloader.Package.FileName);
+                        reader.Entries.First().WriteToFile(OutputFile.FullName);
+                        reader.Dispose();
                     }
                     else
                     {
