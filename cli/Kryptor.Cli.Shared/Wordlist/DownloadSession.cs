@@ -155,7 +155,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     dest.Create();
                 }
 
-                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.ToString(), dest, cancellationToken);
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, dest, cancellationToken);
             }
 
             Downloader.Dispose();
