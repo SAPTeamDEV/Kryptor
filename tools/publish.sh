@@ -24,12 +24,12 @@ __build(){
 	dotnet publish "$1" -f "$2" -c "$3" -r "$4" --no-self-contained -o "$OUTPUT_DIR/$3/$4-$2"
 	echo
 	
-	if [ "$3" = "Release" ] && [ "$2" = "net6.0" ]
-	then
-		echo Publishing bundle $3 for $2 on $4
-		dotnet publish "$1" -f "$2" -c "$3" -r "$4" --self-contained -o "$OUTPUT_DIR/$3/$4-$2-bundle"
-		echo
-	fi
+	# if [ "$3" = "Release" ] && [ "$2" = "net6.0" ]
+	# then
+		# echo Publishing bundle $3 for $2 on $4
+		# dotnet publish "$1" -f "$2" -c "$3" -r "$4" --self-contained -o "$OUTPUT_DIR/$3/$4-$2-bundle"
+		# echo
+	# fi
 }
 
 for CFG in "${CONFIGURATIONS[@]}"; do
