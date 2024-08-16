@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -41,9 +42,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             WordlistIndex Index = IndexContainer.Prefs;
             WordlistIndexV2 IndexV2 = new WordlistIndexV2();
 
-            foreach (System.Collections.Generic.KeyValuePair<string, WordlistIndexEntry> entry in Index.Wordlists)
+            foreach (KeyValuePair<string, WordlistIndexEntry> entry in Index.Wordlists)
             {
-                string id = entry.Key;
+                string id = entry.Key.ToLower().Replace('_', '-').Replace(' ', '-');
                 WordlistIndexEntryV2 entryV2;
 
                 if (IndexV2.ContainsId(id))
