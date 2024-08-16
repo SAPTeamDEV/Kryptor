@@ -50,7 +50,7 @@ namespace SAPTeam.Kryptor.Cli
             NoColor = globalOptions.NoColor;
 
             IsOutputRedirected = Console.IsOutputRedirected || Quiet;
-            NoInteractions = IsOutputRedirected;
+            NoInteractions = IsOutputRedirected || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("KRYPTOR_NO_INTERACTION"));
         }
 
         public override void Start(ClientContext context)
