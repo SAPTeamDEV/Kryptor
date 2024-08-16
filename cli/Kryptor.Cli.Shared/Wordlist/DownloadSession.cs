@@ -81,7 +81,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Description = $"{entry.Id}: Ready";
         }
 
-        private async void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        private void SetEndStatus(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
@@ -95,7 +95,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 Description = $"{IndexEntry.Id}: Verifying file";
 
                 var str = File.OpenRead(Downloader.Package.FileName);
-                await VerifyHash(str, CancellationToken);
+                VerifyHash(str, CancellationToken).Wait();
 
                 if (IndexEntry.Compressed)
                 {
