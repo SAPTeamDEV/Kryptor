@@ -5,6 +5,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Aspose.Zip;
+
 using Downloader;
 
 using Newtonsoft.Json;
@@ -12,8 +14,6 @@ using Newtonsoft.Json;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
-
-using SharpCompress.Readers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -92,6 +92,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             {
                 IndexEntry.Size = Downloader.Package.TotalFileSize;
 
+                Progress = -1;
+
                 Description = $"{IndexEntry.Id}: Verifying file";
 
                 VerifyHash(File.OpenRead(Downloader.Package.FileName), CancellationToken).Wait();
@@ -100,9 +102,13 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 {
                     Description = $"{IndexEntry.Id}: Extracting file";
 
-                    var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
-                    reader.MoveToNextEntry();
-                    reader.WriteEntryTo(OutputFile);
+                    //var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
+                    //reader.MoveToNextEntry();
+                    //reader.WriteEntryTo(OutputFile);
+                    //reader.Dispose();
+
+                    var reader = new Archive(Downloader.Package.FileName);
+                    reader.Entries.First().Extract(OutputFile.FullName);
                     reader.Dispose();
                 }
                 else
@@ -119,6 +125,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 {
                     File.Delete(Downloader.Package.FileName);
                 }
+
+                Progress = 100;
 
                 Description = $"{IndexEntry.Id}: Download completed";
             }

@@ -2,6 +2,15 @@
   "version": 1,
   "dependencies": {
     ".NETFramework,Version=v4.6.2": {
+      "Aspose.Zip": {
+        "type": "Direct",
+        "requested": "[24.7.0, )",
+        "resolved": "24.7.0",
+        "contentHash": "/GJ3J21peZrZ4BoONkm+xOGkUh6X96rQO1bhUjgI5DRr8Kq6nC9hJHqeL+ZS/DSuK826WNIQFg7qDVSUzwZPUg==",
+        "dependencies": {
+          "System.Text.Encoding.CodePages": "4.5.0"
+        }
+      },
       "CommandLineParser": {
         "type": "Direct",
         "requested": "[2.9.1, )",
@@ -315,6 +324,15 @@
       }
     },
     ".NETFramework,Version=v4.7.2": {
+      "Aspose.Zip": {
+        "type": "Direct",
+        "requested": "[24.7.0, )",
+        "resolved": "24.7.0",
+        "contentHash": "/GJ3J21peZrZ4BoONkm+xOGkUh6X96rQO1bhUjgI5DRr8Kq6nC9hJHqeL+ZS/DSuK826WNIQFg7qDVSUzwZPUg==",
+        "dependencies": {
+          "System.Text.Encoding.CodePages": "4.5.0"
+        }
+      },
       "CommandLineParser": {
         "type": "Direct",
         "requested": "[2.9.1, )",
@@ -644,6 +662,15 @@
       }
     },
     ".NETFramework,Version=v4.8.1": {
+      "Aspose.Zip": {
+        "type": "Direct",
+        "requested": "[24.7.0, )",
+        "resolved": "24.7.0",
+        "contentHash": "/GJ3J21peZrZ4BoONkm+xOGkUh6X96rQO1bhUjgI5DRr8Kq6nC9hJHqeL+ZS/DSuK826WNIQFg7qDVSUzwZPUg==",
+        "dependencies": {
+          "System.Text.Encoding.CodePages": "4.5.0"
+        }
+      },
       "CommandLineParser": {
         "type": "Direct",
         "requested": "[2.9.1, )",
