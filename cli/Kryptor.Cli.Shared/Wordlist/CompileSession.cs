@@ -31,7 +31,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             if (indexing || !importing)
             {
-                Description = "Waiting for download";
+                Description = $"{entry.Id}: Waiting for download";
             }
 
             FilePath = path;
