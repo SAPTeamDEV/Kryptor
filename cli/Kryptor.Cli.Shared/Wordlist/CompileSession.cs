@@ -96,6 +96,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             if (cleaned) return;
             cleaned = true;
 
+            if (uniqueLines != null)
+            {
+                uniqueLines.Clear();
+                uniqueLines = null;
+            }
+
             foreach (FileStream f in fileStreams.Values)
             {
                 f.Flush();
