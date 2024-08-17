@@ -17,6 +17,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private readonly bool List;
         private readonly bool All;
         private readonly bool Recommended;
+        private bool Optimize;
         private readonly string[] Ids;
         private readonly bool Indexing;
 
@@ -26,11 +27,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public WordlistIndexV2 Index { get; protected set; }
 
-        public InstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, string[] ids) : base(globalOptions)
+        public InstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, bool optimize, string[] ids) : base(globalOptions)
         {
             List = list;
             All = all;
             Recommended = recommended;
+            Optimize = optimize;
             Ids = ids;
 
             Indexing = this is IndexSessionHost;
@@ -111,7 +113,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             var installPath = Path.Combine(InstallDir, entry.Id);
 
             DownloadSession downloader = new DownloadSession(entry, new DirectoryInfo(downloadPath));
-            CompileSession compiler = new CompileSession(downloader.OutputFile.FullName, installPath, entry, indexing: Indexing, importing: false);
+            CompileSession compiler = new CompileSession(downloader.OutputFile.FullName, installPath, entry, optimize: Optimize, indexing: Indexing, importing: false);
             downloader.ContinueWith(compiler);
 
             NewSession(downloader);

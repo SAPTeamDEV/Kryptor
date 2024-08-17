@@ -240,17 +240,19 @@ namespace SAPTeam.Kryptor.Cli
             wlCmd.AddCommand(wlQuryCmd);
 
             Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");
+            var doOptimize = new Option<bool>("--optimize", "Removes all duplicated entries from wordlists. Note: this process requires high amount of ram. if you recieve memory related exceptions, you must disable this option.");
 
             Command wlIndexCmd = new Command("index", "Generates index files (Internal use)")
             {
+                doOptimize,
                 indexSource
             };
 
-            wlIndexCmd.SetHandler((globalOptionsT, indexSourceT) =>
+            wlIndexCmd.SetHandler((globalOptionsT, doOptimizeT, indexSourceT) =>
             {
-                Wordlist.IndexSessionHost sessionHost = new Wordlist.IndexSessionHost(globalOptionsT, indexSourceT);
+                Wordlist.IndexSessionHost sessionHost = new Wordlist.IndexSessionHost(globalOptionsT, doOptimizeT, indexSourceT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, indexSource);
+            }, globalOptionsBinder, doOptimize, indexSource);
 
             wlCmd.AddCommand(wlIndexCmd);
 
@@ -273,16 +275,17 @@ namespace SAPTeam.Kryptor.Cli
                 installList,
                 installAll,
                 installRecommended,
+                doOptimize,
                 installIds
             };
 
             wlInsCmd.AddAlias("i");
 
-            wlInsCmd.SetHandler((globalOptionsT, installListT, installAllT, installRecommendedT, installIdsT) =>
+            wlInsCmd.SetHandler((globalOptionsT, installListT, installAllT, installRecommendedT, doOptimizeT, installIdsT) =>
             {
-                Wordlist.InstallSessionHost sessionHost = new Wordlist.InstallSessionHost(globalOptionsT, installListT, installAllT, installRecommendedT, installIdsT);
+                Wordlist.InstallSessionHost sessionHost = new Wordlist.InstallSessionHost(globalOptionsT, installListT, installAllT, installRecommendedT, doOptimizeT, installIdsT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, installList, installAll, installRecommended, installIds);
+            }, globalOptionsBinder, installList, installAll, installRecommended, doOptimize, installIds);
 
             wlCmd.AddCommand(wlInsCmd);
 
@@ -327,14 +330,15 @@ namespace SAPTeam.Kryptor.Cli
             {
                 importId,
                 importEnforce,
+                doOptimize,
                 importFile
             };
 
-            wlImpCmd.SetHandler((globalOptionsT, importIdT, importEnforceT, importFileT) =>
+            wlImpCmd.SetHandler((globalOptionsT, importIdT, importEnforceT, doOptimizeT, importFileT) =>
             {
-                Wordlist.ImportSessionHost sessionHost = new Wordlist.ImportSessionHost(globalOptionsT, importIdT, importEnforceT, importFileT);
+                Wordlist.ImportSessionHost sessionHost = new Wordlist.ImportSessionHost(globalOptionsT, importIdT, importEnforceT, doOptimizeT, importFileT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, importId, importEnforce, importFile);
+            }, globalOptionsBinder, importId, importEnforce, doOptimize, importFile);
 
             wlCmd.AddCommand(wlImpCmd);
 

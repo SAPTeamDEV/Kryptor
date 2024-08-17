@@ -10,14 +10,17 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         private readonly WordlistIndexEntryV2 IndexEntry;
         private readonly string FilePath;
+        private bool Optimize;
 
-        public ImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, string file) : base(globalOptions)
+        public ImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, bool optimize, string file) : base(globalOptions)
         {
             IndexEntry = new WordlistIndexEntryV2()
             {
                 Id = id,
                 Enforced = enforce
             };
+
+            Optimize = optimize;
 
             FilePath = file;
         }
@@ -35,7 +38,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             if (GetInstallationPermission(IndexEntry))
             {
-                CompileSession compiler = new CompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, indexing: false, importing: true);
+                CompileSession compiler = new CompileSession(FilePath, Path.Combine(Program.Context.WordlistDirectory, IndexEntry.Id), IndexEntry, optimize: Optimize, indexing: false, importing: true);
                 NewSession(compiler);
 
                 ShowProgressMonitored(true).Wait();

@@ -23,7 +23,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override string InstallDir => IndexBaseDir;
 
-        public IndexSessionHost(GlobalOptions globalOptions, string indexPath) : base(globalOptions,
+        public IndexSessionHost(GlobalOptions globalOptions, bool optimize, string indexPath) : base(globalOptions,
                                                                                       list: false,
 #if DEBUG
                                                                                       all: false,
@@ -32,6 +32,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                                                                                       all: true,
                                                                                       recommended: false,
 #endif
+                                                                                      optimize: optimize,
                                                                                       ids: Array.Empty<string>()) => this.indexPath = indexPath;
 
         public override void Start(ClientContext context)

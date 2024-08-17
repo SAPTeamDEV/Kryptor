@@ -27,9 +27,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public WordlistIndexEntryV2 IndexEntry;
         private readonly bool Indexing;
         private readonly bool Importing;
-        private bool LowMemory;
+        private readonly bool Optimize;
 
-        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool indexing, bool importing)
+        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool optimize, bool indexing, bool importing)
         {
             if (indexing || !importing)
             {
@@ -44,7 +44,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Indexing = indexing;
             Importing = importing;
 
-            LowMemory = false;
+            Optimize = optimize;
         }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
@@ -68,10 +68,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 installer.FinalizeInstallation(IndexEntry);
 
                 Description = Indexing ? $"{IndexEntry.Id} Indexed" : $"{IndexEntry.Id} Installed";
-                if (LowMemory)
-                {
-                    Description += " in low-memory mode";
-                }
             }
             catch
             {
@@ -88,7 +84,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         private bool TryAddLine(string line)
         {
-            return LowMemory || uniqueLines.Add(line);
+            return !Optimize || uniqueLines.Add(line);
         }
 
         private void Cleanup(bool deleteInstallation)
