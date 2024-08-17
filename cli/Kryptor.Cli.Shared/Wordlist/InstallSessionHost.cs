@@ -14,8 +14,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         public static Uri WordlistIndexUri { get; } = new Uri("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/index.json");
 
-        private readonly object _lockObj = new object();
-
         private readonly bool List;
         private readonly bool All;
         private readonly bool Recommended;
@@ -118,15 +116,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             NewSession(downloader);
             NewSession(compiler);
-        }
-
-        public void FinalizeInstallation(WordlistIndexEntryV2 entry)
-        {
-            lock (_lockObj)
-            {
-                LocalIndex.Add(entry);
-                UpdateLocalIndex();
-            }
         }
 
         private void PrintList()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +17,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     public class CompileSession : Session
     {
         private bool cleaned;
-        private readonly Dictionary<string, FileStream> fileStreams = new Dictionary<string, FileStream>();
+        private readonly Dictionary<int, FileStream> fileStreams = new Dictionary<int, FileStream>();
+        private Regex regex = new Regex(@"[^\x20-\x7E]");
+        private HashSet<string> uniqueLines = new HashSet<string>();
 
         public string FilePath;
         public string DestPath;
@@ -24,8 +27,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public WordlistIndexEntryV2 IndexEntry;
         private readonly bool Indexing;
         private readonly bool Importing;
-
-        private bool Bypass => Indexing || Importing;
 
         public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool indexing, bool importing)
         {
@@ -47,7 +48,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             try
             {
-                InstallSessionHost installer = PreCheck(sessionHost);
+                SessionHost installer = PreCheck(sessionHost);
 
                 Description = $"Importing {IndexEntry.Id}";
 
@@ -114,17 +115,18 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     readChars += line.Length;
                     lines++;
 
-                    if (string.IsNullOrEmpty(line) || line.Length < 4) continue;
+                    line = line.Trim();
 
-                    string c = WordlistFragmentCollection.GetWordIdentifier(line).ToString();
-                    words++;
-
-                    if (!fileStreams.ContainsKey(c))
-                    {
-                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c));
-                    }
+                    if (string.IsNullOrEmpty(line) || line.Length < 4 && uniqueLines.Add(line) && !regex.IsMatch(line)) continue;
 
                     byte[] data = Encoding.UTF8.GetBytes(line + "\n");
+                    words++;
+
+                    int c = WordlistFragmentCollection.GetWordIdentifier(line);
+                    if (!fileStreams.ContainsKey(c))
+                    {
+                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c.ToString()));
+                    }
 
                     fileStreams[c].Write(data, 0, data.Length);
 
@@ -136,11 +138,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             IndexEntry.Lines = lines;
         }
 
-        private InstallSessionHost PreCheck(ISessionHost sessionHost)
+        private SessionHost PreCheck(ISessionHost sessionHost)
         {
-            InstallSessionHost installSessionHost = sessionHost is InstallSessionHost ish
+            SessionHost installSessionHost = sessionHost is SessionHost ish
                 ? ish
-                : throw new InvalidOperationException("This session started from an unknown session host. you may start this session only via InstallSessionHost");
+                : throw new InvalidOperationException("This session started from an unknown session host. you may start this session only via wordlists's SessionHost");
             if (!File.Exists(FilePath))
             {
                 throw new FileNotFoundException(FilePath);

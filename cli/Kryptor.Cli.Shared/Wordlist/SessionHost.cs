@@ -12,6 +12,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class SessionHost : CliSessionHost
     {
+        private readonly object _lockObj = new object();
+
         private Config<WordlistIndexV2> LocalIndexContainer { get; set; }
         public WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
 
@@ -57,7 +59,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             if (LocalIndex.ContainsId(entry.Id))
             {
-                if (LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash))
+                if (LocalIndex[entry.Id].Hash != null && entry.Hash != null && LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash))
                 {
                     LogError($"{entry.Id} is already installed");
                     return false;
@@ -69,6 +71,15 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
 
             return true;
+        }
+
+        public void FinalizeInstallation(WordlistIndexEntryV2 entry)
+        {
+            lock (_lockObj)
+            {
+                LocalIndex.Add(entry);
+                UpdateLocalIndex();
+            }
         }
 
         protected void RemoveWordlist(string id)

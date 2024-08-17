@@ -98,6 +98,16 @@ namespace SAPTeam.Kryptor.Client.Security
         /// The word to calculate.
         /// </param>
         /// <returns></returns>
-        public static int GetWordIdentifier(string word) => Math.Abs(word[0] + word[1] + word[2] + word[3]) % 256;
+        public static int GetWordIdentifier(string word)
+        {
+            int fragmentId = 0;
+
+            foreach (int c in word)
+            {
+                fragmentId = (fragmentId + Math.Abs(c)) % 0x4000000;
+            }
+
+            return fragmentId % 1000;
+        }
     }
 }
