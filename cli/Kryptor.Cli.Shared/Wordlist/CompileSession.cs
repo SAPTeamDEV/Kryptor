@@ -60,6 +60,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 Progress = 100;
                 Description = $"Imported {IndexEntry.Id} wordlist";
 
+                IndexEntry.Optimized = Optimize;
                 if (!Indexing)
                 {
                     IndexEntry.InstallDirectory = DestPath;

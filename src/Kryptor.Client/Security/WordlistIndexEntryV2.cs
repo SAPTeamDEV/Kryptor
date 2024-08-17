@@ -28,14 +28,19 @@ namespace SAPTeam.Kryptor.Client.Security
         public byte[] Hash { get; set; }
 
         /// <summary>
-        /// Gets or sets enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning.
+        /// Gets or sets the enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning.
         /// </summary>
         public bool Enforced { get; set; }
 
         /// <summary>
-        /// Gets or sets compressed status of the wordlist file. if it's true, the downloader will try to decompress it, otherwise it will be processed as is.
+        /// Gets or sets the compressed status of the wordlist file. if it's true, the downloader will try to decompress it, otherwise it will be processed as is.
         /// </summary>
         public bool Compressed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the optimized status of the wordlist file. if it's true, it means that the wordlist is optimized by fragment compiler and all duplicated entries are removed, otherwise it means that the wordlist is not optimized and may be have some duplicated entries.
+        /// </summary>
+        public bool Optimized { get; set; }
 
         /// <summary>
         /// Gets or sets the install directory of thw wordlist.
