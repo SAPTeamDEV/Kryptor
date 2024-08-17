@@ -30,10 +30,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             {
                 IndexEntry.Size = f.Length;
 
-                byte[] buffer = new byte[f.Length];
-                f.Read(buffer, 0, buffer.Length);
-
-                IndexEntry.Hash = buffer.Sha256();
+                IndexEntry.Hash = f.Sha256();
             }
 
             if (GetInstallationPermission(IndexEntry))

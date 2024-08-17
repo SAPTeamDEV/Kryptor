@@ -27,6 +27,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public WordlistIndexEntryV2 IndexEntry;
         private readonly bool Indexing;
         private readonly bool Importing;
+        private bool LowMemory;
 
         public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool indexing, bool importing)
         {
@@ -42,6 +43,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             Indexing = indexing;
             Importing = importing;
+
+            LowMemory = false;
         }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
@@ -65,6 +68,10 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 installer.FinalizeInstallation(IndexEntry);
 
                 Description = Indexing ? $"{IndexEntry.Id} Indexed" : $"{IndexEntry.Id} Installed";
+                if (LowMemory)
+                {
+                    Description += " in low-memory mode";
+                }
             }
             catch
             {
@@ -77,6 +84,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
 
             return true;
+        }
+
+        private bool TryAddLine(string line)
+        {
+            return LowMemory || uniqueLines.Add(line);
         }
 
         private void Cleanup(bool deleteInstallation)
@@ -107,7 +119,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             {
                 double steps = 1.0 / streamReader.BaseStream.Length * 100;
 
-                int readChars = 0;
+                long readChars = 0;
                 string line;
                 while ((line = await streamReader.ReadLineAsync()) != null)
                 {
@@ -115,9 +127,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     readChars += line.Length;
                     lines++;
 
+                    Progress = readChars * steps;
+
                     line = line.Trim();
 
-                    if (string.IsNullOrEmpty(line) || line.Length < 4 && uniqueLines.Add(line) && !regex.IsMatch(line)) continue;
+                    if (string.IsNullOrEmpty(line) || line.Length < 4 || !TryAddLine(line) || regex.IsMatch(line)) continue;
 
                     byte[] data = Encoding.UTF8.GetBytes(line + "\n");
                     words++;
@@ -129,8 +143,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     }
 
                     fileStreams[c].Write(data, 0, data.Length);
-
-                    Progress = readChars * steps;
                 }
             }
 

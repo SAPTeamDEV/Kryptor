@@ -97,7 +97,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 Description = $"{IndexEntry.Id}: Verifying file";
 
-                VerifyHash(File.OpenRead(Downloader.Package.FileName), CancellationToken).Wait();
+                VerifyHash(File.OpenRead(Downloader.Package.FileName), CancellationToken);
 
                 if (IndexEntry.Compressed)
                 {
@@ -190,13 +190,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
         }
 
-        private async Task VerifyHash(Stream stream, CancellationToken cancellationToken)
+        private void VerifyHash(Stream stream, CancellationToken cancellationToken)
         {
             try
             {
-                byte[] buffer = new byte[stream.Length];
-                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                byte[] hash = buffer.Sha256();
+                byte[] hash = stream.Sha256();
 
                 if (IndexEntry.Hash == null)
                 {
