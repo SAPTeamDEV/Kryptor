@@ -38,7 +38,7 @@ namespace SAPTeam.Kryptor.Client.Security
         public bool Compressed { get; set; }
 
         /// <summary>
-        /// Gets or sets the optimized status of the wordlist file. if it's true, it means that the wordlist is optimized by fragment compiler and all duplicated entries are removed, otherwise it means that the wordlist is not optimized and may be have some duplicated entries.
+        /// Gets or sets the optimization status of the wordlist file. if it's true, it means that the wordlist is optimized by fragment compiler and all duplicated entries are removed, otherwise it means that the wordlist is not optimized and may be have some duplicated entries.
         /// </summary>
         public bool Optimized { get; set; }
 

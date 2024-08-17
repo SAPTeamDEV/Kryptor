@@ -58,7 +58,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             if (Index == null)
             {
-                DebugLog("Getting wordlist index...");
+                DebugLog("Getting remote index...");
 
                 HttpClient client = new HttpClient();
                 string rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
