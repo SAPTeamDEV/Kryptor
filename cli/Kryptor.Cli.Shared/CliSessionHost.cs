@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,11 +26,12 @@ namespace SAPTeam.Kryptor.Cli
 
         public PauseRequest Request { get; private set; } = new PauseRequest(null, false);
 
+        public bool HasRequest => !Request.IsEmpty() && !Request.IsResponsed;
+
         private object _requestLock = new object();
         private MemoryStream mem;
         private ConsoleKeyInfo cKey;
-        private Task rKeyTask;
-        private CancellationTokenSource rKeyTknSrc;
+        private bool _readerRunning;
 
         protected ConsoleKeyInfo KeyQueue
         {
@@ -243,20 +245,23 @@ namespace SAPTeam.Kryptor.Cli
                     FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
                 }
 
-                bool hasRequest = !Request.IsEmpty() && !Request.IsResponsed;
-
                 if (!NoInteractions)
                 {
-                    if (hasRequest)
+                    if (HasRequest)
                     {
                         string choices = Request.Default ? "Y/n" : "y/N";
                         Console.Write($"{Request.Message} ({choices})");
+                    }
+                    else
+                    {
+                        Console.Write("".PadRight(paddingBufferSize));
+                        Console.CursorLeft = 0;
                     }
 
                     ConsoleKeyInfo key = KeyQueue;
                     if (key != default)
                     {
-                        if (hasRequest)
+                        if (HasRequest)
                         {
                             if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
                             {
@@ -269,7 +274,7 @@ namespace SAPTeam.Kryptor.Cli
                         }
                     }
                 }
-                else if (hasRequest)
+                else if (HasRequest)
                 {
                     Request.SetResponse(Request.Default);
                 }
@@ -321,9 +326,6 @@ namespace SAPTeam.Kryptor.Cli
                     curLines++;
                 }
             }
-
-            Console.Write("".PadRight(paddingBufferSize));
-            Console.CursorLeft = 0;
         }
 
         private void PrintMessages(SessionHolder[] holders)
@@ -429,42 +431,33 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private async Task ReadKey(CancellationToken cancellationToken)
+        private async Task ReadKey()
         {
+            if (_readerRunning) return;
+            _readerRunning = true;
+
+            bool brk = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
             while (true)
             {
                 KeyQueue = Console.ReadKey(true);
-                await Task.Delay(50, cancellationToken);
+
+                await Task.Delay(50);
+
+                if (!HasRequest)
+                {
+                    break;
+                }
             }
+
+            _readerRunning = false;
         }
 
         protected Task ShowProgress(bool showOverall, bool showRemaining)
         {
             Task pTask = ShowProgressImpl(showOverall, showRemaining);
 
-            if (!NoInteractions)
-            {
-                AttachReader(pTask);
-            }
-
             return pTask;
-        }
-
-        private void AttachReader(Task pTask)
-        {
-            if (rKeyTknSrc != null && !rKeyTknSrc.IsCancellationRequested)
-            {
-                rKeyTknSrc.Cancel();
-            }
-
-            rKeyTknSrc = new CancellationTokenSource();
-            rKeyTask = new Task(async () => await ReadKey(rKeyTknSrc.Token));
-            rKeyTask.Start();
-
-            pTask.ContinueWith((x) =>
-            {
-                rKeyTknSrc.Cancel();
-            });
         }
 
         protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
@@ -537,6 +530,11 @@ namespace SAPTeam.Kryptor.Cli
             if (request.DefaultValue is bool)
             {
                 Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
+
+                if (!NoInteractions && !_readerRunning)
+                {
+                    _ = Task.Run(ReadKey);
+                }
 
                 while (!Request.IsResponsed)
                 {
