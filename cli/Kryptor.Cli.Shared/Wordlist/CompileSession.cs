@@ -139,13 +139,16 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     byte[] data = Encoding.UTF8.GetBytes(line + "\n");
                     words++;
 
-                    int c = WordlistFragmentCollection.GetWordIdentifier(line);
-                    if (!fileStreams.ContainsKey(c))
+                    if (!Indexing)
                     {
-                        fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c.ToString()));
-                    }
+                        int c = WordlistFragmentCollection.GetWordIdentifier(line);
+                        if (!fileStreams.ContainsKey(c))
+                        {
+                            fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c.ToString()));
+                        }
 
-                    fileStreams[c].Write(data, 0, data.Length);
+                        fileStreams[c].Write(data, 0, data.Length);
+                    }
                 }
             }
 
