@@ -107,7 +107,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             Dependencies.OfType<DownloadSession>().ForEach(x => x.DeleteCache());
 
-            if (deleteInstallation && Directory.Exists(DestPath))
+            if (Directory.Exists(DestPath) && (deleteInstallation || Directory.GetFiles(DestPath).Length == 0)
             {
                 Directory.Delete(DestPath, true);
             }
