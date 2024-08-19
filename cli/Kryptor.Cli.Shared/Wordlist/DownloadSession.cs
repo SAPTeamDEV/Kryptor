@@ -20,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class DownloadSession : Session
     {
-        private WordlistIndexEntryV2 IndexEntry;
+        private WordlistIndexEntry IndexEntry;
         private CancellationToken CancellationToken;
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
@@ -28,12 +28,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public FileInfo OutputFile;
         public FileInfo PackageFile;
 
-        public DownloadSession(WordlistIndexEntryV2 entry, DirectoryInfo outputPath) : this(entry, new FileInfo(Path.Combine(outputPath.FullName, entry.Id + ".txt")))
+        public DownloadSession(WordlistIndexEntry entry, DirectoryInfo outputPath) : this(entry, new FileInfo(Path.Combine(outputPath.FullName, entry.Id + ".txt")))
         {
 
         }
 
-        public DownloadSession(WordlistIndexEntryV2 entry, FileInfo output)
+        public DownloadSession(WordlistIndexEntry entry, FileInfo output)
         {
             IndexEntry = entry;
             OutputFile = output;

@@ -37,16 +37,16 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override void Start(ClientContext context)
         {
-            Config<WordlistIndex> IndexContainer = new Config<WordlistIndex>(indexPath);
+            Config<WordlistIndexLegacy> IndexContainer = new Config<WordlistIndexLegacy>(indexPath);
             IndexContainer.Write();
 
-            WordlistIndex Index = IndexContainer.Prefs;
-            WordlistIndexV2 IndexV2 = new WordlistIndexV2();
+            WordlistIndexLegacy Index = IndexContainer.Prefs;
+            WordlistIndex IndexV2 = new WordlistIndex();
 
-            foreach (KeyValuePair<string, WordlistIndexEntry> entry in Index.Wordlists)
+            foreach (KeyValuePair<string, WordlistIndexEntryLegacy> entry in Index.Wordlists)
             {
                 string id = entry.Key.ToLower().Replace('_', '-').Replace(' ', '-');
-                WordlistIndexEntryV2 entryV2;
+                WordlistIndexEntry entryV2;
 
                 if (IndexV2.ContainsId(id))
                 {
@@ -54,7 +54,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
                 else
                 {
-                    entryV2 = new WordlistIndexEntryV2()
+                    entryV2 = new WordlistIndexEntry()
                     {
                         Id = id,
                     };
@@ -98,7 +98,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 f.Write(headerBuffer, 0, headerBuffer.Length);
 
-                foreach (WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
+                foreach (WordlistIndexEntry entry in LocalIndex.Wordlists)
                 {
                     string text = $"| {entry.Id} | {entry.Name} | {entry.Lines.FormatWithCommas()} | {entry.Words.FormatWithCommas()} | {Utilities.ConvertBytes(entry.Size)} | [{(entry.Compressed ? "Compressed File" : "Text File")}]({entry.Uri.OriginalString}) |\n";
                     var buffer = Encoding.UTF8.GetBytes(text);

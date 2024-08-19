@@ -12,12 +12,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class QuerySession : Session
     {
-        private readonly WordlistIndexEntryV2 Entry;
+        private readonly WordlistIndexEntry Entry;
         private readonly string Word;
 
         public bool Result = false;
 
-        public QuerySession(WordlistIndexEntryV2 entry, string word)
+        public QuerySession(WordlistIndexEntry entry, string word)
         {
             Entry = entry;
             Word = word;

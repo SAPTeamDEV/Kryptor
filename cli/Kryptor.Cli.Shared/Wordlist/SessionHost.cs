@@ -14,8 +14,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         private readonly object _lockObj = new object();
 
-        private Config<WordlistIndexV2> LocalIndexContainer { get; set; }
-        public WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
+        private Config<WordlistIndex> LocalIndexContainer { get; set; }
+        public WordlistIndex LocalIndex => LocalIndexContainer.Prefs;
 
         public virtual string LocalIndexPath => Path.Combine(Program.Context.WordlistDirectory, "index.json");
 
@@ -33,7 +33,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             base.Start(context);
 
             DebugLog("Loading local index...");
-            LocalIndexContainer = new Config<WordlistIndexV2>(LocalIndexPath, LocalIndexParserSettings);
+            LocalIndexContainer = new Config<WordlistIndex>(LocalIndexPath, LocalIndexParserSettings);
         }
 
         protected void UpdateLocalIndex() => LocalIndexContainer.Write();
@@ -46,7 +46,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 return;
             }
 
-            foreach (WordlistIndexEntryV2 wl in LocalIndex.Wordlists)
+            foreach (WordlistIndexEntry wl in LocalIndex.Wordlists)
             {
                 Log($"\n{wl.Id}:");
                 Log($"Description: {wl.Name}");
@@ -55,7 +55,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
         }
 
-        protected bool GetInstallationPermission(WordlistIndexEntryV2 entry)
+        protected bool GetInstallationPermission(WordlistIndexEntry entry)
         {
             if (LocalIndex.ContainsId(entry.Id))
             {
@@ -73,7 +73,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             return true;
         }
 
-        public void FinalizeInstallation(WordlistIndexEntryV2 entry)
+        public void FinalizeInstallation(WordlistIndexEntry entry)
         {
             lock (_lockObj)
             {
@@ -84,7 +84,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         protected void RemoveWordlist(string id)
         {
-            WordlistIndexEntryV2 entry = LocalIndex[id];
+            WordlistIndexEntry entry = LocalIndex[id];
 
             if (entry.InstallDirectory != null && Directory.Exists(entry.InstallDirectory))
             {

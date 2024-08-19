@@ -6,11 +6,11 @@ namespace SAPTeam.Kryptor.Client.Security
 {
     internal class WordlistLibrary
     {
-        private WordlistIndexV2 remoteIndex;
+        private WordlistIndex remoteIndex;
 
-        private Config<WordlistIndexV2> LocalIndexContainer { get; }
+        private Config<WordlistIndex> LocalIndexContainer { get; }
 
-        private WordlistIndexV2 LocalIndex => LocalIndexContainer.Prefs;
+        private WordlistIndex LocalIndex => LocalIndexContainer.Prefs;
 
         public string LocalIndexPath { get; }
 
@@ -18,19 +18,19 @@ namespace SAPTeam.Kryptor.Client.Security
 
         public bool Indexing { get; }
 
-        public WordlistIndexEntryV2[] Wordlists => LocalIndex.Wordlists.ToArray();
+        public WordlistIndexEntry[] Wordlists => LocalIndex.Wordlists.ToArray();
 
         public WordlistLibrary(string localIndexPath) : this(localIndexPath, null, false)
         {
 
         }
 
-        public WordlistLibrary(string localIndexPath, WordlistIndexV2 remoteIndex, bool indexing)
+        public WordlistLibrary(string localIndexPath, WordlistIndex remoteIndex, bool indexing)
         {
             LocalIndexPath = localIndexPath;
             var localIndexDir = Utilities.EnsureDirectoryExists(Path.GetDirectoryName(localIndexPath));
 
-            LocalIndexContainer = new Config<WordlistIndexV2>(localIndexPath);
+            LocalIndexContainer = new Config<WordlistIndex>(localIndexPath);
             this.remoteIndex = remoteIndex;
 
             Indexing = indexing;

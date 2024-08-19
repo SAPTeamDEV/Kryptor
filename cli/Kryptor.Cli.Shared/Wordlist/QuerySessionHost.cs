@@ -31,7 +31,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             if (string.IsNullOrEmpty(Wordlist))
             {
-                foreach (Client.Security.WordlistIndexEntryV2 entry in LocalIndex.Wordlists)
+                foreach (Client.Security.WordlistIndexEntry entry in LocalIndex.Wordlists)
                 {
                     QuerySession session = new QuerySession(entry, Query);
                     NewSession(session);

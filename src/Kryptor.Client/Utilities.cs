@@ -185,5 +185,34 @@ namespace SAPTeam.Kryptor.Client
 
             return absPath;
         }
+
+        /// <summary>
+        /// Performs XOR operation on two byte array.
+        /// </summary>
+        /// <param name="a1">
+        /// The first array.
+        /// </param>
+        /// <param name="a2">
+        /// The socond array.
+        /// </param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static byte[] XOR(byte[] a1, byte[] a2)
+        {
+            if (a1.Length == a2.Length)
+            {
+                byte[] result = new byte[a1.Length];
+                for (int i = 0; i < a1.Length; i++)
+                {
+                    result[i] = (byte)(a1[i] ^ a2[i]);
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
+        }
     }
 }

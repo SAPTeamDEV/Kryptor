@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public virtual string InstallDir { get; } = Program.Context.WordlistDirectory;
 
-        public WordlistIndexV2 Index { get; protected set; }
+        public WordlistIndex Index { get; protected set; }
 
         public InstallSessionHost(GlobalOptions globalOptions, bool list, bool all, bool recommended, bool optimize, string[] ids) : base(globalOptions)
         {
@@ -63,7 +63,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 HttpClient client = new HttpClient();
                 string rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
 
-                Index = JsonConvert.DeserializeObject<WordlistIndexV2>(rawIndex);
+                Index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
             }
 
             if (List || (!All && !Recommended && Ids.Length == 0))
@@ -74,14 +74,14 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             {
                 if (All)
                 {
-                    foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
+                    foreach (WordlistIndexEntry wordlist in Index.Wordlists)
                     {
                         Install(wordlist);
                     }
                 }
                 else if (Recommended)
                 {
-                    foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
+                    foreach (WordlistIndexEntry wordlist in Index.Wordlists)
                     {
                         if (!wordlist.Enforced) continue;
 
@@ -102,7 +102,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
         }
 
-        private void Install(WordlistIndexEntryV2 entry)
+        private void Install(WordlistIndexEntry entry)
         {
             if (!GetInstallationPermission(entry))
             {
@@ -122,7 +122,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         private void PrintList()
         {
-            foreach (WordlistIndexEntryV2 wordlist in Index.Wordlists)
+            foreach (WordlistIndexEntry wordlist in Index.Wordlists)
             {
                 string status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) ? "(Installed)" : "(Update Avaiable)";
 

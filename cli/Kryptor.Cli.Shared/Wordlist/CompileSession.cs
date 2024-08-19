@@ -28,12 +28,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         public string FilePath;
         public string DestPath;
 
-        public WordlistIndexEntryV2 IndexEntry;
+        public WordlistIndexEntry IndexEntry;
         private readonly bool Indexing;
         private readonly bool Importing;
         private readonly bool Optimize;
 
-        public CompileSession(string path, string destination, WordlistIndexEntryV2 entry, bool optimize, bool indexing, bool importing)
+        public CompileSession(string path, string destination, WordlistIndexEntry entry, bool optimize, bool indexing, bool importing)
         {
             if (indexing || !importing)
             {
@@ -180,7 +180,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 {
                     FragmentId = f.Key,
                     LookupString = lookupStrings[f.Key],
-                    Checksum = XOR(IndexEntry.Hash, f.Value.Sha256())
+                    Checksum = Utilities.XOR(IndexEntry.Hash, f.Value.Sha256())
                 });
             }
 
@@ -188,24 +188,6 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             var mEncode = Encoding.UTF8.GetBytes(mJson);
 
             File.WriteAllBytes(Path.Combine(IndexEntry.InstallDirectory, "metadata.json"), mEncode);
-        }
-
-        public static byte[] XOR(byte[] a1, byte[] a2)
-        {
-            if (a1.Length == a2.Length)
-            {
-                byte[] result = new byte[a1.Length];
-                for (int i = 0; i < a1.Length; i++)
-                {
-                    result[i] = (byte)(a1[i] ^ a2[i]);
-                }
-
-                return result;
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
         }
 
         private SessionHost PreCheck(ISessionHost sessionHost)

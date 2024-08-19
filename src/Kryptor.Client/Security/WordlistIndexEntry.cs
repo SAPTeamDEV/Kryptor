@@ -8,6 +8,11 @@ namespace SAPTeam.Kryptor.Client.Security
     public class WordlistIndexEntry
     {
         /// <summary>
+        /// Gets or sets the identifier of the wordlist.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the user-friendly name of the wordlist.
         /// </summary>
         public string Name { get; set; }
@@ -15,16 +20,46 @@ namespace SAPTeam.Kryptor.Client.Security
         /// <summary>
         /// Gets or sets the URI used to download the wordlist.
         /// </summary>
-        public Uri DownloadUri { get; set; }
+        public Uri Uri { get; set; }
 
         /// <summary>
-        /// Gets or sets the priority of the wordlist in the quick checks might be made by clients. 0 means highest priority and 2 means lowest priority.
+        /// Gets or sets the SHA256 hash of the wordlist.
         /// </summary>
-        public int QuickCheckPriority { get; set; }
+        public byte[] Hash { get; set; }
 
         /// <summary>
-        /// Gets or sets whether this wordlist is compressed.
+        /// Gets or sets the enforcement status of the wordlist. if it's true, it will block any operations if the word is found in the wordlist, but if set to false, it just shows a warning.
+        /// </summary>
+        public bool Enforced { get; set; }
+
+        /// <summary>
+        /// Gets or sets the compressed status of the wordlist file. if it's true, the downloader will try to decompress it, otherwise it will be processed as is.
         /// </summary>
         public bool Compressed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the optimization status of the wordlist file. if it's true, it means that the wordlist is optimized by fragment compiler and all duplicated entries are removed, otherwise it means that the wordlist is not optimized and may be have some duplicated entries.
+        /// </summary>
+        public bool Optimized { get; set; }
+
+        /// <summary>
+        /// Gets or sets the install directory of thw wordlist.
+        /// </summary>
+        public string InstallDirectory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of lines in this wordlist.
+        /// </summary>
+        public long Lines { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of actual words in this wordlist.
+        /// </summary>
+        public long Words { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wordlist file size.
+        /// </summary>
+        public long Size { get; set; }
     }
 }
