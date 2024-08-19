@@ -122,5 +122,68 @@ namespace SAPTeam.Kryptor.Client
 
             return $"{len:0.##}{sizes[order]}";
         }
+
+        /// <summary>
+        /// Creates and returns a random directory in user's temp folder.
+        /// </summary>
+        /// <returns></returns>
+        public static string CreateTempFolder()
+        {
+            string fPath;
+
+            while (true)
+            {
+                fPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                if (!File.Exists(fPath) && !Directory.Exists(fPath))
+                {
+                    break;
+                }
+            }
+
+            Directory.CreateDirectory(fPath);
+            return fPath;
+        }
+
+        /// <summary>
+        /// Creates the directory if it's not exists.
+        /// </summary>
+        /// <param name="path">
+        /// The directory path.
+        /// </param>
+        /// <returns>
+        /// Absolute path of the directory.
+        /// </returns>
+        public static string EnsureDirectoryExists(string path)
+        {
+            var absPath = Path.GetFullPath(path);
+
+            if (!Directory.Exists(absPath))
+            {
+                Directory.CreateDirectory(absPath);
+            }
+
+            return absPath;
+        }
+
+        /// <summary>
+        /// Creates the file if it's not exists.
+        /// </summary>
+        /// <param name="path">
+        /// The file path.
+        /// </param>
+        /// <returns>
+        /// Absolute path of the file.
+        /// </returns>
+        public static string EnsureFileExists(string path)
+        {
+            var absPath = Path.GetFullPath(path);
+
+            if (!File.Exists(absPath))
+            {
+                File.Create(absPath).Dispose();
+            }
+
+            return absPath;
+        }
     }
 }
