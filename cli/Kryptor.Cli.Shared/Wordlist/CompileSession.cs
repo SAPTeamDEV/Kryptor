@@ -9,15 +9,19 @@ using System.Threading.Tasks;
 
 using MoreLinq;
 
+using Newtonsoft.Json;
+
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class CompileSession : Session
     {
         private bool cleaned;
-        private readonly Dictionary<int, FileStream> fileStreams = new Dictionary<int, FileStream>();
+        private Dictionary<int, FileStream> fileStreams = new Dictionary<int, FileStream>();
+        private Dictionary<int, string> lookupStrings = new Dictionary<int, string>();
         private Regex regex = new Regex(@"[^\x20-\x7E]");
         private HashSet<string> uniqueLines = new HashSet<string>();
 
@@ -64,6 +68,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 if (!Indexing)
                 {
                     IndexEntry.InstallDirectory = DestPath;
+
+                    if (fileStreams.Count > 0 && lookupStrings.Count > 0 && fileStreams.Count == lookupStrings.Count)
+                    {
+                        Description = "Adding verification metadata";
+                        AddVerificationMetadata();
+                    }
                 }
 
                 installer.FinalizeInstallation(IndexEntry);
@@ -93,17 +103,20 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             if (cleaned) return;
             cleaned = true;
 
-            if (uniqueLines != null)
-            {
-                uniqueLines.Clear();
-                uniqueLines = null;
-            }
+            uniqueLines.Clear();
+            uniqueLines = null;
 
             foreach (FileStream f in fileStreams.Values)
             {
                 f.Flush();
                 f.Dispose();
             }
+
+            fileStreams.Clear();
+            fileStreams = null;
+
+            lookupStrings.Clear();
+            lookupStrings = null;
 
             Dependencies.OfType<DownloadSession>().ForEach(x => x.DeleteCache());
 
@@ -144,7 +157,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                         int c = WordlistFragmentCollection.GetWordIdentifier(line);
                         if (!fileStreams.ContainsKey(c))
                         {
-                            fileStreams[c] = File.OpenWrite(Path.Combine(DestPath, c.ToString()));
+                            lookupStrings[c] = line;
+                            fileStreams[c] = File.Open(Path.Combine(DestPath, c.ToString()), FileMode.Create, FileAccess.ReadWrite);
                         }
 
                         fileStreams[c].Write(data, 0, data.Length);
@@ -154,6 +168,44 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             IndexEntry.Words = words;
             IndexEntry.Lines = lines;
+        }
+
+        private void AddVerificationMetadata()
+        {
+            List<WordlistVerificationMetadata> metadata = new List<WordlistVerificationMetadata>();
+
+            foreach (var f in fileStreams)
+            {
+                metadata.Add(new WordlistVerificationMetadata()
+                {
+                    FragmentId = f.Key,
+                    LookupString = lookupStrings[f.Key],
+                    Checksum = XOR(IndexEntry.Hash, f.Value.Sha256())
+                });
+            }
+
+            var mJson = JsonConvert.SerializeObject(metadata);
+            var mEncode = Encoding.UTF8.GetBytes(mJson);
+
+            File.WriteAllBytes(Path.Combine(IndexEntry.InstallDirectory, "metadata.json"), mEncode);
+        }
+
+        public static byte[] XOR(byte[] a1, byte[] a2)
+        {
+            if (a1.Length == a2.Length)
+            {
+                byte[] result = new byte[a1.Length];
+                for (int i = 0; i < a1.Length; i++)
+                {
+                    result[i] = (byte)(a1[i] ^ a2[i]);
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         private SessionHost PreCheck(ISessionHost sessionHost)
