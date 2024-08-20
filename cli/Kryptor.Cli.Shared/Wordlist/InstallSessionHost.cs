@@ -124,7 +124,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             foreach (WordlistIndexEntry wordlist in Index.Wordlists)
             {
-                string status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) ? "(Installed)" : "(Update Avaiable)";
+                string status = !LocalIndex.ContainsId(wordlist.Id) ? "" : LocalIndex[wordlist.Id].Hash.SequenceEqual(wordlist.Hash) && LocalIndex[wordlist.Id].Verify(false) ? "(Installed)" : "(Update Avaiable)";
 
                 Log($"\n{wordlist.Id}: {status}");
                 Log($"Description: {wordlist.Name}");
