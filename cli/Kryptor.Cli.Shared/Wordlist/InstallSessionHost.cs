@@ -128,6 +128,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 Log($"\n{wordlist.Id}: {status}");
                 Log($"Description: {wordlist.Name}");
+                Log($"Words: {wordlist.Words.FormatWithCommas()}");
                 Log($"Download Size: {Utilities.ConvertBytes(wordlist.Size)}");
             }
         }
