@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Newtonsoft.Json;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -7,6 +11,8 @@ namespace SAPTeam.Kryptor.Client.Security
     /// </summary>
     public class WordlistIndexEntry
     {
+        private WordlistVerificationMetadata[] metadata;
+
         /// <summary>
         /// Gets or sets the identifier of the wordlist.
         /// </summary>
@@ -61,5 +67,22 @@ namespace SAPTeam.Kryptor.Client.Security
         /// Gets or sets the wordlist file size.
         /// </summary>
         public long Size { get; set; }
+
+        public WordlistFragmentCollection Open()
+        {
+            return new WordlistFragmentCollection(this);
+        }
+
+        public WordlistVerificationMetadata[] GetMetadata()
+        {
+            if (metadata == null || metadata.Length == 0)
+            {
+                var json = File.ReadAllText(Path.Combine(InstallDirectory, "metadata.json"));
+                List<WordlistVerificationMetadata> data = JsonConvert.DeserializeObject<List<WordlistVerificationMetadata>>(json);
+                metadata = data.ToArray();
+            }
+
+            return metadata;
+        }
     }
 }

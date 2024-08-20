@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -12,28 +15,30 @@ namespace SAPTeam.Kryptor.Client.Security
     /// </summary>
     public class WordlistFragmentCollection
     {
-        /// <summary>
-        /// Gets the path of wordlist directory.
-        /// </summary>
-        public string WordlistPath { get; }
-
         private Dictionary<int, HashSet<string>> Fragments { get; } = new Dictionary<int, HashSet<string>>();
+        private WordlistIndexEntry IndexEntry { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="WordlistFragmentCollection"/> class.
         /// </summary>
-        /// <param name="path">
-        /// The path of compiled wordlist directory.
+        /// <param name="entry">
+        /// A valid wordlist entry.
         /// </param>
         /// <exception cref="DirectoryNotFoundException"></exception>
-        public WordlistFragmentCollection(string path)
+        public WordlistFragmentCollection(WordlistIndexEntry entry)
         {
-            if (!Directory.Exists(path))
+            if (entry == null) throw new ArgumentNullException(nameof(entry));
+
+            if (string.IsNullOrEmpty(entry.Id)
+                || string.IsNullOrEmpty(entry.InstallDirectory)
+                || !Directory.Exists(entry.InstallDirectory)
+                || entry.Hash == null
+                || entry.Hash.Length != 32)
             {
-                throw new DirectoryNotFoundException(path);
+                throw new ArgumentException("Invalid wordlist entry");
             }
 
-            WordlistPath = path;
+            IndexEntry = entry;
         }
 
         /// <summary>
@@ -54,13 +59,13 @@ namespace SAPTeam.Kryptor.Client.Security
 
             if (!Fragments.ContainsKey(id))
             {
-                string fragmentPath = Path.Combine(WordlistPath, id.ToString());
+                string fragmentPath = Path.Combine(IndexEntry.InstallDirectory, id.ToString());
                 if (!File.Exists(fragmentPath))
                 {
                     return false;
                 }
 
-                HashSet<string> hashes = await InitializeFragment(fragmentPath, cancellationToken);
+                HashSet<string> hashes = await InitializeFragment(id, fragmentPath, cancellationToken);
 
                 Fragments.Add(id, hashes);
             }
@@ -68,27 +73,49 @@ namespace SAPTeam.Kryptor.Client.Security
             return Fragments[id].Contains(word);
         }
 
-        private static async Task<HashSet<string>> InitializeFragment(string lPath, CancellationToken cancellationToken)
+        private async Task<HashSet<string>> InitializeFragment(int id, string lPath, CancellationToken cancellationToken)
         {
-            HashSet<string> hashes = new HashSet<string>();
+            HashSet<string> fragment = new HashSet<string>();
+            var metadata = IndexEntry.GetMetadata().Where(x => x.FragmentId == id).First();
+            bool isCompatible = false;
 
             using (StreamReader streamReader = new StreamReader(lPath, Encoding.UTF8))
             {
+                VerifyFragment(streamReader.BaseStream, metadata);
+
                 string line;
                 while ((line = await streamReader.ReadLineAsync()) != null)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if (string.IsNullOrEmpty(line))
-                    {
-                        continue;
-                    }
+                    line = line.Trim();
 
-                    hashes.Add(line.Trim());
+                    if (line == metadata.LookupString) isCompatible = true;
+
+                    fragment.Add(line);
                 }
             }
 
-            return hashes;
+            if (!isCompatible)
+            {
+                throw new NotSupportedException("The wordlist is not compatible with this version");
+            }
+
+            return fragment;
+        }
+
+        private void VerifyFragment(Stream stream, WordlistVerificationMetadata metadata)
+        {
+            if (metadata == null) throw new ArgumentNullException("metadata");
+            if (stream == null) throw new ArgumentNullException("stream");
+
+            var fragmentHash = stream.Sha256();
+            var fragmentChecksum = Utilities.XOR(IndexEntry.Hash, fragmentHash);
+
+            if (!metadata.Checksum.SequenceEqual(fragmentChecksum))
+            {
+                throw new InvalidDataException("Wordlist fragment is corrupted");
+            }
         }
 
         /// <summary>

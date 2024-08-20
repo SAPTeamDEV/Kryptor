@@ -28,7 +28,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Progress = -1;
             Description = $"Querying in {Entry.Id}";
 
-            WordlistFragmentCollection wfc = new WordlistFragmentCollection(Entry.InstallDirectory);
+            WordlistFragmentCollection wfc = Entry.Open();
             bool result = await wfc.LookupAsync(Word, cancellationToken);
 
             Result = result;
