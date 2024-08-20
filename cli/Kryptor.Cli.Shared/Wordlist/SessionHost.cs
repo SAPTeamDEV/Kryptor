@@ -59,7 +59,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             if (LocalIndex.ContainsId(entry.Id))
             {
-                if (LocalIndex[entry.Id].Hash != null && entry.Hash != null && LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash))
+                if (LocalIndex[entry.Id].Hash.SequenceEqual(entry.Hash) && LocalIndex[entry.Id].Verify(false))
                 {
                     LogError($"{entry.Id} is already installed");
                     return false;
