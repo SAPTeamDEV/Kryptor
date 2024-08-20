@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Newtonsoft.Json;
+
+using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -68,21 +71,170 @@ namespace SAPTeam.Kryptor.Client.Security
         /// </summary>
         public long Size { get; set; }
 
+        /// <summary>
+        /// Opens the wordlist with <see cref="WordlistFragmentCollection"/>.
+        /// </summary>
+        /// <returns>
+        /// A new instance of the <see cref="WordlistFragmentCollection"/> class initialized with this wordlist.
+        /// </returns>
         public WordlistFragmentCollection Open()
         {
+            CheckBasicValidity(true);
+            CheckInstallation(true);
+
             return new WordlistFragmentCollection(this);
         }
 
+        /// <summary>
+        /// Gets the metadata array of this wordlist.
+        /// </summary>
+        /// <returns>
+        /// An array contains the metadata for all fragments.
+        /// </returns>
         public WordlistVerificationMetadata[] GetMetadata()
         {
             if (metadata == null || metadata.Length == 0)
             {
-                var json = File.ReadAllText(Path.Combine(InstallDirectory, "metadata.json"));
+                var json = File.ReadAllText(GetMetadataPath());
                 List<WordlistVerificationMetadata> data = JsonConvert.DeserializeObject<List<WordlistVerificationMetadata>>(json);
                 metadata = data.ToArray();
             }
 
             return metadata;
+        }
+
+        private string GetMetadataPath() => Path.Combine(InstallDirectory, "metadata.json");
+
+        /// <summary>
+        /// Checks basic validity of this instance, includes valid id and hash.
+        /// </summary>
+        /// <param name="throwException">
+        /// if <see langword="true"/>, the method will throw exception when any of the checking items were failed. otherwise it just returns the validation result as <see langword="bool"/>.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if validation were passed. otherwise it will return <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="InvalidDataException"></exception>
+        public bool CheckBasicValidity(bool throwException = false)
+        {
+            var isValid = true;
+
+            if (string.IsNullOrEmpty(Id))
+            {
+                isValid = false;
+                if (throwException) throw new InvalidDataException("The wordlist id could not be empty");
+            }
+            else if (Hash == null || Hash.Length == 0)
+            {
+                isValid = false;
+                if (throwException) throw new InvalidDataException("The wordlist hash could not be empty");
+            }
+
+            return isValid;
+        }
+
+        /// <summary>
+        /// Checks validity of the wordlist installation.
+        /// </summary>
+        /// <param name="throwException">
+        /// if <see langword="true"/>, the method will throw exception when any of the checking items were failed. otherwise it just returns the validation result as <see langword="bool"/>.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if validation were passed. otherwise it will return <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ApplicationException"></exception>
+        /// <exception cref="DirectoryNotFoundException"></exception>
+        /// <exception cref="InvalidDataException"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        public bool CheckInstallation(bool throwException = false)
+        {
+            bool isInstalled = true;
+
+            if (string.IsNullOrEmpty(InstallDirectory))
+            {
+                isInstalled = false;
+                if (throwException) throw new ApplicationException("The wordlist is not installed");
+            }
+            else if (!Directory.Exists(InstallDirectory))
+            {
+                isInstalled = false;
+                if (throwException) throw new DirectoryNotFoundException(InstallDirectory);
+            }
+            else if (Directory.GetFiles(InstallDirectory).Length == 0)
+            {
+                isInstalled = false;
+                if (throwException) throw new InvalidDataException("The wordlist installation directory is empty");
+            }
+            else if (!File.Exists(GetMetadataPath()))
+            {
+                isInstalled = false;
+                if (throwException) throw new FileNotFoundException("Cannont find the metadata file");
+            }
+
+            return isInstalled;
+        }
+
+        /// <summary>
+        /// Verifies integrity and compatibility of the wordlist and it's fragments.
+        /// </summary>
+        /// <remarks>
+        /// This method also calls the both <see cref="CheckBasicValidity(bool)"/> and <see cref="CheckInstallation(bool)"/> methods.
+        /// </remarks>
+        /// <param name="throwException">
+        /// if <see langword="true"/>, the method will throw exception when any of the checking items were failed. otherwise it just returns the validation result as <see langword="bool"/>.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if validation were passed. otherwise it will return <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="InvalidDataException"></exception>
+        public bool Verify(bool throwException = false)
+        {
+            var basicChecksPassed = CheckBasicValidity(throwException) && CheckInstallation(throwException);
+
+            if (!basicChecksPassed) return false;
+
+            bool isVerified = true;
+
+            var metadata = GetMetadata();
+
+            foreach (var fragmentData in metadata)
+            {
+                bool validFragment = true;
+                var fragmentPath = Path.Combine(InstallDirectory, fragmentData.FragmentId.ToString());
+
+                if (!File.Exists(fragmentPath))
+                {
+                    validFragment = false;
+                }
+                else if (fragmentData.FragmentId != WordlistFragmentCollection.GetWordIdentifier(fragmentData.LookupString))
+                {
+                    validFragment = false;
+                }
+                else
+                {
+                    var stream = File.OpenRead(fragmentPath);
+                    var hash = stream.Sha256();
+                    var checksum = Utilities.XOR(Hash, hash);
+
+                    if (!fragmentData.Checksum.SequenceEqual(checksum))
+                    {
+                        validFragment = false;
+                    }
+                }
+
+                if (!validFragment)
+                {
+                    isVerified = false;
+                    break;
+                }
+            }
+
+            if (throwException && !isVerified)
+            {
+                throw new InvalidDataException("The wordlist is not verified");
+            }
+
+            return isVerified;
         }
     }
 }
