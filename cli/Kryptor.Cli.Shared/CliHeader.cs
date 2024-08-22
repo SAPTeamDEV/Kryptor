@@ -19,6 +19,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 ClientName = "Kryptor Cli",
                 ClientVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version),
+                Extra = extra
             };
         }
     }
