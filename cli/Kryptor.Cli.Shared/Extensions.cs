@@ -42,5 +42,15 @@ namespace SAPTeam.Kryptor.Cli
         public static string FormatWithCommas(this int number) => number.ToString("N0");
 
         public static string FormatWithCommas(this double number) => number.ToString("N2");
+
+        public static string Shrink(this string src, int expectedLength)
+        {
+            if (src.Length > expectedLength)
+            {
+                src = $"...{src.Substring(src.Length - expectedLength + 3)}";
+            }
+
+            return src;
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
             await Task.Delay(1);
 
 #if DEBUG
-            if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task?", true), cancellationToken))
+            if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task? even when you see this long message? tou know, i don't want to continue generating these keystores, i have a family and two kids to feed, please free me. i know that you may need this keystore to encrypt or decrypt your highly secret files, you are the boss.", true), cancellationToken))
             {
                 throw new System.OperationCanceledException();
             }

@@ -205,7 +205,7 @@ namespace SAPTeam.Kryptor.Cli
                     if (HasRequest)
                     {
                         string choices = Request.Default ? "Y/n" : "y/N";
-                        Console.Write($"{Request.Message} ({choices})");
+                        Console.Write($"{Request.Message.Shrink(bufferWidth - 8)} ({choices})");
                     }
                     else
                     {
@@ -376,11 +376,11 @@ namespace SAPTeam.Kryptor.Cli
             }
 
             desc = session.Description;
-            int expectedLength = bufferWidth - prog.Length - 5;
 
-            if (!IsOutputRedirected && desc.Length > expectedLength)
+            if (!IsOutputRedirected)
             {
-                desc = $"...{desc.Substring(desc.Length - expectedLength + 3)}";
+                int expectedLength = bufferWidth - prog.Length - 5;
+                desc = desc.Shrink(expectedLength);
             }
         }
 
