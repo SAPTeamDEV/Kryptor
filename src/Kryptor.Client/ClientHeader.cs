@@ -21,5 +21,10 @@ namespace SAPTeam.Kryptor.Client
         /// Gets or sets the original file name.
         /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the encrypted file.
+        /// </summary>
+        public string Serial { get; set; }
     }
 }

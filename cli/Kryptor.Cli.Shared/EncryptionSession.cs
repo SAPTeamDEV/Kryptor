@@ -4,11 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSession : Session
     {
+        private static CryptoRandom crng = new CryptoRandom();
+
         private readonly Kes kes;
         private readonly int hVerbose;
         private readonly string file;
@@ -40,6 +43,14 @@ namespace SAPTeam.Kryptor.Cli
             if (hVerbose > 1)
             {
                 header.FileName = Path.GetFileName(file);
+
+                string[] serial = new string[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    serial[i] = crng.Next(0x1869F).ToString("D5");
+                }
+
+                header.Serial = string.Join("-", serial);
             }
 
             header.Verbosity = (HeaderVerbosity)hVerbose;
