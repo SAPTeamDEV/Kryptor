@@ -87,6 +87,9 @@ namespace SAPTeam.Kryptor.Cli
             #region Encryption Options
             Option<int> hVerbose = new Option<int>("--header", () => 2, "Determines the amount of data stored in the header. 0 means no data and 3 means all data needed to decrypt the file (except the keystore)");
 
+            Option<string> keyChain = new Option<string>("--keychain", "Determines the key chain json file to store files unique identifiers and keystore information to it");
+            keyChain.AddAlias("-K");
+
             Command encCmd = new Command("encrypt", "Encrypts files with keystore")
             {
                 blockSize,
@@ -95,17 +98,18 @@ namespace SAPTeam.Kryptor.Cli
                 removeHash,
                 dbp,
                 hVerbose,
+                keyChain,
                 keystore,
                 files
             };
 
             encCmd.AddAlias("e");
 
-            encCmd.SetHandler((globalOptionsT, dpoT, hVerboseT) =>
+            encCmd.SetHandler((globalOptionsT, dpoT, hVerboseT, keyChainT) =>
             {
-                EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT);
+                EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose);
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose, keyChain);
 
             root.AddCommand(encCmd);
             #endregion

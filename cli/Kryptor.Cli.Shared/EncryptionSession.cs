@@ -16,6 +16,8 @@ namespace SAPTeam.Kryptor.Cli
         private readonly int hVerbose;
         private readonly string file;
 
+        public ClientHeader Header { get; private set; }
+
         public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file)
         {
             Description = "";
@@ -38,7 +40,7 @@ namespace SAPTeam.Kryptor.Cli
                 return false;
             }
 
-            ClientHeader header = CliHeader.Create();
+            ClientHeader header = Header = CliHeader.Create();
 
             if (hVerbose > 1)
             {

@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public KeyStore KeyStore { get; private set; }
 
-        private readonly string ks;
+        public readonly string KeystoreString;
 
         public string[] Files { get; }
 
@@ -28,14 +28,14 @@ namespace SAPTeam.Kryptor.Cli
 
             Files = options.Files;
 
-            ks = options.KeyStore;
+            KeystoreString = options.KeyStore;
         }
 
         public override void Start(ClientContext context)
         {
             base.Start(context);
 
-            KeyStore = LoadKeyStore(ks);
+            KeyStore = LoadKeyStore(KeystoreString);
         }
     }
 }
