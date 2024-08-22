@@ -47,6 +47,11 @@ namespace SAPTeam.Kryptor.Cli
 
                 foreach (EncryptionSession s in Container.Sessions.OfType<EncryptionSession>().Where(x => x.EndReason == SessionEndReason.Completed))
                 {
+                    if (string.IsNullOrEmpty(s.Header.Serial))
+                    {
+                        continue;
+                    }
+
                     KeyChainList.Add(new KeyChain()
                     {
                         Serial = s.Header.Serial,
