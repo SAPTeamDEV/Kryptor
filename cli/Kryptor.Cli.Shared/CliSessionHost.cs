@@ -369,9 +369,10 @@ namespace SAPTeam.Kryptor.Cli
                         break;
                 }
 
-                if (Verbose && session.Timer != null)
+                string time;
+                if (Verbose && session.Timer != null && (((time = ((double)session.Timer.ElapsedMilliseconds / 1000).ToString("N1")) != "0.0") || session.EndReason == SessionEndReason.Completed))
                 {
-                    prog += $" in {((double)session.Timer.ElapsedMilliseconds / 1000).ToString("N1")}s";
+                    prog += $" in {time}s";
                 }
             }
 
