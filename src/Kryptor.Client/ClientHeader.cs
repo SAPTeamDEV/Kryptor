@@ -36,10 +36,10 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         public void GenerateSerial()
         {
-            string[] serial = new string[8];
+            string[] serial = new string[10];
             for (int i = 0; i < serial.Length; i++)
             {
-                serial[i] = crng.Next(0x1869F).ToString("D5");
+                serial[i] = crng.Next(0x1869F).ToString("X5");
             }
 
             Serial = string.Join("-", serial);
