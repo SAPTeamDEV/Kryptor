@@ -77,6 +77,7 @@ namespace SAPTeam.Kryptor.Cli
 
             #region Encryption Options
             Option<int> hVerbose = new Option<int>("--header", () => 2, "Determines the amount of data stored in the header. 0 means no data and 3 means all data needed to decrypt the file (except the keystore)");
+            hVerbose.AddAlias("-H");
 
             Option<string> keyChain = new Option<string>("--keychain", "Determines the key chain json file to store files unique identifiers and keystore information to it");
             keyChain.AddAlias("-K");
