@@ -16,8 +16,8 @@
         public byte[] Fingerprint { get; set; }
 
         /// <summary>
-        /// Gets or sets the keystore hint (transformer token or file name).
+        /// Gets or sets the keystore transformer token.
         /// </summary>
-        public string KeyStoreHint { get; set; }
+        public string TransformerToken { get; set; }
     }
 }
