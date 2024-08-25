@@ -30,6 +30,7 @@ namespace SAPTeam.Kryptor.Cli
             if (header.Verbosity == 0)
             {
                 LogError("Cannot find any header data");
+                return;
             }
 
             Log();
@@ -39,18 +40,24 @@ namespace SAPTeam.Kryptor.Cli
             Log();
             Log($"Client Name: {header.ClientName}");
             Log($"Client Version: {header.ClientVersion}");
-            Log();
-            Log($"Original File Name: {header.FileName}");
-            Log($"Serial Key: {header.Serial}");
-            Log();
-            Log($"Block Size: {header.BlockSize}");
-            if (header.Configuration != null)
+
+            if ((int)header.Verbosity > 1)
             {
-                Log($"Crypto Provider: {(Verbose ? CryptoProviderFactory.GetRegisteredCryptoProviderId(header.Configuration.Id) : CryptoProviderFactory.GetDisplayName(header.Configuration.Id))}");
-                Log($"Continuous: {header.Configuration.Continuous}");
-                Log($"Remove Hash: {header.Configuration.RemoveHash}");
-                Log($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
+                Log();
+                Log($"Original File Name: {header.FileName}");
+                Log($"Serial Key: {header.Serial}");
+                Log();
+                Log($"Block Size: {header.BlockSize}");
+
+                if (header.Configuration != null)
+                {
+                    Log($"Crypto Provider: {(Verbose ? CryptoProviderFactory.GetRegisteredCryptoProviderId(header.Configuration.Id) : CryptoProviderFactory.GetDisplayName(header.Configuration.Id))}");
+                    Log($"Continuous: {header.Configuration.Continuous}");
+                    Log($"Remove Hash: {header.Configuration.RemoveHash}");
+                    Log($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
+                }
             }
+            
             if (Verbose && header.Extra != null)
             {
                 Log();
