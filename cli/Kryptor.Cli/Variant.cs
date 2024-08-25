@@ -10,7 +10,9 @@ namespace SAPTeam.Kryptor.Cli
     {
         public string Variant => "Standard";
 
-        public string Framework =>
+        public string FrameworkType => "Core";
+
+        public string FrameworkVersion =>
 #if NET6_0
             "6.0"
 #elif NET8_0

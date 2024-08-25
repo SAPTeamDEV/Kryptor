@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 using Newtonsoft.Json.Linq;
+
+using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -21,8 +25,26 @@ namespace SAPTeam.Kryptor.Cli
 
         private static int Parse(string[] args)
         {
-            RootCommand root = new RootCommand("Kryptor Command-Line Interface");
+            var verInfo = new Option<bool>("--full-version", "Show full version informations");
+
+            RootCommand root = new RootCommand("Kryptor Command-Line Interface")
+            {
+                verInfo
+            };
+
             GlobalOptionsBinder globalOptionsBinder = GetGlobalOptions(root);
+
+            root.SetHandler((globalOptionsT, verInfoT) =>
+            {
+                if (verInfoT)
+                {
+                    Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {Context.Variant} for .NET {Context.FrameworkType} {Context.FrameworkVersion}");
+                    Console.WriteLine($"Application Version: {Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+                    Console.WriteLine($"Kryptor Client Utility Version: {Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+                    Console.WriteLine($"Kryptor Engine Version: {Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
+                    Console.WriteLine($"KES API Version: {Kes.Version}");
+                }
+            }, globalOptionsBinder, verInfo);
 
             #region Common Data Processing Options
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");

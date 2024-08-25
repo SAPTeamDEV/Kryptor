@@ -10,7 +10,9 @@ namespace SAPTeam.Kryptor.Cli
     {
         public string Variant => "Native AOT";
 
-        public string Framework =>
+        public string FrameworkType => "Core";
+
+        public string FrameworkVersion =>
 #if NET8_0
             "8.0"
 #endif

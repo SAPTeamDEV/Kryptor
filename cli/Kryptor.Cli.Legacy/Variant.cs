@@ -10,7 +10,9 @@ namespace SAPTeam.Kryptor.Cli
     {
         public string Variant => "Legacy";
 
-        public string Framework =>
+        public string FrameworkType => "Framework";
+
+        public string FrameworkVersion =>
 #if NET462
             "4.6.2"
 #elif NET472
