@@ -34,7 +34,7 @@ namespace SAPTeam.Kryptor.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="size"/> is below 1.
         /// </exception>
-        public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
+        public static IEnumerable<TSource[]> ChunkCompat<TSource>(this IEnumerable<TSource> source, int size)
         {
             return source == null
                 ? throw new ArgumentNullException("source")

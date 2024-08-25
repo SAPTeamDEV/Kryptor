@@ -108,7 +108,7 @@ namespace SAPTeam.Kryptor
             byte[] hash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
-            foreach (byte[] chunk in data.Chunk(EncryptionChunkSize))
+            foreach (byte[] chunk in data.ChunkCompat(EncryptionChunkSize))
             {
                 IEnumerable<byte> c = await EncryptChunkAsync(chunk, process, cancellationToken);
                 result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
@@ -142,13 +142,13 @@ namespace SAPTeam.Kryptor
 
             if (Configuration.RemoveHash)
             {
-                chunks = data.Chunk(DecryptionChunkSize);
+                chunks = data.ChunkCompat(DecryptionChunkSize);
             }
             else
             {
                 byte[] _hash = data.Take(32).ToArray();
                 process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
-                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
+                chunks = data.Skip(32).ChunkCompat(DecryptionChunkSize);
             }
 
             List<byte> result = new List<byte>();

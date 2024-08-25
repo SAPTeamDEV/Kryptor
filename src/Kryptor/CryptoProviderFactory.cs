@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using SAPTeam.Kryptor.CryptoProviders;
 
@@ -40,7 +41,11 @@ namespace SAPTeam.Kryptor
         /// The additional identifiers. Acts like a shortcut. Hints uses the same prefix.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
+#if NET8_0
+        public static void RegisterProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string prefix, string displayName, params string[] hints)
+#else
         public static void RegisterProvider<T>(string prefix, string displayName, params string[] hints)
+#endif
             where T : CryptoProvider
         {
             if (!allowKryptorPrefix && prefix == "kryptor")
@@ -135,7 +140,10 @@ namespace SAPTeam.Kryptor
         /// The id/hint of a registered crypto provider.
         /// </param>
         /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
-        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
+        public static Type ResolveProviderById(string id)
+        {
+            return GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
+        }
 
         /// <summary>
         /// Creates a <see cref="CryptoProvider"/> object to use with KES engine.
@@ -155,7 +163,7 @@ namespace SAPTeam.Kryptor
             {
                 Id = id,
             };
-
+            
             return Create(keyStore, configuration);
         }
 

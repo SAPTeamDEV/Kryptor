@@ -11,7 +11,7 @@ using ANSIConsole;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public class CliContext : ClientContext
+    public partial class CliContext : ClientContext
     {
         public bool CatchExceptions { get; set; }
 
