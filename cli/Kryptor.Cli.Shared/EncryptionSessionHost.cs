@@ -20,8 +20,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             HeaderVerbosity = hVerbose;
             KeyChainPath = keyChainPath;
-            UseKeyChain = !string.IsNullOrEmpty(keyChainPath);
-
+            UseKeyChain = hVerbose > 1 && !string.IsNullOrEmpty(keyChainPath);
         }
 
         public override void Start(ClientContext context)
