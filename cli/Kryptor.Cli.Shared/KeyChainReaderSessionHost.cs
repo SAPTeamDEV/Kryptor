@@ -39,7 +39,7 @@ namespace SAPTeam.Kryptor.Cli
                 return;
             }
 
-            Log($"File Serial Key : {header.Serial}");
+            Log($"File Serial Key: {header.Serial}");
 
             KeyChain keyChain;
             try
@@ -52,16 +52,16 @@ namespace SAPTeam.Kryptor.Cli
                 return;
             }
 
-            Log($"Keystore Fingerprint : {keyChain.Fingerprint.FormatFingerprint()}");
+            Log($"Keystore Fingerprint: {keyChain.Fingerprint.FormatFingerprint()}");
             string ksFileName = Path.Combine(Path.GetDirectoryName(keyChainCollection.FilePath), BitConverter.ToString(keyChain.Fingerprint).Replace("-", "").ToLower() + ".kks");
 
             if (!string.IsNullOrEmpty(keyChain.TransformerToken))
             {
-                Log($"Transformer Token : {keyChain.TransformerToken}");
+                Log($"Transformer Token: {keyChain.TransformerToken}");
             }
             else if (File.Exists(ksFileName))
             {
-                Log($"Keystore File Path : {ksFileName}");
+                Log($"Keystore File Path: {ksFileName}");
             }
         }
     }
