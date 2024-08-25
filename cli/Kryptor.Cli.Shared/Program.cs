@@ -1,8 +1,11 @@
-﻿using System.CommandLine;
+﻿using System.Collections.Generic;
+using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+
+using Newtonsoft.Json.Linq;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -53,7 +56,7 @@ namespace SAPTeam.Kryptor.Cli
                 }
             });
 
-            Argument<string[]> files = new Argument<string[]>(
+            Argument<IEnumerable<string>> files = new Argument<IEnumerable<string>>(
                 name: "files",
                 description: "Files to be processed",
                 isDefault: true,
@@ -98,8 +101,6 @@ namespace SAPTeam.Kryptor.Cli
                 EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT);
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose, keyChain);
-
-            root.AddCommand(encCmd);
             #endregion
 
             #region Decryption Options
@@ -121,21 +122,22 @@ namespace SAPTeam.Kryptor.Cli
                 DecryptionSessionHost sessionHost = new DecryptionSessionHost(globalOptionsT, dpoT);
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
-
-            root.AddCommand(decCmd);
             #endregion
 
             Command genCmd = GetGenerateCommand(globalOptionsBinder);
-            root.AddCommand(genCmd);
 
             Command anCmd = GetAnalyzeCommand(globalOptionsBinder, keystore);
-            root.AddCommand(anCmd);
 
             Command wlCmd = GetWordlistCommand(globalOptionsBinder);
-            root.AddCommand(wlCmd);
 
             Command kcCmd = GetKeyChainCommand(globalOptionsBinder);
+
+            root.AddCommand(anCmd);
+            root.AddCommand(encCmd);
+            root.AddCommand(decCmd);
+            root.AddCommand(genCmd);
             root.AddCommand(kcCmd);
+            root.AddCommand(wlCmd);
 
             return root.Invoke(args);
         }

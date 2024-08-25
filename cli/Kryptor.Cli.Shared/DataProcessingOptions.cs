@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Binding;
+using System.Linq;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -22,9 +24,9 @@ namespace SAPTeam.Kryptor.Cli
         private readonly Option<bool> removeHash;
         private readonly Option<bool> dbp;
         private readonly Option<string> keyStore;
-        private readonly Argument<string[]> files;
+        private readonly Argument<IEnumerable<string>> files;
 
-        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> keyStore, Argument<string[]> files)
+        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> keyStore, Argument<IEnumerable<string>> files)
         {
             this.blockSize = blockSize;
             this.provider = provider;
@@ -45,7 +47,7 @@ namespace SAPTeam.Kryptor.Cli
                 RemoveHash = bindingContext.ParseResult.GetValueForOption(removeHash),
                 DynamicBlockProcessing = bindingContext.ParseResult.GetValueForOption(dbp),
                 KeyStore = bindingContext.ParseResult.GetValueForOption(keyStore),
-                Files = bindingContext.ParseResult.GetValueForArgument(files),
+                Files = bindingContext.ParseResult.GetValueForArgument(files).ToArray(),
             };
         }
     }
