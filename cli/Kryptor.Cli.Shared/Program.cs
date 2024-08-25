@@ -132,14 +132,37 @@ namespace SAPTeam.Kryptor.Cli
 
             Command kcCmd = GetKeyChainCommand(globalOptionsBinder);
 
+            Command headCmd = GetHeaderCommand(globalOptionsBinder);
+
             root.AddCommand(anCmd);
             root.AddCommand(encCmd);
             root.AddCommand(decCmd);
             root.AddCommand(genCmd);
+            root.AddCommand(headCmd);
             root.AddCommand(kcCmd);
             root.AddCommand(wlCmd);
 
             return root.Invoke(args);
+        }
+
+        private static Command GetHeaderCommand(GlobalOptionsBinder globalOptionsBinder)
+        {
+            Argument<string> filePath = new Argument<string>("file", "Path of an encrypted file");
+
+            Command headCmd = new Command("header", "Gets informations about an encrypted file")
+            {
+                filePath
+            };
+
+            headCmd.AddAlias("h");
+
+            headCmd.SetHandler((globalOptionsT, filePathT) =>
+            {
+                HeaderReaderSessionHost sessionHost = new HeaderReaderSessionHost(globalOptionsT, filePathT);
+                Context.NewSessionHost(sessionHost);
+            }, globalOptionsBinder, filePath);
+
+            return headCmd;
         }
 
         private static Command GetKeyChainCommand(GlobalOptionsBinder globalOptionsBinder)

@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptionSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HeaderReaderSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyChainReaderSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreGenerateSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PauseRequest.cs" />
