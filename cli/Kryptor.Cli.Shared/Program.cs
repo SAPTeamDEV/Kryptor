@@ -19,19 +19,7 @@ namespace SAPTeam.Kryptor.Cli
         private static int Parse(string[] args)
         {
             RootCommand root = new RootCommand("Kryptor Command-Line Interface");
-
-            Option<bool> verbose = new Option<bool>("--verbose", "Shows more detailed informations in console output");
-            verbose.AddAlias("-v");
-            root.AddGlobalOption(verbose);
-
-            Option<bool> quiet = new Option<bool>("--quiet", "Prevents showing output in console. Only errors and crashes will be shown.");
-            quiet.AddAlias("-q");
-            root.AddGlobalOption(quiet);
-
-            Option<bool> noColor = new Option<bool>("--no-color", "Disables showing messages with colors");
-            root.AddGlobalOption(noColor);
-
-            GlobalOptionsBinder globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
+            GlobalOptionsBinder globalOptionsBinder = GetGlobalOptions(root);
 
             #region Common Data Processing Options
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
@@ -137,16 +125,54 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(decCmd);
             #endregion
 
-            #region Generate Options
+            Command genCmd = GetGenerateCommand(globalOptionsBinder);
+            root.AddCommand(genCmd);
+
+            Command anCmd = GetAnalyzeCommand(globalOptionsBinder, keystore);
+            root.AddCommand(anCmd);
+
+            Command wlCmd = GetWordlistCommand(globalOptionsBinder);
+            root.AddCommand(wlCmd);
+
+            Command kcCmd = GetKeyChainCommand(globalOptionsBinder);
+            root.AddCommand(kcCmd);
+
+            return root.Invoke(args);
+        }
+
+        private static Command GetKeyChainCommand(GlobalOptionsBinder globalOptionsBinder)
+        {
+            Argument<string> keyChainPath = new Argument<string>("keychain", "Path of an existing keychain file or folder");
+            Argument<string> filePath = new Argument<string>("file", "Path of an encrypted file");
+
+            Command kcCmd = new Command("keychain", "Gets informations about an encrypted file in a keychain file")
+            {
+                keyChainPath,
+                filePath
+            };
+
+            kcCmd.AddAlias("k");
+
+            kcCmd.SetHandler((globalOptionsT, keyChainPathT, filePathT) =>
+            {
+                KeyChainReaderSessionHost sessionHost = new KeyChainReaderSessionHost(globalOptionsT, keyChainPathT, filePathT);
+                Context.NewSessionHost(sessionHost);
+            }, globalOptionsBinder, keyChainPath, filePath);
+
+            return kcCmd;
+        }
+
+        private static Command GetGenerateCommand(GlobalOptionsBinder globalOptionsBinder)
+        {
             Option<KeyStoreGenerator> generateGenerator = new Option<KeyStoreGenerator>(
-                "--random",
-                () =>
-                {
-                    return !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && File.Exists("/dev/random")
-                        ? KeyStoreGenerator.Unix
-                        : KeyStoreGenerator.CryptoRng;
-                },
-                "Determines a random key generator to generate keystore in a non-deterministic method.");
+                            "--random",
+                            () =>
+                            {
+                                return !RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && File.Exists("/dev/random")
+                                    ? KeyStoreGenerator.Unix
+                                    : KeyStoreGenerator.CryptoRng;
+                            },
+                            "Determines a random key generator to generate keystore in a non-deterministic method.");
 
             generateGenerator.AddAlias("-r");
 
@@ -195,10 +221,11 @@ namespace SAPTeam.Kryptor.Cli
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, generateGenerator, generateToken, generateSize, generateMargin, generateOutput);
 
-            root.AddCommand(genCmd);
-            #endregion
+            return genCmd;
+        }
 
-            #region Analyze Options
+        private static Command GetAnalyzeCommand(GlobalOptionsBinder globalOptionsBinder, Option<string> keystore)
+        {
             Option<int> analyzeJobs = new Option<int>("--jobs", "Determines the number of concurrent jobs");
             analyzeJobs.AddAlias("-j");
 
@@ -215,11 +242,12 @@ namespace SAPTeam.Kryptor.Cli
                 KeyStoreAnalyze.SessionHost sessionHost = new KeyStoreAnalyze.SessionHost(globalOptionsT, analyzeJobsT, keystoreT);
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, analyzeJobs, keystore);
+            
+            return anCmd;
+        }
 
-            root.AddCommand(anCmd);
-            #endregion
-
-            #region Wordlist Options
+        private static Command GetWordlistCommand(GlobalOptionsBinder globalOptionsBinder)
+        {
             Command wlCmd = new Command("wordlist", "Queries the given word in installed wordlists");
             wlCmd.AddAlias("w");
 
@@ -345,11 +373,26 @@ namespace SAPTeam.Kryptor.Cli
             }, globalOptionsBinder, importId, importEnforce, doOptimize, importFile);
 
             wlCmd.AddCommand(wlImpCmd);
+            
+            return wlCmd;
+        }
 
-            root.AddCommand(wlCmd);
-            #endregion
+        private static GlobalOptionsBinder GetGlobalOptions(RootCommand root)
+        {
+            Option<bool> verbose = new Option<bool>("--verbose", "Shows more detailed informations in console output");
+            verbose.AddAlias("-v");
+            root.AddGlobalOption(verbose);
 
-            return root.Invoke(args);
+            Option<bool> quiet = new Option<bool>("--quiet", "Prevents showing output in console. Only errors and crashes will be shown.");
+            quiet.AddAlias("-q");
+            root.AddGlobalOption(quiet);
+
+            Option<bool> noColor = new Option<bool>("--no-color", "Disables showing messages with colors");
+            root.AddGlobalOption(noColor);
+
+            GlobalOptionsBinder globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
+            
+            return globalOptionsBinder;
         }
     }
 }

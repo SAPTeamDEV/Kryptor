@@ -7,17 +7,52 @@ using Newtonsoft.Json;
 
 namespace SAPTeam.Kryptor.Client
 {
+    /// <summary>
+    /// Represents a collection to work with key chains.
+    /// </summary>
     public class KeyChainCollection
     {
         private object _saveLock = new object();
 
         private List<KeyChain> keyChainList;
-        private string filePath;
+        
         private JsonSerializerSettings settings = new JsonSerializerSettings()
         {
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
         };
+
+        /// <summary>
+        /// Gets the path of the keychain json file.
+        /// </summary>
+        public string FilePath { get; }
+
+        /// <summary>
+        /// Gets the keychain with the specified <paramref name="serial"/>.
+        /// </summary>
+        /// <param name="serial">
+        /// The unique identifier of the file.
+        /// </param>
+        /// <returns></returns>
+        /// <exception cref="KeyNotFoundException"></exception>
+        /// <exception cref="ApplicationException"></exception>
+        public KeyChain this[string serial]
+        {
+            get
+            {
+                var entries = keyChainList.Where(x => x.Serial == serial);
+                if (!entries.Any())
+                {
+                    throw new KeyNotFoundException(serial);
+                }
+                else if (entries.Count() > 1)
+                {
+                    throw new ApplicationException("Illegal douplication found in keychain");
+                }
+
+                return entries.First();
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyChainCollection"/> class.
@@ -29,7 +64,7 @@ namespace SAPTeam.Kryptor.Client
         {
             if (File.Exists(path))
             {
-                filePath = path;
+                FilePath = path;
             }
             else if (!Directory.Exists(path))
             {
@@ -38,11 +73,11 @@ namespace SAPTeam.Kryptor.Client
 
             if (Directory.Exists(path))
             {
-                filePath = Path.Combine(path, "keychain.json");
+                FilePath = Path.Combine(path, "keychain.json");
             }
 
             string data = null;
-            using (var reader = new StreamReader(File.Open(filePath, FileMode.OpenOrCreate)))
+            using (var reader = new StreamReader(File.Open(FilePath, FileMode.OpenOrCreate)))
             {
                 data = reader.ReadToEnd();
                 if (string.IsNullOrEmpty(data))
@@ -54,6 +89,19 @@ namespace SAPTeam.Kryptor.Client
             keyChainList = JsonConvert.DeserializeObject<List<KeyChain>>(data);
         }
 
+        /// <summary>
+        /// Adds a new keychain to the collection.
+        /// </summary>
+        /// <param name="header">
+        /// The header of the encrypted file.
+        /// </param>
+        /// <param name="keyStore">
+        /// The keystore used to encrypt the file.
+        /// </param>
+        /// <param name="transformerToken">
+        /// The transformer token used to generate the keystore (if presents).
+        /// </param>
+        /// <exception cref="ArgumentException"></exception>
         public void Add(ClientHeader header, KeyStore keyStore, string transformerToken = null)
         {
             if (string.IsNullOrEmpty(header.Serial))
@@ -66,7 +114,7 @@ namespace SAPTeam.Kryptor.Client
                 throw new ArgumentException("A keychain with this serial is already exists");
             }
 
-            string ksFileName = Path.Combine(Path.GetDirectoryName(filePath), BitConverter.ToString(keyStore.Fingerprint).Replace("-", "").ToLower() + ".kks");
+            string ksFileName = Path.Combine(Path.GetDirectoryName(FilePath), BitConverter.ToString(keyStore.Fingerprint).Replace("-", "").ToLower() + ".kks");
             if (string.IsNullOrEmpty(transformerToken) && !File.Exists(ksFileName))
             {
                 File.WriteAllBytes(ksFileName, keyStore.Raw);
@@ -89,7 +137,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 string kJson = JsonConvert.SerializeObject(keyChainList, settings);
 
-                File.WriteAllText(filePath, kJson);
+                File.WriteAllText(FilePath, kJson);
             }
         }
     }
