@@ -41,9 +41,14 @@ namespace SAPTeam.Kryptor
         #endregion
 
         /// <summary>
-        /// Gets the version of the encryptor api backend.
+        /// Gets the version of the kes encryptor.
         /// </summary>
-        public static Version Version => new Version(0, 14, 0, 0);
+        public static Version Version => new Version(0, 15, 0, 0);
+
+        /// <summary>
+        /// Gets the minimum supported version of the kes decryptor.
+        /// </summary>
+        public static Version MinimumSupportedVersion => new Version(0, 14, 0, 0);
 
         /// <summary>
         /// Gets or sets the crypto provider.
