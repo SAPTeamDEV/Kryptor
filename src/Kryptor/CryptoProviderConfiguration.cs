@@ -5,7 +5,7 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Provides standard to hold the crypto providers configuration.
     /// </summary>
-    public class CryptoProviderConfiguration : ICloneable
+    public class CryptoProviderConfiguration : ICloneable, IEquatable<CryptoProviderConfiguration>
     {
         /// <summary>
         /// Gets or sets the crypto provider identifier/hint.
@@ -28,6 +28,33 @@ namespace SAPTeam.Kryptor
         public virtual bool DynamicBlockProccessing { get; set; }
 
         /// <inheritdoc/>
-        public object Clone() => MemberwiseClone();
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(CryptoProviderConfiguration other)
+        {
+            return Id == other.Id
+                && Continuous == other.Continuous
+                && RemoveHash == other.RemoveHash
+                && DynamicBlockProccessing == other.DynamicBlockProccessing;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return obj is CryptoProviderConfiguration other && Equals(other);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode()
+                 & Continuous.GetHashCode()
+                 & RemoveHash.GetHashCode()
+                 & DynamicBlockProccessing.GetHashCode();
+        }
     }
 }
