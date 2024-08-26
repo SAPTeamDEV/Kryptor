@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor.Cli
 
             Log();
             Log($"Header informations of {Path.GetFileName(FilePath)} with {header.Verbosity} verbosity");
-            Log($"API Version: {header.Version}");
+            Log($"API Version: {header.Version.ToString(2)}");
             Log($"Engine Version: {header.EngineVersion}");
             Log();
             Log($"Client Name: {header.ClientName}");

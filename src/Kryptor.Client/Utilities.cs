@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor.Client
         public static string GetShortVersionString(string verStr)
         {
             Version ver = new Version(verStr);
-            return string.Join(".", ver.Major, ver.Minor, ver.Build);
+            return ver.ToString(3);
         }
 
         /// <summary>

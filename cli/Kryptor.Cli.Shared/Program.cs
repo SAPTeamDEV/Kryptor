@@ -40,11 +40,15 @@ namespace SAPTeam.Kryptor.Cli
                 if (verInfoT)
                 {
                     Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {Context.Variant} for .NET {Context.FrameworkType} {Context.FrameworkVersion}");
-                    Console.WriteLine($"Application Version: {Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-                    Console.WriteLine($"Kryptor Client Utility Version: {Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-                    Console.WriteLine($"Kryptor Engine Version: {Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
-                    Console.WriteLine($"KES API Version: {Kes.Version}");
-                    Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion}");
+                    Console.WriteLine($"Application Version: {Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
+                    Console.WriteLine($"Kryptor Client Utility Version: {Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
+                    Console.WriteLine($"Kryptor Engine Version: {Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
+                    Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
+                    Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+                }
+                else
+                {
+                    Console.Error.WriteLine("To view help message, run kryptor --help");
                 }
             }, globalOptionsBinder, verInfo);
 
