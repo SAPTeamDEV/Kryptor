@@ -26,6 +26,7 @@ namespace SAPTeam.Kryptor.Cli
         private static int Parse(string[] args)
         {
             var verInfo = new Option<bool>("--full-version", "Show full version informations");
+            verInfo.AddAlias("-V");
 
             RootCommand root = new RootCommand("Kryptor Command-Line Interface")
             {
