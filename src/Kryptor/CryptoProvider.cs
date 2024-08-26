@@ -108,7 +108,7 @@ namespace SAPTeam.Kryptor
             byte[] hash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
-            foreach (byte[] chunk in data.ChunkCompat(EncryptionChunkSize))
+            foreach (byte[] chunk in data.Chunk(EncryptionChunkSize))
             {
                 IEnumerable<byte> c = await EncryptChunkAsync(chunk, process, cancellationToken);
                 result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
@@ -142,13 +142,27 @@ namespace SAPTeam.Kryptor
 
             if (Configuration.RemoveHash)
             {
-                chunks = data.ChunkCompat(DecryptionChunkSize);
+                chunks = data.Chunk(DecryptionChunkSize);
             }
             else
             {
                 byte[] _hash = data.Take(32).ToArray();
                 process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
+
+/* Unmerged change from project 'Kryptor (netstandard2.0)'
+Before:
                 chunks = data.Skip(32).ChunkCompat(DecryptionChunkSize);
+After:
+                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
+*/
+
+/* Unmerged change from project 'Kryptor (net461)'
+Before:
+                chunks = data.Skip(32).ChunkCompat(DecryptionChunkSize);
+After:
+                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
+*/
+                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
             List<byte> result = new List<byte>();

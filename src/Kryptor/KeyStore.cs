@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor
             Ensure.Enumerable.HasItems(bytes, nameof(bytes));
 
             Raw = bytes;
-            Keys = Raw.ChunkCompat(32).Where(x => x.Length == 32).ToArray();
+            Keys = Raw.Chunk(32).Where(x => x.Length == 32).ToArray();
 
             Fingerprint = Transformers.Pick(Raw.Sha512(), 12, Raw.Length + Raw[4] + Raw[Raw.Length - 5] + Raw.Length + Raw[14] + Raw[Raw.Length - 10]).ToArray().Sha256().Take(20).ToArray();
         }

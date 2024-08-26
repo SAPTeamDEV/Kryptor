@@ -9,6 +9,7 @@ namespace SAPTeam.Kryptor.Extensions
     /// </summary>
     public static class EnumerableExtensions
     {
+#if !NET6_0_OR_GREATER
         /// <summary>
         /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
         /// </summary>
@@ -34,12 +35,13 @@ namespace SAPTeam.Kryptor.Extensions
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="size"/> is below 1.
         /// </exception>
-        public static IEnumerable<TSource[]> ChunkCompat<TSource>(this IEnumerable<TSource> source, int size)
+        public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
         {
             return source == null
                 ? throw new ArgumentNullException("source")
                 : size < 1 ? throw new ArgumentOutOfRangeException("size") : ChunkIterator(source, size);
         }
+#endif
 
         /// <summary>
         /// Finds given pattern in a byte array.

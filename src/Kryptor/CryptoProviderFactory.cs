@@ -41,7 +41,7 @@ namespace SAPTeam.Kryptor
         /// The additional identifiers. Acts like a shortcut. Hints uses the same prefix.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-#if NET8_0
+#if NET8_0_OR_GREATER
         public static void RegisterProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string prefix, string displayName, params string[] hints)
 #else
         public static void RegisterProvider<T>(string prefix, string displayName, params string[] hints)
