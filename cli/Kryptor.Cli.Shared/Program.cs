@@ -43,6 +43,7 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Kryptor Client Utility Version: {Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
                     Console.WriteLine($"Kryptor Engine Version: {Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}");
                     Console.WriteLine($"KES API Version: {Kes.Version}");
+                    Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion}");
                 }
             }, globalOptionsBinder, verInfo);
 
