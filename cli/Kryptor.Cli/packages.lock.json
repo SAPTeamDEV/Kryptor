@@ -161,7 +161,6 @@
         "type": "Project",
         "dependencies": {
           "Ensure.That": "[10.1.0, )",
-          "Newtonsoft.Json": "[13.0.3, )",
           "RandomDataGenerator.Net": "[1.0.17, )",
           "System.Memory": "[4.5.5, )",
           "System.ValueTuple": "[4.5.0, )",

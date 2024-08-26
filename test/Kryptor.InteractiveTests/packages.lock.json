@@ -17,11 +17,6 @@
         "resolved": "4.2.0",
         "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
       "RandomDataGenerator.Net": {
         "type": "Transitive",
         "resolved": "1.0.17",
@@ -50,7 +45,6 @@
         "type": "Project",
         "dependencies": {
           "Ensure.That": "[10.1.0, )",
-          "Newtonsoft.Json": "[13.0.3, )",
           "RandomDataGenerator.Net": "[1.0.17, )",
           "System.Memory": "[4.5.5, )",
           "System.ValueTuple": "[4.5.0, )",

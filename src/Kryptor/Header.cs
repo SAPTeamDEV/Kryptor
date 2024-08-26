@@ -2,8 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 
+
+#if NET6_0_OR_GREATER
+using System.Text.Json;
+using System.Text.Json.Serialization;
+#else
 using Newtonsoft.Json;
+#endif
 
 using SAPTeam.Kryptor.Extensions;
 
@@ -158,6 +165,22 @@ namespace SAPTeam.Kryptor
             return header;
         }
 
+#if NET6_0_OR_GREATER
+        static readonly JsonSerializerOptions jOptions = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+        };
+
+        private static string ToJson(object obj)
+        {
+            return JsonSerializer.Serialize(obj, jOptions);
+        }
+
+        private static T ReadJson<T>(string json)
+        {
+            return JsonSerializer.Deserialize<T>(json, jOptions);
+        }
+#else
         private static readonly JsonSerializerSettings jSettings = new JsonSerializerSettings()
         {
             DefaultValueHandling = DefaultValueHandling.Ignore,
@@ -168,5 +191,6 @@ namespace SAPTeam.Kryptor
         private static string ToJson(object obj) => JsonConvert.SerializeObject(obj, jSettings);
 
         private static T ReadJson<T>(string json) => JsonConvert.DeserializeObject<T>(json, jSettings);
+#endif
     }
 }
