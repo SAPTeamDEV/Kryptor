@@ -47,7 +47,7 @@ namespace SAPTeam.Kryptor.Cli
 
             if (hVerbose > 0)
             {
-                if (header.Version != Kes.Version)
+                if (header.Version < Kes.MinimumSupportedVersion)
                 {
                     Description = header.ClientName != null
                         ? $"You must use {header.ClientName} v{header.ClientVersion}"

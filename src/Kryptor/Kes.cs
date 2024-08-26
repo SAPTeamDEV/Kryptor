@@ -221,11 +221,11 @@ namespace SAPTeam.Kryptor
         {
             Header header = Header.ReadHeader<Header>(source);
 
-            if (header.Version != null && header.Version != Version)
+            if (header.Version != null && header.Version < MinimumSupportedVersion)
             {
                 if (header.EngineVersion != null)
                 {
-                    throw new InvalidOperationException($"Encryptor api version is not supported. You must use kryptor v{header.EngineVersion}");
+                    throw new InvalidOperationException($"Encryptor api version is not supported. You must use kryptor engine v{header.EngineVersion}");
                 }
                 else
                 {
