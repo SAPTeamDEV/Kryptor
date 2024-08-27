@@ -59,16 +59,6 @@
         "resolved": "2.0.0-beta4.22272.1",
         "contentHash": "1uqED/q2H0kKoLJ4+hI2iPSBSEdTuhfCYADeJrAqERmiGQ2NNacYKRNEQ+gFbU4glgVyK8rxI+ZOe1onEtr/Pg=="
       },
-      "Ensure.That": {
-        "type": "Transitive",
-        "resolved": "10.1.0",
-        "contentHash": "rzTMSs0lQnu0WsesvTjs/zDzqiZXb9r5dv+wFQcPg/iIZqXb5BzwpIWEwi8Q3HA0TS4ytRcY129aSek6IzuOmA=="
-      },
-      "Fare": {
-        "type": "Transitive",
-        "resolved": "2.2.0",
-        "contentHash": "KQiRf7ZsxtM7ue768Wm1mnA7JfwbSJ1kUQv3+6U4LheJ/4aKITiVMsE6GPOrwKqBY9h/ROUpILyyZsJl76j7aQ=="
-      },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
         "resolved": "1.1.1",
@@ -120,15 +110,6 @@
         "resolved": "4.2.0",
         "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
       },
-      "RandomDataGenerator.Net": {
-        "type": "Transitive",
-        "resolved": "1.0.17",
-        "contentHash": "pNKMXcv3wxPUfk5JMR2m+2KQNGX5srD0J4bIGaZDC48H5v8TkbrZtd3WNtdIA4WiQwi9iKLRl24q6EIprKvD8A==",
-        "dependencies": {
-          "Fare": "2.2.0",
-          "Stef.Validation": "0.1.0"
-        }
-      },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
         "resolved": "3.0.2",
@@ -136,21 +117,6 @@
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         }
-      },
-      "Stef.Validation": {
-        "type": "Transitive",
-        "resolved": "0.1.0",
-        "contentHash": "WWIzJ2WNoqRgHL23At3xFFw56I4YeWUJ35a7Rsgv9V0FIjZb3gY/4e8DqH0M2I9KOU8MBfKl5a7B9EtjvnI9dg=="
-      },
-      "System.Memory": {
-        "type": "Transitive",
-        "resolved": "4.5.5",
-        "contentHash": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw=="
-      },
-      "System.ValueTuple": {
-        "type": "Transitive",
-        "resolved": "4.5.0",
-        "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
       },
       "ZstdSharp.Port": {
         "type": "Transitive",
@@ -160,10 +126,6 @@
       "SAPTeam.Kryptor": {
         "type": "Project",
         "dependencies": {
-          "Ensure.That": "[10.1.0, )",
-          "RandomDataGenerator.Net": "[1.0.17, )",
-          "System.Memory": "[4.5.5, )",
-          "System.ValueTuple": "[4.5.0, )",
           "morelinq": "[4.2.0, )"
         }
       },
@@ -233,16 +195,6 @@
         "resolved": "2.0.0-beta4.22272.1",
         "contentHash": "1uqED/q2H0kKoLJ4+hI2iPSBSEdTuhfCYADeJrAqERmiGQ2NNacYKRNEQ+gFbU4glgVyK8rxI+ZOe1onEtr/Pg=="
       },
-      "Ensure.That": {
-        "type": "Transitive",
-        "resolved": "10.1.0",
-        "contentHash": "rzTMSs0lQnu0WsesvTjs/zDzqiZXb9r5dv+wFQcPg/iIZqXb5BzwpIWEwi8Q3HA0TS4ytRcY129aSek6IzuOmA=="
-      },
-      "Fare": {
-        "type": "Transitive",
-        "resolved": "2.2.0",
-        "contentHash": "KQiRf7ZsxtM7ue768Wm1mnA7JfwbSJ1kUQv3+6U4LheJ/4aKITiVMsE6GPOrwKqBY9h/ROUpILyyZsJl76j7aQ=="
-      },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
         "resolved": "1.1.1",
@@ -294,15 +246,6 @@
         "resolved": "4.2.0",
         "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
       },
-      "RandomDataGenerator.Net": {
-        "type": "Transitive",
-        "resolved": "1.0.17",
-        "contentHash": "pNKMXcv3wxPUfk5JMR2m+2KQNGX5srD0J4bIGaZDC48H5v8TkbrZtd3WNtdIA4WiQwi9iKLRl24q6EIprKvD8A==",
-        "dependencies": {
-          "Fare": "2.2.0",
-          "Stef.Validation": "0.1.0"
-        }
-      },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
         "resolved": "3.0.2",
@@ -310,16 +253,6 @@
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         }
-      },
-      "Stef.Validation": {
-        "type": "Transitive",
-        "resolved": "0.1.0",
-        "contentHash": "WWIzJ2WNoqRgHL23At3xFFw56I4YeWUJ35a7Rsgv9V0FIjZb3gY/4e8DqH0M2I9KOU8MBfKl5a7B9EtjvnI9dg=="
-      },
-      "System.Memory": {
-        "type": "Transitive",
-        "resolved": "4.5.5",
-        "contentHash": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw=="
       },
       "System.ValueTuple": {
         "type": "Transitive",
@@ -334,10 +267,7 @@
       "SAPTeam.Kryptor": {
         "type": "Project",
         "dependencies": {
-          "Ensure.That": "[10.1.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
-          "RandomDataGenerator.Net": "[1.0.17, )",
-          "System.Memory": "[4.5.5, )",
           "System.ValueTuple": "[4.5.0, )",
           "morelinq": "[4.2.0, )"
         }

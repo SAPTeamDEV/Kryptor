@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using EnsureThat;
-
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Generators;
 
@@ -49,7 +47,8 @@ namespace SAPTeam.Kryptor
         /// </param>
         public KeyStore(byte[] bytes)
         {
-            Ensure.Enumerable.HasItems(bytes, nameof(bytes));
+            if (bytes == null) throw new ArgumentNullException(nameof(bytes));
+            if (bytes.Length == 0) throw new ArgumentException($"The keys array is empty");
 
             Raw = bytes;
             Keys = Raw.Chunk(32).Where(x => x.Length == 32).ToArray();

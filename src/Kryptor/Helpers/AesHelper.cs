@@ -1,9 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-
-using EnsureThat;
 
 namespace SAPTeam.Kryptor.Helpers
 {
@@ -12,6 +11,22 @@ namespace SAPTeam.Kryptor.Helpers
     /// </summary>
     public static class AesHelper
     {
+        internal static void CheckArgument(byte[] arg, string paramName, int size = 0)
+        {
+            if (arg == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+            else if (arg.Length == 0)
+            {
+                throw new ArgumentException($"{paramName} argument is empty");
+            }
+            else if (size > 0 && arg.Length != size)
+            {
+                throw new ArgumentException($"The expected size for {paramName} is {size}");
+            }
+        }
+
         /// <summary>
         /// Encrypts data with AES-ECB algorithm.
         /// </summary>
@@ -27,9 +42,8 @@ namespace SAPTeam.Kryptor.Helpers
         /// <returns></returns>
         public static async Task<byte[]> EncryptAesEcbAsync(byte[] data, byte[] key, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+            CheckArgument(data, nameof(data));
+            CheckArgument(key, nameof(key), 32);
 
             using (Aes aesAlg = Aes.Create())
             {
@@ -66,9 +80,8 @@ namespace SAPTeam.Kryptor.Helpers
         /// <returns></returns>
         public static async Task<byte[]> DecryptAesEcbAsync(byte[] data, byte[] key, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
+            CheckArgument(data, nameof(data));
+            CheckArgument(key, nameof(key), 32);
 
             using (Aes aesAlg = Aes.Create())
             {
@@ -123,10 +136,8 @@ namespace SAPTeam.Kryptor.Helpers
         /// <returns></returns>
         public static async Task<byte[]> EncryptAesCbcAsync(byte[] data, byte[] key, byte[] iv, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
-            Ensure.Enumerable.SizeIs(iv, 16, nameof(iv));
+            CheckArgument(key, nameof(key), 32);
+            CheckArgument(iv, nameof(iv), 16);
 
             using (Aes aesAlg = Aes.Create())
             {
@@ -167,10 +178,8 @@ namespace SAPTeam.Kryptor.Helpers
         /// <returns></returns>
         public static async Task<byte[]> DecryptAesCbcAsync(byte[] data, byte[] key, byte[] iv, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
-            Ensure.Enumerable.HasItems(key, nameof(key));
-            Ensure.Enumerable.SizeIs(key, 32, nameof(key));
-            Ensure.Enumerable.SizeIs(iv, 16, nameof(iv));
+            CheckArgument(key, nameof(key), 32);
+            CheckArgument(iv, nameof(iv), 16);
 
             using (Aes aesAlg = Aes.Create())
             {

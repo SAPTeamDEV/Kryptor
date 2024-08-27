@@ -44,16 +44,6 @@
         "resolved": "2.4.5",
         "contentHash": "OwHamvBdUKgqsXfBzWiCW/O98BTx81UKzx2bieIOQI7CZFE5NEQZGi8PBQGIKawDW96xeRffiNf20SjfC0x9hw=="
       },
-      "Ensure.That": {
-        "type": "Transitive",
-        "resolved": "10.1.0",
-        "contentHash": "rzTMSs0lQnu0WsesvTjs/zDzqiZXb9r5dv+wFQcPg/iIZqXb5BzwpIWEwi8Q3HA0TS4ytRcY129aSek6IzuOmA=="
-      },
-      "Fare": {
-        "type": "Transitive",
-        "resolved": "2.2.0",
-        "contentHash": "KQiRf7ZsxtM7ue768Wm1mnA7JfwbSJ1kUQv3+6U4LheJ/4aKITiVMsE6GPOrwKqBY9h/ROUpILyyZsJl76j7aQ=="
-      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "17.5.0",
@@ -163,15 +153,6 @@
         "resolved": "5.11.0",
         "contentHash": "eaiXkUjC4NPcquGWzAGMXjuxvLwc6XGKMptSyOGQeT0X70BUZObuybJFZLA0OfTdueLd3US23NBPTBb6iF3V1Q=="
       },
-      "RandomDataGenerator.Net": {
-        "type": "Transitive",
-        "resolved": "1.0.17",
-        "contentHash": "pNKMXcv3wxPUfk5JMR2m+2KQNGX5srD0J4bIGaZDC48H5v8TkbrZtd3WNtdIA4WiQwi9iKLRl24q6EIprKvD8A==",
-        "dependencies": {
-          "Fare": "2.2.0",
-          "Stef.Validation": "0.1.0"
-        }
-      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl": {
         "type": "Transitive",
         "resolved": "4.3.0",
@@ -278,11 +259,6 @@
         "type": "Transitive",
         "resolved": "4.3.0",
         "contentHash": "VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg=="
-      },
-      "Stef.Validation": {
-        "type": "Transitive",
-        "resolved": "0.1.0",
-        "contentHash": "WWIzJ2WNoqRgHL23At3xFFw56I4YeWUJ35a7Rsgv9V0FIjZb3gY/4e8DqH0M2I9KOU8MBfKl5a7B9EtjvnI9dg=="
       },
       "System.AppContext": {
         "type": "Transitive",
@@ -527,11 +503,6 @@
           "System.Runtime.Extensions": "4.3.0",
           "System.Threading": "4.3.0"
         }
-      },
-      "System.Memory": {
-        "type": "Transitive",
-        "resolved": "4.5.5",
-        "contentHash": "XIWiDvKPXaTveaB7HVganDlOCRoj03l+jrwNvcge/t8vhGYKvqV+dMv6G4SAX2NoNmN0wZfVPTAlFwZcZvVOUw=="
       },
       "System.Net.Http": {
         "type": "Transitive",
@@ -1067,10 +1038,7 @@
       "SAPTeam.Kryptor": {
         "type": "Project",
         "dependencies": {
-          "Ensure.That": "[10.1.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
-          "RandomDataGenerator.Net": "[1.0.17, )",
-          "System.Memory": "[4.5.5, )",
           "System.ValueTuple": "[4.5.0, )",
           "morelinq": "[4.2.0, )"
         }

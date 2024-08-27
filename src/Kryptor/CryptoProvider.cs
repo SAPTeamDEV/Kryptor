@@ -5,10 +5,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-using EnsureThat;
-
 using SAPTeam.Kryptor.CryptoProviders;
 using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor
 {
@@ -97,7 +96,7 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
+            AesHelper.CheckArgument(data, nameof(data));
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
@@ -131,7 +130,7 @@ namespace SAPTeam.Kryptor
         /// <returns>Decrypted data block.</returns>
         public virtual async Task<byte[]> DecryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
-            Ensure.Enumerable.HasItems(data, nameof(data));
+            AesHelper.CheckArgument(data, nameof(data));
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)
             {
