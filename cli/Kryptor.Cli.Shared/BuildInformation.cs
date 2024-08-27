@@ -39,15 +39,16 @@ namespace SAPTeam.Kryptor.Cli
             Branch = BuildBranch.None;
 #endif
 
-            string format = "M/d/yyyy h:mm:ss tt";
-            string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;
+            var platformInfo = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();
+
+            string format = "MM/dd/yyyy HH:mm:ss";
+            string dateTimeString = platformInfo.CompileTime;
 
             // Parse the string into a DateTime object
             DateTime parsedDateTime = DateTime.ParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
 
             BuildTime = parsedDateTime;
 
-            var platformInfo = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();
             TargetPlatform = platformInfo.RuntimeIdentifier;
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 
