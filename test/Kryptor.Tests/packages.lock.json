@@ -87,11 +87,6 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "morelinq": {
-        "type": "Transitive",
-        "resolved": "4.2.0",
-        "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
-      },
       "NETStandard.Library": {
         "type": "Transitive",
         "resolved": "1.6.1",
@@ -1039,8 +1034,8 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "[13.0.3, )",
-          "System.ValueTuple": "[4.5.0, )",
-          "morelinq": "[4.2.0, )"
+          "System.Runtime.InteropServices.RuntimeInformation": "[4.3.0, )",
+          "System.ValueTuple": "[4.5.0, )"
         }
       }
     }

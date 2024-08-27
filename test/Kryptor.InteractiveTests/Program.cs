@@ -1,7 +1,5 @@
 ﻿using System.Text;
 
-using MoreLinq;
-
 using SAPTeam.Kryptor;
 
 /*
@@ -80,7 +78,7 @@ internal class Program
                 mult = 1;
             }
 
-            text = string.Concat(input.Repeat(mult));
+            text = string.Concat(Enumerable.Repeat(input, mult));
 
             MemoryStream source = new MemoryStream(Encoding.UTF8.GetBytes(text));
             MemoryStream dest = new MemoryStream();

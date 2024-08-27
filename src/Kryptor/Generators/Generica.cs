@@ -3,9 +3,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-using MoreLinq;
-using MoreLinq.Extensions;
-
 using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Generators
@@ -69,7 +66,7 @@ namespace SAPTeam.Kryptor.Generators
 
             byte[] hashes = new byte[3][]
             {
-                _sha512.ComputeHash(Encode(MoreEnumerable.Repeat(ChangeCase(_seed, (_salt[26] * _salt[7]) + (buffer.Length % 13)), Math.Max(buffer.Length % 10, 1)).ToArray())),
+                _sha512.ComputeHash(Encode(Enumerable.Repeat(ChangeCase(_seed, (_salt[26] * _salt[7]) + (buffer.Length % 13)), Math.Max(buffer.Length % 10, 1)).SelectMany(x => x).ToArray())),
                 _sha384.ComputeHash(Encode(new string(_seed.Chunk(_sCount / 2).Last()).PadRight(_sCount * 2, Convert.ToString(_sha512.ComputeHash(tl)).Replace("-", "")[5]).PadLeft(_sCount * 5, Convert.ToString(_sha384.ComputeHash(tl.Base64EncodeToByte())).Replace("-", "")[6]))),
                 _sha256.ComputeHash(Encode(ChangeCase(Convert.ToBase64String(Encode(_seed)), _seed[19] + (buffer.Length % 7))))
             }.SelectMany(x => x).OrderBy(x => x * 9 % 24).ToArray();

@@ -2,16 +2,8 @@
   "version": 1,
   "dependencies": {
     "net6.0": {
-      "morelinq": {
-        "type": "Transitive",
-        "resolved": "4.2.0",
-        "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
-      },
       "SAPTeam.Kryptor": {
-        "type": "Project",
-        "dependencies": {
-          "morelinq": "[4.2.0, )"
-        }
+        "type": "Project"
       }
     }
   }

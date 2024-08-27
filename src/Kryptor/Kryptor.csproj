@@ -33,7 +33,6 @@
   </ItemGroup>
     
     <ItemGroup>
-    <PackageReference Include="morelinq" Version="4.2.0" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
     </ItemGroup>
@@ -41,6 +40,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net6.0' ">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
     
 </Project>
