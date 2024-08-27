@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using MoreLinq;
+
 using Newtonsoft.Json.Linq;
 
 using SAPTeam.Kryptor.Client;
@@ -39,10 +41,18 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (verInfoT)
                 {
-                    Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {Context.Variant} for .NET {Context.FrameworkType} {Context.FrameworkVersion}");
-                    Console.WriteLine($"Application Version: {Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
-                    Console.WriteLine($"Kryptor Client Utility Version: {Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
-                    Console.WriteLine($"Kryptor Engine Version: {Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version}");
+                    Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {BuildInformation.Variant} for {BuildInformation.TargetFramework}");
+                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime()}");
+                    Console.WriteLine($"Branch: {BuildInformation.Branch}");
+                    if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
+                    {
+                        var platformStr = $"Platform: {BuildInformation.TargetPlatform}";
+                        if (BuildInformation.IsAot) platformStr += " (AOT)";
+                        Console.WriteLine(platformStr);
+                    }
+                    Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
+                    Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion}");
+                    Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
                     Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
                 }

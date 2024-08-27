@@ -27,9 +27,9 @@
     <NoWarn>1701;1702;8618;NU1701;8602;8604;8002</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
+  <!--<PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
     <InformationalVersion>$(AssemblyVersion)-$(Configuration)</InformationalVersion>
-  </PropertyGroup>
+  </PropertyGroup>-->
   
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
@@ -44,6 +44,16 @@
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor.Client\Kryptor.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Include must be the fully qualified .NET type name of the Attribute to create. -->
+    <AssemblyAttribute Include="SAPTeam.Kryptor.Cli.AssemblyPlatformAttribute">
+      <!-- _Parameter1, _Parameter2, etc. correspond to the
+        matching parameter of a constructor of that .NET attribute type -->
+      <_Parameter1>$(TargetFramework)</_Parameter1>
+      <_Parameter2>$(RuntimeIdentifier)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+  
   <Import Project="Kryptor.Cli.Shared\Kryptor.Cli.Shared.projitems" Label="Shared" />
   <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(CliRootPath)..))" />
 </Project>

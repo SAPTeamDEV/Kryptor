@@ -3,7 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <PublishAot>true</PublishAot>
+    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
    </PropertyGroup>
+
+  <PropertyGroup Condition="'$(_IsPublishing)' != ''">
+    <DefineConstants>$(DefineConstants);AOT</DefineConstants>
+  </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="ANSI.Console" Version="2.5.0" />

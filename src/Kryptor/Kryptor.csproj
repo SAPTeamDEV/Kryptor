@@ -16,6 +16,7 @@
     
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
    </PropertyGroup>
 
   <ItemGroup>

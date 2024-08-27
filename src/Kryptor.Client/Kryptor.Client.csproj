@@ -14,6 +14,8 @@
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    
+    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
    </PropertyGroup>
 
     <ItemGroup>

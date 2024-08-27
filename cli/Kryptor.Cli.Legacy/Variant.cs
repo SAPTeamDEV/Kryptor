@@ -6,20 +6,10 @@ using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Cli
 {
-    public partial class CliContext
+    internal static partial class BuildInformation
     {
-        public string Variant => "Legacy";
+        public static BuildVariant Variant => BuildVariant.Legacy;
 
-        public string FrameworkType => "Framework";
-
-        public string FrameworkVersion =>
-#if NET462
-            "4.6.2"
-#elif NET472
-            "4.7.2"
-#elif NET481
-            "4.8.1"
-#endif
-            ;
+        public static bool IsAot => false;
     }
 }

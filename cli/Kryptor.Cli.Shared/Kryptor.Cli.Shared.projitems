@@ -9,6 +9,10 @@
     <Import_RootNamespace>Kryptor.Cli.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyPlatformAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BuildBranch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BuildInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BuildVariant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliSessionHost.cs" />
