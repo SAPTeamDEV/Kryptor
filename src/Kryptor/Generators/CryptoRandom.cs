@@ -13,7 +13,7 @@ namespace SAPTeam.Kryptor.Generators
     /// </summary>
     public class CryptoRandom : Random, IGenerator
     {
-        private readonly RNGCryptoServiceProvider _rng = new RNGCryptoServiceProvider();
+        private readonly RandomNumberGenerator _rng = RandomNumberGenerator.Create();
 
         private byte[] _buffer;
 
