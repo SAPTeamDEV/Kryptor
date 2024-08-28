@@ -19,12 +19,10 @@
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove=".github\**" />
-    <EmbeddedResource Remove=".github\**" />
-    <None Remove=".github\**" />
-  </ItemGroup>
-
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
+    <IsLegacyBuild>True</IsLegacyBuild>
+  </PropertyGroup>
+  
   <ItemGroup>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
@@ -37,10 +35,14 @@
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
     </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net6.0' ">
+  <ItemGroup Condition=" '$(IsLegacyBuild)' == 'True' ">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
-    
+
+  <ItemGroup Condition=" '$(IsLegacyBuild)' != 'True' ">
+    <Compile Remove="Helpers\RuntimeHelpers.cs" />
+  </ItemGroup>
+
 </Project>

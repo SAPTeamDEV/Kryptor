@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-#if !NET6_0_OR_GREATER
+
 namespace System
 {
     /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
@@ -214,4 +214,3 @@ namespace System.Runtime.CompilerServices
         }
     }
 }
-#endif
