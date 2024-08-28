@@ -2,41 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-/* Unmerged change from project 'Kryptor (net8.0)'
-Before:
-using System.Runtime;
-
-
-#if NET6_0_OR_GREATER
-After:
-using System.Runtime;
-
-#if NET6_0_OR_GREATER
-*/
-
-/* Unmerged change from project 'Kryptor (netstandard2.0)'
-Before:
-using System.Runtime;
-
-
-#if NET6_0_OR_GREATER
-After:
-using System.Runtime;
-
-#if NET6_0_OR_GREATER
-*/
-
-/* Unmerged change from project 'Kryptor (net461)'
-Before:
-using System.Runtime;
-
-
-#if NET6_0_OR_GREATER
-After:
-using System.Runtime;
-
-#if NET6_0_OR_GREATER
-*/
 
 #if NET6_0_OR_GREATER
 using System.Text.Json;
@@ -56,6 +21,16 @@ namespace SAPTeam.Kryptor
     {
         private static readonly byte[] StartHeaderPattern = new byte[] { 2, 97, 7, 64, 159, 37, 46, 128 };
         private static readonly byte[] EndHeaderPattern = new byte[] { 97, 7, 64, 159, 37, 46, 128, 3 };
+
+#if NET6_0_OR_GREATER
+        /// <summary>
+        /// The source generated code of this header.
+        /// </summary>
+        /// <remarks>
+        /// IF YOU WANT TO CREATE YOUR OWN HEADER, YOU MUST REPLACE THIS PROPERTY.
+        /// </remarks>
+        protected virtual JsonSerializerContext JsonSerializerContext => SourceGenerationHeaderContext.Default;
+#endif
 
         /// <summary>
         /// Gets or sets the version of the encryptor api backend.
@@ -204,9 +179,17 @@ namespace SAPTeam.Kryptor
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
 
-        private static string ToJson(object obj) => JsonSerializer.Serialize(obj, jOptions);
+        private static string ToJson<T>(T obj)
+            where T : Header
+        {
+            return JsonSerializer.Serialize(obj, obj.GetType(), obj.JsonSerializerContext);
+        }
 
-        private static T ReadJson<T>(string json) => JsonSerializer.Deserialize<T>(json, jOptions);
+        private static T ReadJson<T>(string json)
+            where T : Header, new()
+        {
+            return JsonSerializer.Deserialize(json, typeof(T), new T().JsonSerializerContext) as T;
+        }
 #else
         private static readonly JsonSerializerSettings jSettings = new JsonSerializerSettings()
         {
@@ -220,4 +203,12 @@ namespace SAPTeam.Kryptor
         private static T ReadJson<T>(string json) => JsonConvert.DeserializeObject<T>(json, jSettings);
 #endif
     }
+
+#if NET6_0_OR_GREATER
+    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSerializable(typeof(Header))]
+    internal partial class SourceGenerationHeaderContext : JsonSerializerContext
+    {
+    }
+#endif
 }

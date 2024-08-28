@@ -1,5 +1,9 @@
 ﻿using System;
 
+#if NET6_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
+
 using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor.Client
@@ -10,6 +14,11 @@ namespace SAPTeam.Kryptor.Client
     public class ClientHeader : Header
     {
         private static readonly CryptoRandom crng = new CryptoRandom();
+
+#if NET6_0_OR_GREATER
+        /// <inheritdoc/>
+        protected override JsonSerializerContext JsonSerializerContext => SourceGenerationClientHeaderContext.Default;
+#endif
 
         /// <summary>
         /// Gets or sets the name of the encryptor client application.
@@ -45,4 +54,13 @@ namespace SAPTeam.Kryptor.Client
             Serial = string.Join("-", serial);
         }
     }
+
+#if NET6_0_OR_GREATER
+    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSerializable(typeof(Header))]
+    [JsonSerializable(typeof(ClientHeader))]
+    internal partial class SourceGenerationClientHeaderContext : JsonSerializerContext
+    {
+    }
+#endif
 }

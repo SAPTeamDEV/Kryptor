@@ -2,12 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
+#if NET6_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
+
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
     public class CliHeader : ClientHeader
     {
+#if NET6_0_OR_GREATER
+        /// <inheritdoc/>
+        protected override JsonSerializerContext JsonSerializerContext => SourceGenerationCliHeaderContext.Default;
+#endif
+
         public static ClientHeader Create()
         {
             Dictionary<string, string> extra = new Dictionary<string, string>
@@ -23,4 +32,14 @@ namespace SAPTeam.Kryptor.Cli
             };
         }
     }
+
+#if NET6_0_OR_GREATER
+    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSerializable(typeof(Header))]
+    [JsonSerializable(typeof(ClientHeader))]
+    [JsonSerializable(typeof(CliHeader))]
+    internal partial class SourceGenerationCliHeaderContext : JsonSerializerContext
+    {
+    }
+#endif
 }

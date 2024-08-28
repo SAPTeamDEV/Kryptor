@@ -11,6 +11,10 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
+#if AOT
+        Console.WriteLine("Running as AOT compiled code");
+#endif
+
         bool printlog = args.Length < 1;
         bool echoTexts = printlog;
         string text;

@@ -178,7 +178,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static CryptoProvider Create(KeyStore keyStore, CryptoProviderConfiguration configuration)
         {
-            CryptoProvider provider = (CryptoProvider)Activator.CreateInstance(ResolveProviderById(configuration.Id), keyStore, configuration);
+            CryptoProvider provider = Activator.CreateInstance(ResolveProviderById(configuration.Id), keyStore, configuration) as CryptoProvider;
 
             return provider;
         }

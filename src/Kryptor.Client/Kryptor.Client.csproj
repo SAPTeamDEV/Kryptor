@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;net6.0;net8.0</TargetFrameworks>
     <AssemblyName>SAPTeam.Kryptor.Client</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <PackageId>$(AssemblyName)</PackageId>
@@ -16,6 +16,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
    </PropertyGroup>
 
     <ItemGroup>
