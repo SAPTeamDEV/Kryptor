@@ -2,15 +2,6 @@ name: Kryptor CLI CI/CD
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy:
-        description: Create and Deploy package
-        type: boolean
-        default: true
-      nuget-deploy:
-        description: Deploy package to NuGet gallery
-        type: boolean
-        default: true
   push:
     paths:
       - 'src/Kryptor.Client/**'
@@ -33,17 +24,15 @@ env:
   build-path: 'src/Kryptor.Client/Kryptor.Client.csproj cli/*/*.csproj'
   test-path: ''
   deploy-path: 'src/Kryptor.Client/Kryptor.Client.csproj cli/*/*.csproj'
-  deploy: ${{ !contains(inputs.deploy, 'false') }}
-  nuget-deploy: ${{ !contains(inputs.nuget-deploy, 'false') }}
 
 jobs:
   dotnet:
     strategy:
       matrix:
         os: [ubuntu]
-        configuration: [Debug, Nuget]
+        configuration: [Nuget]
 
-    name: Build ${{ matrix.configuration }} on ${{ matrix.os }}
+    name: Build ${{ matrix.configuration }} Configuration on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}-latest
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
@@ -93,7 +82,7 @@ jobs:
   
       # Initialize CD
       - name: Create NuGet package
-        if: inputs.deploy && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
         run: |
           for TARGET in ${{ env.deploy-path }}
             do
@@ -101,7 +90,7 @@ jobs:
             done
         shell: bash
       - name: Upload build artifact
-        if: inputs.deploy && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: Kryptor-Cli-Packages-${{ github.sha }}
@@ -124,7 +113,7 @@ jobs:
     name: Deploy NuGet package
     needs: [dotnet]
     runs-on: ubuntu-latest
-    if: inputs.deploy && github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
     env:
       DO_DEPLOY: 'true'
     steps:
@@ -149,7 +138,7 @@ jobs:
           done
         shell: bash
       - name: Deploy to NuGet gallery
-        if: env.DO_DEPLOY == 'true' && inputs.nuget-deploy && github.ref_name == 'master'
+        if: env.DO_DEPLOY == 'true' && github.ref_name == 'master'
         continue-on-error: true
         run: |
           for TARGET in packs/*.*nupkg
