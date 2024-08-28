@@ -8,8 +8,6 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class BuildInformation
     {
-        public static BuildVariant Variant => BuildVariant.Standard;
-
-        public static bool IsAot => false;
+        public const BuildVariant Variant = BuildVariant.Standard;
     }
 }

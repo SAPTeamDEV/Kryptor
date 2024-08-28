@@ -11,9 +11,25 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class BuildInformation
     {
-        public static DateTime BuildTime { get; }
+#if DEBUG
+        public const BuildBranch Branch = BuildBranch.Debug;
+#elif NUGET
+        public const BuildBranch Branch = BuildBranch.Nuget;
+#elif INDEXER
+        public const BuildBranch Branch = BuildBranch.Indexer;
+#elif RELEASE
+        public const BuildBranch Branch = BuildBranch.Release;
+#else
+        public const BuildBranch Branch = BuildBranch.None;
+#endif
 
-        public static BuildBranch Branch { get; }
+#if AOT
+        public const bool IsAot = true;
+#else
+        public const bool IsAot = false;
+#endif
+
+        public static DateTime BuildTime { get; }
 
         public static string TargetPlatform { get; }
 
@@ -27,18 +43,6 @@ namespace SAPTeam.Kryptor.Cli
 
         static BuildInformation()
         {
-#if DEBUG
-            Branch = BuildBranch.Debug;
-#elif NUGET
-            Branch = BuildBranch.Nuget;
-#elif INDEXER
-            Branch = BuildBranch.Indexer;
-#elif RELEASE
-            Branch = BuildBranch.Release;
-#else
-            Branch = BuildBranch.None;
-#endif
-
             string format = "MM/dd/yyyy HH:mm:ss";
             string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;
 
