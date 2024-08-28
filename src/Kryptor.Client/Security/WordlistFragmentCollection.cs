@@ -76,7 +76,7 @@ namespace SAPTeam.Kryptor.Client.Security
         private async Task<HashSet<string>> InitializeFragment(int id, string lPath, CancellationToken cancellationToken)
         {
             HashSet<string> fragment = new HashSet<string>();
-            var metadata = IndexEntry.GetMetadata().Where(x => x.FragmentId == id).First();
+            WordlistVerificationMetadata metadata = IndexEntry.GetMetadata().Where(x => x.FragmentId == id).First();
             bool isCompatible = false;
 
             using (StreamReader streamReader = new StreamReader(lPath, Encoding.UTF8))
@@ -96,12 +96,7 @@ namespace SAPTeam.Kryptor.Client.Security
                 }
             }
 
-            if (!isCompatible)
-            {
-                throw new NotSupportedException("The wordlist is not compatible with this version");
-            }
-
-            return fragment;
+            return !isCompatible ? throw new NotSupportedException("The wordlist is not compatible with this version") : fragment;
         }
 
         private void VerifyFragment(Stream stream, WordlistVerificationMetadata metadata)
@@ -109,8 +104,8 @@ namespace SAPTeam.Kryptor.Client.Security
             if (metadata == null) throw new ArgumentNullException("metadata");
             if (stream == null) throw new ArgumentNullException("stream");
 
-            var fragmentHash = stream.Sha256();
-            var fragmentChecksum = Utilities.XOR(IndexEntry.Hash, fragmentHash);
+            byte[] fragmentHash = stream.Sha256();
+            byte[] fragmentChecksum = Utilities.XOR(IndexEntry.Hash, fragmentHash);
 
             if (!metadata.Checksum.SequenceEqual(fragmentChecksum))
             {

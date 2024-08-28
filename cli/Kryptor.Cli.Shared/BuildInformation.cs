@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 using SAPTeam.Kryptor.Client;
 
@@ -51,7 +49,7 @@ namespace SAPTeam.Kryptor.Cli
 
             BuildTime = parsedDateTime;
 
-            var platformInfo = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();
+            AssemblyPlatformAttribute platformInfo = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();
             TargetPlatform = platformInfo.RuntimeIdentifier;
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 

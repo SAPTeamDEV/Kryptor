@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         private readonly WordlistIndexEntry IndexEntry;
         private readonly string FilePath;
-        private bool Optimize;
+        private readonly bool Optimize;
 
         public ImportSessionHost(GlobalOptions globalOptions, string id, bool enforce, bool optimize, string file) : base(globalOptions)
         {

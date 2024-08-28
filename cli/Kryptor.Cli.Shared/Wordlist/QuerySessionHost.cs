@@ -46,7 +46,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             ShowProgressMonitored(true).Wait();
 
-            var ranQueries = Container.Sessions.OfType<QuerySession>();
+            System.Collections.Generic.IEnumerable<QuerySession> ranQueries = Container.Sessions.OfType<QuerySession>();
             if (!ranQueries.Any()) return;
 
             Log();
@@ -56,7 +56,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             int notFound = 0;
             int failed = 0;
 
-            foreach (var s in ranQueries)
+            foreach (QuerySession s in ranQueries)
             {
                 if (s.EndReason == SessionEndReason.Completed)
                 {

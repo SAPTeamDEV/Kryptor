@@ -9,10 +9,6 @@ using System.Runtime.InteropServices;
 
 using MoreLinq;
 
-using Newtonsoft.Json.Linq;
-
-using SAPTeam.Kryptor.Client;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class Program
@@ -27,7 +23,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private static int Parse(string[] args)
         {
-            var verInfo = new Option<bool>("--full-version", "Show full version informations");
+            Option<bool> verInfo = new Option<bool>("--full-version", "Show full version informations");
             verInfo.AddAlias("-V");
 
             RootCommand root = new RootCommand("Kryptor Command-Line Interface")
@@ -42,16 +38,17 @@ namespace SAPTeam.Kryptor.Cli
                 if (verInfoT)
                 {
                     Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {BuildInformation.Variant} for {BuildInformation.TargetFramework}");
-                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime().ToString("MMM dd, yyyy HH:mm:ss zzz")}");
+                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss zzz}");
                     Console.WriteLine($"Branch: {BuildInformation.Branch}");
                     if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
                     {
-                        var platformStr = $"Platform: {BuildInformation.TargetPlatform}";
+                        string platformStr = $"Platform: {BuildInformation.TargetPlatform}";
 #if AOT
                         platformStr += " (AOT)";
 #endif
                         Console.WriteLine(platformStr);
                     }
+
                     Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
@@ -308,7 +305,7 @@ namespace SAPTeam.Kryptor.Cli
                 KeyStoreAnalyze.SessionHost sessionHost = new KeyStoreAnalyze.SessionHost(globalOptionsT, analyzeJobsT, keystoreT);
                 Context.NewSessionHost(sessionHost);
             }, globalOptionsBinder, analyzeJobs, keystore);
-            
+
             return anCmd;
         }
 
@@ -338,7 +335,7 @@ namespace SAPTeam.Kryptor.Cli
             wlCmd.AddCommand(wlQuryCmd);
 
             Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");
-            var doOptimize = new Option<bool>("--optimize", "Removes all duplicated entries from wordlists. Note: this process requires high amount of ram. if you recieve memory related exceptions, you must disable this option.");
+            Option<bool> doOptimize = new Option<bool>("--optimize", "Removes all duplicated entries from wordlists. Note: this process requires high amount of ram. if you recieve memory related exceptions, you must disable this option.");
 
             Command wlIndexCmd = new Command("index", "Generates index files (Internal use)")
             {
@@ -439,7 +436,7 @@ namespace SAPTeam.Kryptor.Cli
             }, globalOptionsBinder, importId, importEnforce, doOptimize, importFile);
 
             wlCmd.AddCommand(wlImpCmd);
-            
+
             return wlCmd;
         }
 
@@ -457,7 +454,7 @@ namespace SAPTeam.Kryptor.Cli
             root.AddGlobalOption(noColor);
 
             GlobalOptionsBinder globalOptionsBinder = new GlobalOptionsBinder(verbose, quiet, noColor);
-            
+
             return globalOptionsBinder;
         }
     }

@@ -28,10 +28,7 @@ namespace SAPTeam.Kryptor
         public virtual bool DynamicBlockProccessing { get; set; }
 
         /// <inheritdoc/>
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
+        public object Clone() => MemberwiseClone();
 
         /// <inheritdoc/>
         public bool Equals(CryptoProviderConfiguration other)
@@ -43,10 +40,7 @@ namespace SAPTeam.Kryptor
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            return obj is CryptoProviderConfiguration other && Equals(other);
-        }
+        public override bool Equals(object obj) => obj is CryptoProviderConfiguration other && Equals(other);
 
         /// <inheritdoc/>
         public override int GetHashCode()

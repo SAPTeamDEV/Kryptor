@@ -1,23 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.CryptoProviders;
-
-namespace SAPTeam.Kryptor.Tests
+﻿namespace SAPTeam.Kryptor.Tests
 {
     public class BackwardCompatibilityTests
     {
-        private readonly static byte[] data = Resources.SampleData;
-        private readonly static byte[] keyStoreData = Resources.KeyStoreData;
-        private readonly static KeyStore ks;
+        private static readonly byte[] data = Resources.SampleData;
+        private static readonly byte[] keyStoreData = Resources.KeyStoreData;
+        private static readonly KeyStore ks;
 
-        static BackwardCompatibilityTests()
-        {
-            ks = new KeyStore(keyStoreData);
-        }
+        static BackwardCompatibilityTests() => ks = new KeyStore(keyStoreData);
 
         [Fact]
         public void SKTest()
@@ -32,7 +21,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SK);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -54,7 +43,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TK);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -76,7 +65,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MV);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -98,7 +87,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -120,7 +109,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DE);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -143,7 +132,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuous);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -166,7 +155,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuous);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -189,7 +178,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuous);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -212,7 +201,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuous);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -235,7 +224,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuous);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -258,7 +247,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -281,7 +270,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -304,7 +293,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -327,7 +316,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -350,7 +339,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TKWithDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -373,7 +362,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -396,7 +385,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TPWithDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -419,7 +408,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -443,7 +432,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -467,7 +456,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -491,7 +480,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHash);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -515,7 +504,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -539,7 +528,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuousAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -563,7 +552,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -587,7 +576,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuousAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -611,7 +600,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -635,7 +624,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -659,7 +648,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -683,7 +672,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -708,7 +697,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -733,7 +722,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
@@ -758,7 +747,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHashAndDBP);
             MemoryStream ms3 = new MemoryStream();
 
-            var header = Header.ReadHeader<Header>(ms2);
+            Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);

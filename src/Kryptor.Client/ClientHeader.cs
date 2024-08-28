@@ -9,7 +9,7 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class ClientHeader : Header
     {
-        private static CryptoRandom crng = new CryptoRandom();
+        private static readonly CryptoRandom crng = new CryptoRandom();
 
         /// <summary>
         /// Gets or sets the name of the encryptor client application.

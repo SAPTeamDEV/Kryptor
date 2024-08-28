@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.CryptoProviders;
-
-namespace SAPTeam.Kryptor.Tests
+﻿namespace SAPTeam.Kryptor.Tests
 {
     public class DataIntegrityTests
     {
-        private readonly static byte[] data = Resources.SampleData;
-        private readonly static byte[] keyStoreData = Resources.KeyStoreData;
-        private readonly static KeyStore ks;
+        private static readonly byte[] data = Resources.SampleData;
+        private static readonly byte[] keyStoreData = Resources.KeyStoreData;
+        private static readonly KeyStore ks;
 
         static DataIntegrityTests()
         {
@@ -20,6 +12,7 @@ namespace SAPTeam.Kryptor.Tests
             {
                 Directory.CreateDirectory("testArt");
             }
+
             Directory.SetCurrentDirectory("testArt");
 
             ks = new KeyStore(keyStoreData);
@@ -37,7 +30,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SK", ms2.ToArray());
 
@@ -59,7 +52,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TK", ms2.ToArray());
 
@@ -81,7 +74,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MV", ms2.ToArray());
 
@@ -103,7 +96,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TP", ms2.ToArray());
 
@@ -125,7 +118,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DE", ms2.ToArray());
 
@@ -148,7 +141,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithContinuous", ms2.ToArray());
 
@@ -171,7 +164,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TKWithContinuous", ms2.ToArray());
 
@@ -194,7 +187,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithContinuous", ms2.ToArray());
 
@@ -217,7 +210,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TPWithContinuous", ms2.ToArray());
 
@@ -240,7 +233,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithContinuous", ms2.ToArray());
 
@@ -263,7 +256,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithRemoveHash", ms2.ToArray());
 
@@ -286,7 +279,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithRemoveHash", ms2.ToArray());
 
@@ -309,7 +302,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithRemoveHash", ms2.ToArray());
 
@@ -332,7 +325,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithDBP", ms2.ToArray());
 
@@ -355,7 +348,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TKWithDBP", ms2.ToArray());
 
@@ -378,7 +371,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithDBP", ms2.ToArray());
 
@@ -401,7 +394,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TPWithDBP", ms2.ToArray());
 
@@ -424,7 +417,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithDBP", ms2.ToArray());
 
@@ -448,7 +441,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithContinuousAndRemoveHash", ms2.ToArray());
 
@@ -472,7 +465,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithContinuousAndRemoveHash", ms2.ToArray());
 
@@ -496,7 +489,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithContinuousAndRemoveHash", ms2.ToArray());
 
@@ -520,7 +513,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithContinuousAndDBP", ms2.ToArray());
 
@@ -544,7 +537,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TKWithContinuousAndDBP", ms2.ToArray());
 
@@ -568,7 +561,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithContinuousAndDBP", ms2.ToArray());
 
@@ -592,7 +585,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("TPWithContinuousAndDBP", ms2.ToArray());
 
@@ -616,7 +609,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithContinuousAndDBP", ms2.ToArray());
 
@@ -640,7 +633,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithRemoveHashAndDBP", ms2.ToArray());
 
@@ -664,7 +657,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithRemoveHashAndDBP", ms2.ToArray());
 
@@ -688,7 +681,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithRemoveHashAndDBP", ms2.ToArray());
 
@@ -713,7 +706,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("SKWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
 
@@ -738,7 +731,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("MVWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
 
@@ -763,7 +756,7 @@ namespace SAPTeam.Kryptor.Tests
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            var header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
 
             File.WriteAllBytes("DEWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
 

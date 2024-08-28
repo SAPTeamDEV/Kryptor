@@ -140,10 +140,7 @@ namespace SAPTeam.Kryptor
         /// The id/hint of a registered crypto provider.
         /// </param>
         /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
-        public static Type ResolveProviderById(string id)
-        {
-            return GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
-        }
+        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
 
         /// <summary>
         /// Creates a <see cref="CryptoProvider"/> object to use with KES engine.
@@ -163,7 +160,7 @@ namespace SAPTeam.Kryptor
             {
                 Id = id,
             };
-            
+
             return Create(keyStore, configuration);
         }
 

@@ -20,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 {
     public class DownloadSession : Session
     {
-        private WordlistIndexEntry IndexEntry;
+        private readonly WordlistIndexEntry IndexEntry;
         private CancellationToken CancellationToken;
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
@@ -105,13 +105,13 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                     if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
                     {
-                        var reader = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Downloader.Package.FileName);
+                        SharpCompress.Archives.SevenZip.SevenZipArchive reader = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Downloader.Package.FileName);
                         reader.Entries.First().WriteToFile(OutputFile.FullName);
                         reader.Dispose();
                     }
                     else
                     {
-                        var reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
+                        IReader reader = ReaderFactory.Open(File.OpenRead(Downloader.Package.FileName));
                         reader.MoveToNextEntry();
                         reader.WriteEntryTo(OutputFile);
                         reader.Dispose();
@@ -162,7 +162,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
-                var dest = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
+                DirectoryInfo dest = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
 
                 if (!dest.Exists)
                 {

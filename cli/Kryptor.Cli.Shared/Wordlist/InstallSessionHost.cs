@@ -17,7 +17,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private readonly bool List;
         private readonly bool All;
         private readonly bool Recommended;
-        private bool Optimize;
+        private readonly bool Optimize;
         private readonly string[] Ids;
         private readonly bool Indexing;
 
@@ -109,8 +109,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 return;
             }
 
-            var downloadPath = Path.Combine(DownloadDir, entry.Id);
-            var installPath = Path.Combine(InstallDir, entry.Id);
+            string downloadPath = Path.Combine(DownloadDir, entry.Id);
+            string installPath = Path.Combine(InstallDir, entry.Id);
 
             DownloadSession downloader = new DownloadSession(entry, new DirectoryInfo(downloadPath));
             CompileSession compiler = new CompileSession(downloader.OutputFile.FullName, installPath, entry, optimize: Optimize, indexing: Indexing, importing: false);

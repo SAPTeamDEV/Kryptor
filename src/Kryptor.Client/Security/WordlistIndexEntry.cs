@@ -95,7 +95,7 @@ namespace SAPTeam.Kryptor.Client.Security
         {
             if (metadata == null || metadata.Length == 0)
             {
-                var json = File.ReadAllText(GetMetadataPath());
+                string json = File.ReadAllText(GetMetadataPath());
                 List<WordlistVerificationMetadata> data = JsonConvert.DeserializeObject<List<WordlistVerificationMetadata>>(json);
                 metadata = data.ToArray();
             }
@@ -117,7 +117,7 @@ namespace SAPTeam.Kryptor.Client.Security
         /// <exception cref="InvalidDataException"></exception>
         public bool CheckBasicValidity(bool throwException = false)
         {
-            var isValid = true;
+            bool isValid = true;
 
             if (string.IsNullOrEmpty(Id))
             {
@@ -189,18 +189,18 @@ namespace SAPTeam.Kryptor.Client.Security
         /// <exception cref="InvalidDataException"></exception>
         public bool Verify(bool throwException = false)
         {
-            var basicChecksPassed = CheckBasicValidity(throwException) && CheckInstallation(throwException);
+            bool basicChecksPassed = CheckBasicValidity(throwException) && CheckInstallation(throwException);
 
             if (!basicChecksPassed) return false;
 
             bool isVerified = true;
 
-            var metadata = GetMetadata();
+            WordlistVerificationMetadata[] metadata = GetMetadata();
 
-            foreach (var fragmentData in metadata)
+            foreach (WordlistVerificationMetadata fragmentData in metadata)
             {
                 bool validFragment = true;
-                var fragmentPath = Path.Combine(InstallDirectory, fragmentData.FragmentId.ToString());
+                string fragmentPath = Path.Combine(InstallDirectory, fragmentData.FragmentId.ToString());
 
                 if (!File.Exists(fragmentPath))
                 {
@@ -212,9 +212,9 @@ namespace SAPTeam.Kryptor.Client.Security
                 }
                 else
                 {
-                    var stream = File.OpenRead(fragmentPath);
-                    var hash = stream.Sha256();
-                    var checksum = Utilities.XOR(Hash, hash);
+                    FileStream stream = File.OpenRead(fragmentPath);
+                    byte[] hash = stream.Sha256();
+                    byte[] checksum = Utilities.XOR(Hash, hash);
 
                     if (!fragmentData.Checksum.SequenceEqual(checksum))
                     {
@@ -229,12 +229,7 @@ namespace SAPTeam.Kryptor.Client.Security
                 }
             }
 
-            if (throwException && !isVerified)
-            {
-                throw new InvalidDataException("The wordlist is not verified");
-            }
-
-            return isVerified;
+            return throwException && !isVerified ? throw new InvalidDataException("The wordlist is not verified") : isVerified;
         }
     }
 }

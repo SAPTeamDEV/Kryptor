@@ -29,7 +29,7 @@ namespace SAPTeam.Kryptor.Extensions
         /// <returns>The computed hash array.</returns>
         public static byte[] Sha256(this Stream stream, bool startFromOrigin = true)
         {
-            var curPos = stream.Position;
+            long curPos = stream.Position;
 
             if (startFromOrigin && stream.CanSeek)
             {

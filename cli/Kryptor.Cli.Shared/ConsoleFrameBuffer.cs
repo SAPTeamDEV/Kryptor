@@ -2,7 +2,7 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class ConsoleFrameBuffer
     {
-        private string[] LoadingFrameBuffer = new string[]
+        private readonly string[] LoadingFrameBuffer = new string[]
         {
             "||--",
             "|||-",
@@ -15,7 +15,7 @@ namespace SAPTeam.Kryptor.Cli
             "||--",
             "|---",
         };
-        private string[] WaitingFrameBuffer = new string[]
+        private readonly string[] WaitingFrameBuffer = new string[]
         {
             "|---",
             "||--",
@@ -29,7 +29,7 @@ namespace SAPTeam.Kryptor.Cli
             "----",
             "----",
         };
-        private string[] PausedFrameBuffer = new string[]
+        private readonly string[] PausedFrameBuffer = new string[]
         {
             "||||",
             "||||",

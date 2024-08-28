@@ -155,7 +155,7 @@ namespace SAPTeam.Kryptor.Client
         /// </returns>
         public static string EnsureDirectoryExists(string path)
         {
-            var absPath = Path.GetFullPath(path);
+            string absPath = Path.GetFullPath(path);
 
             if (!Directory.Exists(absPath))
             {
@@ -176,7 +176,7 @@ namespace SAPTeam.Kryptor.Client
         /// </returns>
         public static string EnsureFileExists(string path)
         {
-            var absPath = Path.GetFullPath(path);
+            string absPath = Path.GetFullPath(path);
 
             if (!File.Exists(absPath))
             {

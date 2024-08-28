@@ -28,7 +28,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public bool HasRequest => !Request.IsEmpty() && !Request.IsResponsed;
 
-        private object _requestLock = new object();
+        private readonly object _requestLock = new object();
         private MemoryStream mem;
         private ConsoleKeyInfo cKey;
         private bool _readerRunning;
@@ -98,7 +98,7 @@ namespace SAPTeam.Kryptor.Cli
             int paddingBufferSize = IsOutputRedirected ? 1 : bufferWidth;
 
             Stopwatch sw = null;
-            var animations = new ConsoleFrameBuffer();
+            ConsoleFrameBuffer animations = new ConsoleFrameBuffer();
             int qCounter = 0;
 
             if (!IsOutputRedirected)

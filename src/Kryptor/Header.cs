@@ -2,8 +2,41 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+/* Unmerged change from project 'Kryptor (net8.0)'
+Before:
 using System.Runtime;
 
+
+#if NET6_0_OR_GREATER
+After:
+using System.Runtime;
+
+#if NET6_0_OR_GREATER
+*/
+
+/* Unmerged change from project 'Kryptor (netstandard2.0)'
+Before:
+using System.Runtime;
+
+
+#if NET6_0_OR_GREATER
+After:
+using System.Runtime;
+
+#if NET6_0_OR_GREATER
+*/
+
+/* Unmerged change from project 'Kryptor (net461)'
+Before:
+using System.Runtime;
+
+
+#if NET6_0_OR_GREATER
+After:
+using System.Runtime;
+
+#if NET6_0_OR_GREATER
+*/
 
 #if NET6_0_OR_GREATER
 using System.Text.Json;
@@ -166,20 +199,14 @@ namespace SAPTeam.Kryptor
         }
 
 #if NET6_0_OR_GREATER
-        static readonly JsonSerializerOptions jOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerOptions jOptions = new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
 
-        private static string ToJson(object obj)
-        {
-            return JsonSerializer.Serialize(obj, jOptions);
-        }
+        private static string ToJson(object obj) => JsonSerializer.Serialize(obj, jOptions);
 
-        private static T ReadJson<T>(string json)
-        {
-            return JsonSerializer.Deserialize<T>(json, jOptions);
-        }
+        private static T ReadJson<T>(string json) => JsonSerializer.Deserialize<T>(json, jOptions);
 #else
         private static readonly JsonSerializerSettings jSettings = new JsonSerializerSettings()
         {

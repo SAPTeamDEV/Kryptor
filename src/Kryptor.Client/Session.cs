@@ -58,10 +58,7 @@ namespace SAPTeam.Kryptor.Client
         /// <inheritdoc/>
         public bool IsPaused
         {
-            get
-            {
-                return isPaused;
-            }
+            get => isPaused;
 
             protected set
             {
@@ -313,7 +310,7 @@ namespace SAPTeam.Kryptor.Client
         {
             IsPaused = true;
 
-            var response = await sessionHost.OnSessionRequest(this, request, cancellationToken);
+            TResponse response = await sessionHost.OnSessionRequest(this, request, cancellationToken);
 
             IsPaused = false;
 

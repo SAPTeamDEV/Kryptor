@@ -56,7 +56,7 @@ namespace SAPTeam.Kryptor.Cli
                 Description = destFileName;
                 await kes.EncryptAsync(sourceStream, destStream, header, cancellationToken);
 
-                var encSessionHost = (EncryptionSessionHost)sessionHost;
+                EncryptionSessionHost encSessionHost = (EncryptionSessionHost)sessionHost;
                 if (encSessionHost.UseKeyChain)
                 {
                     Description = "Creating keychain";

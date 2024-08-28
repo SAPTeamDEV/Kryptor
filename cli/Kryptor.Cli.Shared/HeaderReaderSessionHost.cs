@@ -9,10 +9,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         public string FilePath;
 
-        public HeaderReaderSessionHost(GlobalOptions globalOptions, string filePath) : base(globalOptions)
-        {
-            FilePath = filePath;
-        }
+        public HeaderReaderSessionHost(GlobalOptions globalOptions, string filePath) : base(globalOptions) => FilePath = filePath;
 
         public override void Start(ClientContext context)
         {
@@ -25,7 +22,7 @@ namespace SAPTeam.Kryptor.Cli
 
             DebugLog("Reading header");
 
-            var header = Header.ReadHeader<CliHeader>(File.OpenRead(FilePath));
+            CliHeader header = Header.ReadHeader<CliHeader>(File.OpenRead(FilePath));
 
             if (header.Verbosity == 0)
             {
@@ -57,7 +54,7 @@ namespace SAPTeam.Kryptor.Cli
                     Log($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
                 }
             }
-            
+
             if (Verbose && header.Extra != null)
             {
                 Log();

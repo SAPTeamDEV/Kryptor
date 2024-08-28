@@ -12,11 +12,11 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public class KeyChainCollection
     {
-        private object _saveLock = new object();
+        private readonly object _saveLock = new object();
 
-        private List<KeyChain> keyChainList;
-        
-        private JsonSerializerSettings settings = new JsonSerializerSettings()
+        private readonly List<KeyChain> keyChainList;
+
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
         {
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
@@ -40,7 +40,7 @@ namespace SAPTeam.Kryptor.Client
         {
             get
             {
-                var entries = keyChainList.Where(x => x.Serial == serial);
+                IEnumerable<KeyChain> entries = keyChainList.Where(x => x.Serial == serial);
                 if (!entries.Any())
                 {
                     throw new KeyNotFoundException(serial);
@@ -77,7 +77,7 @@ namespace SAPTeam.Kryptor.Client
             }
 
             string data = null;
-            using (var reader = new StreamReader(File.Open(FilePath, FileMode.OpenOrCreate)))
+            using (StreamReader reader = new StreamReader(File.Open(FilePath, FileMode.OpenOrCreate)))
             {
                 data = reader.ReadToEnd();
                 if (string.IsNullOrEmpty(data))

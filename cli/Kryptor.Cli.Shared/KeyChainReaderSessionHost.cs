@@ -3,8 +3,6 @@ using System.IO;
 
 using SAPTeam.Kryptor.Client;
 
-using SharpCompress.Common;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class KeyChainReaderSessionHost : CliSessionHost
@@ -27,11 +25,11 @@ namespace SAPTeam.Kryptor.Cli
                 throw new FileNotFoundException(FilePath);
             }
 
-            var keyChainCollection = new KeyChainCollection(KeyChainPath);
+            KeyChainCollection keyChainCollection = new KeyChainCollection(KeyChainPath);
 
             DebugLog("Reading header");
 
-            var header = Header.ReadHeader<CliHeader>(File.OpenRead(FilePath));
+            CliHeader header = Header.ReadHeader<CliHeader>(File.OpenRead(FilePath));
 
             if (string.IsNullOrEmpty(header.Serial))
             {

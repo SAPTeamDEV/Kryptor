@@ -22,7 +22,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private bool cleaned;
         private Dictionary<int, FileStream> fileStreams = new Dictionary<int, FileStream>();
         private Dictionary<int, string> lookupStrings = new Dictionary<int, string>();
-        private Regex regex = new Regex(@"[^\x20-\x7E]");
+        private readonly Regex regex = new Regex(@"[^\x20-\x7E]");
         private HashSet<string> uniqueLines = new HashSet<string>();
 
         public string FilePath;
@@ -93,10 +93,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             return true;
         }
 
-        private bool TryAddLine(string line)
-        {
-            return !Optimize || uniqueLines.Add(line);
-        }
+        private bool TryAddLine(string line) => !Optimize || uniqueLines.Add(line);
 
         private void Cleanup(bool deleteInstallation)
         {
@@ -174,7 +171,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             List<WordlistVerificationMetadata> metadata = new List<WordlistVerificationMetadata>();
 
-            foreach (var f in fileStreams)
+            foreach (KeyValuePair<int, FileStream> f in fileStreams)
             {
                 metadata.Add(new WordlistVerificationMetadata()
                 {
@@ -184,8 +181,8 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 });
             }
 
-            var mJson = JsonConvert.SerializeObject(metadata);
-            var mEncode = Encoding.UTF8.GetBytes(mJson);
+            string mJson = JsonConvert.SerializeObject(metadata);
+            byte[] mEncode = Encoding.UTF8.GetBytes(mJson);
 
             File.WriteAllBytes(Path.Combine(IndexEntry.InstallDirectory, "metadata.json"), mEncode);
         }

@@ -101,7 +101,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 foreach (WordlistIndexEntry entry in LocalIndex.Wordlists)
                 {
                     string text = $"| {entry.Id} | {entry.Name} | {entry.Lines.FormatWithCommas()} | {entry.Words.FormatWithCommas()} | {Utilities.ConvertBytes(entry.Size)} | [{(entry.Compressed ? "Compressed File" : "Text File")}]({entry.Uri.OriginalString}) |\n";
-                    var buffer = Encoding.UTF8.GetBytes(text);
+                    byte[] buffer = Encoding.UTF8.GetBytes(text);
                     f.Write(buffer, 0, buffer.Length);
                 }
 
