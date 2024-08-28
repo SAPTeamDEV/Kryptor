@@ -221,7 +221,7 @@ namespace SAPTeam.Kryptor
         {
             Header header = Header.ReadHeader<Header>(source);
 
-            if (header.Version != null && header.Version < MinimumSupportedVersion)
+            if (header.Version != null && (header.Version < MinimumSupportedVersion || header.Version > Version))
             {
                 if (header.EngineVersion != null)
                 {
