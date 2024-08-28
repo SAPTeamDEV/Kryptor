@@ -15,18 +15,22 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsPublishable>False</IsPublishable>
+    <NoWarn>1701;1702;CS0618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsPublishable>False</IsPublishable>
+    <NoWarn>1701;1702;CS0618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Indexer|AnyCPU'">
     <IsPublishable>False</IsPublishable>
+    <NoWarn>1701;1702;CS0618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Nuget|AnyCPU'">
     <IsPublishable>False</IsPublishable>
+    <NoWarn>1701;1702;CS0618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

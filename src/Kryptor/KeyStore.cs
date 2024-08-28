@@ -65,6 +65,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The new <see cref="KeyStore"/> instance.
         /// </returns>
+        [Obsolete("Use IGenerator classes such as CryptoRandom or UnixRandom")]
         public static KeyStore Generate(int count = 0)
         {
             if (count <= 0)
