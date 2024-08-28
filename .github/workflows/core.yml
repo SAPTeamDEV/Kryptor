@@ -108,7 +108,7 @@ jobs:
         if: inputs.deploy && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-Packages-${{ github.sha }}
+          name: Kryptor-Lib-Packages-${{ github.sha }}
           path: |
             __out__/*.*nupkg
         
@@ -140,7 +140,7 @@ jobs:
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: ${{ github.event.repository.name }}-Packages-${{ github.sha }}
+          name: Kryptor-Lib-Packages-${{ github.sha }}
           path: packs
       - name: Check artifacts
         run: |
