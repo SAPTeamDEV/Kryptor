@@ -16,9 +16,13 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
-    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
    </PropertyGroup>
 
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
+    <IsAotCompatible>true</IsAotCompatible>
+    <PublishTrimmed>True</PublishTrimmed>
+  </PropertyGroup>
+  
     <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />

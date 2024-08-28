@@ -14,17 +14,17 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Represents the abstract base class for KES Crypto Providers.
     /// </summary>
-    public abstract class CryptoProvider
+    public abstract class CryptoProvider : ICloneable
     {
         /// <summary>
         /// Gets the Decryption Chunk Size.
         /// </summary>
-        public readonly int DecryptionChunkSize = 32;
+        public virtual int DecryptionChunkSize => 32;
 
         /// <summary>
         /// Gets the Encryption Chunk Size.
         /// </summary>
-        public readonly int EncryptionChunkSize = 31;
+        public virtual int EncryptionChunkSize => 31;
 
         private CryptoProviderConfiguration configuration;
 
@@ -34,7 +34,7 @@ namespace SAPTeam.Kryptor
         public CryptoProviderConfiguration Configuration
         {
             get => configuration;
-            set
+            private set
             {
                 string selfId = CryptoProviderFactory.GetRegisteredCryptoProviderId(GetType());
                 if (value.Id != null && CryptoProviderFactory.GetRegisteredCryptoProviderId(value.Id) != selfId)
@@ -68,6 +68,24 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
+        /// Creates a fork with the same type as the current crypto provider
+        /// </summary>
+        /// <param name="keyStore"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        internal CryptoProvider Fork(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
+        {
+            if (Configuration != null)
+            {
+                throw new ApplicationException("Broken crypto provider instance storage");
+            }
+
+            var clone = Clone() as CryptoProvider;
+            clone.ApplyHeader(keyStore, configuration);
+            return clone;
+        }
+
+        /// <summary>
         /// Initializes a new crypto provider.
         /// </summary>
         /// <param name="keyStore">
@@ -76,7 +94,7 @@ namespace SAPTeam.Kryptor
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        protected CryptoProvider(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
+        protected virtual void ApplyHeader(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
             KeyStore = keyStore;
 
@@ -202,5 +220,8 @@ namespace SAPTeam.Kryptor
         /// </param>
         /// <returns>Decrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken);
+        
+        /// <inheritdoc/>
+        public object Clone() => MemberwiseClone();
     }
 }

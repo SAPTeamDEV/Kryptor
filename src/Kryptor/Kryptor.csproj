@@ -16,9 +16,13 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
-    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
    </PropertyGroup>
 
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
+    <IsAotCompatible>true</IsAotCompatible>
+    <PublishTrimmed>True</PublishTrimmed>
+  </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
     <IsLegacyBuild>True</IsLegacyBuild>
     <LangVersion>8.0</LangVersion>

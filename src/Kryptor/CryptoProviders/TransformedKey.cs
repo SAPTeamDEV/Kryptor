@@ -14,6 +14,14 @@ namespace SAPTeam.Kryptor.CryptoProviders
     public sealed class TransformedKey : CryptoProvider
     {
         /// <summary>
+        /// Creates an empty crypto provider.
+        /// </summary>
+        public TransformedKey()
+        {
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TransformedKey"/> class.
         /// </summary>
         /// <param name="keyStore">
@@ -22,8 +30,16 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public TransformedKey(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
+        public TransformedKey(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
+            ApplyHeader(keyStore, configuration);
+        }
+
+        /// <inheritdoc/>
+        protected override void ApplyHeader(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
+        {
+            base.ApplyHeader(keyStore, configuration);
+
             if (Configuration.RemoveHash)
             {
                 throw new NotImplementedException("This crypto provider does not supports remove hash feature.");

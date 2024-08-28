@@ -13,6 +13,14 @@ namespace SAPTeam.Kryptor.CryptoProviders
     public sealed class MixedVector : CryptoProvider
     {
         /// <summary>
+        /// Creates an empty crypto provider.
+        /// </summary>
+        public MixedVector()
+        {
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MixedVector"/> class.
         /// </summary>
         /// <param name="keyStore">
@@ -21,21 +29,12 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public MixedVector(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
+        public MixedVector(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
-
+            ApplyHeader(keyStore, configuration);
         }
 
         /// <inheritdoc/>
-
-        /* Unmerged change from project 'Kryptor (net461)'
-        Before:
-                protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken)
-                {
-                    return await AesHelper.EncryptAesCbcAsync(chunk, KeyStore[process.ChunkIndex], DynamicEncryption.CreateMixedIV(KeyStore, process), cancellationToken);
-        After:
-                protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken) await AesHelper.EncryptAesCbcAsync(chunk, KeyStore[process.ChunkIndex], DynamicEncryption.CreateMixedIV(KeyStore, process), cancellationToken);
-        */
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken) => await AesHelper.EncryptAesCbcAsync(chunk, KeyStore[process.ChunkIndex], DynamicEncryption.CreateMixedIV(KeyStore, process), cancellationToken);
 
         /// <inheritdoc/>

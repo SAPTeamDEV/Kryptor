@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor
     public static class CryptoProviderFactory
     {
         private static readonly bool allowKryptorPrefix = true;
-        private static readonly Dictionary<string, (string DisplayName, Type Type)> GlobalProviders = new Dictionary<string, (string DisplayName, Type Type)>();
+        private static readonly Dictionary<string, (string DisplayName, CryptoProvider Instance)> GlobalProviders = new Dictionary<string, (string DisplayName, CryptoProvider Instance)>();
         private static readonly Dictionary<string, string> GlobalHints = new Dictionary<string, string>();
 
         static CryptoProviderFactory()
@@ -41,24 +41,20 @@ namespace SAPTeam.Kryptor
         /// The additional identifiers. Acts like a shortcut. Hints uses the same prefix.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-#if NET8_0_OR_GREATER
-        public static void RegisterProvider<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string prefix, string displayName, params string[] hints)
-#else
         public static void RegisterProvider<T>(string prefix, string displayName, params string[] hints)
-#endif
-            where T : CryptoProvider
+            where T : CryptoProvider, new()
         {
             if (!allowKryptorPrefix && prefix == "kryptor")
             {
                 throw new ArgumentException("The kryptor prefix is only allowed for internal crypto providers");
             }
 
-            Type provider = typeof(T);
-            string name = $"{prefix}:{provider.Name}";
+            CryptoProvider instance = new T();
+            string name = $"{prefix}:{instance.GetType().Name}";
 
             if (!GlobalProviders.ContainsKey(name))
             {
-                GlobalProviders[name] = (displayName, provider);
+                GlobalProviders[name] = (displayName, instance);
 
                 foreach (string hint in hints)
                 {
@@ -81,9 +77,9 @@ namespace SAPTeam.Kryptor
 
         internal static string GetRegisteredCryptoProviderId(Type provider)
         {
-            foreach (KeyValuePair<string, (string DisplayName, Type Type)> item in GlobalProviders)
+            foreach (KeyValuePair<string, (string DisplayName, CryptoProvider Instance)> item in GlobalProviders)
             {
-                if (item.Value.Type == provider)
+                if (item.Value.Instance.GetType() == provider)
                 {
                     return item.Key;
                 }
@@ -140,7 +136,7 @@ namespace SAPTeam.Kryptor
         /// The id/hint of a registered crypto provider.
         /// </param>
         /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
-        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Type;
+        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Instance.GetType();
 
         /// <summary>
         /// Creates a <see cref="CryptoProvider"/> object to use with KES engine.
@@ -178,7 +174,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static CryptoProvider Create(KeyStore keyStore, CryptoProviderConfiguration configuration)
         {
-            CryptoProvider provider = Activator.CreateInstance(ResolveProviderById(configuration.Id), keyStore, configuration) as CryptoProvider;
+            CryptoProvider provider = GlobalProviders[GetRegisteredCryptoProviderId(configuration.Id)].Instance.Fork(keyStore, configuration);
 
             return provider;
         }

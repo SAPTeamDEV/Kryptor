@@ -16,6 +16,14 @@ namespace SAPTeam.Kryptor.CryptoProviders
     public sealed class DynamicEncryption : CryptoProvider
     {
         /// <summary>
+        /// Creates an empty crypto provider.
+        /// </summary>
+        public DynamicEncryption()
+        {
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DynamicEncryption"/> class.
         /// </summary>
         /// <param name="keyStore">
@@ -24,9 +32,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null) : base(keyStore, configuration)
+        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
-
+            ApplyHeader(keyStore, configuration);
         }
 
         /// <inheritdoc/>
