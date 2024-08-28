@@ -95,5 +95,14 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <returns></returns>
         public readonly bool IsValid() => TransformerName != null && SecretKey != null && KeySize > 0;
+
+        /// <summary>
+        /// Initializes a new transformer with this token.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public readonly ITranformer GetTranformer()
+        {
+            return Transformers.GetTranformer(this);
+        }
     }
 }
