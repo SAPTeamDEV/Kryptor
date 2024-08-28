@@ -1,4 +1,4 @@
-name: Gawe CI for Kryptor Core Libraries
+name: Kryptor Core CI/CD
 
 on:
   workflow_dispatch:
@@ -29,13 +29,140 @@ permissions:
   pull-requests:
     write
 
+defaults:
+  run:
+    shell: bash
+
+env:
+  build-path: 'src/Kryptor/Kryptor.csproj'
+  test-path: 'test/Kryptor.Tests/Kryptor.Tests.csproj'
+  deploy-path: 'src/Kryptor/Kryptor.csproj'
+  deploy: ${{ !contains(inputs.deploy, 'false') }}
+  nuget-deploy: ${{ !contains(inputs.nuget-deploy, 'false') }}
+
 jobs:
-  build:
-    uses: SAPTeamDEV/Gawe/.github/workflows/dotnet.yml@master
-    with:
-      build-path: 'src/Kryptor/Kryptor.csproj'
-      test-path: 'test/Kryptor.Tests/Kryptor.Tests.csproj'
-      deploy-path: 'src/Kryptor/Kryptor.csproj'
-      deploy: ${{ !contains(inputs.deploy, 'false') }}
-      nuget-deploy: ${{ !contains(inputs.nuget-deploy, 'false') }}
-    secrets: inherit
+  dotnet:
+    strategy:
+      matrix:
+        os: [ubuntu]
+        configuration: [Debug, Nuget]
+
+    name: Build ${{ matrix.configuration }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}-latest
+    env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+          dotnet-version: | 
+            6.0.x
+            8.0.x
+      - name: Install dependencies
+        run: |
+          dotnet restore --locked-mode
+      - name: Build
+        run: |
+          for TARGET in ${{ env.build-path }}
+          do
+            dotnet build $TARGET --configuration ${{ matrix.configuration }} --no-restore
+          done
+        shell: bash
+      - name: Test
+        run: |
+          for TARGET in ${{ env.test-path }}
+          do
+            dotnet test $TARGET --configuration ${{ matrix.configuration }} --no-restore --verbosity normal --collect:"XPlat Code Coverage" --logger trx
+          done
+        shell: bash
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget'
+        with:
+          files: |
+            **/TestResults/*.trx
+
+      - name: Codecov
+        uses: codecov/codecov-action@v4
+        if: env.CODECOV_TOKEN != '' && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget'
+        env:
+          CODECOV_TOKEN: ${{ env.CODECOV_TOKEN }}
+  
+      # Initialize CD
+      - name: Create NuGet package
+        if: inputs.deploy && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        run: |
+          for TARGET in ${{ env.deploy-path }}
+            do
+            dotnet pack $TARGET --configuration ${{ matrix.configuration }} --no-build -o __out__
+            done
+        shell: bash
+      - name: Upload build artifact
+        if: inputs.deploy && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-Packages-${{ github.sha }}
+          path: |
+            __out__/*.*nupkg
+        
+  merge:
+    name: Auto-merge trusted PRs
+    needs: [dotnet]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && (github.actor == github.repository_owner || github.actor == 'dependabot[bot]')
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Automatically merge the trusted PR from ${{ github.actor }}
+        run: gh pr merge --auto -r "$PR_URL"
+
+  deploy:
+    name: Deploy NuGet package
+    needs: [dotnet]
+    runs-on: ubuntu-latest
+    if: inputs.deploy && github.event_name != 'pull_request'
+    env:
+      DO_DEPLOY: 'true'
+    steps:
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: ${{ github.event.repository.name }}-Packages-${{ github.sha }}
+          path: packs
+      - name: Check artifacts
+        run: |
+          [ -d packs ] && [ "$(ls -A packs)" ] || echo "DO_DEPLOY==false" >> "$GITHUB_ENV"
+      - name: Deploy to Github packages
+        if: env.DO_DEPLOY == 'true'
+        continue-on-error: true
+        run: |
+          for TARGET in packs/*.*nupkg
+          do
+            dotnet nuget push $TARGET --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate || continue
+          done
+        shell: bash
+      - name: Deploy to NuGet gallery
+        if: env.DO_DEPLOY == 'true' && inputs.nuget-deploy && github.ref_name == 'master'
+        continue-on-error: true
+        run: |
+          for TARGET in packs/*.*nupkg
+          do
+          dotnet nuget push $TARGET --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate || continue
+          done
+        shell: bash
+        
+      
+
