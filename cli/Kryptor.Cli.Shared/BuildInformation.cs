@@ -39,7 +39,7 @@ namespace SAPTeam.Kryptor.Cli
             Branch = BuildBranch.None;
 #endif
 
-            string format = "M/d/yyyy h:mm:ss tt";
+            string format = "MM/dd/yyyy HH:mm:ss";
             string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;
 
             // Parse the string into a DateTime object

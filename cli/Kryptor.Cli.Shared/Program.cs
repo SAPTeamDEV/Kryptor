@@ -42,7 +42,7 @@ namespace SAPTeam.Kryptor.Cli
                 if (verInfoT)
                 {
                     Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {BuildInformation.Variant} for {BuildInformation.TargetFramework}");
-                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime()}");
+                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime().ToString("MMM dd, yyyy HH:mm:ss zzz")}");
                     Console.WriteLine($"Branch: {BuildInformation.Branch}");
                     if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
                     {
