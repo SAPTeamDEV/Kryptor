@@ -89,6 +89,20 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
+        /// Gets all registered crypto provider identifiers.
+        /// </summary>
+        /// <returns>
+        /// An <see href="IEnumerable{string}"/> populated with registered crypto provider identifiers.
+        /// </returns>
+        public static IEnumerable<string> GetRegisteredCryptoProviders()
+        {
+            foreach (var id in GlobalProviders.Keys)
+            {
+                yield return id;
+            }
+        }
+
+        /// <summary>
         /// Translates given id to absolute identifier.
         /// </summary>
         /// <param name="id">
