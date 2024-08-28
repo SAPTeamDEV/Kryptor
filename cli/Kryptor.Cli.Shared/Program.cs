@@ -47,7 +47,9 @@ namespace SAPTeam.Kryptor.Cli
                     if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
                     {
                         var platformStr = $"Platform: {BuildInformation.TargetPlatform}";
-                        if (BuildInformation.IsAot) platformStr += " (AOT)";
+#if AOT
+                        platformStr += " (AOT)";
+#endif
                         Console.WriteLine(platformStr);
                     }
                     Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");

@@ -67,10 +67,9 @@ namespace SAPTeam.Kryptor.Cli
                 Console.SetOut(tw);
             }
 
-            if (BuildInformation.IsAot)
-            {
-                LogError("The AOT builds are in development stage and may have unintended behaviors".WithColor(Color.Yellow));
-            }
+#if AOT
+            LogError("The AOT builds are in development stage and may have unintended behaviors".WithColor(Color.Yellow));
+#endif
 
             Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.WithColor(Color.Cyan)}");
             Log($"Engine version: {Program.Context.EngineVersion.WithColor(Color.Cyan)}");
