@@ -5,10 +5,6 @@ using System.Reflection;
 
 using SAPTeam.Kryptor.Client;
 
-#if !NETFRAMEWORK
-using ANSIConsole;
-#endif
-
 namespace SAPTeam.Kryptor.Cli
 {
     public partial class CliContext : ClientContext
@@ -29,16 +25,6 @@ namespace SAPTeam.Kryptor.Cli
 #else
         public string CliVersion => Utilities.GetShortVersionString(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 #endif
-
-        static CliContext()
-        {
-#if !NETFRAMEWORK
-            if (OperatingSystem.IsWindows() && !ANSIInitializer.Init(false))
-            {
-                ANSIInitializer.Enabled = false;
-            }
-#endif
-        }
 
         public CliContext()
         {

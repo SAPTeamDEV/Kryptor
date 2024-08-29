@@ -1,10 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-#if !NETFRAMEWORK
-using ANSIConsole;
-#endif
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 

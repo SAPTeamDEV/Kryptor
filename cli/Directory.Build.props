@@ -38,6 +38,7 @@
     <PackageReference Include="Downloader" Version="3.1.2" />
     <PackageReference Include="SharpCompress" Version="0.37.2" />
     <PackageReference Include="morelinq" Version="4.2.0" />
+    <PackageReference Include="Pastel" Version="5.1.0" />
 
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor\Kryptor.csproj" />
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor.Client\Kryptor.Client.csproj" />

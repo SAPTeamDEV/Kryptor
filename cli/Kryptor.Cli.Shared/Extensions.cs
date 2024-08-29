@@ -2,11 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-#if NETFRAMEWORK
 using Pastel;
-#else
-using ANSIConsole;
-#endif
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -23,15 +19,9 @@ namespace SAPTeam.Kryptor.Cli
 
         internal static string ToLowerIfUnix(this string src) => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? src : src.ToLower();
 
-#if NETFRAMEWORK
         private static string ColorImpl(this string src, ConsoleColor color) => color == ConsoleColor.Green ? src.Pastel(System.Drawing.Color.GreenYellow) : src.Pastel(color);
 
         private static string ColorImpl(this string src, Color color) => src.Pastel(color);
-#else
-        private static string ColorImpl(this string src, ConsoleColor color) => src.Color(color).ToString();
-
-        private static string ColorImpl(this string src, Color color) => src.Color(color).ToString();
-#endif
 
         public static string WithColor(this string src, ConsoleColor color) => Program.Context.NoColor ? src : src.ColorImpl(color);
 
