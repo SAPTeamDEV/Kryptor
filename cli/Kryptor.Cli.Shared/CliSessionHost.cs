@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-using CommandLine;
-
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli

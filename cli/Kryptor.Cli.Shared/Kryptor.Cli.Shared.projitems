@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BuildBranch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BuildInformation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BuildVariant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CastExtentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliHeader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CliSessionHost.cs" />
