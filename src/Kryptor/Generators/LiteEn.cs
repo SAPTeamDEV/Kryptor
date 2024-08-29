@@ -2,17 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 
-using
-/* Unmerged change from project 'Kryptor (net461)'
-Before:
-using MoreLinq.Extensions;
 using SAPTeam.Kryptor.Extensions;
-After:
-using MoreLinq.Extensions;
-
-using SAPTeam.Kryptor.Extensions;
-*/
-SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Generators
 {

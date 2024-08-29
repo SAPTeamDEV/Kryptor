@@ -3,12 +3,6 @@
   <PropertyGroup>
     <CliRootPath>$(MSBuildThisFileDirectory)</CliRootPath>
     
-    <!--<AssemblyVersion>1.5.4</AssemblyVersion>
-    <Version>$(AssemblyVersion)</Version>
-    <FileVersion>$(AssemblyVersion).0</FileVersion>
-    <InformationalVersion>$(AssemblyVersion)</InformationalVersion>
-    <PackageVersion>$(AssemblyVersion)</PackageVersion>-->
-
     <AssemblyName>Kryptor</AssemblyName>
     <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
     <Title>Kryptor CLI</Title>
@@ -27,17 +21,17 @@
     <NoWarn>1701;1702;8618;NU1701;8602;8604;8002</NoWarn>
   </PropertyGroup>
 
-  <!--<PropertyGroup Condition=" '$(Configuration)' != 'Release' ">
-    <InformationalVersion>$(AssemblyVersion)-$(Configuration)</InformationalVersion>
-  </PropertyGroup>-->
-  
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
+    <IsLegacyBuild>True</IsLegacyBuild>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="Downloader" Version="3.1.2" />
     <PackageReference Include="SharpCompress" Version="0.37.2" />
-    <PackageReference Include="morelinq" Version="4.2.0" />
     <PackageReference Include="Pastel" Version="5.1.0" />
 
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor\Kryptor.csproj" />

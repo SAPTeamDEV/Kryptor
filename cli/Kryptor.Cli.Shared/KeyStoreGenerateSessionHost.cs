@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using MoreLinq;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Generators;
 

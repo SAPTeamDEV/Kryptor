@@ -20,12 +20,6 @@
         "resolved": "3.1.2",
         "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
       },
-      "morelinq": {
-        "type": "Direct",
-        "requested": "[4.2.0, )",
-        "resolved": "4.2.0",
-        "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
-      },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
         "requested": "[3.6.133, )",
@@ -319,12 +313,6 @@
         "requested": "[3.1.2, )",
         "resolved": "3.1.2",
         "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
-      },
-      "morelinq": {
-        "type": "Direct",
-        "requested": "[4.2.0, )",
-        "resolved": "4.2.0",
-        "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
@@ -635,12 +623,6 @@
         "requested": "[3.1.2, )",
         "resolved": "3.1.2",
         "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
-      },
-      "morelinq": {
-        "type": "Direct",
-        "requested": "[4.2.0, )",
-        "resolved": "4.2.0",
-        "contentHash": "2v+p2vUO+4+N7jwFV9XODQLOwQeXay1Gg4fvLebpQ7AL0iZdrJ/lzFTg5HfAn/DJxNXF54xZJLinMpFddcvUxg=="
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",

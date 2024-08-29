@@ -7,8 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using MoreLinq;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class Program
