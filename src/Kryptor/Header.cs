@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-#if NET6_0_OR_GREATER
 using System.Text.Json;
 using System.Text.Json.Serialization;
-#else
-using Newtonsoft.Json;
-#endif
 
 using SAPTeam.Kryptor.Extensions;
 
@@ -173,39 +169,38 @@ namespace SAPTeam.Kryptor
             return header;
         }
 
-#if NET6_0_OR_GREATER
         private static readonly JsonSerializerOptions jOptions = new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
         };
 
-        private static string ToJson<T>(T obj)
-            where T : Header
+#if NET6_0_OR_GREATER
+        private static string ToJson(Header obj)
         {
-            return JsonSerializer.Serialize(obj, obj.GetType(), obj.JsonSerializerContext);
+            return JsonWorker.ToJson(obj, obj.JsonSerializerContext);
         }
 
         private static T ReadJson<T>(string json)
             where T : Header, new()
         {
-            return JsonSerializer.Deserialize(json, typeof(T), new T().JsonSerializerContext) as T;
+            return JsonWorker.ReadJson<T>(json, new T().JsonSerializerContext);
         }
 #else
-        private static readonly JsonSerializerSettings jSettings = new JsonSerializerSettings()
+        private static string ToJson(Header obj)
         {
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            Formatting = Formatting.None,
-            NullValueHandling = NullValueHandling.Ignore,
-        };
+            return JsonWorker.ToJson(obj, jOptions);
+        }
 
-        private static string ToJson(object obj) => JsonConvert.SerializeObject(obj, jSettings);
-
-        private static T ReadJson<T>(string json) => JsonConvert.DeserializeObject<T>(json, jSettings);
+        private static T ReadJson<T>(string json)
+            where T : Header, new()
+        {
+            return JsonWorker.ReadJson<T>(json, jOptions);
+        }
 #endif
     }
 
 #if NET6_0_OR_GREATER
-    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
     [JsonSerializable(typeof(Header))]
     internal partial class SourceGenerationHeaderContext : JsonSerializerContext
     {

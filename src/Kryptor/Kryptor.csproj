@@ -42,9 +42,11 @@
     </ItemGroup>
 
   <ItemGroup Condition=" '$(IsLegacyBuild)' == 'True' ">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+
+    <PackageReference Include="System.Text.Json" Version="8.0.4" Condition=" '$(TargetFramework)' == 'netstandard2.0'" />
+    <PackageReference Include="System.Text.Json" Version="6.0.9" Condition=" '$(TargetFramework)' == 'net461'" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(IsLegacyBuild)' != 'True' ">
