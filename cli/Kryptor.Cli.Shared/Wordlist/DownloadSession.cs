@@ -238,7 +238,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     }
 
 #if NET6_0_OR_GREATER
-    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
     [JsonSerializable(typeof(DownloadPackage))]
     internal partial class SourceGenerationPackageContext : JsonSerializerContext
     {

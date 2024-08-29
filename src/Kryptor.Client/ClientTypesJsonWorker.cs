@@ -43,11 +43,12 @@ namespace SAPTeam.Kryptor.Client
     }
 
 #if NET6_0_OR_GREATER
-    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = true, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+    [JsonSourceGenerationOptions(WriteIndented = true, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
     [JsonSerializable(typeof(WordlistVerificationMetadata))]
     [JsonSerializable(typeof(List<WordlistVerificationMetadata>))]
     [JsonSerializable(typeof(KeyChain))]
     [JsonSerializable(typeof(List<KeyChain>))]
+    [JsonSerializable(typeof(List<WordlistIndexEntry>))]
     [JsonSerializable(typeof(WordlistIndexEntry))]
     [JsonSerializable(typeof(WordlistIndex))]
     internal partial class ClientTypesJsonSerializerContext : JsonSerializerContext { }

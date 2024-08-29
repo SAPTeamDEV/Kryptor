@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 using SAPTeam.Kryptor.Client;
@@ -18,7 +19,13 @@ namespace SAPTeam.Kryptor.Cli
 
             using (var reader = new StreamReader(File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Read)))
             {
-                Index = ClientTypesJsonWorker.ReadJson<WordlistIndex>(reader.ReadToEnd());
+                var data = reader.ReadToEnd();
+                if (string.IsNullOrEmpty(data))
+                {
+                    data = "{}";
+                }
+
+                Index = ClientTypesJsonWorker.ReadJson<WordlistIndex>(data);
             }
         }
 
