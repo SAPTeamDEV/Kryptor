@@ -12,32 +12,28 @@
     <Authors>Alireza Poodineh</Authors>
     <Company>SAP Team</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) SAP Team</Copyright>
+
+    <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Deterministic>True</Deterministic>
     <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <NoWarn>SYSLIB0002;SYSLIB0005;SYSLIB0012;SYSLIB0020</NoWarn>
-
-    <Copyright>Copyright (c) SAP Team</Copyright>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Nuget' Or '$(Configuration)'=='Indexer'">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net481' ">
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-
   <ItemGroup>
-    <!-- Include must be the fully qualified .NET type name of the Attribute to create. -->
     <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-      <!-- _Parameter1, _Parameter2, etc. correspond to the
-        matching parameter of a constructor of that .NET attribute type -->
       <_Parameter1>BuildTime</_Parameter1>
       <_Parameter2>$([System.DateTime]::UtcNow.ToString("MM/dd/yyyy HH:mm:ss"))</_Parameter2>
     </AssemblyAttribute>
+    
   </ItemGroup>
 
 </Project>

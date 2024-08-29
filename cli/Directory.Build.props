@@ -9,9 +9,7 @@
 
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <OutputType>Exe</OutputType>
-    <Nullable>disable</Nullable>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-    <ImplicitUsings>disable</ImplicitUsings>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
 
     <AssemblyTitle>Kryptor Command-Line Interface</AssemblyTitle>
@@ -19,11 +17,6 @@
     <Description>Command-Line Interface for Kryptor encryption engine.</Description>
 
     <NoWarn>1701;1702;8618;NU1701;8602;8604;8002</NoWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
-    <IsLegacyBuild>True</IsLegacyBuild>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

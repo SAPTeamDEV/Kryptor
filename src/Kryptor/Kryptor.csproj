@@ -26,7 +26,6 @@
   
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
     <IsLegacyBuild>True</IsLegacyBuild>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
