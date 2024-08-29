@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using SAPTeam.Kryptor.Client.Security;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -8,6 +13,26 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public static class Utilities
     {
+        static JsonSerializerOptions jOptions = new JsonSerializerOptions()
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+        };
+
+        /// <summary>
+        /// Gets pre-initialized <see cref="JsonWorker"/> to work with Client defined types.
+        /// </summary>
+        public static JsonWorker ClientTypesJsonWorker { get; }
+
+        static Utilities()
+        {
+#if NET6_0_OR_GREATER
+            ClientTypesJsonWorker = new JsonWorker(null, ClientTypesJsonSerializerContext.Default);
+#else
+            ClientTypesJsonWorker = new JsonWorker(jOptions, null);
+#endif
+        }
+
         /// <summary>
         /// Gets the short string representation of the given version.
         /// </summary>
@@ -215,4 +240,15 @@ namespace SAPTeam.Kryptor.Client
             }
         }
     }
+
+#if NET6_0_OR_GREATER
+    [JsonSourceGenerationOptions(WriteIndented = true, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
+    [JsonSerializable(typeof(WordlistVerificationMetadata))]
+    [JsonSerializable(typeof(List<WordlistVerificationMetadata>))]
+    [JsonSerializable(typeof(KeyChain))]
+    [JsonSerializable(typeof(List<KeyChain>))]
+    [JsonSerializable(typeof(WordlistIndex))]
+    [JsonSerializable(typeof(WordlistIndexLegacy))]
+    internal partial class ClientTypesJsonSerializerContext : JsonSerializerContext { }
+#endif
 }

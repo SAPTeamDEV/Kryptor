@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
                     data = "{}";
                 }
 
-                Index = ClientTypesJsonWorker.ReadJson<WordlistIndex>(data);
+                Index = Utilities.ClientTypesJsonWorker.ReadJson<WordlistIndex>(data);
             }
         }
 
@@ -33,7 +33,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             lock (_lockObj)
             {
-                var json = ClientTypesJsonWorker.ToJson(Index);
+                var json = Utilities.ClientTypesJsonWorker.ToJson(Index);
 
                 File.WriteAllText(filePath, json);
             }

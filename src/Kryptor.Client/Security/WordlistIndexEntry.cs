@@ -94,7 +94,7 @@ namespace SAPTeam.Kryptor.Client.Security
             if (metadata == null || metadata.Length == 0)
             {
                 string json = File.ReadAllText(GetMetadataPath());
-                List<WordlistVerificationMetadata> data = ClientTypesJsonWorker.ReadJson<List<WordlistVerificationMetadata>>(json);
+                List<WordlistVerificationMetadata> data = Utilities.ClientTypesJsonWorker.ReadJson<List<WordlistVerificationMetadata>>(json);
                 metadata = data.ToArray();
             }
 

@@ -78,7 +78,7 @@ namespace SAPTeam.Kryptor.Client
                 }
             }
 
-            keyChainList = ClientTypesJsonWorker.ReadJson<List<KeyChain>>(data);
+            keyChainList = Utilities.ClientTypesJsonWorker.ReadJson<List<KeyChain>>(data);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace SAPTeam.Kryptor.Client
         {
             lock (_saveLock)
             {
-                string kJson = ClientTypesJsonWorker.ToJson(keyChainList);
+                string kJson = Utilities.ClientTypesJsonWorker.ToJson(keyChainList);
 
                 File.WriteAllText(FilePath, kJson);
             }

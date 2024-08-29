@@ -179,7 +179,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 });
             }
 
-            string mJson = ClientTypesJsonWorker.ToJson(metadata);
+            string mJson = Utilities.ClientTypesJsonWorker.ToJson(metadata);
             byte[] mEncode = Encoding.UTF8.GetBytes(mJson);
 
             File.WriteAllBytes(Path.Combine(IndexEntry.InstallDirectory, "metadata.json"), mEncode);

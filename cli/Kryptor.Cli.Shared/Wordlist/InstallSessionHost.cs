@@ -61,7 +61,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 HttpClient client = new HttpClient();
                 string rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
 
-                Index = ClientTypesJsonWorker.ReadJson<WordlistIndex>(rawIndex);
+                Index = Utilities.ClientTypesJsonWorker.ReadJson<WordlistIndex>(rawIndex);
             }
 
             if (List || (!All && !Recommended && Ids.Length == 0))
