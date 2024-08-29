@@ -1,11 +1,6 @@
-using System;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Downloader;
 
@@ -24,7 +19,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private CancellationToken CancellationToken;
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
-        readonly JsonWorker JsonWorker;
+        private readonly JsonWorker JsonWorker;
 
         public FileInfo OutputFile;
         public FileInfo PackageFile;
@@ -42,7 +37,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             OutputFile.Directory.Create();
             PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}.json"));
 
-            var jOptions = new JsonSerializerOptions()
+            JsonSerializerOptions jOptions = new JsonSerializerOptions()
             {
                 WriteIndented = false,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault

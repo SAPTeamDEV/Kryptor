@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SAPTeam.Kryptor.Client.Security
+﻿namespace SAPTeam.Kryptor.Client.Security
 {
     /// <summary>
     /// Represents schema to store and retrive wordlist informations.

@@ -1,5 +1,3 @@
-using System.Linq;
-
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist

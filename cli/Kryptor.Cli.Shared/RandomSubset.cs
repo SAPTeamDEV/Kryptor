@@ -15,10 +15,6 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class Extensions
@@ -35,10 +31,7 @@ namespace SAPTeam.Kryptor.Cli
         /// A random sequence of elements in random order from the original
         /// sequence.</returns>
 
-        public static IEnumerable<T> RandomSubset<T>(this IEnumerable<T> source, int subsetSize)
-        {
-            return RandomSubset(source, subsetSize, _crng);
-        }
+        public static IEnumerable<T> RandomSubset<T>(this IEnumerable<T> source, int subsetSize) => RandomSubset(source, subsetSize, _crng);
 
         /// <summary>
         /// Returns a sequence of a specified size of random elements from the
@@ -59,12 +52,55 @@ namespace SAPTeam.Kryptor.Cli
         {
             if (rand == null) throw new ArgumentNullException(nameof(rand));
             if (source == null) throw new ArgumentNullException(nameof(source));
-            if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
 
-            return RandomSubsetImpl(source, rand, subsetSize);
+            /* Unmerged change from project 'Kryptor.Cli (net6.0)'
+            Before:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
+
+                        return RandomSubsetImpl(source, rand, subsetSize);
+            After:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
+            */
+
+            /* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
+            Before:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
+
+                        return RandomSubsetImpl(source, rand, subsetSize);
+            After:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
+            */
+
+            /* Unmerged change from project 'Kryptor.Cli.Legacy (net462)'
+            Before:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
+
+                        return RandomSubsetImpl(source, rand, subsetSize);
+            After:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
+            */
+
+            /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
+            Before:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
+
+                        return RandomSubsetImpl(source, rand, subsetSize);
+            After:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
+            */
+
+            /* Unmerged change from project 'Kryptor.Cli.Native (net8.0)'
+            Before:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize));
+
+                        return RandomSubsetImpl(source, rand, subsetSize);
+            After:
+                        if (subsetSize < 0) throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
+            */
+            return subsetSize < 0 ? throw new ArgumentOutOfRangeException(nameof(subsetSize)) : RandomSubsetImpl(source, rand, subsetSize);
         }
 
-        static IEnumerable<T> RandomSubsetImpl<T>(IEnumerable<T> source, Random rand, int? subsetSize)
+        private static IEnumerable<T> RandomSubsetImpl<T>(IEnumerable<T> source, Random rand, int? subsetSize)
         {
             // The simplest and most efficient way to return a random subset is to perform
             // an in-place, partial Fisher-Yates shuffle of the sequence. While we could do
@@ -72,7 +108,7 @@ namespace SAPTeam.Kryptor.Cli
             // than the length of the sequence.
             // See: http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
 
-            var array = source.ToArray();
+            T[] array = source.ToArray();
             subsetSize ??= array.Length;
 
             if (array.Length < subsetSize)
@@ -82,23 +118,21 @@ namespace SAPTeam.Kryptor.Cli
                     "Subset size must be less than or equal to the source length.");
             }
 
-            var m = 0;                // keeps track of count items shuffled
-            var w = array.Length;     // upper bound of shrinking swap range
-            var g = w - 1;            // used to compute the second swap index
+            int m = 0;                // keeps track of count items shuffled
+            int w = array.Length;     // upper bound of shrinking swap range
+            int g = w - 1;            // used to compute the second swap index
 
             // perform in-place, partial Fisher-Yates shuffle
             while (m < subsetSize)
             {
-#pragma warning disable CA5394 // Do not use insecure randomness
-                var k = g - rand.Next(w);
-#pragma warning restore CA5394 // Do not use insecure randomness
+                int k = g - rand.Next(w);
                 (array[k], array[m]) = (array[m], array[k]);
                 ++m;
                 --w;
             }
 
             // yield the random subset as a new sequence
-            for (var i = 0; i < subsetSize; i++)
+            for (int i = 0; i < subsetSize; i++)
                 yield return array[i];
         }
     }

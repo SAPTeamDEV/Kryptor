@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Generators;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using SAPTeam.Kryptor.Extensions;
+﻿using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor

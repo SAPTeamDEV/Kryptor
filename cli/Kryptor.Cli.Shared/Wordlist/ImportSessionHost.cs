@@ -1,5 +1,3 @@
-using System.IO;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;

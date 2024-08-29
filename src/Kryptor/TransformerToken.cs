@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 using SAPTeam.Kryptor.Extensions;
 
@@ -100,9 +99,6 @@ namespace SAPTeam.Kryptor
         /// Initializes a new transformer with this token.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public readonly ITranformer GetTranformer()
-        {
-            return Transformers.GetTranformer(this);
-        }
+        public readonly ITranformer GetTranformer() => Transformers.GetTranformer(this);
     }
 }

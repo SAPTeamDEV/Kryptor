@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
 
 using Pastel;
@@ -11,7 +9,7 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class Extensions
     {
-        static CryptoRandom _crng = new CryptoRandom();
+        private static readonly CryptoRandom _crng = new CryptoRandom();
 
         internal static string FormatFingerprint(this byte[] src) => BitConverter.ToString(src).Replace("-", ":");
 
@@ -62,7 +60,7 @@ namespace SAPTeam.Kryptor.Cli
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (action == null) throw new ArgumentNullException(nameof(action));
 
-            foreach (var element in source)
+            foreach (T element in source)
                 action(element);
         }
 
@@ -83,10 +81,7 @@ namespace SAPTeam.Kryptor.Cli
         /// streamed.
         /// </remarks>
 
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
-        {
-            return Shuffle(source, _crng);
-        }
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) => Shuffle(source, _crng);
 
         /// <summary>
         /// Returns a sequence of elements in random order from the original
@@ -110,10 +105,9 @@ namespace SAPTeam.Kryptor.Cli
 
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rand)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (rand == null) throw new ArgumentNullException(nameof(rand));
-
-            return RandomSubsetImpl(source, rand, subsetSize: null);
+            return source == null
+                ? throw new ArgumentNullException(nameof(source))
+                : rand == null ? throw new ArgumentNullException(nameof(rand)) : RandomSubsetImpl(source, rand, subsetSize: null);
         }
     }
 }

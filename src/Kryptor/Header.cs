@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using SAPTeam.Kryptor.Extensions;
@@ -175,27 +170,15 @@ namespace SAPTeam.Kryptor
         };
 
 #if NET6_0_OR_GREATER
-        private static string ToJson(Header obj)
-        {
-            return JsonWorker.ToJson(obj, obj.JsonSerializerContext);
-        }
+        private static string ToJson(Header obj) => JsonWorker.ToJson(obj, obj.JsonSerializerContext);
 
         private static T ReadJson<T>(string json)
-            where T : Header, new()
-        {
-            return JsonWorker.ReadJson<T>(json, new T().JsonSerializerContext);
-        }
+            where T : Header, new() => JsonWorker.ReadJson<T>(json, new T().JsonSerializerContext);
 #else
-        private static string ToJson(Header obj)
-        {
-            return JsonWorker.ToJson(obj, jOptions);
-        }
+        private static string ToJson(Header obj) => JsonWorker.ToJson(obj, jOptions);
 
         private static T ReadJson<T>(string json)
-            where T : Header, new()
-        {
-            return JsonWorker.ReadJson<T>(json, jOptions);
-        }
+            where T : Header, new() => JsonWorker.ReadJson<T>(json, jOptions);
 #endif
     }
 

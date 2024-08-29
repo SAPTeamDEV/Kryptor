@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using SAPTeam.Kryptor.CryptoProviders;
+﻿using SAPTeam.Kryptor.CryptoProviders;
 
 namespace SAPTeam.Kryptor
 {
@@ -96,7 +92,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static IEnumerable<string> GetRegisteredCryptoProviders()
         {
-            foreach (var id in GlobalProviders.Keys)
+            foreach (string id in GlobalProviders.Keys)
             {
                 yield return id;
             }

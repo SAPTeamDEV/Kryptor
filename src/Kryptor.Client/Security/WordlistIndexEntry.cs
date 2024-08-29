@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-using SAPTeam.Kryptor.Extensions;
+﻿using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Client.Security
 {

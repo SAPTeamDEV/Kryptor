@@ -2,9 +2,6 @@
 {
     internal static partial class BuildInformation
     {
-        static void DefineVariant()
-        {
-            Variant = BuildVariant.Standard;
-        }
+        private static void DefineVariant() => Variant = BuildVariant.Standard;
     }
 }

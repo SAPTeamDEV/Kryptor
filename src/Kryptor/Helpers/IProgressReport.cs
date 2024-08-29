@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SAPTeam.Kryptor.Helpers
+﻿namespace SAPTeam.Kryptor.Helpers
 {
     /// <summary>
     /// Represents interface to report progress of works.

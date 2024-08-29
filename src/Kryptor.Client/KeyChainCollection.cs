@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace SAPTeam.Kryptor.Client
+﻿namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
     /// Represents a collection to work with key chains.

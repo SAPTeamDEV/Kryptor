@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SAPTeam.Kryptor.Client
+﻿namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
     /// Represents an empty session to be managed by the session host.

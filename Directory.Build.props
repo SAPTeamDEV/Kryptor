@@ -20,7 +20,7 @@
     <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <NoWarn>SYSLIB0002;SYSLIB0005;SYSLIB0012;SYSLIB0020</NoWarn>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 

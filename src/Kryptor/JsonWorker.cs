@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor
 {
@@ -13,8 +8,8 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class JsonWorker
     {
-        JsonSerializerOptions options;
-        JsonSerializerContext context;
+        private readonly JsonSerializerOptions options;
+        private readonly JsonSerializerContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonWorker"/> class.
@@ -41,10 +36,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The converted json string.
         /// </returns>
-        public string ToJson(object obj)
-        {
-            return JsonSerializer.Serialize(obj, obj.GetType(), context);
-        }
+        public string ToJson(object obj) => JsonSerializer.Serialize(obj, obj.GetType(), context);
 
         /// <summary>
         /// Converts the provided json string to <typeparamref name="T"/>.
@@ -59,10 +51,7 @@ namespace SAPTeam.Kryptor
         /// A new instance of <typeparamref name="T"/> initialized with json data.
         /// </returns>
         public T ReadJson<T>(string json)
-            where T : class
-        {
-            return JsonSerializer.Deserialize(json, typeof(T), context) as T;
-        }
+            where T : class => JsonSerializer.Deserialize(json, typeof(T), context) as T;
 #else
         /// <summary>
         /// Converts the provided object to json string.
@@ -73,10 +62,8 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The converted json string.
         /// </returns>
-        public string ToJson(object obj)
-        {
-            return JsonSerializer.Serialize(obj, obj.GetType(), options);
-        }
+
+        public string ToJson(object obj) => JsonSerializer.Serialize(obj, obj.GetType(), options);
 
         /// <summary>
         /// Converts the provided json string to <typeparamref name="T"/>.
@@ -91,10 +78,7 @@ namespace SAPTeam.Kryptor
         /// A new instance of <typeparamref name="T"/> initialized with json data.
         /// </returns>
         public T ReadJson<T>(string json)
-            where T : class
-        {
-            return JsonSerializer.Deserialize(json, typeof(T), options) as T;
-        }
+            where T : class => JsonSerializer.Deserialize(json, typeof(T), options) as T;
 #endif
 
 #if NET6_0_OR_GREATER
@@ -113,10 +97,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The converted json string.
         /// </returns>
-        public static string ToJson(object obj, JsonSerializerContext context)
-        {
-            return JsonSerializer.Serialize(obj, obj.GetType(), context);
-        }
+        public static string ToJson(object obj, JsonSerializerContext context) => JsonSerializer.Serialize(obj, obj.GetType(), context);
 
         /// <summary>
         /// Converts the provided json string to <typeparamref name="T"/>.
@@ -137,10 +118,7 @@ namespace SAPTeam.Kryptor
         /// A new instance of <typeparamref name="T"/> initialized with json data.
         /// </returns>
         public static T ReadJson<T>(string json, JsonSerializerContext context)
-            where T : class
-        {
-            return JsonSerializer.Deserialize(json, typeof(T), context) as T;
-        }
+            where T : class => JsonSerializer.Deserialize(json, typeof(T), context) as T;
 #else
         /// <summary>
         /// Converts the provided object to json string.
@@ -154,10 +132,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// The converted json string.
         /// </returns>
-        public static string ToJson(object obj, JsonSerializerOptions options)
-        {
-            return JsonSerializer.Serialize(obj, obj.GetType(), options);
-        }
+        public static string ToJson(object obj, JsonSerializerOptions options) => JsonSerializer.Serialize(obj, obj.GetType(), options);
 
         /// <summary>
         /// Converts the provided json string to <typeparamref name="T"/>.
@@ -175,10 +150,7 @@ namespace SAPTeam.Kryptor
         /// A new instance of <typeparamref name="T"/> initialized with json data.
         /// </returns>
         public static T ReadJson<T>(string json, JsonSerializerOptions options)
-            where T : class
-        {
-            return JsonSerializer.Deserialize(json, typeof(T), options) as T;
-        }
+            where T : class => JsonSerializer.Deserialize(json, typeof(T), options) as T;
 #endif
     }
 }

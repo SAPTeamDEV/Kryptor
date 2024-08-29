@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SAPTeam.Kryptor.Client
+﻿namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
     /// Represents container to store sessions.
@@ -23,10 +18,7 @@ namespace SAPTeam.Kryptor.Client
         {
             get
             {
-                if (sessions == null)
-                {
-                    sessions = SessionPool.Values.Select(x => x.Session).ToArray();
-                }
+                sessions ??= SessionPool.Values.Select(x => x.Session).ToArray();
 
                 return sessions;
             }
@@ -44,10 +36,34 @@ namespace SAPTeam.Kryptor.Client
         {
             get
             {
-                if (tokenSources == null)
-                {
-                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                }
+
+                /* Unmerged change from project 'Kryptor.Client (net6.0)'
+                Before:
+                                if (tokenSources == null)
+                                {
+                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                After:
+                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                */
+
+                /* Unmerged change from project 'Kryptor.Client (net8.0)'
+                Before:
+                                if (tokenSources == null)
+                                {
+                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                After:
+                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                */
+
+                /* Unmerged change from project 'Kryptor.Client (netstandard2.0)'
+                Before:
+                                if (tokenSources == null)
+                                {
+                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                After:
+                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
+                */
+                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
 
                 return tokenSources;
             }
@@ -60,10 +76,7 @@ namespace SAPTeam.Kryptor.Client
         {
             get
             {
-                if (holders == null)
-                {
-                    holders = SessionPool.Values;
-                }
+                holders ??= SessionPool.Values;
 
                 return holders;
             }

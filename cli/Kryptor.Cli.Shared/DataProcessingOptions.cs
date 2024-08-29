@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.Binding;
-using System.Linq;
 
 namespace SAPTeam.Kryptor.Cli
 {

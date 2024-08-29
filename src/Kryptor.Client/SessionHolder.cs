@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace SAPTeam.Kryptor.Client
+﻿namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
     /// Represents class to store session and related informations.
@@ -65,7 +61,7 @@ namespace SAPTeam.Kryptor.Client
         {
             if (Task != null)
             {
-                return throwIfRunning ? throw new InvalidOperationException("Session is already started.") : (Task)null;
+                return throwIfRunning ? throw new InvalidOperationException("Session is already started.") : null;
             }
 
             Task = Session.StartAsync(sessionHost, TokenSource.Token);

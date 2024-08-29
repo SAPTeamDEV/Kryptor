@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SAPTeam.Kryptor
+﻿namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Provides standard to hold the crypto providers configuration.

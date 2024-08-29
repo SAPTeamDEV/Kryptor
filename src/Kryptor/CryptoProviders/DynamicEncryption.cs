@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.Extensions;
+﻿using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.CryptoProviders
@@ -32,10 +26,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
-        {
-            ApplyHeader(keyStore, configuration);
-        }
+        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
 
         /// <inheritdoc/>
         public override async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)

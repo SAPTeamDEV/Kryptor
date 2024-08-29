@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Reflection;
 
 using SAPTeam.Kryptor.Client;
@@ -49,7 +47,7 @@ namespace SAPTeam.Kryptor.Cli
             EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
         }
 
-        static void DefineConstants()
+        private static void DefineConstants()
         {
 #if DEBUG
             Branch = BuildBranch.Debug;

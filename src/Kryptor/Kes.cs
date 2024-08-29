@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
+﻿using System.Data;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 using SAPTeam.Kryptor.CryptoProviders;
 using SAPTeam.Kryptor.Helpers;

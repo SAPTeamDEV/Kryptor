@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
@@ -8,8 +5,8 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class WordlistJsonContainer
     {
-        object _lockObj = new object();
-        string filePath;
+        private readonly object _lockObj = new object();
+        private readonly string filePath;
 
         public WordlistIndex Index { get; }
 
@@ -17,9 +14,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             this.filePath = filePath;
 
-            using (var reader = new StreamReader(File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Read)))
+            using (StreamReader reader = new StreamReader(File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Read)))
             {
-                var data = reader.ReadToEnd();
+                string data = reader.ReadToEnd();
                 if (string.IsNullOrEmpty(data))
                 {
                     data = "{}";
@@ -33,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             lock (_lockObj)
             {
-                var json = Utilities.ClientTypesJsonWorker.ToJson(Index);
+                string json = Utilities.ClientTypesJsonWorker.ToJson(Index);
 
                 File.WriteAllText(filePath, json);
             }

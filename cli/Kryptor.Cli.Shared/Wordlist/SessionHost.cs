@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
-
-using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 

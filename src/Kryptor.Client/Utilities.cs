@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using SAPTeam.Kryptor.Client.Security;
@@ -13,7 +10,7 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public static class Utilities
     {
-        static JsonSerializerOptions jOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerOptions jOptions = new JsonSerializerOptions()
         {
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
@@ -24,14 +21,41 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         public static JsonWorker ClientTypesJsonWorker { get; }
 
-        static Utilities()
-        {
+        /* Unmerged change from project 'Kryptor.Client (net6.0)'
+        Before:
+                static Utilities()
+                {
+        #if NET6_0_OR_GREATER
+        After:
+                static Utilities() =>
+        #if NET6_0_OR_GREATER
+        */
+
+        /* Unmerged change from project 'Kryptor.Client (net8.0)'
+        Before:
+                static Utilities()
+                {
+        #if NET6_0_OR_GREATER
+        After:
+                static Utilities() =>
+        #if NET6_0_OR_GREATER
+        */
+
+        /* Unmerged change from project 'Kryptor.Client (netstandard2.0)'
+        Before:
+                static Utilities()
+                {
+        #if NET6_0_OR_GREATER
+        After:
+                static Utilities() =>
+        #if NET6_0_OR_GREATER
+        */
+        static Utilities() =>
 #if NET6_0_OR_GREATER
             ClientTypesJsonWorker = new JsonWorker(null, ClientTypesJsonSerializerContext.Default);
 #else
             ClientTypesJsonWorker = new JsonWorker(jOptions, null);
 #endif
-        }
 
         /// <summary>
         /// Gets the short string representation of the given version.

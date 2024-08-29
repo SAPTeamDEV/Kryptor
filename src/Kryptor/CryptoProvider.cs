@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.CryptoProviders;
+﻿using SAPTeam.Kryptor.CryptoProviders;
 using SAPTeam.Kryptor.Extensions;
 using SAPTeam.Kryptor.Helpers;
 
@@ -80,7 +73,7 @@ namespace SAPTeam.Kryptor
                 throw new ApplicationException("Broken crypto provider instance storage");
             }
 
-            var clone = Clone() as CryptoProvider;
+            CryptoProvider clone = Clone() as CryptoProvider;
             clone.ApplyHeader(keyStore, configuration);
             return clone;
         }
@@ -220,7 +213,7 @@ namespace SAPTeam.Kryptor
         /// </param>
         /// <returns>Decrypted data chunk.</returns>
         protected abstract Task<IEnumerable<byte>> DecryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken);
-        
+
         /// <inheritdoc/>
         public object Clone() => MemberwiseClone();
     }

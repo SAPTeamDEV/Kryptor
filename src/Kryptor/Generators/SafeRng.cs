@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace SAPTeam.Kryptor.Generators
+﻿namespace SAPTeam.Kryptor.Generators
 {
     /// <summary>
     /// Generates random bytes array with additional safety.

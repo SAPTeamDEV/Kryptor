@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SAPTeam.Kryptor
+﻿namespace SAPTeam.Kryptor
 {
     /// <summary>
     /// Holds data about the crypto process.

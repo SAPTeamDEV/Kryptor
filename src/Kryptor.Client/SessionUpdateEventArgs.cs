@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SAPTeam.Kryptor.Client
+﻿namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
     /// Represents class to hold session updates event data.

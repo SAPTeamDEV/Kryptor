@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli

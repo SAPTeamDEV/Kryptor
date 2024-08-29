@@ -1,5 +1,3 @@
-using System;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class AssemblyPlatformAttribute : Attribute

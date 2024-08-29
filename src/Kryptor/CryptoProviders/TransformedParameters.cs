@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.Helpers;
+﻿using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.CryptoProviders
 {
@@ -30,10 +25,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public TransformedParameters(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
-        {
-            ApplyHeader(keyStore, configuration);
-        }
+        public TransformedParameters(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
 
         /// <inheritdoc/>
         protected override void ApplyHeader(KeyStore keyStore, CryptoProviderConfiguration configuration = null)

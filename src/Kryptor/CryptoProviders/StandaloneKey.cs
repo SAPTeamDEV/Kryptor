@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using SAPTeam.Kryptor.Helpers;
+﻿using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.CryptoProviders
 {
@@ -29,10 +25,7 @@ namespace SAPTeam.Kryptor.CryptoProviders
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        public StandaloneKey(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
-        {
-            ApplyHeader(keyStore, configuration);
-        }
+        public StandaloneKey(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken) => await AesHelper.EncryptAesEcbAsync(chunk, KeyStore[process.ChunkIndex], cancellationToken);

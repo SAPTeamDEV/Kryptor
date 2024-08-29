@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Parsing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -51,15 +47,70 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
+
+                    /* Unmerged change from project 'Kryptor.Cli (net6.0)'
+                    Before:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    After:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    */
+
+                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
+                    Before:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    After:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    */
+
+                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net462)'
+                    Before:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    After:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    */
+
+                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
+                    Before:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    After:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    */
+
+                    /* Unmerged change from project 'Kryptor.Cli.Native (net8.0)'
+                    Before:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    After:
+                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    */
                     Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-                    
-                    var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+
+                    IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
                     if (!cryptoProviders.Any()) return;
 
                     Console.WriteLine();
                     Console.WriteLine("Registered Crypto Providers:");
 
-                    foreach (var id in cryptoProviders)
+                    foreach (string id in cryptoProviders)
                     {
                         Console.WriteLine($"{id} ({CryptoProviderFactory.GetDisplayName(id)})");
                     }

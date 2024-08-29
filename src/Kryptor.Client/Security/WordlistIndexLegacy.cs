@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SAPTeam.Kryptor.Client.Security
+﻿namespace SAPTeam.Kryptor.Client.Security
 {
     /// <summary>
     /// Represents schema to store and retrive wordlists informations.
