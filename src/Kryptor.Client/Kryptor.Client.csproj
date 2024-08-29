@@ -22,11 +22,19 @@
     <IsAotCompatible>true</IsAotCompatible>
     <PublishTrimmed>True</PublishTrimmed>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Security\WordlistLibrary.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Security\WordlistLibrary.cs" />
+  </ItemGroup>
   
     <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="SAPTeam.CommonTK" Version="3.0.2" />
+    <PackageReference Include="SAPTeam.CommonTK" Version="4.0.2" />
     </ItemGroup>
 
     <ItemGroup>

@@ -126,17 +126,12 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "3.0.2",
-        "contentHash": "Q2FW/mdzsd9cjRMo5usv1k5RzHV1OUbSokp2OhllsNdxDgJrRC/qqSioxK833pXwbrN2ocTAp+XyGKo87xUOLA==",
+        "resolved": "4.0.2",
+        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
+          "System.Text.Json": "6.0.9"
         }
       },
       "System.Buffers": {
@@ -263,7 +258,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[3.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.2, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }
@@ -431,17 +426,12 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "3.0.2",
-        "contentHash": "Q2FW/mdzsd9cjRMo5usv1k5RzHV1OUbSokp2OhllsNdxDgJrRC/qqSioxK833pXwbrN2ocTAp+XyGKo87xUOLA==",
+        "resolved": "4.0.2",
+        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
+          "System.Text.Json": "6.0.9"
         }
       },
       "System.Buffers": {
@@ -581,7 +571,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[3.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.2, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }
@@ -752,17 +742,12 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
-      "Newtonsoft.Json": {
-        "type": "Transitive",
-        "resolved": "13.0.3",
-        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
-      },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "3.0.2",
-        "contentHash": "Q2FW/mdzsd9cjRMo5usv1k5RzHV1OUbSokp2OhllsNdxDgJrRC/qqSioxK833pXwbrN2ocTAp+XyGKo87xUOLA==",
+        "resolved": "4.0.2",
+        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
+          "System.Text.Json": "6.0.9"
         }
       },
       "System.Buffers": {
@@ -902,7 +887,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[3.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.2, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }
