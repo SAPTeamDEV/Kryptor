@@ -9,19 +9,11 @@
     <Title>Kryptor Client Utilities</Title>
     <AssemblyTitle>Kryptor Client Utilities</AssemblyTitle>
     <Product>The Common Utilities for Kryptor front-ends.</Product>
-    
     <Description>This library has common utilities used by kryptor front-end programs.</Description>
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
-    <IsTrimmable>true</IsTrimmable>
    </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
-    <IsAotCompatible>true</IsAotCompatible>
-    <PublishTrimmed>True</PublishTrimmed>
-  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Security\WordlistLibrary.cs" />
@@ -32,8 +24,6 @@
   </ItemGroup>
   
     <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
-    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="SAPTeam.CommonTK" Version="4.0.2" />
     </ItemGroup>
 

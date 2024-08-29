@@ -9,21 +9,13 @@
     <Title>Kryptor</Title>
     <AssemblyTitle>Kryptor</AssemblyTitle>
     <Product>The Key-Based Encryption Engine.</Product>
-    
     <Description>This library allows you to encrypt data with keystore-based mechanisms.</Description>
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
-    <IsTrimmable>true</IsTrimmable>
    </PropertyGroup>
 
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
-    <IsAotCompatible>true</IsAotCompatible>
-    <PublishTrimmed>true</PublishTrimmed>
-  </PropertyGroup>
-  
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">
     <IsLegacyBuild>True</IsLegacyBuild>
   </PropertyGroup>
@@ -35,11 +27,6 @@
     </None>
   </ItemGroup>
     
-    <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="All" />
-    <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All" />
-    </ItemGroup>
-
   <ItemGroup Condition=" '$(IsLegacyBuild)' == 'True' ">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
