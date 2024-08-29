@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 using SAPTeam.CommonTK;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
@@ -14,26 +12,33 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
     {
         private readonly object _lockObj = new object();
 
-        private Config<WordlistIndex> LocalIndexContainer { get; set; }
-        public WordlistIndex LocalIndex => LocalIndexContainer.Prefs;
+        private WordlistJsonContainer LocalIndexContainer { get; set; }
+        public WordlistIndex LocalIndex => LocalIndexContainer.Index;
 
         public virtual string LocalIndexPath => Path.Combine(Program.Context.WordlistDirectory, "index.json");
 
+        /*
         public JsonSerializerSettings LocalIndexParserSettings { get; set; } = new JsonSerializerSettings()
         {
             Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
+        */
 
-        public SessionHost(GlobalOptions globalOptions) : base(globalOptions) => LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/schema-v2.json"));
+        public SessionHost(GlobalOptions globalOptions) : base(globalOptions)
+        {
+            //LocalIndexParserSettings.Converters.Add(new SchemaJsonConverter("https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/schema-v2.json"));
+        }
 
         public override void Start(ClientContext context)
         {
             base.Start(context);
 
             DebugLog("Loading local index...");
-            LocalIndexContainer = new Config<WordlistIndex>(LocalIndexPath, LocalIndexParserSettings);
+            //LocalIndexContainer = new Config<WordlistIndex>(LocalIndexPath, LocalIndexParserSettings);
+
+            LocalIndexContainer = new WordlistJsonContainer(LocalIndexPath);
         }
 
         protected void UpdateLocalIndex() => LocalIndexContainer.Write();

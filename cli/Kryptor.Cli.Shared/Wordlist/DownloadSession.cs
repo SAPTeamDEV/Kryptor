@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Downloader;
-
-using Newtonsoft.Json;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
@@ -24,6 +24,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private CancellationToken CancellationToken;
         private readonly DownloadConfiguration Configuration;
         private readonly DownloadService Downloader;
+        readonly JsonWorker JsonWorker;
 
         public FileInfo OutputFile;
         public FileInfo PackageFile;
@@ -40,6 +41,18 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             OutputFile.Directory.Create();
             PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}.json"));
+
+            var jOptions = new JsonSerializerOptions()
+            {
+                WriteIndented = false,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+            };
+
+#if NET6_0_OR_GREATER
+            JsonWorker = new JsonWorker(null, SourceGenerationPackageContext.Default);
+#else
+            JsonWorker = new JsonWorker(jOptions, null);
+#endif
 
             Description = $"{entry.Id}: Initializing download";
 
@@ -86,7 +99,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             if (e.Error != null)
             {
-                File.WriteAllText(PackageFile.FullName, JsonConvert.SerializeObject(Downloader.Package));
+                File.WriteAllText(PackageFile.FullName, JsonWorker.ToJson(Downloader.Package));
                 Exception = e.Error;
             }
             else
@@ -155,7 +168,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
             if (PackageFile.Exists)
             {
-                DownloadPackage package = JsonConvert.DeserializeObject<DownloadPackage>(File.ReadAllText(PackageFile.FullName));
+                DownloadPackage package = JsonWorker.ReadJson<DownloadPackage>(File.ReadAllText(PackageFile.FullName));
                 PackageFile.Delete();
 
                 await Downloader.DownloadFileTaskAsync(package, cancellationToken);
@@ -223,4 +236,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
         }
     }
+
+#if NET6_0_OR_GREATER
+    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
+    [JsonSerializable(typeof(DownloadPackage))]
+    internal partial class SourceGenerationPackageContext : JsonSerializerContext
+    {
+    }
+#endif
 }

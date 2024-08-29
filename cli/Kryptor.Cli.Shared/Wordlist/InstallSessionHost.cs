@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 
-using Newtonsoft.Json;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 
@@ -63,7 +61,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 HttpClient client = new HttpClient();
                 string rawIndex = client.GetStringAsync(WordlistIndexUri).Result;
 
-                Index = JsonConvert.DeserializeObject<WordlistIndex>(rawIndex);
+                Index = ClientTypesJsonWorker.ReadJson<WordlistIndex>(rawIndex);
             }
 
             if (List || (!All && !Recommended && Ids.Length == 0))

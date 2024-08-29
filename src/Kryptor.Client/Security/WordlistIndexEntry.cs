@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 using SAPTeam.Kryptor.Extensions;
 
 namespace SAPTeam.Kryptor.Client.Security
@@ -96,7 +94,7 @@ namespace SAPTeam.Kryptor.Client.Security
             if (metadata == null || metadata.Length == 0)
             {
                 string json = File.ReadAllText(GetMetadataPath());
-                List<WordlistVerificationMetadata> data = JsonConvert.DeserializeObject<List<WordlistVerificationMetadata>>(json);
+                List<WordlistVerificationMetadata> data = ClientTypesJsonWorker.ReadJson<List<WordlistVerificationMetadata>>(json);
                 metadata = data.ToArray();
             }
 

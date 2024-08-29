@@ -11,8 +11,92 @@ namespace SAPTeam.Kryptor
     /// <summary>
     /// Represents methods to work with json serialization and deserialization with full support for AOT.
     /// </summary>
-    public static class JsonWorker
+    public class JsonWorker
     {
+        JsonSerializerOptions options;
+        JsonSerializerContext context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonWorker"/> class.
+        /// </summary>
+        /// <param name="options">
+        /// The serializer options. (used in netstandard2.0 or net461 targets)
+        /// </param>
+        /// <param name="context">
+        /// The source-generated serializer context. (used in net6.0+ targets)
+        /// </param>
+        public JsonWorker(JsonSerializerOptions options = null, JsonSerializerContext context = null)
+        {
+            this.options = options;
+            this.context = context;
+        }
+
+#if NET6_0_OR_GREATER
+        /// <summary>
+        /// Converts the provided object to json string.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to convert.
+        /// </param>
+        /// <returns>
+        /// The converted json string.
+        /// </returns>
+        public string ToJson(object obj)
+        {
+            return JsonSerializer.Serialize(obj, obj.GetType(), context);
+        }
+
+        /// <summary>
+        /// Converts the provided json string to <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="json">
+        /// The json string to convert.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the object to convert to and return.
+        /// </typeparam>
+        /// <returns>
+        /// A new instance of <typeparamref name="T"/> initialized with json data.
+        /// </returns>
+        public T ReadJson<T>(string json)
+            where T : class
+        {
+            return JsonSerializer.Deserialize(json, typeof(T), context) as T;
+        }
+#else
+        /// <summary>
+        /// Converts the provided object to json string.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to convert.
+        /// </param>
+        /// <returns>
+        /// The converted json string.
+        /// </returns>
+        public string ToJson(object obj)
+        {
+            return JsonSerializer.Serialize(obj, obj.GetType(), options);
+        }
+
+        /// <summary>
+        /// Converts the provided json string to <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="json">
+        /// The json string to convert.
+        /// </param>
+        /// <typeparam name="T">
+        /// The type of the object to convert to and return.
+        /// </typeparam>
+        /// <returns>
+        /// A new instance of <typeparamref name="T"/> initialized with json data.
+        /// </returns>
+        public T ReadJson<T>(string json)
+            where T : class
+        {
+            return JsonSerializer.Deserialize(json, typeof(T), options) as T;
+        }
+#endif
+
 #if NET6_0_OR_GREATER
         /// <summary>
         /// Converts the provided object to json string.
@@ -57,24 +141,22 @@ namespace SAPTeam.Kryptor
         {
             return JsonSerializer.Deserialize(json, typeof(T), context) as T;
         }
-#endif
-
-#if !NET7_0_OR_GREATER
+#else
         /// <summary>
         /// Converts the provided object to json string.
         /// </summary>
         /// <param name="obj">
         /// The object to convert.
         /// </param>
-        /// <param name="jsonSerializerOptions">
+        /// <param name="options">
         /// Options to control the conversion behavior.
         /// </param>
         /// <returns>
         /// The converted json string.
         /// </returns>
-        public static string ToJson(object obj, JsonSerializerOptions jsonSerializerOptions)
+        public static string ToJson(object obj, JsonSerializerOptions options)
         {
-            return JsonSerializer.Serialize(obj, obj.GetType(), jsonSerializerOptions);
+            return JsonSerializer.Serialize(obj, obj.GetType(), options);
         }
 
         /// <summary>
@@ -83,7 +165,7 @@ namespace SAPTeam.Kryptor
         /// <param name="json">
         /// The json string to convert.
         /// </param>
-        /// <param name="jsonSerializerOptions">
+        /// <param name="options">
         /// Options to control the conversion behavior.
         /// </param>
         /// <typeparam name="T">
@@ -92,10 +174,10 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// A new instance of <typeparamref name="T"/> initialized with json data.
         /// </returns>
-        public static T ReadJson<T>(string json, JsonSerializerOptions jsonSerializerOptions)
+        public static T ReadJson<T>(string json, JsonSerializerOptions options)
             where T : class
         {
-            return JsonSerializer.Deserialize(json, typeof(T), jsonSerializerOptions) as T;
+            return JsonSerializer.Deserialize(json, typeof(T), options) as T;
         }
 #endif
     }

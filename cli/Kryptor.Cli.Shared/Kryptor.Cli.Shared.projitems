@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)KeyChainReaderSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreGenerateSessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PauseRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WordlistJsonContainer.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreRandomLoadSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\CompileSession.cs" />
@@ -46,7 +47,7 @@
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreAnalyze\CrackSubSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreAnalyze\SessionHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreLoadSession.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SchemaJsonConverter.cs" />
+    <None Include="$(MSBuildThisFileDirectory)SchemaJsonConverter.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreTokenLoadSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreFileLoadSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />

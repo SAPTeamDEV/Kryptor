@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Newtonsoft.Json;
-
 namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
@@ -15,12 +13,6 @@ namespace SAPTeam.Kryptor.Client
         private readonly object _saveLock = new object();
 
         private readonly List<KeyChain> keyChainList;
-
-        private readonly JsonSerializerSettings settings = new JsonSerializerSettings()
-        {
-            Formatting = Formatting.Indented,
-            NullValueHandling = NullValueHandling.Ignore,
-        };
 
         /// <summary>
         /// Gets the path of the keychain json file.
@@ -86,7 +78,7 @@ namespace SAPTeam.Kryptor.Client
                 }
             }
 
-            keyChainList = JsonConvert.DeserializeObject<List<KeyChain>>(data);
+            keyChainList = ClientTypesJsonWorker.ReadJson<List<KeyChain>>(data);
         }
 
         /// <summary>
@@ -135,7 +127,7 @@ namespace SAPTeam.Kryptor.Client
         {
             lock (_saveLock)
             {
-                string kJson = JsonConvert.SerializeObject(keyChainList, settings);
+                string kJson = ClientTypesJsonWorker.ToJson(keyChainList);
 
                 File.WriteAllText(FilePath, kJson);
             }

@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 using MoreLinq;
 
-using Newtonsoft.Json;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
@@ -181,7 +179,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 });
             }
 
-            string mJson = JsonConvert.SerializeObject(metadata);
+            string mJson = ClientTypesJsonWorker.ToJson(metadata);
             byte[] mEncode = Encoding.UTF8.GetBytes(mJson);
 
             File.WriteAllBytes(Path.Combine(IndexEntry.InstallDirectory, "metadata.json"), mEncode);
