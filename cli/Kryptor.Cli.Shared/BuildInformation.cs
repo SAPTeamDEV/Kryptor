@@ -9,23 +9,11 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class BuildInformation
     {
-#if DEBUG
-        public const BuildBranch Branch = BuildBranch.Debug;
-#elif NUGET
-        public const BuildBranch Branch = BuildBranch.Nuget;
-#elif INDEXER
-        public const BuildBranch Branch = BuildBranch.Indexer;
-#elif RELEASE
-        public const BuildBranch Branch = BuildBranch.Release;
-#else
-        public const BuildBranch Branch = BuildBranch.None;
-#endif
+        public static BuildVariant Variant { get; private set; }
 
-#if AOT
-        public const bool IsAot = true;
-#else
-        public const bool IsAot = false;
-#endif
+        public static BuildBranch Branch { get; private set; }
+
+        public static bool IsAot { get; private set; }
 
         public static DateTime BuildTime { get; }
 
@@ -41,6 +29,9 @@ namespace SAPTeam.Kryptor.Cli
 
         static BuildInformation()
         {
+            DefineVariant();
+            DefineConstants();
+
             string format = "MM/dd/yyyy HH:mm:ss";
             string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;
 
@@ -56,6 +47,27 @@ namespace SAPTeam.Kryptor.Cli
             ApplicationVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
             ClientVersion = new Version(Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
             EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+        }
+
+        static void DefineConstants()
+        {
+#if DEBUG
+            Branch = BuildBranch.Debug;
+#elif NUGET
+            Branch = BuildBranch.Nuget;
+#elif INDEXER
+            Branch = BuildBranch.Indexer;
+#elif RELEASE
+            Branch = BuildBranch.Release;
+#else
+            Branch = BuildBranch.None;
+#endif
+
+#if AOT
+            IsAot = true;
+#else
+            IsAot = false;
+#endif
         }
     }
 }
