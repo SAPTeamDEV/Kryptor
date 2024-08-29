@@ -37,10 +37,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public override void Start(ClientContext context)
         {
-            Config<WordlistIndexLegacy> IndexContainer = new Config<WordlistIndexLegacy>(indexPath);
-            IndexContainer.Write();
-
-            WordlistIndexLegacy Index = IndexContainer.Prefs;
+            WordlistIndexLegacy Index = Utilities.ClientTypesJsonWorker.ReadJson<WordlistIndexLegacy>(indexPath);
             WordlistIndex IndexV2 = new WordlistIndex();
 
             foreach (KeyValuePair<string, WordlistIndexEntryLegacy> entry in Index.Wordlists)
