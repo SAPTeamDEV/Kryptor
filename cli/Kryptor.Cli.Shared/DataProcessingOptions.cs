@@ -10,6 +10,7 @@ namespace SAPTeam.Kryptor.Cli
         public bool Continuous { get; set; }
         public bool RemoveHash { get; set; }
         public bool DynamicBlockProcessing { get; set; }
+        public string OutputPath { get; set; }
         public string KeyStore { get; set; }
         public string[] Files { get; set; }
     }
@@ -21,16 +22,18 @@ namespace SAPTeam.Kryptor.Cli
         private readonly Option<bool> continuous;
         private readonly Option<bool> removeHash;
         private readonly Option<bool> dbp;
+        private readonly Option<string> outputPath;
         private readonly Option<string> keyStore;
         private readonly Argument<IEnumerable<string>> files;
 
-        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> keyStore, Argument<IEnumerable<string>> files)
+        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> outputPath, Option<string> keyStore, Argument<IEnumerable<string>> files)
         {
             this.blockSize = blockSize;
             this.provider = provider;
             this.continuous = continuous;
             this.removeHash = removeHash;
             this.dbp = dbp;
+            this.outputPath = outputPath;
             this.keyStore = keyStore;
             this.files = files;
         }
@@ -44,6 +47,7 @@ namespace SAPTeam.Kryptor.Cli
                 Continuous = bindingContext.ParseResult.GetValueForOption(continuous),
                 RemoveHash = bindingContext.ParseResult.GetValueForOption(removeHash),
                 DynamicBlockProcessing = bindingContext.ParseResult.GetValueForOption(dbp),
+                OutputPath = bindingContext.ParseResult.GetValueForOption(outputPath),
                 KeyStore = bindingContext.ParseResult.GetValueForOption(keyStore),
                 Files = bindingContext.ParseResult.GetValueForArgument(files).ToArray(),
             };

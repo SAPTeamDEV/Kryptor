@@ -47,61 +47,6 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
-
-                    /* Unmerged change from project 'Kryptor.Cli (net6.0)'
-                    Before:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    After:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    */
-
-                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net481)'
-                    Before:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    After:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    */
-
-                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net462)'
-                    Before:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    After:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    */
-
-                    /* Unmerged change from project 'Kryptor.Cli.Legacy (net472)'
-                    Before:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    After:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    */
-
-                    /* Unmerged change from project 'Kryptor.Cli.Native (net8.0)'
-                    Before:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        var cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    After:
-                                        Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-
-                                        IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
-                    */
                     Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
 
                     IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
@@ -136,6 +81,9 @@ namespace SAPTeam.Kryptor.Cli
 
             Option<bool> dbp = new Option<bool>("--dbp", "Enables the Dynamic Block Processing");
             dbp.AddAlias("-d");
+
+            Option<string> outputPath = new Option<string>("--output", getDefaultValue: () => Path.GetFullPath("."), description: "The output directory. by default it points to the current directory.");
+            outputPath.AddAlias("-o");
 
             Option<string> keystore = new Option<string>("--keystore", "Keystore file path or transformer token");
             keystore.AddAlias("-k");
@@ -188,6 +136,7 @@ namespace SAPTeam.Kryptor.Cli
                 dbp,
                 hVerbose,
                 keyChain,
+                outputPath,
                 keystore,
                 files
             };
@@ -198,7 +147,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files), hVerbose, keyChain);
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files), hVerbose, keyChain);
             #endregion
 
             #region Decryption Options
@@ -209,6 +158,7 @@ namespace SAPTeam.Kryptor.Cli
                 continuous,
                 removeHash,
                 dbp,
+                outputPath,
                 keystore,
                 files
             };
@@ -219,7 +169,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 DecryptionSessionHost sessionHost = new DecryptionSessionHost(globalOptionsT, dpoT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, keystore, files));
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files));
             #endregion
 
             Command genCmd = GetGenerateCommand(globalOptionsBinder);

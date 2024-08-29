@@ -7,10 +7,11 @@ namespace SAPTeam.Kryptor.Cli
         private readonly Kes kes;
         private readonly int hVerbose;
         private readonly string file;
+        private readonly string outputPath;
 
         public ClientHeader Header { get; private set; }
 
-        public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file)
+        public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file, string outputPath)
         {
             Description = "";
 
@@ -19,6 +20,7 @@ namespace SAPTeam.Kryptor.Cli
 
             this.hVerbose = hVerbose;
             this.file = file;
+            this.outputPath = outputPath;
         }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
@@ -43,7 +45,7 @@ namespace SAPTeam.Kryptor.Cli
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
             FileStream sourceStream = File.OpenRead(file);
-            string destFileName = Utilities.GetNewFileName(Path.GetDirectoryName(file), Path.GetFileName(file) + ".kef");
+            string destFileName = Utilities.GetNewFileName(outputPath, $"{Path.GetFileName(file)}.kef");
             FileStream destStream = File.OpenWrite(destFileName);
 
             try

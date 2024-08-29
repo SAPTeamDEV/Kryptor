@@ -8,8 +8,9 @@ namespace SAPTeam.Kryptor.Cli
         private readonly CryptoProviderConfiguration configuration;
         private readonly int blockSize;
         private readonly string file;
+        private readonly string outputPath;
 
-        public DecryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, string file)
+        public DecryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, string file, string outputPath)
         {
             Description = "";
 
@@ -17,6 +18,7 @@ namespace SAPTeam.Kryptor.Cli
             this.configuration = configuration;
             this.blockSize = blockSize;
             this.file = file;
+            this.outputPath = outputPath;
         }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
@@ -67,11 +69,15 @@ namespace SAPTeam.Kryptor.Cli
                     config = header.Configuration;
                 }
             }
+            else
+            {
+                Messages.Add("Warning: Cannot find any valid header in this file");
+            }
 
             Kes kes = new Kes(keyStore, config, bs);
             kes.ProgressChanged += UpdateProgress;
 
-            destFileName = Utilities.GetNewFileName(Path.GetDirectoryName(file), destFileName);
+            destFileName = Utilities.GetNewFileName(outputPath, destFileName);
             FileStream destStream = File.OpenWrite(destFileName);
 
             try

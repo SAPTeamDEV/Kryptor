@@ -8,6 +8,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public CryptoProviderConfiguration Configuration { get; }
 
+        public string OutputPath { get; }
+
         public KeyStore KeyStore { get; private set; }
 
         public readonly string KeystoreString;
@@ -26,6 +28,8 @@ namespace SAPTeam.Kryptor.Cli
                 DynamicBlockProccessing = options.DynamicBlockProcessing,
             };
 
+            OutputPath = Path.GetFullPath(options.OutputPath);
+
             Files = options.Files;
 
             KeystoreString = options.KeyStore;
@@ -34,6 +38,11 @@ namespace SAPTeam.Kryptor.Cli
         public override void Start(ClientContext context)
         {
             base.Start(context);
+
+            if (!Directory.Exists(OutputPath))
+            {
+                Directory.CreateDirectory(OutputPath);
+            }
 
             KeyStore = LoadKeyStore(KeystoreString);
         }
