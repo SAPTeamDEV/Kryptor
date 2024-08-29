@@ -21,35 +21,6 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         public static JsonWorker ClientTypesJsonWorker { get; }
 
-        /* Unmerged change from project 'Kryptor.Client (net6.0)'
-        Before:
-                static Utilities()
-                {
-        #if NET6_0_OR_GREATER
-        After:
-                static Utilities() =>
-        #if NET6_0_OR_GREATER
-        */
-
-        /* Unmerged change from project 'Kryptor.Client (net8.0)'
-        Before:
-                static Utilities()
-                {
-        #if NET6_0_OR_GREATER
-        After:
-                static Utilities() =>
-        #if NET6_0_OR_GREATER
-        */
-
-        /* Unmerged change from project 'Kryptor.Client (netstandard2.0)'
-        Before:
-                static Utilities()
-                {
-        #if NET6_0_OR_GREATER
-        After:
-                static Utilities() =>
-        #if NET6_0_OR_GREATER
-        */
         static Utilities() =>
 #if NET6_0_OR_GREATER
             ClientTypesJsonWorker = new JsonWorker(null, ClientTypesJsonSerializerContext.Default);
@@ -96,25 +67,25 @@ namespace SAPTeam.Kryptor.Client
         /// <summary>
         /// Gets a new non-repetitive file name
         /// </summary>
-        /// <param name="source">
-        /// The source file woth path.
+        /// <param name="path">
+        /// The destination directory.
         /// </param>
         /// <param name="newName">
-        /// The intended name for new file.
+        /// The proposed name for the new file.
         /// </param>
         /// <returns></returns>
-        public static string GetNewFileName(string source, string newName)
+        public static string GetNewFileName(string path, string newName)
         {
-            string destination = Path.Combine(Directory.GetParent(source).FullName, newName);
+            string destination = Path.Combine(path, newName);
             int suffix = 2;
 
             while (File.Exists(destination))
             {
-                string tempName = $"{Path.GetFileNameWithoutExtension(destination)} ({suffix++}){Path.GetExtension(destination)}";
+                string tempName = $"{Path.GetFileNameWithoutExtension(newName)} ({suffix++}){Path.GetExtension(newName)}";
 
-                if (!File.Exists(Path.Combine(Directory.GetParent(source).FullName, tempName)))
+                if (!File.Exists(Path.Combine(path, tempName)))
                 {
-                    destination = Path.Combine(Directory.GetParent(source).FullName, tempName);
+                    destination = Path.Combine(path, tempName);
                 }
             }
 

@@ -71,7 +71,7 @@ namespace SAPTeam.Kryptor.Cli
             Kes kes = new Kes(keyStore, config, bs);
             kes.ProgressChanged += UpdateProgress;
 
-            destFileName = Utilities.GetNewFileName(file, destFileName);
+            destFileName = Utilities.GetNewFileName(Path.GetDirectoryName(file), destFileName);
             FileStream destStream = File.OpenWrite(destFileName);
 
             try

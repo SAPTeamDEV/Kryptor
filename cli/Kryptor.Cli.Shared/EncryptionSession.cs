@@ -43,7 +43,7 @@ namespace SAPTeam.Kryptor.Cli
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
             FileStream sourceStream = File.OpenRead(file);
-            string destFileName = Utilities.GetNewFileName(file, file + ".kef");
+            string destFileName = Utilities.GetNewFileName(Path.GetDirectoryName(file), Path.GetFileName(file) + ".kef");
             FileStream destStream = File.OpenWrite(destFileName);
 
             try
