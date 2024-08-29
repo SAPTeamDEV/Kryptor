@@ -205,7 +205,7 @@ namespace SAPTeam.Kryptor
     }
 
 #if NET6_0_OR_GREATER
-    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
     [JsonSerializable(typeof(Header))]
     internal partial class SourceGenerationHeaderContext : JsonSerializerContext
     {

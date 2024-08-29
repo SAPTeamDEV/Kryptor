@@ -4,7 +4,9 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <PublishAot>true</PublishAot>
-    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PublishTrimmed>True</PublishTrimmed>
+    <IsTrimmable>true</IsTrimmable>
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
    </PropertyGroup>
 

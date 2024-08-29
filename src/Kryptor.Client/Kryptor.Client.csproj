@@ -14,8 +14,8 @@
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    
     <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <IsTrimmable>true</IsTrimmable>
    </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">

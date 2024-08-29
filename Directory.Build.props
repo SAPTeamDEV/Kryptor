@@ -15,6 +15,7 @@
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Deterministic>True</Deterministic>
     <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
 
     <Copyright>Copyright (c) SAP Team</Copyright>
   </PropertyGroup>

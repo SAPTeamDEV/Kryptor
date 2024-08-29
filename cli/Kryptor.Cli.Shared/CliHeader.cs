@@ -34,7 +34,7 @@ namespace SAPTeam.Kryptor.Cli
     }
 
 #if NET6_0_OR_GREATER
-    [JsonSourceGenerationOptions(WriteIndented = true)]
+    [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull, PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
     [JsonSerializable(typeof(Header))]
     [JsonSerializable(typeof(ClientHeader))]
     [JsonSerializable(typeof(CliHeader))]
