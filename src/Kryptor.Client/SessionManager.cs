@@ -88,12 +88,16 @@
         /// <param name="autoRemove">
         /// Determines whether to automatically remove session after end.
         /// </param>
-        public void NewSession(ISession session, bool autoRemove)
+        /// <param name="autoStart">
+        /// Determines whether to automatically call the session manager to start this session.
+        /// </param>
+        public void NewSession(ISession session, bool autoRemove, bool autoStart)
         {
             SessionHolder sessionHolder = WrapSession(session, autoRemove);
 
             Add(sessionHolder);
-            StartQueuedSessions();
+
+            if (autoStart) StartQueuedSessions();
         }
 
         /// <summary>
@@ -133,7 +137,7 @@
         /// The ready to run sessions determined by calling the <see cref="ISession.IsReady(CancellationToken)"/> method, if the return value is <see langword="true"/> the session will be added to the waiting list, otherwise it will be ignored and rechecked at the next run of the task scheduler.
         /// There is some important notes about this process.
         /// <para>
-        /// The task scheduler only runs after each <see cref="NewSession(ISession, bool)"/>calls and session ends. so if there is two sessions and the second session does not get ready until first session end, the task scheduler won't try to run that session and it will stuck at waiting status.
+        /// The task scheduler only runs after each <see cref="NewSession(ISession, bool, bool)"/>calls and session ends. so if there is two sessions and the second session does not get ready until first session end, the task scheduler won't try to run that session and it will stuck at waiting status.
         /// </para>
         /// <para>
         /// The <see cref="ISession.IsReady(CancellationToken)"/> should not throw ANY exceptions at all. it may break the scheduler.

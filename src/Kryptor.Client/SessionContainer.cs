@@ -5,6 +5,7 @@
     /// </summary>
     public partial class SessionContainer
     {
+        readonly object _addLock = new object();
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;
@@ -36,33 +37,6 @@
         {
             get
             {
-
-                /* Unmerged change from project 'Kryptor.Client (net6.0)'
-                Before:
-                                if (tokenSources == null)
-                                {
-                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                After:
-                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                */
-
-                /* Unmerged change from project 'Kryptor.Client (net8.0)'
-                Before:
-                                if (tokenSources == null)
-                                {
-                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                After:
-                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                */
-
-                /* Unmerged change from project 'Kryptor.Client (netstandard2.0)'
-                Before:
-                                if (tokenSources == null)
-                                {
-                                    tokenSources = SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                After:
-                                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
-                */
                 tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
 
                 return tokenSources;
@@ -88,12 +62,14 @@
         /// <returns>The unique identifier of this entry.</returns>
         public int Add(SessionHolder sessionHolder)
         {
-            int rn = SessionPool.Keys.LastOrDefault() + 1;
-
-            sessionHolder.Id = rn;
-            SessionPool[rn] = sessionHolder;
-            ResetCache();
-            return rn;
+            lock (_addLock)
+            {
+                int rn = SessionPool.Keys.LastOrDefault() + 1;
+                sessionHolder.Id = rn;
+                SessionPool[rn] = sessionHolder;
+                ResetCache();
+                return rn;
+            }
         }
 
         /// <summary>
@@ -104,8 +80,11 @@
         /// </param>
         public void AddMonitoringTask(Task task)
         {
-            TaskPool.Add(task);
-            ResetCache();
+            lock (_addLock)
+            {
+                TaskPool.Add(task);
+                ResetCache();
+            }
         }
 
         /// <summary>

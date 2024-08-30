@@ -35,7 +35,10 @@
         /// <param name="autoRemove">
         /// Determines whether to automatically remove session after end.
         /// </param>
-        void NewSession(ISession session, bool autoRemove);
+        /// <param name="autoStart">
+        /// Determines whether to automatically call the session manager to start this session.
+        /// </param>
+        void NewSession(ISession session, bool autoRemove, bool autoStart);
 
         /// <summary>
         /// Adds given task to the task pool and be monitored by the session host.
