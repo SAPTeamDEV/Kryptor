@@ -12,6 +12,10 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public partial class SessionGroup : ICollection<ISession>
     {
+        object _lockStatus = new object();
+        object _lockStart = new object();
+        object _lockEnd = new object();
+
         int _slotId = 0;
 
         protected double[] ProgressArray {  get; private set; }
@@ -26,9 +30,9 @@ namespace SAPTeam.Kryptor.Client
 
         public SessionEndReason EndReason { get; protected set; }
 
-        public Stopwatch Timer { get; }
+        public Stopwatch Timer { get; } = new Stopwatch();
 
-        public double Progress => ProgressArray.DefaultIfEmpty(0).Average();
+        public double Progress => ProgressArray != null ? ProgressArray.DefaultIfEmpty(0).Average() : 0;
 
         protected void AddHooks(ISession session)
         {
@@ -43,32 +47,38 @@ namespace SAPTeam.Kryptor.Client
 
         private void OnSessionStatusChanged(object sender, SessionEventArgs e)
         {
-            if (e.Status == SessionStatus.Running)
+            lock (_lockStatus)
             {
-                Waiting--;
-                Running++;
-            }
-            else if (e.Status == SessionStatus.Ended && e.PreviousStatus == SessionStatus.Running)
-            {
-                Running--;
-                Ended++;
-            }
-            else if (e.Status == SessionStatus.Ended && e.PreviousStatus == SessionStatus.NotStarted)
-            {
-                Waiting--;
-                Ended++;
+                if (e.Status == SessionStatus.Running)
+                {
+                    Waiting--;
+                    Running++;
+                }
+                else if (e.Status == SessionStatus.Ended && e.PreviousStatus == SessionStatus.Running)
+                {
+                    Running--;
+                    Ended++;
+                }
+                else if (e.Status == SessionStatus.Ended && e.PreviousStatus == SessionStatus.NotStarted)
+                {
+                    Waiting--;
+                    Ended++;
+                }
             }
         }
 
         void OnSessionStarted(object sender, SessionEventArgs e)
         {
-            if (Status != SessionStatus.NotStarted) return;
+            lock (_lockStart)
+            {
+                if (Status != SessionStatus.NotStarted) return;
 
-            Status = SessionStatus.Running;
-            Timer.Start();
+                Status = SessionStatus.Running;
+                Timer.Start();
 
-            IsLocked = true;
-            ProgressArray = new double[Count];
+                IsLocked = true;
+                ProgressArray = new double[Count];
+            }
         }
 
         void OnSessionProgressChanged(int slotId, object sender, SessionUpdateEventArgs e)
@@ -78,19 +88,22 @@ namespace SAPTeam.Kryptor.Client
 
         void OnSessionEnded(object sender, SessionEventArgs e)
         {
-            if (e.EndReason == SessionEndReason.Cancelled)
+            lock (_lockEnd)
             {
-                EndReason = e.EndReason;
-            }
-
-            if (Waiting == 0 && Running == 0)
-            {
-                if (EndReason != SessionEndReason.Cancelled)
+                if (e.EndReason == SessionEndReason.Cancelled)
                 {
-                    EndReason = SessionEndReason.Completed;
+                    EndReason = e.EndReason;
                 }
 
-                Status = SessionStatus.Ended;
+                if (Waiting == 0 && Running == 0)
+                {
+                    if (EndReason != SessionEndReason.Cancelled)
+                    {
+                        EndReason = SessionEndReason.Completed;
+                    }
+
+                    Status = SessionStatus.Ended;
+                }
             }
         }
     }

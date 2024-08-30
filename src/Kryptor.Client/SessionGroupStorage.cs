@@ -9,7 +9,9 @@ namespace SAPTeam.Kryptor.Client
 {
     public partial class SessionGroup
     {
-        HashSet<ISession> storage;
+        object _addLock = new object();
+
+        HashSet<ISession> storage = new HashSet<ISession>();
 
         /// <summary>
         /// Gets a bool indicates the lock status of this session group.
@@ -38,20 +40,23 @@ namespace SAPTeam.Kryptor.Client
         {
             ThrowIfLocked();
 
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            lock (_addLock)
+            {
+                if (item == null) throw new ArgumentNullException(nameof(item));
 
-            if (item.Status != SessionStatus.NotStarted)
-            {
-                throw new ArgumentException("Cannot add an already started session");
-            }
+                if (item.Status != SessionStatus.NotStarted)
+                {
+                    throw new ArgumentException("Cannot add an already started session");
+                }
 
-            if (storage.Add(item))
-            {
-                AddHooks(item);
-            }
-            else
-            {
-                throw new InvalidOperationException("Item is already exists");
+                if (storage.Add(item))
+                {
+                    AddHooks(item);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Item is already exists");
+                }
             }
         }
 
