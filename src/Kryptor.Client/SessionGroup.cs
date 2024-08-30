@@ -85,6 +85,11 @@ namespace SAPTeam.Kryptor.Client
 
             if (Waiting == 0 && Running == 0)
             {
+                if (EndReason != SessionEndReason.Cancelled)
+                {
+                    EndReason = SessionEndReason.Completed;
+                }
+
                 Status = SessionStatus.Ended;
             }
         }
