@@ -127,6 +127,9 @@ namespace SAPTeam.Kryptor.Cli
             Option<string> keyChain = new Option<string>("--keychain", "Determines the key chain json file to store files unique identifiers and keystore information to it");
             keyChain.AddAlias("-K");
 
+            Option<bool> obfuscate = new Option<bool>("--obfuscate", "Obfuscates encrypted file name by renaming it to a random file name");
+            obfuscate.AddAlias("-O");
+
             Command encCmd = new Command("encrypt", "Encrypts files with keystore")
             {
                 blockSize,
@@ -136,6 +139,7 @@ namespace SAPTeam.Kryptor.Cli
                 dbp,
                 hVerbose,
                 keyChain,
+                obfuscate,
                 outputPath,
                 keystore,
                 files
@@ -143,11 +147,11 @@ namespace SAPTeam.Kryptor.Cli
 
             encCmd.AddAlias("e");
 
-            encCmd.SetHandler((globalOptionsT, dpoT, hVerboseT, keyChainT) =>
+            encCmd.SetHandler((globalOptionsT, dpoT, hVerboseT, keyChainT, obfuscateT) =>
             {
-                EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT);
+                EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT, obfuscateT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files), hVerbose, keyChain);
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files), hVerbose, keyChain, obfuscate);
             #endregion
 
             #region Decryption Options

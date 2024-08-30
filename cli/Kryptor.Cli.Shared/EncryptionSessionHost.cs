@@ -8,12 +8,14 @@ namespace SAPTeam.Kryptor.Cli
         public string KeyChainPath { get; }
         public bool UseKeyChain { get; }
         public KeyChainCollection KeyChainCollection { get; private set; }
+        public bool Obfuscate { get; }
 
-        public EncryptionSessionHost(GlobalOptions globalOptions, DataProcessingOptions options, int hVerbose, string keyChainPath) : base(globalOptions, options)
+        public EncryptionSessionHost(GlobalOptions globalOptions, DataProcessingOptions options, int hVerbose, string keyChainPath, bool obfuscate) : base(globalOptions, options)
         {
             HeaderVerbosity = hVerbose;
             KeyChainPath = keyChainPath;
             UseKeyChain = hVerbose > 1 && !string.IsNullOrEmpty(keyChainPath);
+            Obfuscate = obfuscate;
         }
 
         public override void Start(ClientContext context)

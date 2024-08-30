@@ -1,4 +1,5 @@
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Generators;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -13,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file, string outputPath)
         {
-            Description = "";
+            Description = file;
 
             kes = new Kes(keyStore, configuration, blockSize);
             kes.ProgressChanged += UpdateProgress;
@@ -25,7 +26,7 @@ namespace SAPTeam.Kryptor.Cli
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            Description = "Prepairing";
+            EncryptionSessionHost encSessionHost = (EncryptionSessionHost)sessionHost;
 
             if (!File.Exists(file))
             {
@@ -45,20 +46,37 @@ namespace SAPTeam.Kryptor.Cli
             header.Verbosity = (HeaderVerbosity)hVerbose;
 
             FileStream sourceStream = File.OpenRead(file);
-            string destFileName = Utilities.GetNewFileName(outputPath, $"{Path.GetFileName(file)}.kef");
+
+            string destName;
+            if (encSessionHost.Obfuscate)
+            {
+                var buffer = new byte[12];
+                EntroX.Instance.Generate(buffer);
+                destName = BitConverter.ToString(buffer).Replace("-", "").ToLower();
+            }
+            else
+            {
+                destName = Path.GetFileName(file);
+            }
+
+            string destFileName = Utilities.GetNewFileName(outputPath, $"{destName}.kef");
+
             FileStream destStream = File.OpenWrite(destFileName);
 
             try
             {
-                Description = destFileName;
                 await kes.EncryptAsync(sourceStream, destStream, header, cancellationToken);
 
-                EncryptionSessionHost encSessionHost = (EncryptionSessionHost)sessionHost;
                 if (encSessionHost.UseKeyChain)
                 {
                     Description = "Creating keychain";
                     encSessionHost.KeyChainCollection.Add(header, kes.Provider.KeyStore, TransformerToken.IsValid(encSessionHost.KeystoreString) ? encSessionHost.KeystoreString : null);
-                    Description = destFileName;
+                    Description = file;
+                }
+
+                if (encSessionHost.Obfuscate && encSessionHost.Verbose)
+                {
+                    Messages.Add($"Encrypted {file} to {destFileName}");
                 }
 
                 return true;

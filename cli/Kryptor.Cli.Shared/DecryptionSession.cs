@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public DecryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, string file, string outputPath)
         {
-            Description = "";
+            Description = file;
 
             this.keyStore = keyStore;
             this.configuration = configuration;
@@ -29,8 +29,6 @@ namespace SAPTeam.Kryptor.Cli
                 Description = "file not found";
                 return false;
             }
-
-            Description = "Reading header";
 
             FileStream sourceStream = File.OpenRead(file);
             CliHeader header = Header.ReadHeader<CliHeader>(sourceStream);
@@ -82,7 +80,7 @@ namespace SAPTeam.Kryptor.Cli
 
             try
             {
-                Description = destFileName;
+                Description = file;
                 await kes.DecryptAsync(sourceStream, destStream, cancellationToken);
                 return true;
             }
