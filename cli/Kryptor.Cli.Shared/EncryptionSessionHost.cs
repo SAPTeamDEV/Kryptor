@@ -29,14 +29,17 @@ namespace SAPTeam.Kryptor.Cli
                 KeyChainCollection = new KeyChainCollection(KeyChainPath);
             }
 
+            var sessionGroup = new SessionGroup();
+
             Parallel.ForEach(Files, entry =>
             {
                 EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, entry.Key, entry.Value);
+                sessionGroup.Add(session);
                 NewSession(session, autoStart: false);
             });
 
             Container.StartQueuedSessions();
-            ShowProgressMonitored(true).Wait();
+            ShowProgressMonitored(sessionGroup).Wait();
 
             if (UseKeyChain)
             {

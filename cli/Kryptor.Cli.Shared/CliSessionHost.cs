@@ -261,6 +261,32 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
+        {
+            var bw = Console.BufferWidth;
+
+            while (true)
+            {
+                var ended = sessionGroup.Status == SessionStatus.Ended;
+
+                Console.WriteLine($"[{Math.Round(sessionGroup.Progress, 2)}] S:{sessionGroup.Status} W:{sessionGroup.Waiting} R:{sessionGroup.Running} E:{sessionGroup.Ended} C:{sessionGroup.Count} IN:{sessionGroup.Timer.Elapsed:hh\\:mm\\:ss}".Shrink(bw).PadRight(bw));
+
+                await Task.Delay(500);
+
+                if (ended)
+                {
+                    foreach (var session in sessionGroup.Where(x => x.Messages.Count > 0))
+                    {
+                        session.Messages.ForEach(x => Console.WriteLine($"({session.Name}) -> {x}"));
+                    }
+
+                    break;
+                }
+
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+            }
+        }
+
         private static void FillToCeiling(int paddingBufferSize, ref int ceilingLine, ref int curLines)
         {
             if (curLines > ceilingLine)
@@ -413,6 +439,20 @@ namespace SAPTeam.Kryptor.Cli
         protected Task ShowProgressMonitored(bool showOverall, bool showRemaining = true)
         {
             Task pTask = ShowProgress(showOverall, showRemaining);
+            MonitorTask(pTask);
+            return pTask;
+        }
+
+        protected Task ShowProgress(SessionGroup sessionGroup)
+        {
+            Task pTask = ShowProgressNewImpl(sessionGroup);
+
+            return pTask;
+        }
+
+        protected Task ShowProgressMonitored(SessionGroup sessionGroup)
+        {
+            Task pTask = ShowProgress(sessionGroup);
             MonitorTask(pTask);
             return pTask;
         }
