@@ -20,12 +20,14 @@ namespace SAPTeam.Kryptor.Generators
             crng.NextBytes(entropy);
 
             _sha512 = SHA512.Create();
+
+            Instance = new EntroX();
         }
 
         /// <summary>
         /// Gets an static shared instance of the <see cref="EntroX"/> class.
         /// </summary>
-        public static EntroX Instance { get; } = new EntroX();
+        public static EntroX Instance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntroX"/> class.
