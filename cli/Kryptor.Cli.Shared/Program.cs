@@ -109,7 +109,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     if (x.Tokens.Count == 0)
                     {
-                        x.ErrorMessage = "You must specify at least one file";
+                        x.ErrorMessage = "You must specify at least one file or folder";
                         return null;
                     }
                     else

@@ -59,15 +59,12 @@ namespace SAPTeam.Kryptor.Cli
                 Console.SetOut(tw);
             }
 
-#if AOT
-            LogError("The AOT builds are in development stage and may have unintended behaviors".WithColor(Color.Yellow));
-#endif
+            if (BuildInformation.IsAot) LogError("The AOT builds are in development stage and may have unintended behaviors".WithColor(Color.Yellow));
+            if (BuildInformation.Variant == BuildVariant.Legacy) LogError("The Legacy version have poor performance and uses old libraries and APIs, it's highly recommended to use the standard or AOT variants".WithColor(Color.Yellow));
 
             Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.WithColor(Color.Cyan)}");
 
-#if DEBUG
-            Log($"Engine version: {Program.Context.EngineVersion.WithColor(Color.Cyan)}");
-#endif
+            if (BuildInformation.Branch == BuildBranch.Debug) Log($"Engine version: {Program.Context.EngineVersion.WithColor(Color.Cyan)}");
         }
 
         protected void Log(string message = null) => Console.WriteLine(message);
