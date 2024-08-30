@@ -168,7 +168,7 @@ namespace SAPTeam.Kryptor.Client
         public event EventHandler<SessionUpdateEventArgs> SessionResumed;
 
         /// <summary>
-        /// Sets all session properties to thir default data.
+        /// Sets all session properties to their default data.
         /// </summary>
         protected Session()
         {
@@ -210,7 +210,7 @@ namespace SAPTeam.Kryptor.Client
             }
             catch (OperationCanceledException ocex)
             {
-                EndReason = SessionEndReason.Cancelled;
+                EndReason = cancellationToken.IsCancellationRequested ? SessionEndReason.Cancelled : SessionEndReason.Failed;
                 Exception = ocex;
             }
             catch (Exception ex)
@@ -220,17 +220,25 @@ namespace SAPTeam.Kryptor.Client
                     ex = ex.InnerException;
                 }
 
-                Description = $"{ex.GetType().Name}: {ex.Message}";
-                Messages.Add(sessionHost.Verbose ? ex.ToString() : Description);
-
                 EndReason = SessionEndReason.Failed;
                 Exception = ex;
             }
             finally
             {
+                if (EndReason == SessionEndReason.Failed)
+                {
+                    SetErrorMessage(sessionHost, Exception);
+                }
+
                 Timer.Stop();
                 Status = SessionStatus.Ended;
             }
+        }
+
+        private void SetErrorMessage(ISessionHost sessionHost, Exception ex)
+        {
+            Description = $"{ex.GetType().Name}: {ex.Message}";
+            Messages.Add(sessionHost.Verbose ? ex.ToString() : Description);
         }
 
         /// <inheritdoc/>
