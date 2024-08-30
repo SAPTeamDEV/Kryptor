@@ -10,6 +10,7 @@ namespace SAPTeam.Kryptor.Client
         private double progress = 0;
         private string description = "";
         private SessionStatus status = SessionStatus.NotStarted;
+        private SessionStatus prvStatus = SessionStatus.NotStarted;
         private SessionEndReason endReason;
         private Exception exception;
         private bool isPaused;
@@ -90,7 +91,9 @@ namespace SAPTeam.Kryptor.Client
                 if (value == status) return;
                 if (value < status) throw new InvalidOperationException("Cannot revert the session's status");
 
+                prvStatus = status;
                 status = value;
+
                 if (value == SessionStatus.Managed) return;
 
                 OnStatusChanged();
@@ -337,6 +340,7 @@ namespace SAPTeam.Kryptor.Client
                 Progress = Progress,
                 Description = Description,
                 IsPause = IsPaused,
+                PreviousStatus = prvStatus,
                 Status = Status,
                 EndReason = EndReason,
                 Exception = Exception,

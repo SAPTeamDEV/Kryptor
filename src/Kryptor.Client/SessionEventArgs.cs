@@ -6,6 +6,11 @@
     public class SessionEventArgs : SessionUpdateEventArgs
     {
         /// <summary>
+        /// Gets the value of the session status before triggering this event.
+        /// </summary>
+        public SessionStatus PreviousStatus { get; internal set; }
+
+        /// <summary>
         /// Gets the current status of the session.
         /// </summary>
         public SessionStatus Status { get; internal set; }
