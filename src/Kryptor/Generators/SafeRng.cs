@@ -10,6 +10,11 @@
         /// <inheritdoc/>
         public event EventHandler<double> ProgressChanged;
 
+        /// <summary>
+        /// Gets an static shared instance of the <see cref="SafeRng"/> class.
+        /// </summary>
+        public static SafeRng Instance { get; } = new SafeRng();
+
         /// <inheritdoc/>
         public void Generate(byte[] buffer)
         {

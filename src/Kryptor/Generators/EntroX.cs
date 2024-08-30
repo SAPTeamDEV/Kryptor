@@ -23,6 +23,11 @@ namespace SAPTeam.Kryptor.Generators
         }
 
         /// <summary>
+        /// Gets an static shared instance of the <see cref="EntroX"/> class.
+        /// </summary>
+        public static EntroX Instance { get; } = new EntroX();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EntroX"/> class.
         /// </summary>
         /// <param name="entropies">

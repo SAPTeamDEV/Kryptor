@@ -20,6 +20,11 @@ namespace SAPTeam.Kryptor.Generators
         private readonly int _bufferPoolSize = 1024;
 
         /// <summary>
+        /// Gets an static shared instance of the <see cref="CryptoRandom"/> class.
+        /// </summary>
+        public static CryptoRandom Instance { get; } = new CryptoRandom();
+
+        /// <summary>
         /// Gets a value indicating whether this instance has random pool enabled.
         /// </summary>
         /// <value>
