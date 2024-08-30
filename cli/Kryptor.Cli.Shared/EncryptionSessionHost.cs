@@ -1,5 +1,7 @@
 using SAPTeam.Kryptor.Client;
 
+using SharpCompress.Common;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class EncryptionSessionHost : DataProcessingSessionHost
@@ -27,12 +29,13 @@ namespace SAPTeam.Kryptor.Cli
                 KeyChainCollection = new KeyChainCollection(KeyChainPath);
             }
 
-            foreach (var entry in Files)
+            Parallel.ForEach(Files, entry =>
             {
                 EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, entry.Key, entry.Value);
-                NewSession(session);
-            }
+                NewSession(session, autoStart: false);
+            });
 
+            Container.StartQueuedSessions();
             ShowProgressMonitored(true).Wait();
 
             if (UseKeyChain)

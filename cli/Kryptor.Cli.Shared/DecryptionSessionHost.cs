@@ -13,12 +13,13 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            foreach (var entry in Files)
+            Parallel.ForEach(Files, entry =>
             {
                 DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, entry.Key, entry.Value);
-                NewSession(session);
-            }
+                NewSession(session, autoStart: false);
+            });
 
+            Container.StartQueuedSessions();
             ShowProgressMonitored(true).Wait();
         }
     }

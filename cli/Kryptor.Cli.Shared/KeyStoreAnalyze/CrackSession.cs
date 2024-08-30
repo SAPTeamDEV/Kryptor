@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
             {
                 CrackSubSession session = new CrackSubSession(i, test);
                 session.OnVerify += StopTimer;
-                NewSession(session, false);
+                NewSession(session, false, true);
             }
 
             await container.WaitAll(cancellationToken);
@@ -59,7 +59,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
         public void End(bool cancelled) => throw new System.NotImplementedException();
 
-        public void NewSession(ISession session, bool autoRemove) => container.NewSession(session, autoRemove);
+        public void NewSession(ISession session, bool autoRemove, bool autoStart) => container.NewSession(session, autoRemove, autoStart);
 
         public void MonitorTask(Task task) => throw new System.NotImplementedException();
 

@@ -1,9 +1,13 @@
+using System.CommandLine;
+
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
     public class DataProcessingSessionHost : CliSessionHost
     {
+        string[] fString;
+
         public int BlockSize { get; }
 
         public CryptoProviderConfiguration Configuration { get; }
@@ -14,7 +18,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public readonly string KeystoreString;
 
-        public Dictionary<string, string> Files { get; }
+        public Dictionary<string, string> Files { get; private set; }
 
         public DataProcessingSessionHost(GlobalOptions globalOptions, DataProcessingOptions options) : base(globalOptions)
         {
@@ -30,23 +34,7 @@ namespace SAPTeam.Kryptor.Cli
 
             OutputPath = Utilities.EnsureDirectoryExists(options.OutputPath);
 
-            var fDict = new Dictionary<string, string>();
-            foreach (var file in options.Files)
-            {
-                if (Directory.Exists(file))
-                {
-                    foreach (var subfile in Directory.GetFiles(file, "*", SearchOption.AllDirectories))
-                    {
-                        fDict[subfile] = Utilities.EnsureDirectoryExists(Path.Combine(OutputPath, GetRelativePath(file, Path.GetDirectoryName(subfile))));
-                    }
-                }
-                else
-                {
-                    fDict[Path.GetFullPath(file)] = OutputPath;
-                }
-            }
-
-            Files = fDict;
+            fString = options.Files;
 
             KeystoreString = options.KeyStore;
         }
@@ -56,6 +44,22 @@ namespace SAPTeam.Kryptor.Cli
             base.Start(context);
 
             KeyStore = LoadKeyStore(KeystoreString);
+
+            Files = new Dictionary<string, string>();
+            Parallel.ForEach(fString, file =>
+            {
+                if (Directory.Exists(file))
+                {
+                    foreach (var subfile in Directory.GetFiles(file, "*", SearchOption.AllDirectories))
+                    {
+                        Files[subfile] = Utilities.EnsureDirectoryExists(Path.Combine(OutputPath, GetRelativePath(file, Path.GetDirectoryName(subfile))));
+                    }
+                }
+                else
+                {
+                    Files[Path.GetFullPath(file)] = OutputPath;
+                }
+            });
         }
 
         public static string GetRelativePath(string relativeTo, string path)
