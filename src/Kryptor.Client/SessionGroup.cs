@@ -90,14 +90,14 @@ namespace SAPTeam.Kryptor.Client
         {
             lock (_lockEnd)
             {
-                if (e.EndReason == SessionEndReason.Cancelled)
+                if (EndReason == SessionEndReason.None && e.EndReason != SessionEndReason.Completed)
                 {
                     EndReason = e.EndReason;
                 }
 
                 if (Waiting == 0 && Running == 0)
                 {
-                    if (EndReason != SessionEndReason.Cancelled)
+                    if (EndReason == SessionEndReason.None)
                     {
                         EndReason = SessionEndReason.Completed;
                     }
