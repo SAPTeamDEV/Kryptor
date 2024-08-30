@@ -74,7 +74,7 @@ namespace SAPTeam.Kryptor.Cli
                     Description = file;
                 }
 
-                if (encSessionHost.Obfuscate && encSessionHost.Verbose)
+                if (encSessionHost.Verbose)
                 {
                     Messages.Add($"Encrypted {file} to {destFileName}");
                 }

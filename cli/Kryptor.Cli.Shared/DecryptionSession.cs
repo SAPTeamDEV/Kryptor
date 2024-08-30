@@ -82,6 +82,12 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Description = file;
                 await kes.DecryptAsync(sourceStream, destStream, cancellationToken);
+
+                if (sessionHost.Verbose)
+                {
+                    Messages.Add($"Decrypted {file} to {destFileName}");
+                }
+
                 return true;
             }
             catch (Exception)
