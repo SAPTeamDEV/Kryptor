@@ -188,7 +188,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (showOverall && (!IsOutputRedirected || isCompleted))
                 {
-                    ShowOverallTime(showRemaining, paddingBufferSize, sw, ref totalProg, count, ref runningRem, runningCount);
+                    ShowOverallTime(showRemaining, paddingBufferSize, sw, ref totalProg, count, ref runningRem, runningCount, isCompleted);
                 }
 
                 if (!IsOutputRedirected)
@@ -296,7 +296,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        private static void ShowOverallTime(bool showRemaining, int paddingBufferSize, Stopwatch sw, ref double totalProg, int count, ref double runningRem, int runningCount)
+        private static void ShowOverallTime(bool showRemaining, int paddingBufferSize, Stopwatch sw, ref double totalProg, int count, ref double runningRem, int runningCount, bool isCompleted)
         {
             totalProg = count > 0 ? Math.Round(totalProg / count, 2) : 0;
             runningRem = runningCount > 0 ? runningRem / runningCount : 0;
@@ -314,7 +314,7 @@ namespace SAPTeam.Kryptor.Cli
 
             string ovText = "";
 
-            if (totalProg > 0)
+            if (!isCompleted && totalProg > 0)
             {
                 ovText = $"[{totalProg}%] ";
             }
