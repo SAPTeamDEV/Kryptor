@@ -103,7 +103,7 @@ namespace SAPTeam.Kryptor.Cli
 
             Argument<IEnumerable<string>> files = new Argument<IEnumerable<string>>(
                 name: "files",
-                description: "Files to be processed",
+                description: "Files or folders to be processed",
                 isDefault: true,
                 parse: (x) =>
                 {

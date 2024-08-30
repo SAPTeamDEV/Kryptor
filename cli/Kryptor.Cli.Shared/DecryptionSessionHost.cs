@@ -13,9 +13,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            foreach (string file in Files)
+            foreach (var entry in Files)
             {
-                DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, file, OutputPath);
+                DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, entry.Key, entry.Value);
                 NewSession(session);
             }
 

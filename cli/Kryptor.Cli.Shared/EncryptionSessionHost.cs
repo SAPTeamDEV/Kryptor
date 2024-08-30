@@ -7,7 +7,7 @@ namespace SAPTeam.Kryptor.Cli
         public int HeaderVerbosity { get; }
         public string KeyChainPath { get; }
         public bool UseKeyChain { get; }
-        public KeyChainCollection KeyChainCollection;
+        public KeyChainCollection KeyChainCollection { get; private set; }
 
         public EncryptionSessionHost(GlobalOptions globalOptions, DataProcessingOptions options, int hVerbose, string keyChainPath) : base(globalOptions, options)
         {
@@ -25,9 +25,9 @@ namespace SAPTeam.Kryptor.Cli
                 KeyChainCollection = new KeyChainCollection(KeyChainPath);
             }
 
-            foreach (string file in Files)
+            foreach (var entry in Files)
             {
-                EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, file, OutputPath);
+                EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, entry.Key, entry.Value);
                 NewSession(session);
             }
 
