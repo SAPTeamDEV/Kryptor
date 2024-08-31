@@ -80,6 +80,38 @@
             }
         }
 
+        public SessionGroup SetSessionGroup(SessionGroup sessionGroup)
+        {
+            ValidateSessionGroup();
+
+            if (_sessionGroup != null)
+            {
+                throw new InvalidOperationException("Cannot set new session group while the current one is running");
+            }
+
+            if (sessionGroup == null)
+            {
+                throw new ArgumentNullException(nameof(sessionGroup));
+            }
+            else if (sessionGroup.IsLocked)
+            {
+                throw new ArgumentException("Cannot use a locked session group");
+            }
+
+            _sessionGroup = sessionGroup;
+            return sessionGroup;
+        }
+
+        void ValidateSessionGroup()
+        {
+            if (_sessionGroup == null) return;
+
+            if (_sessionGroup.Status == SessionStatus.Ended)
+            {
+                _sessionGroup = null;
+            }
+        }
+
         /// <summary>
         /// Starts a new session in this container.
         /// </summary>
@@ -90,16 +122,24 @@
         /// Determines whether to automatically remove session after end.
         /// </param>
         /// <param name="autoStart">
-        /// Determines whether to automatically call the session manager to start this session.
+        /// Determines whether to automatically call the session manager's task schedular to start the session. This value is ignored when a valid session group was set.
         /// </param>
-        public void NewSession(ISession session, bool autoRemove, bool autoStart, SessionGroup sessionGroup)
+        public void NewSession(ISession session, bool autoRemove, bool autoStart)
         {
+            ValidateSessionGroup();
+
             SessionHolder sessionHolder = WrapSession(session, autoRemove);
 
             Add(sessionHolder);
-            if (sessionGroup != null) sessionGroup.Add(sessionHolder);
 
-            if (autoStart) StartQueuedSessions(sessionGroup);
+            if (_sessionGroup != null)
+            {
+                _sessionGroup.Add(sessionHolder);
+            }
+            else if (autoStart)
+            {
+                StartQueuedSessions();
+            }
         }
 
         /// <summary>
@@ -146,58 +186,40 @@
         /// Although there is some layers to handle exceptions, but the <see cref="ISession.IsReady(CancellationToken)"/> is only allwed to response with <see langword="true"/> or <see langword="false"/>.
         /// </para>
         /// </remarks>
-        public void StartQueuedSessions(SessionGroup sessionGroup = null)
+        public void StartQueuedSessions()
         {
             lock (_lock)
             {
-                if (sessionGroup == null && _sessionGroup == null)
-                {
-                    QueueProcessImpl();
-                }
-                else
-                {
-                    if (sessionGroup != null) _sessionGroup = sessionGroup;
-                    QueueProcessImpl(_sessionGroup);
-                }
+                ValidateSessionGroup();
+
+                QueueProcessImpl();
             }
         }
 
         private void QueueProcessImpl()
         {
-            IEnumerable<SessionHolder> running = Holders.Where(x => x.Session.Status == SessionStatus.Running);
-            IEnumerable<SessionHolder> waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsRady(x));
+            int runningCount;
+            List<SessionHolder> waiting;
 
-            if (waiting.Count() == 0 || running.Count() >= MaxRunningSessions) return;
-
-            int toBeStarted = Math.Min(MaxRunningSessions - running.Count(), waiting.Count());
-            for (int i = 0; i < toBeStarted; i++)
+            if (_sessionGroup != null)
             {
-                try
-                {
-                    SessionHolder sessionHolder = waiting.ElementAt(i);
-                    StartManagedSession(sessionHolder);
-                }
-                catch
-                {
-                    // Do not crash the SessionManager for ANY reasons. it may cause unexpected behavior and infinite loops.
-                    if (_sessionHost.Verbose)
-                    {
-                        throw;
-                    }
-                }
+                runningCount = _sessionGroup.Running;
+                waiting = _sessionGroup.WaitingSessions;
             }
-        }
+            else
+            {
+                runningCount = Holders.Where(x => x.Session.Status == SessionStatus.Running).Count();
+                waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsRady(x)).ToList();
+            }
 
-        private void QueueProcessImpl(SessionGroup sessionGroup)
-        {
-            if (sessionGroup.Waiting == 0 || sessionGroup.Running >= MaxRunningSessions) return;
+            if (waiting.Count == 0 || runningCount >= MaxRunningSessions) return;
 
-            int toBeStarted = Math.Min(MaxRunningSessions - sessionGroup.Running, sessionGroup.Waiting);
+            int toBeStarted = Math.Min(MaxRunningSessions - runningCount, waiting.Count);
             for (int i = 0; i < toBeStarted; i++)
             {
                 try
                 {
-                    SessionHolder sessionHolder = sessionGroup.WaitingSessions[i];
+                    SessionHolder sessionHolder = waiting[i];
                     StartManagedSession(sessionHolder);
                 }
                 catch

@@ -56,7 +56,7 @@
         }
 
         /// <inheritdoc/>
-        public virtual void NewSession(ISession session, bool autoRemove = false, bool autoStart = true, SessionGroup sessionGroup = null) => Container.NewSession(session, autoRemove, autoStart, sessionGroup);
+        public virtual void NewSession(ISession session, bool autoRemove = false, bool autoStart = true) => Container.NewSession(session, autoRemove, autoStart);
 
         /// <inheritdoc/>
         public virtual void MonitorTask(Task task) => Container.AddMonitoringTask(task);

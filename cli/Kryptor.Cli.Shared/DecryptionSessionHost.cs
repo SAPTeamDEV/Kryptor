@@ -15,15 +15,15 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            var sessionGroup = new SessionGroup();
+            var sessionGroup = Container.SetSessionGroup(new SessionGroup());
 
             EnumerateFiles((filePath, outputPath) =>
             {
                 DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, filePath, outputPath);
-                NewSession(session, autoStart: false, sessionGroup: sessionGroup);
+                NewSession(session, autoStart: false);
             });
 
-            Container.StartQueuedSessions(sessionGroup);
+            Container.StartQueuedSessions();
             ShowProgressMonitored(sessionGroup).Wait();
         }
     }
