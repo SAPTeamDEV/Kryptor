@@ -127,6 +127,7 @@
         public void NewSession(ISession session, bool autoRemove, bool autoStart)
         {
             ValidateSessionGroup();
+            _sessionGroup?.ThrowIfLocked();
 
             SessionHolder sessionHolder = WrapSession(session, autoRemove);
 

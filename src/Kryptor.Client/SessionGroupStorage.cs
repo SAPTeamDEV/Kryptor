@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor.Client
     {
         object _addLock = new object();
 
-        HashSet<SessionHolder> storage = new HashSet<SessionHolder>();
+        readonly HashSet<SessionHolder> storage = new HashSet<SessionHolder>();
 
         /// <summary>
         /// Gets a bool indicates the lock status of this session group.
@@ -21,11 +21,11 @@ namespace SAPTeam.Kryptor.Client
         /// </remarks>
         public bool IsLocked { get; private set; }
 
-        void ThrowIfLocked()
+        public void ThrowIfLocked()
         {
             if (IsLocked)
             {
-                throw new InvalidOperationException("The collection is locked");
+                throw new InvalidOperationException("The session group is locked");
             }
         }
 
