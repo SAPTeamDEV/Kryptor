@@ -76,7 +76,7 @@ namespace SAPTeam.Kryptor.Cli
             if (Verbose)
             {
                 Console.WriteLine(message);
-#if DEBUG
+#if false
                 File.AppendAllText("debug.txt", DateTime.Now.ToString() + " - " + message + "\r\n");
 #endif
             }

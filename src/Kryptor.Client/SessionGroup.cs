@@ -116,7 +116,7 @@ namespace SAPTeam.Kryptor.Client
                 else Unknown++;
 
                 ISession session = (ISession)sender;
-                Array.ForEach(e.Messages, (x) => Messages.Add($"({session.Name}) -> {x}"));
+                Array.ForEach(e.Messages, (x) => Messages.Add($"{session.Name} -> {x}"));
 
                 if (EndReason == SessionEndReason.None && e.EndReason != SessionEndReason.Completed)
                 {
