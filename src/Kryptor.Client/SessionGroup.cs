@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using static System.Collections.Specialized.BitVector32;
+
 namespace SAPTeam.Kryptor.Client
 {
     /// <summary>
@@ -27,9 +29,21 @@ namespace SAPTeam.Kryptor.Client
 
         public int Ended { get; protected set; }
 
+        public int Completed { get; protected set; }
+
+        public int Cancelled { get; protected set; }
+
+        public int Failed { get; protected set; }
+
+        public int Skipped { get; protected set; }
+
+        public int Unknown { get; protected set; }
+
         public SessionStatus Status { get; protected set; }
 
         public SessionEndReason EndReason { get; protected set; }
+
+        public List<string> Messages { get; } = new List<string>();
 
         public Stopwatch Timer { get; } = new Stopwatch();
 
@@ -95,6 +109,15 @@ namespace SAPTeam.Kryptor.Client
         {
             lock (_lockEnd)
             {
+                if (e.EndReason == SessionEndReason.Completed) Completed++;
+                else if (e.EndReason == SessionEndReason.Failed) Failed++;
+                else if (e.EndReason == SessionEndReason.Cancelled) Cancelled++;
+                else if (e.EndReason == SessionEndReason.Skipped) Skipped++;
+                else Unknown++;
+
+                ISession session = (ISession)sender;
+                Array.ForEach(e.Messages, (x) => Messages.Add($"({session.Name}) -> {x}"));
+
                 if (EndReason == SessionEndReason.None && e.EndReason != SessionEndReason.Completed)
                 {
                     EndReason = e.EndReason;

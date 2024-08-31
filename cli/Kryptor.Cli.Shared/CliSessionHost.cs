@@ -315,9 +315,9 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (ended)
                 {
-                    foreach (var session in sessionGroup.Where(x => x.Messages.Count > 0))
+                    foreach (var msg in sessionGroup.Messages)
                     {
-                        session.Messages.ForEach(x => Console.Error.WriteLine($"({session.Name}) -> {x}"));
+                        Console.WriteLine(msg);
                     }
 
                     if (!IsOutputRedirected)
