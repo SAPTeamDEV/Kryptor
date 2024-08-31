@@ -287,7 +287,7 @@ namespace SAPTeam.Kryptor.Cli
                 if (ended)
                 {
                     progress = "done";
-                    color = Color.LightGreen;
+                    color = Color.LawnGreen;
                 }
                 else
                 {
