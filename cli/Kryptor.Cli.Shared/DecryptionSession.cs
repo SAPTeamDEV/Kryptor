@@ -10,6 +10,8 @@ namespace SAPTeam.Kryptor.Cli
         private readonly string file;
         private readonly string outputPath;
 
+        public override string Name => $"{base.Name}[{file}]";
+
         public DecryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, string file, string outputPath)
         {
             Description = file;
@@ -85,7 +87,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (sessionHost.Verbose)
                 {
-                    Messages.Add($"Decrypted {file} to {destFileName}");
+                    Messages.Add($"Decrypted to {destFileName}");
                 }
 
                 return true;

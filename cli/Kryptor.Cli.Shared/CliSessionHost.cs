@@ -367,7 +367,7 @@ namespace SAPTeam.Kryptor.Cli
                 string prefix = $"{holder.Session.Name}";
                 if (showId)
                 {
-                    prefix += $"({holder.Id})";
+                    prefix = $"{holder.Id}> {prefix}";
                 }
 
                 foreach (string message in holder.Session.Messages)

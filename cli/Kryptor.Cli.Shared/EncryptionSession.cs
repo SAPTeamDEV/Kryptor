@@ -12,6 +12,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public ClientHeader Header { get; private set; }
 
+        public override string Name => $"{base.Name}[{file}]";
+
         public EncryptionSession(KeyStore keyStore, CryptoProviderConfiguration configuration, int blockSize, int hVerbose, string file, string outputPath)
         {
             Description = file;
@@ -76,7 +78,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (encSessionHost.Verbose)
                 {
-                    Messages.Add($"Encrypted {file} to {destFileName}");
+                    Messages.Add($"Encrypted to {destFileName}");
                 }
 
                 return true;
