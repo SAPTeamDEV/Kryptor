@@ -44,6 +44,21 @@ namespace SAPTeam.Kryptor.Cli
             KeyStore = LoadKeyStore(KeystoreString);
         }
 
+        public Task GetSmartProgress(SessionGroup sessionGroup)
+        {
+            Task progress;
+            if (sessionGroup.Count > 20)
+            {
+                progress = ShowProgressMonitored(sessionGroup);
+            }
+            else
+            {
+                progress = ShowProgressMonitored(true);
+            }
+
+            return progress;
+        }
+
         public void EnumerateFiles(Action<string, string> action)
         {
             Parallel.ForEach(fString, file =>

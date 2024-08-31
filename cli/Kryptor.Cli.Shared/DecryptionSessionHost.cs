@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
             });
 
             Container.StartQueuedSessions();
-            ShowProgressMonitored(sessionGroup).Wait();
+            GetSmartProgress(sessionGroup).Wait();
         }
     }
 }
