@@ -18,8 +18,6 @@ namespace SAPTeam.Kryptor.Cli
 
         public readonly string KeystoreString;
 
-        public Dictionary<string, string> Files { get; private set; }
-
         public DataProcessingSessionHost(GlobalOptions globalOptions, DataProcessingOptions options) : base(globalOptions)
         {
             BlockSize = options.BlockSize;
@@ -44,20 +42,22 @@ namespace SAPTeam.Kryptor.Cli
             base.Start(context);
 
             KeyStore = LoadKeyStore(KeystoreString);
+        }
 
-            Files = new Dictionary<string, string>();
+        public void EnumerateFiles(Action<string, string> action)
+        {
             Parallel.ForEach(fString, file =>
             {
                 if (Directory.Exists(file))
                 {
                     foreach (var subfile in Directory.GetFiles(file, "*", SearchOption.AllDirectories))
                     {
-                        Files[subfile] = Utilities.EnsureDirectoryExists(Path.Combine(OutputPath, GetRelativePath(file, Path.GetDirectoryName(subfile))));
+                        action(subfile, Utilities.EnsureDirectoryExists(Path.Combine(OutputPath, GetRelativePath(file, Path.GetDirectoryName(subfile)))));
                     }
                 }
                 else
                 {
-                    Files[Path.GetFullPath(file)] = OutputPath;
+                    action(Path.GetFullPath(file), OutputPath);
                 }
             });
         }

@@ -1,5 +1,7 @@
 using SAPTeam.Kryptor.Client;
 
+using SharpCompress.Common;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSessionHost : DataProcessingSessionHost
@@ -15,9 +17,9 @@ namespace SAPTeam.Kryptor.Cli
 
             var sessionGroup = new SessionGroup();
 
-            Parallel.ForEach(Files, entry =>
+            EnumerateFiles((filePath, outputPath) =>
             {
-                DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, entry.Key, entry.Value);
+                DecryptionSession session = new DecryptionSession(KeyStore, Configuration, BlockSize, filePath, outputPath);
                 NewSession(session, autoStart: false, sessionGroup: sessionGroup);
             });
 

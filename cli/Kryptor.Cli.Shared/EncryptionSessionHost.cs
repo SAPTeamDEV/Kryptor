@@ -31,9 +31,9 @@ namespace SAPTeam.Kryptor.Cli
 
             var sessionGroup = new SessionGroup();
 
-            Parallel.ForEach(Files, entry =>
+            EnumerateFiles((filePath, outputPath) =>
             {
-                EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, entry.Key, entry.Value);
+                EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, filePath, outputPath);
                 NewSession(session, autoStart: false, sessionGroup: sessionGroup);
             });
 
