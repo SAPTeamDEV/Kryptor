@@ -38,7 +38,7 @@
         /// <param name="autoStart">
         /// Determines whether to automatically call the session manager to start this session.
         /// </param>
-        void NewSession(ISession session, bool autoRemove, bool autoStart);
+        void NewSession(ISession session, bool autoRemove, bool autoStart, SessionGroup sessionGroup);
 
         /// <summary>
         /// Adds given task to the task pool and be monitored by the session host.

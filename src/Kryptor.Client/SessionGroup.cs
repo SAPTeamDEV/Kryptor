@@ -12,7 +12,7 @@ namespace SAPTeam.Kryptor.Client
     /// <summary>
     /// Provides High-Performance session monitoring solution.
     /// </summary>
-    public partial class SessionGroup : ICollection<ISession>
+    public partial class SessionGroup : ICollection<SessionHolder>
     {
         object _lockStatus = new object();
         object _lockStart = new object();
@@ -22,6 +22,8 @@ namespace SAPTeam.Kryptor.Client
         private double progress = 0;
 
         protected double[] ProgressArray {  get; private set; }
+
+        public List<SessionHolder> WaitingSessions { get; } = new List<SessionHolder>();
 
         public int Waiting { get; protected set; }
 
@@ -49,21 +51,29 @@ namespace SAPTeam.Kryptor.Client
 
         public double Progress => progress;
 
-        protected void AddHooks(ISession session)
+        protected void AddHooks(SessionHolder sessionHolder)
         {
+            var session = sessionHolder.Session;
+
             var slotId = _slotId++;
+            WaitingSessions.Add(sessionHolder);
             Waiting++;
 
-            session.StatusChanged += OnSessionStatusChanged;
+            session.StatusChanged += (o, e) => OnSessionStatusChanged(sessionHolder, o, e);
             session.SessionStarted += OnSessionStarted;
             session.ProgressChanged += (o, e) => OnSessionProgressChanged(slotId, o, e);
             session.SessionEnded += OnSessionEnded;
         }
 
-        private void OnSessionStatusChanged(object sender, SessionEventArgs e)
+        private void OnSessionStatusChanged(SessionHolder sessionHolder, object sender, SessionEventArgs e)
         {
             lock (_lockStatus)
             {
+                if (e.PreviousStatus == SessionStatus.NotStarted)
+                {
+                    WaitingSessions.Remove(sessionHolder);
+                }
+
                 if (e.Status == SessionStatus.Running)
                 {
                     Waiting--;

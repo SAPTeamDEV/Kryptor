@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor.Client
     {
         object _addLock = new object();
 
-        HashSet<ISession> storage = new HashSet<ISession>();
+        HashSet<SessionHolder> storage = new HashSet<SessionHolder>();
 
         /// <summary>
         /// Gets a bool indicates the lock status of this session group.
@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Client
         public bool IsReadOnly => IsLocked;
 
         /// <inheritdoc/>
-        public void Add(ISession item)
+        public void Add(SessionHolder item)
         {
             ThrowIfLocked();
 
@@ -44,7 +44,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (item == null) throw new ArgumentNullException(nameof(item));
 
-                if (item.Status != SessionStatus.NotStarted)
+                if (item.Session.Status != SessionStatus.NotStarted)
                 {
                     throw new ArgumentException("Cannot add an already started session");
                 }
@@ -68,20 +68,20 @@ namespace SAPTeam.Kryptor.Client
         }
 
         /// <inheritdoc/>
-        public bool Contains(ISession item) => storage.Contains(item);
+        public bool Contains(SessionHolder item) => storage.Contains(item);
 
         /// <inheritdoc/>
-        public void CopyTo(ISession[] array, int arrayIndex) => storage.CopyTo(array, arrayIndex);
+        public void CopyTo(SessionHolder[] array, int arrayIndex) => storage.CopyTo(array, arrayIndex);
 
         /// <inheritdoc/>
-        public bool Remove(ISession item)
+        public bool Remove(SessionHolder item)
         {
             ThrowIfLocked();
             return storage.Remove(item);
         }
 
         /// <inheritdoc/>
-        public IEnumerator<ISession> GetEnumerator() => storage.GetEnumerator();
+        public IEnumerator<SessionHolder> GetEnumerator() => storage.GetEnumerator();
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => storage.GetEnumerator();

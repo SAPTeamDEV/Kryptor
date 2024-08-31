@@ -34,11 +34,10 @@ namespace SAPTeam.Kryptor.Cli
             Parallel.ForEach(Files, entry =>
             {
                 EncryptionSession session = new EncryptionSession(KeyStore, Configuration, BlockSize, HeaderVerbosity, entry.Key, entry.Value);
-                sessionGroup.Add(session);
-                NewSession(session, autoStart: false);
+                NewSession(session, autoStart: false, sessionGroup: sessionGroup);
             });
 
-            Container.StartQueuedSessions();
+            Container.StartQueuedSessions(sessionGroup);
             ShowProgressMonitored(sessionGroup).Wait();
 
             if (UseKeyChain)
