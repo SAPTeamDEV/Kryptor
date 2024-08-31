@@ -44,6 +44,11 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (item == null) throw new ArgumentNullException(nameof(item));
 
+                if (!item.Session.IsReady(CancellationToken.None))
+                {
+                    throw new NotSupportedException("Session dependency feature is not supported by SessionGroup");
+                }
+
                 if (item.Session.Status != SessionStatus.NotStarted)
                 {
                     throw new ArgumentException("Cannot add an already started session");
