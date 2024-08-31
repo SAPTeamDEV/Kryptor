@@ -17,6 +17,7 @@ namespace SAPTeam.Kryptor.Client
         object _lockEnd = new object();
 
         int _slotId = 0;
+        private double progress = 0;
 
         protected double[] ProgressArray {  get; private set; }
 
@@ -32,7 +33,7 @@ namespace SAPTeam.Kryptor.Client
 
         public Stopwatch Timer { get; } = new Stopwatch();
 
-        public double Progress => ProgressArray != null ? ProgressArray.DefaultIfEmpty(0).Average() : 0;
+        public double Progress => progress;
 
         protected void AddHooks(ISession session)
         {
@@ -83,7 +84,11 @@ namespace SAPTeam.Kryptor.Client
 
         void OnSessionProgressChanged(int slotId, object sender, SessionUpdateEventArgs e)
         {
-            ProgressArray[slotId] = e.Progress;
+            if (e.Progress <= 0 ||  e.Progress > 100) return;
+
+            var fragment = e.Progress / Count;
+            Interlocked.Exchange(ref progress, progress + fragment - ProgressArray[slotId]);
+            ProgressArray[slotId] = fragment;
         }
 
         void OnSessionEnded(object sender, SessionEventArgs e)
