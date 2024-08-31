@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 using SAPTeam.Kryptor.Client;
 
@@ -196,39 +197,7 @@ namespace SAPTeam.Kryptor.Cli
                     FillToCeiling(paddingBufferSize, ref ceilingLine, ref curLines);
                 }
 
-                if (!NoInteractions)
-                {
-                    if (HasRequest)
-                    {
-                        string choices = Request.Default ? "Y/n" : "y/N";
-                        Console.Write($"{Request.Message.Shrink(bufferWidth - 8)} ({choices})");
-                    }
-                    else
-                    {
-                        Console.Write("".PadRight(paddingBufferSize));
-                        Console.CursorLeft = 0;
-                    }
-
-                    ConsoleKeyInfo key = KeyQueue;
-                    if (key != default)
-                    {
-                        if (HasRequest)
-                        {
-                            if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
-                            {
-                                Request.SetResponse(key.Key == ConsoleKey.Y);
-                            }
-                            else if (key.Key == ConsoleKey.Enter)
-                            {
-                                Request.SetResponse(Request.Default);
-                            }
-                        }
-                    }
-                }
-                else if (HasRequest)
-                {
-                    Request.SetResponse(Request.Default);
-                }
+                HandleRequests(bufferWidth, paddingBufferSize);
 
                 animations.Next();
 
@@ -261,29 +230,115 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        private void HandleRequests(int bufferWidth, int paddingBufferSize)
+        {
+            if (!NoInteractions)
+            {
+                if (HasRequest)
+                {
+                    string choices = Request.Default ? "Y/n" : "y/N";
+                    Console.Write($"{Request.Message.Shrink(bufferWidth - 8)} ({choices})");
+                }
+                else
+                {
+                    Console.Write("".PadRight(paddingBufferSize));
+                    Console.CursorLeft = 0;
+                }
+
+                ConsoleKeyInfo key = KeyQueue;
+                if (key != default)
+                {
+                    if (HasRequest)
+                    {
+                        if (key.Key == ConsoleKey.Y || key.Key == ConsoleKey.N)
+                        {
+                            Request.SetResponse(key.Key == ConsoleKey.Y);
+                        }
+                        else if (key.Key == ConsoleKey.Enter)
+                        {
+                            Request.SetResponse(Request.Default);
+                        }
+                    }
+                }
+            }
+            else if (HasRequest)
+            {
+                Request.SetResponse(Request.Default);
+            }
+        }
+
         private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
         {
             var bw = Console.BufferWidth;
+            var paddingSize = IsOutputRedirected ? 1 : bw;
+            int counter = 0;
+
+            if (!IsOutputRedirected)
+            {
+                Console.CursorVisible = false;
+            }
 
             while (true)
             {
                 var ended = sessionGroup.Status == SessionStatus.Ended;
 
-                Console.WriteLine($"[{Math.Round(sessionGroup.Progress, 2)}] S:{sessionGroup.Status} W:{sessionGroup.Waiting} R:{sessionGroup.Running} E:{sessionGroup.Ended} C:{sessionGroup.Count} IN:{sessionGroup.Timer.Elapsed:hh\\:mm\\:ss}".Shrink(bw).PadRight(bw));
+                string progress;
+                Color color;
+                if (ended)
+                {
+                    progress = "done";
+                    color = Color.LightGreen;
+                }
+                else
+                {
+                    progress = $"{Math.Round(sessionGroup.Progress, 2)}%".PadBoth(6);
+                    color = Color.Yellow;
+                }
 
-                await Task.Delay(500);
+                var description = $"S:{sessionGroup.Status} W:{sessionGroup.Waiting} R:{sessionGroup.Running} E:{sessionGroup.Ended} C:{sessionGroup.Count} IN:{sessionGroup.Timer.Elapsed:hh\\:mm\\:ss}";
+
+                if (!IsOutputRedirected)
+                {
+                    int expectedLength = bw - progress.Length - 5;
+                    description = description.Shrink(expectedLength);
+                }
+
+                if (!IsOutputRedirected || ended)
+                {
+                    Console.Write($"[{progress.WithColor(color)}] {description}");
+
+                    int padLength = paddingSize - progress.Length - 3 - description.Length;
+                    Console.WriteLine("".PadRight(padLength > -1 ? padLength : 0));
+                }
+
+                HandleRequests(bw, paddingSize);
 
                 if (ended)
                 {
                     foreach (var session in sessionGroup.Where(x => x.Messages.Count > 0))
                     {
-                        session.Messages.ForEach(x => Console.WriteLine($"({session.Name}) -> {x}"));
+                        session.Messages.ForEach(x => Console.Error.WriteLine($"({session.Name}) -> {x}"));
+                    }
+
+                    if (!IsOutputRedirected)
+                    {
+                        Console.CursorVisible = true;
                     }
 
                     break;
                 }
 
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                if (MasterToken.IsCancellationRequested && counter++ % 10 == 6)
+                {
+                    Container.StartQueuedSessions();
+                }
+
+                if (!IsOutputRedirected)
+                {
+                    await Task.Delay(100);
+
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                }
             }
         }
 
