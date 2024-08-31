@@ -317,7 +317,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     foreach (var msg in sessionGroup.Messages)
                     {
-                        Console.WriteLine(msg);
+                        LogError(msg);
                     }
 
                     if (!IsOutputRedirected)
@@ -367,7 +367,7 @@ namespace SAPTeam.Kryptor.Cli
                 string prefix = $"{holder.Session.Name}";
                 if (showId)
                 {
-                    prefix = $"{holder.Id}> {prefix}";
+                    prefix = $"{holder.Id}:{prefix}";
                 }
 
                 foreach (string message in holder.Session.Messages)
