@@ -220,7 +220,7 @@
             {
                 try
                 {
-                    SessionHolder sessionHolder = waiting[i];
+                    SessionHolder sessionHolder = waiting[Math.Min(waiting.Count - 1, i)];
                     StartManagedSession(sessionHolder);
                 }
                 catch
@@ -252,7 +252,7 @@
 
         private void StartManagedSession(SessionHolder sessionHolder)
         {
-            Task task = sessionHolder.StartTask(_sessionHost, false);
+            Task task = sessionHolder.StartTask(_sessionHost, true);
             if (task != null)
             {
                 task.ContinueWith(x => StartQueuedSessions());
