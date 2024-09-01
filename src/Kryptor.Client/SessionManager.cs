@@ -220,7 +220,7 @@
             {
                 try
                 {
-                    SessionHolder sessionHolder = waiting[Math.Min(waiting.Count - 1, i)];
+                    SessionHolder sessionHolder = waiting[_sessionGroup != null ? 0 : Math.Min(waiting.Count - 1, i)];
                     StartManagedSession(sessionHolder);
                 }
                 catch
