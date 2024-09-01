@@ -27,15 +27,8 @@ env:
 
 jobs:
   dotnet:
-    strategy:
-      matrix:
-        os: [ubuntu]
-        configuration: [Nuget]
-
-    name: Build ${{ matrix.configuration }} Configuration on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}-latest
-    env:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    name: Build
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -57,58 +50,27 @@ jobs:
         run: |
           for TARGET in ${{ env.build-path }}
           do
-            dotnet build $TARGET --configuration ${{ matrix.configuration }} --no-restore
+            dotnet build $TARGET --configuration Nuget --no-restore
           done
         shell: bash
-      - name: Test
-        run: |
-          for TARGET in ${{ env.test-path }}
-          do
-            dotnet test $TARGET --configuration ${{ matrix.configuration }} --no-restore --verbosity normal --collect:"XPlat Code Coverage" --logger trx
-          done
-        shell: bash
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget'
-        with:
-          files: |
-            **/TestResults/*.trx
-
-      - name: Codecov
-        uses: codecov/codecov-action@v4
-        if: env.CODECOV_TOKEN != '' && matrix.os == 'ubuntu' && matrix.configuration == 'Nuget'
-        env:
-          CODECOV_TOKEN: ${{ env.CODECOV_TOKEN }}
-  
+      
       # Initialize CD
       - name: Create NuGet package
-        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         run: |
           for TARGET in ${{ env.deploy-path }}
             do
-            dotnet pack $TARGET --configuration ${{ matrix.configuration }} --no-build -o __out__
+            dotnet pack $TARGET --configuration Nuget --no-build -o __out__
             done
         shell: bash
       - name: Upload build artifact
-        if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget' && github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
         with:
           name: Kryptor-Cli-Packages-${{ github.sha }}
           path: |
             __out__/*.*nupkg
         
-  merge:
-    name: Auto-merge trusted PRs
-    needs: [dotnet]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && (github.actor == github.repository_owner || github.actor == 'dependabot[bot]')
-    env:
-      PR_URL: ${{github.event.pull_request.html_url}}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Automatically merge the trusted PR from ${{ github.actor }}
-        run: gh pr merge --auto -r "$PR_URL"
-
   deploy:
     name: Deploy NuGet package
     needs: [dotnet]

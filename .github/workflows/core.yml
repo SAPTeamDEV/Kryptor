@@ -100,19 +100,7 @@ jobs:
           name: Kryptor-Lib-Packages-${{ github.sha }}
           path: |
             __out__/*.*nupkg
-        
-  merge:
-    name: Auto-merge trusted PRs
-    needs: [dotnet]
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && (github.actor == github.repository_owner || github.actor == 'dependabot[bot]')
-    env:
-      PR_URL: ${{github.event.pull_request.html_url}}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - name: Automatically merge the trusted PR from ${{ github.actor }}
-        run: gh pr merge --auto -r "$PR_URL"
-
+     
   deploy:
     name: Deploy NuGet package
     needs: [dotnet]
