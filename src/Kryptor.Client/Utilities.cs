@@ -51,7 +51,9 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="margin">
         /// The requested extra size to make the keystore even more secure.
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// A new <see cref="KeyStore"/> initialized with the token data.
+        /// </returns>
         public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, EventHandler<double> progressReport, int margin = 0)
         {
             ITranformer transformer = Transformers.GetTranformer(token);

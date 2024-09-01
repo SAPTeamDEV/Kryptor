@@ -100,5 +100,24 @@ namespace SAPTeam.Kryptor
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         public readonly ITranformer GetTranformer() => Transformers.GetTranformer(this);
+
+        /// <summary>
+        /// Generates keystore based on this token data.
+        /// </summary>
+        /// <param name="margin">
+        /// The requested extra size to make the keystore even more secure.
+        /// </param>
+        /// <returns>
+        /// A new <see cref="KeyStore"/> initialized with this token data.
+        /// </returns>
+        public readonly KeyStore GenerateKeyStore(int margin)
+        {
+            ITranformer transformer = GetTranformer();
+
+            byte[] buffer = new byte[(KeySize * 32) + margin];
+            transformer.Generate(buffer, Rotate);
+
+            return new KeyStore(buffer);
+        }
     }
 }
