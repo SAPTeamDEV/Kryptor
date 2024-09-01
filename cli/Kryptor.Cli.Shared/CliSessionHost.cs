@@ -286,8 +286,11 @@ namespace SAPTeam.Kryptor.Cli
                 Color color;
                 if (ended)
                 {
-                    progress = "done";
-                    color = Color.LawnGreen;
+                    SetEndReasonStatus(sessionGroup.EndReason, out color, out progress);
+                    if (sessionGroup.EndReason != SessionEndReason.Completed && sessionGroup.Completed > 0)
+                    {
+                        progress = $"some tasks {progress}";
+                    }
                 }
                 else
                 {
@@ -295,7 +298,27 @@ namespace SAPTeam.Kryptor.Cli
                     color = Color.Yellow;
                 }
 
-                var description = $"S:{sessionGroup.Status} W:{sessionGroup.Waiting} R:{sessionGroup.Running} E:{sessionGroup.Ended} C:{sessionGroup.Count} IN:{sessionGroup.Timer.Elapsed:hh\\:mm\\:ss}";
+                var description = $"Finnished {sessionGroup.Completed} of {sessionGroup.Count} tasks";
+
+                if (Verbose)
+                {
+                    if (sessionGroup.Cancelled > 0)
+                    {
+                        description += $", cancelled: {sessionGroup.Cancelled}";
+                    }
+                    if (sessionGroup.Failed > 0)
+                    {
+                        description += $", failed: {sessionGroup.Failed}";
+                    }
+                    if (sessionGroup.Skipped > 0)
+                    {
+                        description += $", skipped: {sessionGroup.Skipped}";
+                    }
+                    if (sessionGroup.Unknown > 0)
+                    {
+                        description += $", unknown: {sessionGroup.Unknown}";
+                    }
+                }
 
                 if (!IsOutputRedirected)
                 {
@@ -309,6 +332,18 @@ namespace SAPTeam.Kryptor.Cli
 
                     int padLength = paddingSize - progress.Length - 3 - description.Length;
                     Console.WriteLine("".PadRight(padLength > -1 ? padLength : 0));
+                }
+
+                string overall = $"Elapsed: {sessionGroup.Timer.Elapsed:hh\\:mm\\:ss}";
+
+                if (!ended)
+                {
+                    overall += $" Remaining: {Utilities.CalculateRemainingTimeSpan(sessionGroup.Progress, sessionGroup.Timer.ElapsedMilliseconds):hh\\:mm\\:ss}";
+                }
+
+                if (!IsOutputRedirected || ended)
+                {
+                    Console.WriteLine(overall.PadRight(paddingSize));
                 }
 
                 HandleRequests(bw, paddingSize);
@@ -337,7 +372,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     await Task.Delay(100);
 
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    Console.SetCursorPosition(0, Console.CursorTop - 2);
                 }
             }
         }
@@ -422,29 +457,7 @@ namespace SAPTeam.Kryptor.Cli
             }
             else if (session.Status == SessionStatus.Ended)
             {
-                switch (session.EndReason)
-                {
-                    case SessionEndReason.Completed:
-                        color = Color.LawnGreen;
-                        prog = "done";
-                        break;
-                    case SessionEndReason.Failed:
-                        color = Color.Red;
-                        prog = "failed";
-                        break;
-                    case SessionEndReason.Cancelled:
-                        color = Color.Orange;
-                        prog = "cancelled";
-                        break;
-                    case SessionEndReason.Skipped:
-                        color = Color.Silver;
-                        prog = "skipped";
-                        break;
-                    default:
-                        color = Color.DarkRed;
-                        prog = "unknown";
-                        break;
-                }
+                SetEndReasonStatus(session.EndReason, out color, out prog);
 
                 string time;
                 if (Verbose && session.Timer != null && (((time = ((double)session.Timer.ElapsedMilliseconds / 1000).ToString("N1")) != "0.0") || session.EndReason == SessionEndReason.Completed))
@@ -459,6 +472,33 @@ namespace SAPTeam.Kryptor.Cli
             {
                 int expectedLength = bufferWidth - prog.Length - 5;
                 desc = desc.Shrink(expectedLength);
+            }
+        }
+
+        private static void SetEndReasonStatus(SessionEndReason endReason, out Color color, out string prog)
+        {
+            switch (endReason)
+            {
+                case SessionEndReason.Completed:
+                    color = Color.LawnGreen;
+                    prog = "done";
+                    break;
+                case SessionEndReason.Failed:
+                    color = Color.Red;
+                    prog = "failed";
+                    break;
+                case SessionEndReason.Cancelled:
+                    color = Color.Orange;
+                    prog = "cancelled";
+                    break;
+                case SessionEndReason.Skipped:
+                    color = Color.Silver;
+                    prog = "skipped";
+                    break;
+                default:
+                    color = Color.DarkRed;
+                    prog = "unknown";
+                    break;
             }
         }
 
