@@ -10,6 +10,7 @@ using SAPTeam.Kryptor.Extensions;
 
 using SharpCompress.Archives;
 using SharpCompress.Readers;
+using SharpCompress.Archives.SevenZip;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -23,6 +24,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public FileInfo OutputFile;
         public FileInfo PackageFile;
+        public string HashString;
 
         public DownloadSession(WordlistIndexEntry entry, DirectoryInfo outputPath) : this(entry, new FileInfo(Path.Combine(outputPath.FullName, entry.Id + ".txt")))
         {
@@ -33,9 +35,10 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             IndexEntry = entry;
             OutputFile = output;
+            HashString = BitConverter.ToString(IndexEntry.Hash).Replace("-", "").ToLower();
 
             OutputFile.Directory.Create();
-            PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}.json"));
+            PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}-{HashString.Substring(0, 6)}.json"));
 
             JsonSerializerOptions jOptions = new JsonSerializerOptions()
             {
@@ -113,7 +116,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                     if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
                     {
-                        SharpCompress.Archives.SevenZip.SevenZipArchive reader = SharpCompress.Archives.SevenZip.SevenZipArchive.Open(Downloader.Package.FileName);
+                        SevenZipArchive reader = SevenZipArchive.Open(Downloader.Package.FileName);
                         reader.Entries.First().WriteToFile(OutputFile.FullName);
                         reader.Dispose();
                     }
@@ -177,7 +180,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                     dest.Create();
                 }
 
-                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, dest, cancellationToken);
+                var tempFile = new FileInfo(Path.Combine(dest.FullName, HashString));
+
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, tempFile.FullName, cancellationToken);
             }
 
             Downloader.Dispose();
