@@ -21,6 +21,10 @@ namespace SAPTeam.Kryptor.Client
         /// </remarks>
         public bool IsLocked { get; private set; }
 
+        /// <summary>
+        /// Throws a new <see cref="InvalidOperationException"/> when the session group is locked.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
         public void ThrowIfLocked()
         {
             if (IsLocked)

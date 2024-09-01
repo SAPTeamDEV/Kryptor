@@ -19,38 +19,116 @@ namespace SAPTeam.Kryptor.Client
         object _lockEnd = new object();
 
         int _slotId = 0;
-        private double progress = 0;
+        private double _progress = 0;
+        double[] _progressArray;
+        private readonly List<string> messages = new List<string>();
 
-        protected double[] ProgressArray {  get; private set; }
+        /// <summary>
+        /// Gets the list of all sessions with <see cref="SessionStatus.NotStarted"/> status.
+        /// </summary>
+        /// <remarks>
+        /// The main use of this property is to speed up the SessionManager's task schedular performance.
+        /// </remarks>
+        internal List<SessionHolder> WaitingSessions { get; } = new List<SessionHolder>();
 
-        public List<SessionHolder> WaitingSessions { get; } = new List<SessionHolder>();
+        /// <summary>
+        /// Gets the number of the sessions with <see cref="SessionStatus.NotStarted"/> status.
+        /// </summary>
+        public int Waiting { get; private set; }
 
-        public int Waiting { get; protected set; }
+        /// <summary>
+        /// Gets the number of the sessions with <see cref="SessionStatus.Running"/> status.
+        /// </summary>
+        public int Running { get; private set; }
 
-        public int Running { get; protected set; }
+        /// <summary>
+        /// Gets the number of the sessions with <see cref="SessionStatus.Ended"/> status.
+        /// </summary>
+        public int Ended { get; private set; }
 
-        public int Ended { get; protected set; }
+        /// <summary>
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Completed"/> end reason.
+        /// </summary>
+        public int Completed { get; private set; }
 
-        public int Completed { get; protected set; }
+        /// <summary>
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Cancelled"/> end reason.
+        /// </summary>
+        public int Cancelled { get; private set; }
 
-        public int Cancelled { get; protected set; }
+        /// <summary>
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Failed"/> end reason.
+        /// </summary>
+        public int Failed { get; private set; }
 
-        public int Failed { get; protected set; }
+        /// <summary>
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Skipped"/> end reason.
+        /// </summary>
+        public int Skipped { get; private set; }
 
-        public int Skipped { get; protected set; }
+        /// <summary>
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.None"/> end reason.
+        /// </summary>
+        public int Unknown { get; private set; }
 
-        public int Unknown { get; protected set; }
+        /// <summary>
+        /// Gets the brief report of all session's statuses.
+        /// </summary>
+        /// <remarks>
+        /// When there are no sessions started yet, the status would be <see cref="SessionStatus.NotStarted"/>.
+        /// <para>
+        /// Whenever the first session is started, the status would be <see cref="SessionStatus.Running"/>.
+        /// </para>
+        /// When all of the sessions is ended, the status would be <see cref="SessionStatus.Ended"/>.
+        /// </remarks>
+        public SessionStatus Status { get; private set; }
 
-        public SessionStatus Status { get; protected set; }
+        /// <summary>
+        /// Gets a brief report of all session's end reasons.
+        /// </summary>
+        /// <remarks>
+        /// When all sessions ended successfully, the end reason would be <see cref="SessionEndReason.Completed"/>.
+        /// <para>
+        /// When there is any cancelled session, the end reason would be <see cref="SessionEndReason.Cancelled"/>.
+        /// </para>
+        /// <para>
+        /// When there is any failed session, the end reason would be <see cref="SessionEndReason.Failed"/>.
+        /// </para>
+        /// <para>
+        /// When there is any skipped session, the end reason would be <see cref="SessionEndReason.Skipped"/>.
+        /// </para>
+        /// <para>
+        /// When there is any wierd session or when the session group is not started or still running with no ended session, the end reason would be <see cref="SessionEndReason.None"/>.
+        /// </para>
+        /// Except for the first case, in other cases the first occurrence is considered. even when there are still running or not started sessions.
+        /// </remarks>
+        public SessionEndReason EndReason { get; private set; }
 
-        public SessionEndReason EndReason { get; protected set; }
+        /// <summary>
+        /// Gets all session messages.
+        /// </summary>
+        /// <remarks>
+        /// This list only updated whenever a session is ended.
+        /// </remarks>
+        public string[] Messages => messages.ToArray();
 
-        public List<string> Messages { get; } = new List<string>();
-
+        /// <summary>
+        /// Gets the timer of the session group.
+        /// </summary>
+        /// <remarks>
+        /// This timer started when the first session is started and stopped when the last session is ended.
+        /// </remarks>
         public Stopwatch Timer { get; } = new Stopwatch();
 
-        public double Progress => progress;
+        /// <summary>
+        /// Gets the average progress percentage of all sessions.
+        /// </summary>
+        public double Progress => _progress;
 
+        /// <summary>
+        /// Wires up hooks to listen for session events.
+        /// </summary>
+        /// <param name="sessionHolder"></param>
         protected void AddHooks(SessionHolder sessionHolder)
         {
             var session = sessionHolder.Session;
@@ -102,7 +180,7 @@ namespace SAPTeam.Kryptor.Client
                 Timer.Start();
 
                 IsLocked = true;
-                ProgressArray = new double[Count];
+                _progressArray = new double[Count];
             }
         }
 
@@ -111,8 +189,8 @@ namespace SAPTeam.Kryptor.Client
             if (e.Progress <= 0 ||  e.Progress > 100) return;
 
             var fragment = e.Progress / Count;
-            Interlocked.Exchange(ref progress, progress + fragment - ProgressArray[slotId]);
-            ProgressArray[slotId] = fragment;
+            Interlocked.Exchange(ref _progress, _progress + fragment - _progressArray[slotId]);
+            _progressArray[slotId] = fragment;
         }
 
         void OnSessionEnded(object sender, SessionEventArgs e)
@@ -126,7 +204,7 @@ namespace SAPTeam.Kryptor.Client
                 else Unknown++;
 
                 ISession session = (ISession)sender;
-                Array.ForEach(e.Messages, (x) => Messages.Add($"{session.Name} -> {x}"));
+                Array.ForEach(e.Messages, (x) => messages.Add($"{session.Name} -> {x}"));
 
                 if (EndReason == SessionEndReason.None && e.EndReason != SessionEndReason.Completed)
                 {

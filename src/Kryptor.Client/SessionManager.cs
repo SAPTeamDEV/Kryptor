@@ -80,6 +80,22 @@
             }
         }
 
+        /// <summary>
+        /// Sets the provided <paramref name="sessionGroup"/> as the SessionManager's cache system.
+        /// </summary>
+        /// <remarks>
+        /// The provided session group must be unused and unlocked. If a session group is already set, it must be fully finnished, otherwise it will throw a <see cref="InvalidOperationException"/>.
+        /// A new instance of the <see cref="SessionGroup"/> class is always unlocked. It's highly recommended to use a new session group.
+        /// </remarks>
+        /// <param name="sessionGroup">
+        /// A new session group with unlocked status.
+        /// </param>
+        /// <returns>
+        /// <paramref name="sessionGroup"/>
+        /// </returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public SessionGroup SetSessionGroup(SessionGroup sessionGroup)
         {
             ValidateSessionGroup();
