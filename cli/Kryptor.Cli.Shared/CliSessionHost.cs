@@ -300,7 +300,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 var description = $"Finnished {sessionGroup.Completed} of {sessionGroup.Count} tasks";
 
-                if (Verbose)
+                if (BuildInformation.Branch == BuildBranch.Debug || Verbose)
                 {
                     if (sessionGroup.Cancelled > 0)
                     {
