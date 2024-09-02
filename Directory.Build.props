@@ -23,6 +23,9 @@
     <NoWarn>SYSLIB0002;SYSLIB0005;SYSLIB0012;SYSLIB0020</NoWarn>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Nuget' Or '$(Configuration)'=='Indexer' Or '$(Configuration)'=='Light'">
