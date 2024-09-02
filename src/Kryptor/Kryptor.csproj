@@ -13,7 +13,7 @@
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net8.0' ">

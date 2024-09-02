@@ -9,7 +9,7 @@
     <RootNamespace>SAPTeam.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <IsPackable>false</IsPackable>
     <PublishAot>true</PublishAot>
-    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(_IsPublishing)' != ''">
@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8604;CS0618</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Light|AnyCPU'">
     <NoWarn>1701;1702;8604;CS0618</NoWarn>
   </PropertyGroup>
 

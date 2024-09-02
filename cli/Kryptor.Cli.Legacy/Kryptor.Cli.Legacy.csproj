@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net481;net462;net472</TargetFrameworks>
     <IsPackable>false</IsPackable>
-    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
 
   <ItemGroup>

@@ -12,7 +12,7 @@
     <Description>This library has common utilities used by kryptor front-end programs.</Description>
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
     
-    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
 
   <ItemGroup>

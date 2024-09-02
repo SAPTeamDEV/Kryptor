@@ -7,7 +7,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackAsTool>True</PackAsTool>
     <ToolCommandName>kryptor</ToolCommandName>
-    <Configurations>Debug;Release;Nuget;Indexer</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
 
     <ItemGroup>

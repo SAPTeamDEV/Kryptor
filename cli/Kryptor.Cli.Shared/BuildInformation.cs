@@ -55,6 +55,8 @@ namespace SAPTeam.Kryptor.Cli
             Branch = BuildBranch.Nuget;
 #elif INDEXER
             Branch = BuildBranch.Indexer;
+#elif LIGHT
+            Branch = BuildBranch.Light;
 #elif RELEASE
             Branch = BuildBranch.Release;
 #else

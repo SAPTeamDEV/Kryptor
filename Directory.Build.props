@@ -25,7 +25,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Nuget' Or '$(Configuration)'=='Indexer'">
+  <PropertyGroup Condition="'$(Configuration)'=='Nuget' Or '$(Configuration)'=='Indexer' Or '$(Configuration)'=='Light'">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     <Optimize>True</Optimize>
   </PropertyGroup>

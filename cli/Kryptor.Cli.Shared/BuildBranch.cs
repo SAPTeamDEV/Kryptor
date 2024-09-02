@@ -6,6 +6,7 @@ namespace SAPTeam.Kryptor.Cli
         Debug,
         Release,
         Nuget,
-        Indexer
+        Indexer,
+        Light
     }
 }
