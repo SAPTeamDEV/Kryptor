@@ -115,8 +115,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 if (IndexEntry.Compressed)
                 {
                     Description = $"{IndexEntry.Id}: Extracting file";
+                    string fileName = new Request(IndexEntry.Uri.ToString()).GetFileName().Result;
 
-                    if (Downloader.Package.FileName.ToLower().EndsWith(".7z"))
+                    if (fileName.ToLower().EndsWith(".7z"))
                     {
                         SevenZipArchive reader = SevenZipArchive.Open(Downloader.Package.FileName);
                         reader.Entries.First().WriteToFile(OutputFile.FullName);
