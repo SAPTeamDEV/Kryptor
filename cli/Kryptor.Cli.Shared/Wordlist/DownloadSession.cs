@@ -11,6 +11,8 @@ using SAPTeam.Kryptor.Extensions;
 using SharpCompress.Archives;
 using SharpCompress.Readers;
 using SharpCompress.Archives.SevenZip;
+using SAPTeam.Kryptor.Generators;
+using System.Text;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -35,7 +37,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         {
             IndexEntry = entry;
             OutputFile = output;
-            HashString = BitConverter.ToString(IndexEntry.Hash).Replace("-", "").ToLower();
+            HashString = BitConverter.ToString(IndexEntry.Hash ?? Encoding.UTF8.GetBytes(IndexEntry.Uri.ToString()).Sha256()).Replace("-", "").ToLower();
 
             OutputFile.Directory.Create();
             PackageFile = new FileInfo(Path.Combine(OutputFile.Directory.FullName, $"package-{IndexEntry.Id}-{HashString.Substring(0, 6)}.json"));
