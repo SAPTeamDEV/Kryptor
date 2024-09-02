@@ -27,6 +27,7 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Nuget' Or '$(Configuration)'=='Indexer'">
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
+    <Optimize>True</Optimize>
   </PropertyGroup>
   
   <ItemGroup>
