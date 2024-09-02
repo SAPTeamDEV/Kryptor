@@ -23,8 +23,8 @@
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.143" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.4" PrivateAssets="All" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-    <PackageReference Include="Downloader" Version="3.1.2" />
-    <PackageReference Include="SharpCompress" Version="0.37.2" />
+    <PackageReference Include="Downloader" Version="3.1.2" Condition="'$(Configuration)'!='Light'" />
+    <PackageReference Include="SharpCompress" Version="0.37.2" Condition="'$(Configuration)'!='Light'" />
     <PackageReference Include="Pastel" Version="5.1.0" />
 
     <ProjectReference Include="$(CliRootPath)..\src\Kryptor\Kryptor.csproj" />

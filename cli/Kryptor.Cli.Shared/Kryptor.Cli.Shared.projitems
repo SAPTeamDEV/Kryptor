@@ -36,10 +36,10 @@
     <Compile Include="..\Kryptor.Cli.Shared\KeyStoreGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)KeyStoreRandomLoadSession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\CompileSession.cs" />
-    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\IndexSessionHost.cs" />
-    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\DownloadSession.cs" />
+    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\IndexSessionHost.cs" Condition="'$(Configuration)'!='Light'" />
+    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\DownloadSession.cs" Condition="'$(Configuration)'!='Light'" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\ImportSessionHost.cs" />
-    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\InstallSessionHost.cs" />
+    <Compile Include="..\Kryptor.Cli.Shared\Wordlist\InstallSessionHost.cs" Condition="'$(Configuration)'!='Light'" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\QuerySession.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\QuerySessionHost.cs" />
     <Compile Include="..\Kryptor.Cli.Shared\Wordlist\RemoveSessionHost.cs" />

@@ -347,9 +347,10 @@ namespace SAPTeam.Kryptor.Cli
             }, globalOptionsBinder, queryWord, queryWordlist);
 
             wlCmd.AddCommand(wlQuryCmd);
-
-            Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");
+            
             Option<bool> doOptimize = new Option<bool>("--optimize", "Removes all duplicated entries from wordlists. Note: this process requires high amount of ram. if you recieve memory related exceptions, you must disable this option.");
+#if !LIGHT
+            Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");
 
             Command wlIndexCmd = new Command("index", "Generates index files (Internal use)")
             {
@@ -397,7 +398,7 @@ namespace SAPTeam.Kryptor.Cli
             }, globalOptionsBinder, installList, installAll, installRecommended, doOptimize, installIds);
 
             wlCmd.AddCommand(wlInsCmd);
-
+#endif
             Option<bool> removeList = new Option<bool>("--list", "Lists all installed wordlists");
             removeList.AddAlias("-l");
 

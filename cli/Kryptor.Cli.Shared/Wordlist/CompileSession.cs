@@ -105,7 +105,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             lookupStrings.Clear();
             lookupStrings = null;
 
+#if !LIGHT
             Dependencies.OfType<DownloadSession>().ForEach(x => x.DeleteCache());
+#endif
 
             if (Directory.Exists(DestPath) && (deleteInstallation || Directory.GetFiles(DestPath).Length == 0))
             {

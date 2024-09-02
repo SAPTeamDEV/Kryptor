@@ -1,7 +1,5 @@
 using SAPTeam.Kryptor.Client;
 
-using SharpCompress.Common;
-
 namespace SAPTeam.Kryptor.Cli
 {
     public class DecryptionSessionHost : DataProcessingSessionHost
