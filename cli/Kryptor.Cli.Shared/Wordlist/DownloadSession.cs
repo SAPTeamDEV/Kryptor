@@ -133,7 +133,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 }
                 else
                 {
-                    if (OutputFile.Exists)
+                    if (File.Exists(OutputFile.FullName))
                     {
                         OutputFile.Delete();
                     }
@@ -167,7 +167,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             CancellationToken = cancellationToken;
             Description = $"{IndexEntry.Id}: Starting download";
 
-            if (PackageFile.Exists)
+            if (File.Exists(PackageFile.FullName))
             {
                 DownloadPackage package = JsonWorker.ReadJson<DownloadPackage>(File.ReadAllText(PackageFile.FullName));
                 PackageFile.Delete();
@@ -176,16 +176,11 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
-                DirectoryInfo dest = new DirectoryInfo(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
+                var dest = Utilities.EnsureDirectoryExists(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
 
-                if (!dest.Exists)
-                {
-                    dest.Create();
-                }
+                var tempFile = Path.Combine(dest, HashString);
 
-                var tempFile = new FileInfo(Path.Combine(dest.FullName, HashString));
-
-                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, tempFile.FullName, cancellationToken);
+                await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, tempFile, cancellationToken);
             }
 
             Downloader.Dispose();
@@ -195,7 +190,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
         public void DeleteCache()
         {
-            if (OutputFile.Exists)
+            if (File.Exists(OutputFile.FullName))
             {
                 OutputFile.Delete();
             }
