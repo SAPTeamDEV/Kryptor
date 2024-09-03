@@ -20,6 +20,7 @@
     <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <NoWarn>SYSLIB0002;SYSLIB0005;SYSLIB0012;SYSLIB0020</NoWarn>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
