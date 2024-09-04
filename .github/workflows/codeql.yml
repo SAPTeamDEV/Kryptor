@@ -68,7 +68,9 @@ jobs:
           8.0.x
           
     - name: Install dependencies
-      run: dotnet restore
+      run: |
+        dotnet workload restore
+        dotnet restore
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
