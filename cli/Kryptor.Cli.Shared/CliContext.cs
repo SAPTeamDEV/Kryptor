@@ -16,6 +16,26 @@ namespace SAPTeam.Kryptor.Cli
         /// </summary>
         public string ApplicationDataDirectory { get; }
 
+        public bool ApplicationDataDirectoryIsWritable
+        {
+            get
+            {
+                try
+                {
+                    var f = File.Open(Path.Combine(ApplicationDataDirectory, ".write_test"), FileMode.Create, FileAccess.Write);
+                    var buffer = new byte[] { 79, 75 };
+                    f.Write(buffer, 0, buffer.Length);
+                    f.Flush();
+                    f.Close();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         public string WordlistDirectory { get; }
 
 #if DEBUG
@@ -38,10 +58,13 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.CreateContext();
 
-            Console.CancelKeyPress += delegate
+            if (BuildInformation.Variant != BuildVariant.Android)
             {
-                Dispose();
-            };
+                Console.CancelKeyPress += delegate
+                {
+                    Dispose();
+                };
+            }
 
             if (!Directory.Exists(ApplicationDataDirectory))
             {

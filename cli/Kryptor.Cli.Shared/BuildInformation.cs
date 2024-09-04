@@ -30,6 +30,11 @@ namespace SAPTeam.Kryptor.Cli
             DefineVariant();
             DefineConstants();
 
+            if (Variant == BuildVariant.Android)
+            {
+                TargetPlatform = "android";
+            }
+
             string format = "MM/dd/yyyy HH:mm:ss";
             string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;
 
@@ -39,7 +44,10 @@ namespace SAPTeam.Kryptor.Cli
             BuildTime = parsedDateTime;
 
             AssemblyPlatformAttribute platformInfo = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();
-            TargetPlatform = platformInfo.RuntimeIdentifier;
+            if (!string.IsNullOrEmpty(platformInfo.RuntimeIdentifier))
+            {
+                TargetPlatform = platformInfo.RuntimeIdentifier;
+            }
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 
             ApplicationVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);

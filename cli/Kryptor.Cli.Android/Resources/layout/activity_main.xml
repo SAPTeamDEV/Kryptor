@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="178.7dp"
+        android:layout_height="88.8dp"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:text="kryptor -V"
+        android:id="@+id/editText1"
+        android:layout_marginRight="91.4dp" />
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1" />
+    <TextView
+        android:text="Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="150dp"
+        android:lines="10"
+        android:id="@+id/textView1" />
+
+
+
+
+</RelativeLayout>

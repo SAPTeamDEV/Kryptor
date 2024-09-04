@@ -70,8 +70,8 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA==",
         "dependencies": {
           "System.Text.Json": "6.0.9"
         }
@@ -200,7 +200,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[4.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.3, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }
@@ -312,8 +312,8 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA==",
         "dependencies": {
           "System.Text.Json": "6.0.9"
         }
@@ -455,7 +455,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[4.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.3, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }
@@ -570,8 +570,8 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Transitive",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA==",
         "dependencies": {
           "System.Text.Json": "6.0.9"
         }
@@ -713,7 +713,7 @@
       "SAPTeam.Kryptor.Client": {
         "type": "Project",
         "dependencies": {
-          "SAPTeam.CommonTK": "[4.0.2, )",
+          "SAPTeam.CommonTK": "[4.0.3, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
       }

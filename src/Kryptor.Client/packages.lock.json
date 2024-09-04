@@ -16,9 +16,9 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Direct",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA==",
         "dependencies": {
           "System.Text.Json": "6.0.9"
         }
@@ -132,9 +132,9 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Direct",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ==",
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA==",
         "dependencies": {
           "System.Text.Json": "8.0.4"
         }
@@ -405,9 +405,9 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Direct",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ=="
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA=="
       },
       "SAPTeam.Kryptor": {
         "type": "Project"
@@ -434,9 +434,9 @@
       },
       "SAPTeam.CommonTK": {
         "type": "Direct",
-        "requested": "[4.0.2, )",
-        "resolved": "4.0.2",
-        "contentHash": "o0hbsJsypwr9PPw94W5kJkcq4FzGmLVjHQ8MSgHl6Evp04lnAgQ0o+A9KODS8l8QUIZU+YSUXrTOnmI5wtNZyQ=="
+        "requested": "[4.0.3, )",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA=="
       },
       "SAPTeam.Kryptor": {
         "type": "Project"

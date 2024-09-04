@@ -24,7 +24,7 @@
   </ItemGroup>
   
     <ItemGroup>
-    <PackageReference Include="SAPTeam.CommonTK" Version="4.0.2" />
+    <PackageReference Include="SAPTeam.CommonTK" Version="4.0.3" />
     </ItemGroup>
 
     <ItemGroup>

@@ -7,15 +7,16 @@ namespace SAPTeam.Kryptor.Cli
 {
     public class Program
     {
-        public static CliContext Context { get; private set; }
+        public static CliContext Context { get; } = CommonTK.Context.Register<CliContext>();
 
-        public static int Main(string[] args)
+        public static int Main(string[] args) => Main(args, null);
+
+        public static int Main(string[] args, IConsole console = null)
         {
-            Context = CommonTK.Context.Register<CliContext>();
-            return Parse(args);
+            return Parse(args, console);
         }
 
-        private static int Parse(string[] args)
+        private static int Parse(string[] args, IConsole console = null)
         {
             Option<bool> verInfo = new Option<bool>("--full-version", "Show full version informations");
             verInfo.AddAlias("-V");
@@ -43,6 +44,8 @@ namespace SAPTeam.Kryptor.Cli
                         Console.WriteLine(platformStr);
                     }
 
+                    Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
+                    Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
                     Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
@@ -194,7 +197,7 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(kcCmd);
             root.AddCommand(wlCmd);
 
-            return root.Invoke(args);
+            return root.Invoke(args, console);
         }
 
         private static Command GetHeaderCommand(GlobalOptionsBinder globalOptionsBinder)
@@ -347,7 +350,7 @@ namespace SAPTeam.Kryptor.Cli
             }, globalOptionsBinder, queryWord, queryWordlist);
 
             wlCmd.AddCommand(wlQuryCmd);
-            
+
             Option<bool> doOptimize = new Option<bool>("--optimize", "Removes all duplicated entries from wordlists. Note: this process requires high amount of ram. if you recieve memory related exceptions, you must disable this option.");
 #if !LIGHT
             Argument<string> indexSource = new Argument<string>("source", "The source index v1 file");

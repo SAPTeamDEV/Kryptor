@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -7,12 +8,11 @@ using Downloader;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Generators;
 
 using SharpCompress.Archives;
-using SharpCompress.Readers;
 using SharpCompress.Archives.SevenZip;
-using SAPTeam.Kryptor.Generators;
-using System.Text;
+using SharpCompress.Readers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
