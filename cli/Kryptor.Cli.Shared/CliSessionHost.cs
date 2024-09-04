@@ -269,11 +269,11 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
         {
-            var bw = Console.BufferWidth;
+            var bw = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
             var paddingSize = IsOutputRedirected ? 1 : bw;
             int counter = 0;
 
-            if (!IsOutputRedirected)
+            if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
             {
                 Console.CursorVisible = false;
             }
@@ -355,7 +355,7 @@ namespace SAPTeam.Kryptor.Cli
                         LogError(msg);
                     }
 
-                    if (!IsOutputRedirected)
+                    if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
                     {
                         Console.CursorVisible = true;
                     }
@@ -368,7 +368,7 @@ namespace SAPTeam.Kryptor.Cli
                     Container.StartQueuedSessions();
                 }
 
-                if (!IsOutputRedirected)
+                if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
                 {
                     await Task.Delay(100);
 
@@ -527,7 +527,7 @@ namespace SAPTeam.Kryptor.Cli
         protected Task ShowProgress(bool showOverall, bool showRemaining)
         {
             Task pTask = ShowProgressImpl(showOverall, showRemaining);
-
+            
             return pTask;
         }
 
