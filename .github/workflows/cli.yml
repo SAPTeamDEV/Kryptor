@@ -45,7 +45,7 @@ jobs:
             8.0.x
       - name: Install dependencies
         run: |
-          dotnet workload restore
+          dotnet workload install android
           dotnet restore
       - name: Build
         run: |
