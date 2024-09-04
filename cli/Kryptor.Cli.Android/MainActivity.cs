@@ -16,6 +16,7 @@ namespace SAPTeam.Kryptor.Cli
             var input = FindViewById<EditText>(Resource.Id.editText1);
             var btn = FindViewById<Button>(Resource.Id.button1);
             var output = FindViewById<TextView>(Resource.Id.textView1);
+            output.Text = $"IsAndroid: {OperatingSystem.IsAndroid()}";
 
             btn.Click += (s, e) =>
             {
@@ -23,12 +24,25 @@ namespace SAPTeam.Kryptor.Cli
                 var mem = new MemoryStream();
                 var wr = new StreamWriter(mem);
                 Console.SetOut(wr);
+                Console.SetError(wr);
 
                 int exit;
                 string oText;
                 try
                 {
-                    exit = Program.Main(tx.Split(' '), new VirtualConsole(wr));
+                    if (!tx.StartsWith(':'))
+                    {
+                        exit = Program.Main(tx.Split(' '), new VirtualConsole(wr));
+                    }
+                    else
+                    {
+                        exit = 0;
+                        if (tx == ":g")
+                        {
+                            
+                        }
+                    }
+
                     wr.Flush();
                     oText = Encoding.UTF8.GetString(mem.ToArray());
                 }

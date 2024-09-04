@@ -51,8 +51,8 @@ namespace SAPTeam.Kryptor.Cli
         public override void Start(ClientContext context)
         {
             CliContext cliContext = context as CliContext;
-            cliContext.CatchExceptions = !Verbose;
-            cliContext.NoColor = NoColor;
+            cliContext.CatchExceptions = !BuildInformation.IsAndroidPlatform || !Verbose;
+            cliContext.NoColor = BuildInformation.IsAndroidPlatform || NoColor;
 
             if (Quiet)
             {
@@ -84,14 +84,14 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
-            int bufferWidth = Console.BufferWidth;
+            int bufferWidth = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
             int paddingBufferSize = IsOutputRedirected ? 1 : bufferWidth;
 
             Stopwatch sw = null;
             ConsoleFrameBuffer animations = new ConsoleFrameBuffer();
             int qCounter = 0;
 
-            if (!IsOutputRedirected)
+            if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
             {
                 Console.CursorVisible = false;
             }
@@ -116,7 +116,7 @@ namespace SAPTeam.Kryptor.Cli
             List<ISession> flaggedSessions = new List<ISession>();
 
             int lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
-            int maxLines = Console.BufferHeight - 1;
+            int maxLines = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferHeight - 1;
             int ceilingLine = 0;
 
             while (true)

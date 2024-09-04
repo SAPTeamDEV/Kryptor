@@ -13,6 +13,8 @@ namespace SAPTeam.Kryptor.Cli
 
         public static bool IsAot { get; private set; }
 
+        public static bool IsAndroidPlatform { get; private set; }
+
         public static DateTime BuildTime { get; }
 
         public static string TargetPlatform { get; }
@@ -30,7 +32,9 @@ namespace SAPTeam.Kryptor.Cli
             DefineVariant();
             DefineConstants();
 
-            if (Variant == BuildVariant.Android)
+            IsAndroidPlatform = Variant == BuildVariant.Android;
+
+            if (IsAndroidPlatform)
             {
                 TargetPlatform = "android";
             }

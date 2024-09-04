@@ -5,4 +5,16 @@
     <OutputType>Exe</OutputType>
     <ApplicationId>com.sapteam.kryptor.cli</ApplicationId>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.CommandLine">
+      <HintPath>..\..\..\command-line-api\artifacts\bin\System.CommandLine\Debug\net8.0-android\System.CommandLine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
