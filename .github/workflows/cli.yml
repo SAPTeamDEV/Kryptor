@@ -46,6 +46,7 @@ jobs:
       - name: Install dependencies
         run: |
           dotnet restore
+          dotnet workload restore
       - name: Build
         run: |
           for TARGET in ${{ env.build-path }}
