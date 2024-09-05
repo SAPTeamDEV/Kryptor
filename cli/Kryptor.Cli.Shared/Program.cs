@@ -3,6 +3,8 @@ using System.CommandLine.Parsing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
+using SAPTeam.Kryptor.Helpers;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class Program
@@ -52,6 +54,7 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
                     Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+                    Console.WriteLine($"Async Compatible: {AsyncCompat.IsAsyncCompatible}");
 
                     Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
                     Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
