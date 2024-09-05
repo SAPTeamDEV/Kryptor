@@ -11,7 +11,7 @@ namespace SAPTeam.Kryptor.Helpers
         /// <summary>
         /// Gets a value indicating that the current environment has the async safety.
         /// </summary>
-        public static bool IsAsyncCompatible { get; }
+        public static bool IsAsyncCompatible { get; set; }
 
         static AsyncCompat()
         {
