@@ -1,4 +1,5 @@
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -56,9 +57,8 @@ namespace SAPTeam.Kryptor.Cli
 
                 while (wroteBytes < Data.Length)
                 {
-                    int chunk = Math.Min(Data.Length - wroteBytes, 1024);
-
-                    await f.WriteAsync(Data, 0, chunk, cancellationToken);
+                    int chunk = Math.Min(Data.Length - wroteBytes, 8192);
+                    await AsyncCompat.WriteAsync(f, Data, 0, chunk, cancellationToken);
                     wroteBytes += chunk;
                     Progress = wroteBytes * steps;
                 }

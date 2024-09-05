@@ -1,5 +1,6 @@
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Generators;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -21,7 +22,7 @@ namespace SAPTeam.Kryptor.Cli
             CancellationToken = cancellationToken;
             Description = "Generating keystore";
 
-            await Task.Delay(2);
+            await AsyncCompat.Delay(2, cancellationToken);
             IGenerator gen;
 
             switch (Generator)

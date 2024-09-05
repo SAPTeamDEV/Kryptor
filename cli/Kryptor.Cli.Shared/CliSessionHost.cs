@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -222,7 +223,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (!IsOutputRedirected)
                 {
-                    await Task.Delay(100);
+                    await AsyncCompat.Delay(100);
 
                     Console.CursorLeft = 0;
                     Console.CursorTop -= Math.Min(ceilingLine, maxLines);
@@ -370,7 +371,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
                 {
-                    await Task.Delay(100);
+                    await AsyncCompat.Delay(100);
 
                     Console.SetCursorPosition(0, Console.CursorTop - 2);
                 }
@@ -513,7 +514,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 KeyQueue = Console.ReadKey(true);
 
-                await Task.Delay(50);
+                await AsyncCompat.Delay(50, MasterToken.Token);
 
                 if (!HasRequest)
                 {
@@ -597,7 +598,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public override async Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken)
         {
-            await Task.Delay(2);
+            await AsyncCompat.Delay(2);
 
             lock (_requestLock)
             {
@@ -623,7 +624,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 while (!Request.IsResponsed)
                 {
-                    await Task.Delay(5, cancellationToken);
+                    await AsyncCompat.Delay(5, cancellationToken);
                 }
 
                 return Request.Response.Cast<TResponse>();

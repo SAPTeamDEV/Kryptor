@@ -1,6 +1,8 @@
 
 using System.Text;
 
+using SAPTeam.Kryptor.Helpers;
+
 namespace SAPTeam.Kryptor.Cli
 {
     [Activity(Label = "@string/app_name", MainLauncher = true)]
@@ -15,6 +17,8 @@ namespace SAPTeam.Kryptor.Cli
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+
             var input = FindViewById<EditText>(Resource.Id.editText1);
             var btn = FindViewById<Button>(Resource.Id.button1);
             var output = FindViewById<TextView>(Resource.Id.textView1);
@@ -26,8 +30,8 @@ namespace SAPTeam.Kryptor.Cli
 
             btn.Click += async (s, e) =>
             {
-                await Task.Delay(5);
                 var tx = input.Text;
+                await AsyncCompat.Delay(2);
 
                 int exit;
                 try

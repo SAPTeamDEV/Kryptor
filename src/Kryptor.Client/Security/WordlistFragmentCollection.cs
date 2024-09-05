@@ -1,6 +1,7 @@
 using System.Text;
 
 using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Client.Security
 {
@@ -78,7 +79,7 @@ namespace SAPTeam.Kryptor.Client.Security
                 VerifyFragment(streamReader.BaseStream, metadata);
 
                 string line;
-                while ((line = await streamReader.ReadLineAsync()) != null)
+                while ((line = await AsyncCompat.ReadLineAsync(streamReader)) != null)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 

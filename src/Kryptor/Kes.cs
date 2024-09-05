@@ -183,7 +183,7 @@ namespace SAPTeam.Kryptor
             if (header.Verbosity > 0)
             {
                 byte[] hArray = header.CreatePayload();
-                await dest.WriteAsync(hArray, 0, hArray.Length, cancellationToken);
+                await AsyncCompat.WriteAsync(dest, hArray, 0, hArray.Length, cancellationToken);
             }
 
             await ProcessDataAsync(source, dest, true, cancellationToken);
@@ -268,9 +268,9 @@ namespace SAPTeam.Kryptor
                     int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
 
                     byte[] slice = new byte[actualSize];
-                    await source.ReadAsync(slice, 0, slice.Length, cancellationToken);
+                    await AsyncCompat.ReadAsync(source, slice, 0, slice.Length, cancellationToken);
                     byte[] eSlice = await cryptoCallback(slice, process);
-                    await dest.WriteAsync(eSlice, 0, eSlice.Length, cancellationToken);
+                    await AsyncCompat.WriteAsync(dest, eSlice, 0, eSlice.Length, cancellationToken);
 
                     counter += blockSize / chunckSize;
                     double prog = step * counter;

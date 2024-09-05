@@ -32,7 +32,12 @@ namespace SAPTeam.Kryptor.Cli
             DefineVariant();
             DefineConstants();
 
-            IsAndroidPlatform = Variant == BuildVariant.Android;
+            bool isAndroid = false;
+#if NET6_0_OR_GREATER
+            isAndroid = OperatingSystem.IsAndroid();
+#endif
+
+            IsAndroidPlatform = isAndroid;
 
             if (IsAndroidPlatform)
             {

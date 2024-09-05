@@ -53,7 +53,7 @@ namespace SAPTeam.Kryptor.Helpers
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
+                        await AsyncCompat.WriteAsync(csEncrypt, data, 0, data.Length, cancellationToken);
                     }
 
                     return msEncrypt.ToArray();
@@ -99,7 +99,7 @@ namespace SAPTeam.Kryptor.Helpers
                                 int readBytes = 0;
                                 while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    await tempMemory.WriteAsync(buffer, 0, readBytes, cancellationToken);
+                                    await AsyncCompat.WriteAsync(tempMemory, buffer, 0, readBytes, cancellationToken);
                                 }
 
                                 return tempMemory.ToArray();
@@ -148,7 +148,7 @@ namespace SAPTeam.Kryptor.Helpers
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
-                        await csEncrypt.WriteAsync(data, 0, data.Length, cancellationToken);
+                        await AsyncCompat.WriteAsync(csEncrypt, data, 0, data.Length, cancellationToken);
                     }
 
                     return msEncrypt.ToArray();
@@ -198,7 +198,7 @@ namespace SAPTeam.Kryptor.Helpers
                                 int readBytes = 0;
                                 while ((readBytes = csDecrypt.Read(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    await tempMemory.WriteAsync(buffer, 0, readBytes, cancellationToken);
+                                    await AsyncCompat.WriteAsync(tempMemory, buffer, 0, readBytes, cancellationToken);
                                 }
 
                                 return tempMemory.ToArray();

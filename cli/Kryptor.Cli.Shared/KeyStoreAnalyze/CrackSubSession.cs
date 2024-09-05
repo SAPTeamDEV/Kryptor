@@ -1,5 +1,6 @@
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 {
@@ -20,7 +21,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            await Task.Delay(2);
+            await AsyncCompat.Delay(2, cancellationToken);
 
             byte[] buffer = new byte[3];
             buffer[0] = (byte)Index;

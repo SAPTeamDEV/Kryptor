@@ -1,4 +1,5 @@
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -19,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             this.cancellationToken = cancellationToken;
             Description = "Generating keystore";
-            await Task.Delay(1);
+            await AsyncCompat.Delay(1, cancellationToken);
 
 #if false
             if (!await SendRequest(sessionHost, new SessionRequest<bool>("Do you want to continue this task? even when you see this long message? tou know, i don't want to continue generating these keystores, i have a family and two kids to feed, please free me. i know that you may need this keystore to encrypt or decrypt your highly secret files, you are the boss.", true), cancellationToken))

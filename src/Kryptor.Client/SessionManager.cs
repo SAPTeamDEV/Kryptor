@@ -1,4 +1,6 @@
-﻿namespace SAPTeam.Kryptor.Client
+﻿using SAPTeam.Kryptor.Helpers;
+
+namespace SAPTeam.Kryptor.Client
 {
     public partial class SessionContainer
     {
@@ -51,7 +53,7 @@
                     _cancellationRequested = true;
                 }
 
-                await Task.Delay(5);
+                await AsyncCompat.Delay(5);
             }
 
             cancellationToken.ThrowIfCancellationRequested();

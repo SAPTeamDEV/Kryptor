@@ -1,4 +1,5 @@
 using SAPTeam.Kryptor.Client;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -23,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
                 for (int i = 0; i < f.Length; i += ChunckSize)
                 {
                     byte[] buffer = new byte[Math.Min(f.Length - f.Position, ChunckSize)];
-                    await f.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                    await AsyncCompat.ReadAsync(f, buffer, 0, buffer.Length, cancellationToken);
                     Array.Copy(buffer, 0, result, i, buffer.Length);
 
                     Progress = step * prog;

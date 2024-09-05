@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli.Wordlist
 {
@@ -126,7 +127,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
 
                 long readChars = 0;
                 string line;
-                while ((line = await streamReader.ReadLineAsync()) != null)
+                while ((line = await AsyncCompat.ReadLineAsync(streamReader)) != null)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     readChars += line.Length;
