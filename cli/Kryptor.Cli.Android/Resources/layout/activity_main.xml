@@ -27,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
+        android:focusable="false"
+        android:longClickable="false"
         android:id="@+id/textView1" />
 
 </RelativeLayout>
