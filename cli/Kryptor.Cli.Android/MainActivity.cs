@@ -23,8 +23,6 @@ namespace SAPTeam.Kryptor.Cli
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            AsyncCompat.IsAsyncCompatible = BuildInformation.Branch != BuildBranch.Light;
-
             //CheckPermissions();
             Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 

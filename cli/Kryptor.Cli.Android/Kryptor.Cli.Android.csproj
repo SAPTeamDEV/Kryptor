@@ -3,7 +3,7 @@
     <TargetFramework>net8.0-android</TargetFramework>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <OutputType>Exe</OutputType>
-    <ApplicationId>com.sapteam.kryptor.cli</ApplicationId>
+    <ApplicationId>com.sapteam.kryptor.cli.$(Configuration)</ApplicationId>
     <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
   </PropertyGroup>
   
