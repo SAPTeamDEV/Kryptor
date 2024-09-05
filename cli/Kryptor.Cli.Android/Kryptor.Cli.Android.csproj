@@ -4,7 +4,7 @@
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <OutputType>Exe</OutputType>
     <ApplicationId>com.sapteam.kryptor.cli</ApplicationId>
-    <Configurations>Debug;Light</Configurations>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">

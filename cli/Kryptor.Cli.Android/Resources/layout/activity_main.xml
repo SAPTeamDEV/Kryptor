@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp"
+        android:scrollbars="vertical"
         android:focusable="false"
         android:longClickable="false"
         android:id="@+id/textView1" />

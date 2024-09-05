@@ -4,42 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Android.Widget;
+
 namespace SAPTeam.Kryptor.Cli
 {
     internal class LiveWriter : TextWriter
     {
         TextView output;
-        char[] buffer;
-        int pos;
+        StringBuilder sb;
 
         public LiveWriter(TextView textView)
         {
+            sb = new StringBuilder();
             output = textView;
-            ResetBuffer();
         }
 
         void ResetBuffer()
         {
-            buffer = new char[1024];
-            pos = 0;
+            sb.Clear();
         }
 
         public override Encoding Encoding => Encoding.UTF8;
 
         public override void Write(char value)
         {
-            buffer[pos++] = value;
-
-            if (pos == buffer.Length)
-            {
-                Flush();
-            }
+            sb.Append(value);
         }
 
         public override void Flush()
         {
-            output.Text += new string(buffer);
+            output.Text += sb.ToString();
             ResetBuffer();
+
+            int scrollAmount = output.Layout.GetLineTop(output.LineCount) - output.Height;
+            // if there is no need to scroll, scrollAmount will be <=0
+            if (scrollAmount > 0)
+                output.ScrollTo(0, scrollAmount);
+            else
+                output.ScrollTo(0, 0);
         }
     }
 }

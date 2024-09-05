@@ -2,6 +2,9 @@
 using System.Security.Permissions;
 using System.Text;
 
+using Android.Text.Method;
+using Android.Widget;
+
 using Java.Security;
 
 using SAPTeam.Kryptor.Helpers;
@@ -20,12 +23,15 @@ namespace SAPTeam.Kryptor.Cli
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            AsyncCompat.IsAsyncCompatible = BuildInformation.Branch != BuildBranch.Light;
+
             //CheckPermissions();
             Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
             var input = FindViewById<EditText>(Resource.Id.editText1);
             var btn = FindViewById<Button>(Resource.Id.button1);
             var output = FindViewById<TextView>(Resource.Id.textView1);
+            output.MovementMethod = new ScrollingMovementMethod();
 
             var lw = new LiveWriter(output);
             var vc = new VirtualConsole(lw);
@@ -34,31 +40,15 @@ namespace SAPTeam.Kryptor.Cli
 
             btn.Click += async (s, e) =>
             {
-                var tx = input.Text;
-                await AsyncCompat.Delay(2);
+                input.Enabled = false;
+                btn.Enabled = false;
 
-                int exit;
-                try
-                {
-                    exit = Program.Main(tx.Split(' '), vc);
-                }
-                catch (Exception ex)
-                {
-                    exit = -1;
-                    lw.Write(ex.ToString());
-                }
-                finally
-                {
-                    lw.Flush();
-                }
+                await Task.Run(() => HandleButton(input, lw, vc));
 
-                /*
-                var alert = new AlertDialog.Builder(this);
-                alert.SetTitle($"Result ({exit})");
-                alert.SetMessage(oText);
-                alert.SetPositiveButton("OK", delegate { });
-                alert.Create().Show();
-                */
+                input.Enabled = true;
+                btn.Enabled = true;
+
+                lw.Flush();
             };
 
             var warn = new AlertDialog.Builder(this);
@@ -66,6 +56,21 @@ namespace SAPTeam.Kryptor.Cli
             warn.SetMessage("The Android build in development and may not work properly");
             warn.SetPositiveButton("OK", delegate { });
             warn.Create().Show();
+        }
+
+        private static void HandleButton(EditText input, LiveWriter lw, VirtualConsole vc)
+        {
+            var tx = input.Text;
+            int exit;
+            try
+            {
+                exit = Program.Main(tx.Split(' '), vc);
+            }
+            catch (Exception ex)
+            {
+                exit = -1;
+                lw.Write(ex.ToString());
+            }
         }
 
         async Task CheckPermissions()
