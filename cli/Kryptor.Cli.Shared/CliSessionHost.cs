@@ -42,9 +42,9 @@ namespace SAPTeam.Kryptor.Cli
         {
             Verbose = globalOptions.Verbose;
             Quiet = globalOptions.Quiet;
-            NoColor = globalOptions.NoColor;
+            NoColor = BuildInformation.IsAndroidPlatform || globalOptions.NoColor;
 
-            IsOutputRedirected = Console.IsOutputRedirected || Quiet;
+            IsOutputRedirected = BuildInformation.IsAndroidPlatform || Console.IsOutputRedirected || Quiet;
             NoInteractions = IsOutputRedirected || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("KRYPTOR_NO_INTERACTION"));
         }
 
@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             CliContext cliContext = context as CliContext;
             cliContext.CatchExceptions = !BuildInformation.IsAndroidPlatform || !Verbose;
-            cliContext.NoColor = BuildInformation.IsAndroidPlatform || NoColor;
+            cliContext.NoColor = NoColor;
 
             if (Quiet)
             {
