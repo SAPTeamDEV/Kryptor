@@ -1,5 +1,8 @@
 
+using System.Security.Permissions;
 using System.Text;
+
+using Java.Security;
 
 using SAPTeam.Kryptor.Helpers;
 
@@ -17,6 +20,7 @@ namespace SAPTeam.Kryptor.Cli
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            //CheckPermissions();
             Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
             var input = FindViewById<EditText>(Resource.Id.editText1);
@@ -62,6 +66,18 @@ namespace SAPTeam.Kryptor.Cli
             warn.SetMessage("The Android build in development and may not work properly");
             warn.SetPositiveButton("OK", delegate { });
             warn.Create().Show();
+        }
+
+        async Task CheckPermissions()
+        {
+            await checkPermissions(Android.Manifest.Permission.ManageExternalStorage);
+        }
+
+        async Task checkPermissions(string permission)
+        {
+            var res = CheckCallingOrSelfPermission(permission);
+            RequestPermissions(new string[] { permission }, 1);
+            
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
