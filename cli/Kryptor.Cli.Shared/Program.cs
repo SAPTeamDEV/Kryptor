@@ -18,12 +18,12 @@ namespace SAPTeam.Kryptor.Cli
 
         private static int Parse(string[] args, IConsole console = null)
         {
-            Option<bool> verInfo = new Option<bool>("--full-version", "Show full version informations");
-            verInfo.AddAlias("-V");
+            Option<bool> debugInfo = new Option<bool>("--debug-info", "Show build information");
+            debugInfo.AddAlias("-V");
 
             RootCommand root = new RootCommand("Kryptor Command-Line Interface")
             {
-                verInfo
+                debugInfo
             };
 
             GlobalOptionsBinder globalOptionsBinder = GetGlobalOptions(root);
@@ -32,9 +32,12 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (verInfoT)
                 {
-                    Console.WriteLine($"{Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyTitleAttribute>().Title} {BuildInformation.Variant} for {BuildInformation.TargetFramework}");
+                    Console.WriteLine($"Kryptor Command-Line Interface for {BuildInformation.TargetFramework}");
+
                     Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss zzz}");
-                    Console.WriteLine($"Branch: {BuildInformation.Branch}");
+                    Console.WriteLine($"Build Type: {BuildInformation.Variant}");
+                    Console.WriteLine($"Build Configuration: {BuildInformation.Branch}");
+
                     if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
                     {
                         string platformStr = $"Platform: {BuildInformation.TargetPlatform}";
@@ -44,13 +47,14 @@ namespace SAPTeam.Kryptor.Cli
                         Console.WriteLine(platformStr);
                     }
 
-                    Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
-                    Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
                     Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
                     Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
+
+                    Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
+                    Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
 
                     IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
                     if (!cryptoProviders.Any()) return;
@@ -67,7 +71,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     Console.Error.WriteLine("To view help message, run kryptor --help");
                 }
-            }, globalOptionsBinder, verInfo);
+            }, globalOptionsBinder, debugInfo);
 
             #region Common Data Processing Options
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
