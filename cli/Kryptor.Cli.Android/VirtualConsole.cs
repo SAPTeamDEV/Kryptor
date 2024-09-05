@@ -16,7 +16,7 @@ namespace SAPTeam.Kryptor.Cli
         public bool IsErrorRedirected => true;
         public bool IsInputRedirected => true;
 
-        public VirtualConsole(StreamWriter sw)
+        public VirtualConsole(TextWriter sw)
         {
             IStandardStreamWriter issw = new SSW(sw);
             Out = issw;
@@ -26,11 +26,11 @@ namespace SAPTeam.Kryptor.Cli
 
     internal class SSW : IStandardStreamWriter
     {
-        StreamWriter inner;
+        TextWriter inner;
 
         public void Write(string value) => inner.Write(value);
 
-        public SSW(StreamWriter streamWriter)
+        public SSW(TextWriter streamWriter)
         {
             inner = streamWriter;
         }
