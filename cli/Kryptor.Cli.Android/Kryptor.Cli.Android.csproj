@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0-android</TargetFramework>
+    <RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <OutputType>Exe</OutputType>
     <ApplicationId>com.sapteam.kryptor.cli.$(Configuration)</ApplicationId>
@@ -10,12 +11,11 @@
   <PropertyGroup Condition="'$(Configuration)'!='Debug'">
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-    <AndroidLinkTool>r8</AndroidLinkTool>
-    <RunAOTCompilation>True</RunAOTCompilation>
+    <RunAOTCompilation>False</RunAOTCompilation>
     <EnableLLVM>False</EnableLLVM>
-    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
+    <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
     <PublishTrimmed>True</PublishTrimmed>
-    <TrimMode>link</TrimMode>
+    <TrimMode>Link</TrimMode>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
@@ -24,6 +24,26 @@
 
   <PropertyGroup Condition="'$(RunAOTCompilation)' == 'True'">
     <DefineConstants>$(DefineConstants);AOT</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Nuget|AnyCPU'">
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Indexer|AnyCPU'">
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Light|AnyCPU'">
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
   </PropertyGroup>
   
   <ItemGroup>
