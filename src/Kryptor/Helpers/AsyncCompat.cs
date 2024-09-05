@@ -15,12 +15,7 @@ namespace SAPTeam.Kryptor.Helpers
 
         static AsyncCompat()
         {
-            bool isAndroid = false;
-#if NET6_0_OR_GREATER
-            isAndroid = OperatingSystem.IsAndroid();
-#endif
-
-            IsAsyncCompatible = !isAndroid;
+            IsAsyncCompatible = true;
         }
 
         public static async Task Delay(int ms) => await Delay(ms, CancellationToken.None);
