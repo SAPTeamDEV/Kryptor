@@ -21,26 +21,27 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
         {
-            await AsyncCompat.Delay(2, cancellationToken);
-
-            byte[] buffer = new byte[3];
-            buffer[0] = (byte)Index;
-
-            for (int b1 = 0; b1 <= 255; b1++)
+            await Task.Run(() =>
             {
-                for (int b2 = 0; b2 <= 255; b2++)
+                byte[] buffer = new byte[3];
+                buffer[0] = (byte)Index;
+
+                for (int b1 = 0; b1 <= 255; b1++)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    buffer[1] = (byte)b1;
-                    buffer[2] = (byte)b2;
-
-                    if (buffer.Sha256().SequenceEqual(Test))
+                    for (int b2 = 0; b2 <= 255; b2++)
                     {
-                        OnVerify?.Invoke();
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        buffer[1] = (byte)b1;
+                        buffer[2] = (byte)b2;
+
+                        if (buffer.Sha256().SequenceEqual(Test))
+                        {
+                            OnVerify?.Invoke();
+                        }
                     }
                 }
-            }
+            });
 
             return true;
         }
