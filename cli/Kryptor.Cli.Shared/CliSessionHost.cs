@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor.Cli
         public override void Start(ClientContext context)
         {
             CliContext cliContext = context as CliContext;
-            cliContext.CatchExceptions = !BuildInformation.IsAndroidPlatform || !Verbose;
+            cliContext.CatchExceptions = !BuildInformation.IsAndroidPlatform && !Verbose;
             cliContext.NoColor = NoColor;
 
             if (Quiet)
