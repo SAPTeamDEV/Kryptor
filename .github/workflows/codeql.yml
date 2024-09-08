@@ -14,6 +14,7 @@ name: "CodeQL"
 on:
   push:
     branches: [ "master" ]
+    paths-ignore: 'cli/Kryptor.Cli.Android'
   pull_request:
     branches: [ "master" ]
   schedule:
@@ -69,7 +70,8 @@ jobs:
           
     - name: Install dependencies
       run: |
-        dotnet workload restore
+        dotnet sln remove cli/Kryptor.Cli.Android/Kryptor.Cli.Android.csproj
+        rm -rf cli/Kryptor.Cli.Android
         dotnet restore
 
     # Initializes the CodeQL tools for scanning.

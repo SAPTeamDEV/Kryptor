@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/Kryptor.Client/**'
       - 'cli/**'
+      - '!cli/Kryptor.Cli.Android'
     branches: [master, dev]
   pull_request:
     branches: [master]
@@ -45,7 +46,8 @@ jobs:
             8.0.x
       - name: Install dependencies
         run: |
-          dotnet workload install android
+          dotnet sln remove cli/Kryptor.Cli.Android/Kryptor.Cli.Android.csproj
+          rm -rf cli/Kryptor.Cli.Android
           dotnet restore
       - name: Build
         run: |
