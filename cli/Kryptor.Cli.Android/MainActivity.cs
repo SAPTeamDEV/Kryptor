@@ -1,4 +1,5 @@
 
+using System.CommandLine;
 using System.Security.Permissions;
 using System.Text;
 
@@ -31,6 +32,7 @@ namespace SAPTeam.Kryptor.Cli
             var output = FindViewById<TextView>(Resource.Id.textView1);
             output.MovementMethod = new ScrollingMovementMethod();
 
+            var root = Program.GetRootCommand();
             var lw = new LiveWriter(output);
             var vc = new VirtualConsole(lw);
             Console.SetOut(lw);
@@ -40,13 +42,17 @@ namespace SAPTeam.Kryptor.Cli
             {
                 input.Enabled = false;
                 btn.Enabled = false;
+                int exit = 0;
 
-                await Task.Run(() => HandleButton(input, lw, vc));
+                output.Text += $"===Execution started at {DateTime.Now}===\n";
+                await Task.Run(() => HandleButton(input, root, lw, vc, out exit));
 
                 input.Enabled = true;
                 btn.Enabled = true;
 
                 lw.Flush();
+
+                output.Text += $"===Execution finished at {DateTime.Now}, Exit code: {exit}===\n\n";
             };
 
             var warn = new AlertDialog.Builder(this);
@@ -56,13 +62,13 @@ namespace SAPTeam.Kryptor.Cli
             warn.Create().Show();
         }
 
-        private static void HandleButton(EditText input, LiveWriter lw, VirtualConsole vc)
+        private static void HandleButton(EditText input, RootCommand root, LiveWriter lw, VirtualConsole vc, out int exit)
         {
             var tx = input.Text;
-            int exit;
+
             try
             {
-                exit = Program.Main(tx.Split(' '), vc);
+                exit = root.Invoke(tx.Split(' '), vc);
             }
             catch (Exception ex)
             {

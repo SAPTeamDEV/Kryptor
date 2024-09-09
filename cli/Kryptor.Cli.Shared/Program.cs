@@ -11,14 +11,14 @@ namespace SAPTeam.Kryptor.Cli
     {
         public static CliContext Context { get; } = CommonTK.Context.Register<CliContext>();
 
-        public static int Main(string[] args) => Main(args, null);
-
-        public static int Main(string[] args, IConsole console = null)
+        public static int Main(string[] args)
         {
-            return Parse(args, console);
+            RootCommand root = GetRootCommand();
+
+            return root.Invoke(args);
         }
 
-        private static int Parse(string[] args, IConsole console = null)
+        public static RootCommand GetRootCommand()
         {
             Option<bool> debugInfo = new Option<bool>("--debug-info", "Show build information");
             debugInfo.AddAlias("-V");
@@ -203,8 +203,7 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(headCmd);
             root.AddCommand(kcCmd);
             root.AddCommand(wlCmd);
-
-            return root.Invoke(args, console);
+            return root;
         }
 
         private static Command GetHeaderCommand(GlobalOptionsBinder globalOptionsBinder)
