@@ -24,7 +24,10 @@
     <NoWarn>SYSLIB0002;SYSLIB0005;SYSLIB0012;SYSLIB0020</NoWarn>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-
+    
+    <ApplicationIcon>$(RepoRootPath)build\kryptor.ico</ApplicationIcon>
+    <PackageIcon>kryptor-small.jpg</PackageIcon>
+    
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -39,7 +42,15 @@
       <_Parameter1>BuildTime</_Parameter1>
       <_Parameter2>$([System.DateTime]::UtcNow.ToString("MM/dd/yyyy HH:mm:ss"))</_Parameter2>
     </AssemblyAttribute>
-    
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="$(RepoRootPath)build\kryptor.ico" />
+
+    <None Include="$(RepoRootPath)build\kryptor-small.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
