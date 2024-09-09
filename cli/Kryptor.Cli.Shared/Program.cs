@@ -50,6 +50,7 @@ namespace SAPTeam.Kryptor.Cli
                     }
 
                     Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
+                    Console.WriteLine($"Application Informational Version: {BuildInformation.ApplicationInformationalVersion}");
                     Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
                     Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
                     Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");

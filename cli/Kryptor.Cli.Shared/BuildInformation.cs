@@ -22,6 +22,8 @@ namespace SAPTeam.Kryptor.Cli
         public static string TargetFramework { get; }
 
         public static Version ApplicationVersion { get; }
+        
+        public static string ApplicationInformationalVersion { get; }
 
         public static Version ClientVersion { get; }
 
@@ -60,6 +62,8 @@ namespace SAPTeam.Kryptor.Cli
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 
             ApplicationVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+            ApplicationInformationalVersion = Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
             ClientVersion = ClientContext.ClientVersion;
             EngineVersion = ClientContext.EngineVersion;
         }

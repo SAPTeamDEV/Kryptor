@@ -39,10 +39,11 @@ namespace SAPTeam.Kryptor.Cli
 
         public string WordlistDirectory { get; }
 
+        public string CliVersion { get; } =
 #if DEBUG
-        public string CliVersion => Assembly.GetAssembly(typeof(CliSessionHost)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        BuildInformation.ApplicationInformationalVersion;
 #else
-        public string CliVersion => Utilities.GetShortVersionString(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+        BuildInformation.ApplicationVersion.ToString(3);
 #endif
 
         public CliContext()
