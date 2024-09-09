@@ -67,7 +67,10 @@ namespace SAPTeam.Kryptor.Cli
 
             Log($"Kryptor Command-Line Interface v{Program.Context.CliVersion.WithColor(Color.Cyan)}");
 
-            if (BuildInformation.Branch == BuildBranch.Debug) Log($"Engine version: {Program.Context.EngineVersion.WithColor(Color.Cyan)}");
+            if (BuildInformation.Branch == BuildBranch.Debug)
+            {
+                Log($"Engine version: {BuildInformation.EngineVersion.ToString(3).WithColor(Color.Cyan)}");
+            }
         }
 
         protected void Log(string message = null) => Console.WriteLine(message);

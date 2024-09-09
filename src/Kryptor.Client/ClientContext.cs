@@ -11,9 +11,14 @@ namespace SAPTeam.Kryptor.Client
     public class ClientContext : Context
     {
         /// <summary>
-        /// Gets the short version string of the kryptor engine.
+        /// Gets the version of the kryptor engine.
         /// </summary>
-        public string EngineVersion => Utilities.GetShortVersionString(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+        public static Version EngineVersion { get; } = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+
+        /// <summary>
+        /// Gets the version of the kryptor client front-end.
+        /// </summary>
+        public static Version ClientVersion { get; } = new Version(Assembly.GetAssembly(typeof(ClientContext)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
 
         private readonly CryptoRandom random = new CryptoRandom();
 

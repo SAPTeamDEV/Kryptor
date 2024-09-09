@@ -60,8 +60,8 @@ namespace SAPTeam.Kryptor.Cli
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 
             ApplicationVersion = new Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
-            ClientVersion = new Version(Assembly.GetAssembly(typeof(Utilities)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
-            EngineVersion = new Version(Assembly.GetAssembly(typeof(Kes)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);
+            ClientVersion = ClientContext.ClientVersion;
+            EngineVersion = ClientContext.EngineVersion;
         }
 
         private static void DefineConstants()

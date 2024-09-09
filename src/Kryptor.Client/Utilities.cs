@@ -29,17 +29,6 @@ namespace SAPTeam.Kryptor.Client
 #endif
 
         /// <summary>
-        /// Gets the short string representation of the given version.
-        /// </summary>
-        /// <param name="verStr">Version string to process.</param>
-        /// <returns></returns>
-        public static string GetShortVersionString(string verStr)
-        {
-            Version ver = new Version(verStr);
-            return ver.ToString(3);
-        }
-
-        /// <summary>
         /// Generates keystore based on given token.
         /// </summary>
         /// <param name="token">
