@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Generators;
 
@@ -35,7 +37,7 @@ namespace SAPTeam.Kryptor.Cli
             }
             else
             {
-                if (!NoInteractions && Generator == KeyStoreGenerator.EntroX)
+                if (!BuildInformation.IsAndroidPlatform && !NoInteractions && Generator == KeyStoreGenerator.EntroX)
                 {
                     CollectEntropy();
                 }
@@ -54,8 +56,14 @@ namespace SAPTeam.Kryptor.Cli
             ShowProgressMonitored(true).Wait();
         }
 
-        public void CollectEntropy()
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
+        public static void CollectEntropy()
         {
+            if (BuildInformation.IsAndroidPlatform)
+            {
+                throw new NotSupportedException("The console input reading feature is not supported in this platform");
+            }
+
             CryptoRandom crng = new CryptoRandom();
             List<(DateTime start, DateTime end, string data)> entropy = new List<(DateTime start, DateTime end, string data)>();
 

@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 using SAPTeam.Kryptor.Client;
 
@@ -54,11 +55,12 @@ namespace SAPTeam.Kryptor.Cli
             WordlistDirectory = Path.Combine(ApplicationDataDirectory, "Wordlist".ToLowerIfUnix());
         }
 
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         protected override void CreateContext()
         {
             base.CreateContext();
 
-            if (BuildInformation.Variant != BuildVariant.Android)
+            if (!BuildInformation.IsAndroidPlatform)
             {
                 Console.CancelKeyPress += delegate
                 {

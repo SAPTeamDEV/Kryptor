@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Diagnostics.CodeAnalysis;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Helpers;
@@ -70,6 +71,7 @@ namespace SAPTeam.Kryptor.Cli
         }
 
         protected void Log(string message = null) => Console.WriteLine(message);
+
         protected void LogError(string message = null) => Console.Error.WriteLine(message);
 
         protected void DebugLog(string message)
@@ -83,6 +85,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
             int bufferWidth = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
@@ -206,7 +209,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     sw?.Stop();
 
-                    if (!IsOutputRedirected)
+                    if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
                     {
                         Console.CursorVisible = true;
                     }
@@ -225,15 +228,19 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     await AsyncCompat.Delay(100);
 
-                    Console.CursorLeft = 0;
-                    Console.CursorTop -= Math.Min(ceilingLine, maxLines);
+                    if (!BuildInformation.IsAndroidPlatform)
+                    {
+                        Console.CursorLeft = 0;
+                        Console.CursorTop -= Math.Min(ceilingLine, maxLines);
+                    }
                 }
             }
         }
 
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private void HandleRequests(int bufferWidth, int paddingBufferSize)
         {
-            if (!NoInteractions)
+            if (!BuildInformation.IsAndroidPlatform && !NoInteractions)
             {
                 if (HasRequest)
                 {
@@ -268,6 +275,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
         {
             var bw = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
@@ -369,11 +377,14 @@ namespace SAPTeam.Kryptor.Cli
                     Container.StartQueuedSessions();
                 }
 
-                if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
+                if (!IsOutputRedirected)
                 {
                     await AsyncCompat.Delay(100);
 
-                    Console.SetCursorPosition(0, Console.CursorTop - 2);
+                    if (!BuildInformation.IsAndroidPlatform)
+                    {
+                        Console.SetCursorPosition(0, Console.CursorTop - 2);
+                    }
                 }
             }
         }
@@ -503,18 +514,22 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ReadKey()
         {
+            if (BuildInformation.IsAndroidPlatform)
+            {
+                throw new NotSupportedException("The key reading feature is not supported in this platform");
+            }
+
             if (_readerRunning) return;
             _readerRunning = true;
-
-            bool brk = !RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
             while (true)
             {
                 KeyQueue = Console.ReadKey(true);
 
-                await AsyncCompat.Delay(50, MasterToken.Token);
+                await AsyncCompat.Delay(50);
 
                 if (!HasRequest)
                 {
@@ -617,7 +632,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
 
-                if (!NoInteractions && !_readerRunning)
+                if (!BuildInformation.IsAndroidPlatform && !NoInteractions && !_readerRunning)
                 {
                     _ = Task.Run(ReadKey);
                 }

@@ -14,7 +14,7 @@ namespace SAPTeam.Kryptor.Cli
     [Activity(Label = "@string/app_name", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        protected override void OnCreate(Bundle? savedInstanceState)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -71,6 +71,7 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
+        /*
         async Task CheckPermissions()
         {
             await checkPermissions(Android.Manifest.Permission.ManageExternalStorage);
@@ -82,6 +83,7 @@ namespace SAPTeam.Kryptor.Cli
             RequestPermissions(new string[] { permission }, 1);
             
         }
+        */
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
