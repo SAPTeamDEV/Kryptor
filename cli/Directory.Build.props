@@ -3,7 +3,6 @@
   <PropertyGroup>
     <CliRootPath>$(MSBuildThisFileDirectory)</CliRootPath>
     
-    <AssemblyName>Kryptor</AssemblyName>
     <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
     <Title>Kryptor CLI</Title>
 
@@ -19,6 +18,15 @@
     <NoWarn>1701;1702;8618;NU1701;8602;8604;8002</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(ProjectName)' != 'Kryptor.Cli.Android' ">
+    <AssemblyName>kryptor</AssemblyName>
+    <ApplicationIcon>$(CliRootPath)..\build\kryptor.ico</ApplicationIcon>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(ProjectName)' != 'Kryptor.Cli.Android' ">
+    <Content Include="$(CliRootPath)..\build\kryptor.ico" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.143" PrivateAssets="All" />
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.4" PrivateAssets="All" />
@@ -32,10 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Include must be the fully qualified .NET type name of the Attribute to create. -->
     <AssemblyAttribute Include="SAPTeam.Kryptor.Cli.AssemblyPlatformAttribute">
-      <!-- _Parameter1, _Parameter2, etc. correspond to the
-        matching parameter of a constructor of that .NET attribute type -->
       <_Parameter1>$(TargetFramework)</_Parameter1>
       <_Parameter2>$(RuntimeIdentifier)</_Parameter2>
     </AssemblyAttribute>

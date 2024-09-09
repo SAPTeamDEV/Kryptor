@@ -25,9 +25,6 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     
-    <ApplicationIcon>$(RepoRootPath)build\kryptor.ico</ApplicationIcon>
-    <PackageIcon>kryptor-small.jpg</PackageIcon>
-    
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Kryptor.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -44,9 +41,11 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="$(RepoRootPath)build\kryptor.ico" />
-
+  <PropertyGroup Condition=" '$(IsPackable)' == 'True' ">
+    <PackageIcon>kryptor-small.jpg</PackageIcon>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(IsPackable)' == 'True' ">
     <None Include="$(RepoRootPath)build\kryptor-small.jpg">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
