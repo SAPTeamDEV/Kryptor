@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /src/Kryptor.Cli/Properties/launchSettings.json
 /cli/Kryptor.Cli/Properties/launchSettings.json
 /test.kks
+/docs/api/html

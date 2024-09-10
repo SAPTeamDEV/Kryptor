@@ -206,7 +206,7 @@ STRIP_FROM_INC_PATH    =
 # support long names like on DOS, Mac, or CD-ROM.
 # The default value is: NO.
 
-SHORT_NAMES            = NO
+SHORT_NAMES            = YES
 
 # If the JAVADOC_AUTOBRIEF tag is set to YES then Doxygen will interpret the
 # first line (until the first dot) of a Javadoc-style comment as the brief
@@ -272,7 +272,7 @@ SEPARATE_MEMBER_PAGES  = NO
 # uses this value to replace tabs by spaces in code fragments.
 # Minimum value: 1, maximum value: 16, default value: 4.
 
-TAB_SIZE               = 4
+TAB_SIZE               = 2
 
 # This tag can be used to specify a number of aliases that act as commands in
 # the documentation. An alias has the form:
@@ -378,7 +378,7 @@ TOC_INCLUDE_HEADINGS   = 6
 # The default value is: DOXYGEN.
 # This tag requires that the tag MARKDOWN_SUPPORT is set to YES.
 
-MARKDOWN_ID_STYLE      = GITHUB
+MARKDOWN_ID_STYLE      = DOXYGEN
 
 # When enabled Doxygen tries to link words that correspond to documented
 # classes, or namespaces to their corresponding documentation. Such a link can
@@ -510,7 +510,7 @@ NUM_PROC_THREADS       = 0
 # Possible values are: YES, NO, DATETIME and DATE.
 # The default value is: NO.
 
-TIMESTAMP              = NO
+TIMESTAMP              = YES
 
 #---------------------------------------------------------------------------
 # Build related configuration options
@@ -524,7 +524,7 @@ TIMESTAMP              = NO
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
@@ -548,7 +548,7 @@ EXTRACT_PACKAGE        = NO
 # included in the documentation.
 # The default value is: NO.
 
-EXTRACT_STATIC         = NO
+EXTRACT_STATIC         = YES
 
 # If the EXTRACT_LOCAL_CLASSES tag is set to YES, classes (and structs) defined
 # locally in source files will be included in the documentation. If set to NO,
@@ -899,7 +899,7 @@ WARN_IF_INCOMPLETE_DOC = YES
 # WARN_IF_INCOMPLETE_DOC
 # The default value is: NO.
 
-WARN_NO_PARAMDOC       = NO
+WARN_NO_PARAMDOC       = YES
 
 # If WARN_IF_UNDOC_ENUM_VAL option is set to YES, Doxygen will warn about
 # undocumented enumeration values. If set to NO, Doxygen will accept
@@ -907,7 +907,7 @@ WARN_NO_PARAMDOC       = NO
 # will automatically be disabled.
 # The default value is: NO.
 
-WARN_IF_UNDOC_ENUM_VAL = NO
+WARN_IF_UNDOC_ENUM_VAL = YES
 
 # If the WARN_AS_ERROR tag is set to YES then Doxygen will immediately stop when
 # a warning is encountered. If the WARN_AS_ERROR tag is set to FAIL_ON_WARNINGS
@@ -965,7 +965,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = cli\Kryptor.Cli.Shared \
+INPUT                  = cli/Kryptor.Cli.Shared \
                          src \
                          CODE-OF-CONDUCT.md \
                          CONTRIBUTING.md \
@@ -1450,7 +1450,7 @@ HTML_EXTRA_FILES       =
 # The default value is: AUTO_LIGHT.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_COLORSTYLE        = DARK
+HTML_COLORSTYLE        = TOGGLE
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the style sheet and background images according to
@@ -1526,7 +1526,7 @@ HTML_COPY_CLIPBOARD    = YES
 # be stored separately.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_PROJECT_COOKIE    =
+HTML_PROJECT_COOKIE    = kryptor
 
 # With HTML_INDEX_NUM_ENTRIES one can control the preferred number of entries
 # shown in the various tree structured indices initially; the user can expand
@@ -1613,14 +1613,14 @@ DOCSET_PUBLISHER_NAME  = Publisher
 # The default value is: NO.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-GENERATE_HTMLHELP      = YES
+GENERATE_HTMLHELP      = NO
 
 # The CHM_FILE tag can be used to specify the file name of the resulting .chm
 # file. You can add a path in front of the file if the result should not be
 # written to the html output directory.
 # This tag requires that the tag GENERATE_HTMLHELP is set to YES.
 
-CHM_FILE               = docs\api\api.chm
+CHM_FILE               = F:\Workspace\Kryptor\docs\api\api.chm
 
 # The HHC_LOCATION tag can be used to specify the location (absolute path
 # including file name) of the HTML help compiler (hhc.exe). If non-empty,
@@ -1800,7 +1800,7 @@ FULL_SIDEBAR           = NO
 # Minimum value: 0, maximum value: 20, default value: 4.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-ENUM_VALUES_PER_LINE   = 4
+ENUM_VALUES_PER_LINE   = 3
 
 # When the SHOW_ENUM_VALUES tag is set doxygen will show the specified
 # enumeration values besides the enumeration mnemonics.
