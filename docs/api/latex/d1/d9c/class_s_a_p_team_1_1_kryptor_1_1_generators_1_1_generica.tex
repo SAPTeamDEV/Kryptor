@@ -1,0 +1,131 @@
+\doxysection{SAPTeam.\+Kryptor.\+Generators.\+Generica Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}{}\label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}\index{SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}}
+
+
+Generates bytes array populated from specified seed.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Generators.\+Generica\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{d1/d9c/class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a95cb22c5c0e483238805ac65c2c5dbf0}{Generica}} (byte\mbox{[}$\,$\mbox{]} seed, byte\mbox{[}$\,$\mbox{]} salt)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}{Generica} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_ae6bcc92b9724e0d9321956af08823da6}{Generate}} (byte\mbox{[}$\,$\mbox{]} buffer, int rotate)
+\begin{DoxyCompactList}\small\item\em Fills the buffer with generated values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The output buffer. \\
+\hline
+{\em rotate} & The number of changes applies to buffer after filling. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer}{SAPTeam.\+Kryptor.\+ITranformer}}}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a377161243d45a1d5e902a3dfab5599c8}{Progress\+Changed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report}{SAPTeam.\+Kryptor.\+Helpers.\+IProgress\+Report}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report_af821856547bc1dd04e0444306bae86a8}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Triggered when the work progress is changed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Generates bytes array populated from specified seed. 
+
+Definition at line \mbox{\hyperlink{_generica_8cs_source_l00011}{11}} of file \mbox{\hyperlink{_generica_8cs_source}{Generica.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a95cb22c5c0e483238805ac65c2c5dbf0}\index{SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}!Generica@{Generica}}
+\index{Generica@{Generica}!SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}}
+\doxysubsubsection{\texorpdfstring{Generica()}{Generica()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a95cb22c5c0e483238805ac65c2c5dbf0} 
+SAPTeam.\+Kryptor.\+Generators.\+Generica.\+Generica (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{seed}{, }\item[{byte\mbox{[}$\,$\mbox{]}}]{salt}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}{Generica} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & The seed to generate values. \\
+\hline
+{\em salt} & The additional value to alter the seed and outputs. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_generica_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_generica_8cs_source}{Generica.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_ae6bcc92b9724e0d9321956af08823da6}\index{SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}!Generate@{Generate}}
+\index{Generate@{Generate}!SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}}
+\doxysubsubsection{\texorpdfstring{Generate()}{Generate()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_ae6bcc92b9724e0d9321956af08823da6} 
+void SAPTeam.\+Kryptor.\+Generators.\+Generica.\+Generate (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{buffer}{, }\item[{int}]{rotate}{}\end{DoxyParamCaption})}
+
+
+
+Fills the buffer with generated values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The output buffer. \\
+\hline
+{\em rotate} & The number of changes applies to buffer after filling. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer_ab03098eaa28d5b6571eb35136b5608f3}{SAPTeam.\+Kryptor.\+ITranformer}}.
+
+
+
+Definition at line \mbox{\hyperlink{_generica_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_generica_8cs_source}{Generica.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_generica_8cs_source_l00022}{SAPTeam.\+Kryptor.\+Generators.\+Generica.\+Progress\+Changed}}.
+
+
+
+\doxysubsection{Event Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a377161243d45a1d5e902a3dfab5599c8}\index{SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}!ProgressChanged@{ProgressChanged}}
+\index{ProgressChanged@{ProgressChanged}!SAPTeam.Kryptor.Generators.Generica@{SAPTeam.Kryptor.Generators.Generica}}
+\doxysubsubsection{\texorpdfstring{ProgressChanged}{ProgressChanged}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica_a377161243d45a1d5e902a3dfab5599c8} 
+Event\+Handler$<$double$>$ SAPTeam.\+Kryptor.\+Generators.\+Generica.\+Progress\+Changed}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_generica_8cs_source_l00022}{22}} of file \mbox{\hyperlink{_generica_8cs_source}{Generica.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_generica_8cs_source_l00045}{SAPTeam.\+Kryptor.\+Generators.\+Generica.\+Generate()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_generica_8cs}{Generica.\+cs}}\end{DoxyCompactItemize}

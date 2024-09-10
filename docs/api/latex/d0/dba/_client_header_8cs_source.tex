@@ -1,0 +1,51 @@
+\doxysection{Client\+Header.\+cs}
+\hypertarget{_client_header_8cs_source}{}\label{_client_header_8cs_source}\index{ClientHeader.cs@{ClientHeader.cs}}
+\mbox{\hyperlink{_client_header_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00001}00001\ \textcolor{preprocessor}{\#if\ NET6\_0\_OR\_GREATER}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Text.Json.Serialization;}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00003}00003\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{SAPTeam.Kryptor.Generators}};}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00012}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}{00012}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}{ClientHeader}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random}{CryptoRandom}}\ crng\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random}{CryptoRandom}}();}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00016}00016\ \textcolor{preprocessor}{\#if\ NET6\_0\_OR\_GREATER}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ JsonSerializerContext\ JsonSerializerContext\ =>\ SourceGenerationClientHeaderContext.Default;}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00019}00019\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00024}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a1484a8f79a50aa44ce876504104ee295}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a1484a8f79a50aa44ce876504104ee295}{ClientName}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00029}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a3cad100e1c7cab4abae7e04b0b04d4d4}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a3cad100e1c7cab4abae7e04b0b04d4d4}{ClientVersion}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00034}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a4a8037485ddc482da02365c6e393aba8}{00034}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a4a8037485ddc482da02365c6e393aba8}{FileName}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00039}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{00039}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{Serial}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00044}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a178f7e1b747136f9281daeb03d03c024}{00044}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a178f7e1b747136f9281daeb03d03c024}{GenerateSerial}}()}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}[]\ serial\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{string}[10];}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ serial.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ serial[i]\ =\ crng.Next(0x1869F).ToString(\textcolor{stringliteral}{"{}X5"{}});}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{Serial}}\ =\ \textcolor{keywordtype}{string}.Join(\textcolor{stringliteral}{"{}-\/"{}},\ serial);}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00056}00056\ \textcolor{preprocessor}{\#if\ NET6\_0\_OR\_GREATER}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00057}00057\ \ \ \ \ [JsonSourceGenerationOptions(GenerationMode\ =\ JsonSourceGenerationMode.Metadata,\ WriteIndented\ =\ \textcolor{keyword}{false},\ DefaultIgnoreCondition\ =\ System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00058}00058\ \ \ \ \ [JsonSerializable(typeof(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}))]}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00059}00059\ \ \ \ \ [JsonSerializable(typeof(ClientHeader))]}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{partial\ class\ }SourceGenerationClientHeaderContext\ :\ JsonSerializerContext}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00061}00061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00063}00063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_client_header_8cs_source_l00064}00064\ \}}
+
+\end{DoxyCode}

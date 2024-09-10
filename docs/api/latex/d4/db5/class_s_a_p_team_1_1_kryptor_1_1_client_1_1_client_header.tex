@@ -1,0 +1,167 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+Client\+Header Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}{}\label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+
+
+Represents a unified header for kryptor front ends.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Client.\+Client\+Header\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{d4/db5/class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a178f7e1b747136f9281daeb03d03c024}{Generate\+Serial}} ()
+\begin{DoxyCompactList}\small\item\em Generates a new unique identifier for the header and associates it with the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{Serial} property. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{SAPTeam.\+Kryptor.\+Header}}}
+\begin{DoxyCompactItemize}
+\item 
+byte\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_aaaed606f3e910479da0941689400a789}{Create\+Payload}} ()
+\begin{DoxyCompactList}\small\item\em Exports the header contents as base64 encoded bytes array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a1484a8f79a50aa44ce876504104ee295}{Client\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the name of the encryptor client application. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a3cad100e1c7cab4abae7e04b0b04d4d4}{Client\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the version of the encryptor client application. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a4a8037485ddc482da02365c6e393aba8}{File\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the original file name. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{Serial}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the unique identifier of the encrypted file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{SAPTeam.\+Kryptor.\+Header}}}
+\begin{DoxyCompactItemize}
+\item 
+Version \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the version of the encryptor api backend. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a797d465df2b7bec75ffc2334e5f5f92d}{Engine\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the version of the encryptor engine. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{Header\+Verbosity}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the amount of details included in this header. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_ae58fb5f2c9215f79716b6ec6e1a18c64}{Block\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the file block size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a9e7aaed6020d24fa2603c5a71a001ac8}{Configuration}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the crypto provider configuration. \end{DoxyCompactList}\item 
+Dictionary$<$ string, string $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a8a0ca27281434d45ba8f7bc6f1471852}{Extra}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the extra header entries. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{SAPTeam.\+Kryptor.\+Header}}}
+\begin{DoxyCompactItemize}
+\item 
+static T \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a2c5f1a3a1669a9b0490e642d7c07ec33}{Read\+Header$<$ T $>$}} (Stream stream)
+\begin{DoxyCompactList}\small\item\em Reads the KES header of stream and skips the header area. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a unified header for kryptor front ends. 
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00012}{12}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a178f7e1b747136f9281daeb03d03c024}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}!GenerateSerial@{GenerateSerial}}
+\index{GenerateSerial@{GenerateSerial}!SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+\doxysubsubsection{\texorpdfstring{GenerateSerial()}{GenerateSerial()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a178f7e1b747136f9281daeb03d03c024} 
+void SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Generate\+Serial (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Generates a new unique identifier for the header and associates it with the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}{Serial} property. 
+
+
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_client_header_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Serial}}.
+
+
+
+Referenced by \mbox{\hyperlink{_encryption_session_8cs_source_l00029}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session.\+Run\+Async()}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a1484a8f79a50aa44ce876504104ee295}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}!ClientName@{ClientName}}
+\index{ClientName@{ClientName}!SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+\doxysubsubsection{\texorpdfstring{ClientName}{ClientName}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a1484a8f79a50aa44ce876504104ee295} 
+string SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Client\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the name of the encryptor client application. 
+
+
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_header_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Header.\+Create()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a3cad100e1c7cab4abae7e04b0b04d4d4}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}!ClientVersion@{ClientVersion}}
+\index{ClientVersion@{ClientVersion}!SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+\doxysubsubsection{\texorpdfstring{ClientVersion}{ClientVersion}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a3cad100e1c7cab4abae7e04b0b04d4d4} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}} SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Client\+Version\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the version of the encryptor client application. 
+
+
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00029}{29}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_header_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Header.\+Create()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a4a8037485ddc482da02365c6e393aba8}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}!FileName@{FileName}}
+\index{FileName@{FileName}!SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+\doxysubsubsection{\texorpdfstring{FileName}{FileName}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a4a8037485ddc482da02365c6e393aba8} 
+string SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+File\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the original file name. 
+
+
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e}\index{SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}!Serial@{Serial}}
+\index{Serial@{Serial}!SAPTeam.Kryptor.Client.ClientHeader@{SAPTeam.Kryptor.Client.ClientHeader}}
+\doxysubsubsection{\texorpdfstring{Serial}{Serial}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header_a19fd25dd10cc17b78cabec405636ff4e} 
+string SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Serial\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the unique identifier of the encrypted file. 
+
+
+
+Definition at line \mbox{\hyperlink{_client_header_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_client_header_8cs_source}{Client\+Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_key_chain_collection_8cs_source_l00092}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Add()}}, \mbox{\hyperlink{_client_header_8cs_source_l00044}{SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Generate\+Serial()}}, and \mbox{\hyperlink{_key_chain_reader_session_host_8cs_source_l00016}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Chain\+Reader\+Session\+Host.\+Start()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_client_header_8cs}{Client\+Header.\+cs}}\end{DoxyCompactItemize}

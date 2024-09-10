@@ -1,0 +1,54 @@
+\doxysection{Crypto\+Process.\+cs}
+\hypertarget{_crypto_process_8cs_source}{}\label{_crypto_process_8cs_source}\index{CryptoProcess.cs@{CryptoProcess.cs}}
+\mbox{\hyperlink{_crypto_process_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00001}00001\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor}{SAPTeam.Kryptor}}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00006}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_initialized;}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00013}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00018}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00023}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a595bacd26f1a8e2d678728bc9bfb30f6}{00023}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a595bacd26f1a8e2d678728bc9bfb30f6}{BlockSize}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00028}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{00028}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{byte}[]\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00033}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}{00033}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Dictionary<string,\ object>\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}{BlockData}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00038}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d}{00038}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Dictionary<string,\ object>\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d}{ProcessData}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00043}\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{00043}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{InitializeData}}()}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_initialized)}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}}\ =\ Array.Empty<\textcolor{keywordtype}{byte}>();}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}{BlockData}}\ =\ \textcolor{keyword}{new}\ Dictionary<string,\ object>();}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d}{ProcessData}}\ =\ \textcolor{keyword}{new}\ Dictionary<string,\ object>();}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_initialized\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keywordtype}{void}\ NextBlock(\textcolor{keywordtype}{bool}\ resetChunk)}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}++;}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}{BlockData}}.Clear();}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}}\ =\ Array.Empty<\textcolor{keywordtype}{byte}>();}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (resetChunk)}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00071}00071\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_process_8cs_source_l00072}00072\ \}}
+
+\end{DoxyCode}

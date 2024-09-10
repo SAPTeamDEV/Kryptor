@@ -1,0 +1,51 @@
+\doxysection{Wordlist\+Index.\+cs}
+\hypertarget{_wordlist_index_8cs_source}{}\label{_wordlist_index_8cs_source}\index{WordlistIndex.cs@{WordlistIndex.cs}}
+\mbox{\hyperlink{_wordlist_index_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00001}00001\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_1_1_security}{SAPTeam.Kryptor.Client.Security}}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00006}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{WordlistIndex}}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a4872203113cc9b6a321b3a29991bfb42}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ \textcolor{keyword}{this}[\textcolor{keywordtype}{string}\ id]}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}}.First(x\ =>\ x.Id\ ==\ \textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (InvalidOperationException)}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ KeyNotFoundException(\textcolor{keywordtype}{id});}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00033}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{00033}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ List<WordlistIndexEntry>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ \textcolor{keyword}{new}\ List<WordlistIndexEntry>();}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00042}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_afe7d1f9cd2ba456e66b486eeb651926c}{00042}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_afe7d1f9cd2ba456e66b486eeb651926c}{Add}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ entry)}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a7ebb386a57cbf87d8c22edc6124f1ff3}{ContainsId}}(entry.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}}))}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\$\textcolor{stringliteral}{"{}The\ id\ \{entry.Id\}\ is\ already\ exists"{}});}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_a23378879523334849075375f7b9f078c}{Hash}}\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ e\ \textcolor{keywordflow}{in}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}}.Where(x\ =>\ x.Hash\ !=\ \textcolor{keyword}{null}))}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (e.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_a23378879523334849075375f7b9f078c}{Hash}}.SequenceEqual(entry.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_a23378879523334849075375f7b9f078c}{Hash}}))}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\textcolor{stringliteral}{"{}A\ wordlist\ with\ this\ hash\ already\ exists"{}});}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}}.Add(entry);}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00070}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a7ebb386a57cbf87d8c22edc6124f1ff3}{00070}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a7ebb386a57cbf87d8c22edc6124f1ff3}{ContainsId}}(\textcolor{keywordtype}{string}\ \textcolor{keywordtype}{id})\ =>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}}.Where(x\ =>\ x.Id\ ==\ \textcolor{keywordtype}{id}).Count()\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00071}00071\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_wordlist_index_8cs_source_l00072}00072\ \}}
+
+\end{DoxyCode}

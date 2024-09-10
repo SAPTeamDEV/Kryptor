@@ -1,0 +1,293 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+Session\+Host Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{}\label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+
+
+Represents abstraction for session hosts.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Client.\+Session\+Host\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.324921cm]{de/d39/class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a26a7a841a1f7947d871c13c7e24e98cf}{Start}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}} context)
+\begin{DoxyCompactList}\small\item\em Starts the host session in the current thread.
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & The caller context. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_aba3647d930e3ac1b6478d1f550b7a340}{End}} (bool cancelled)
+\begin{DoxyCompactList}\small\item\em Ends the host session.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancelled} & Whether the host session ending triggered by cancel request. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}{New\+Session}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, bool auto\+Remove=false, bool auto\+Start=true)
+\begin{DoxyCompactList}\small\item\em Starts a new session in this session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+{\em auto\+Remove} & Determines whether to automatically remove session after end. \\
+\hline
+{\em auto\+Start} & Determines whether to automatically call the session manager to start this session. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a3fed15a255408f83d461360fe5a19da7}{Monitor\+Task}} (Task task)
+\begin{DoxyCompactList}\small\item\em Adds given task to the task pool and be monitored by the session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & The task to be monitored. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+Task$<$ TResponse $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_abb8c97694b2999f69daf43726076b919}{On\+Session\+Request$<$ TResponse $>$}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$ request, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Handles requests from the sessions.
+
+This method should send requests to user and if it\textquotesingle{}s not possible, it could return the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request_a8c4483ce4bbd9dc314556536b0a45e5d}{Session\+Request$<$\+TResponse$>$.\+Default\+Value} or throws an exception. The thrown exception would be catched on the sender session and the session will fail.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a673cfb01a50d8e9f9d8e543b70b9c406}{Session\+Host}} ()
+\begin{DoxyCompactList}\small\item\em Initializes all \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{Session\+Host} instances. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{Session\+Container}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0}{Container}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the session container. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_af92a4e9ca21bae466d5f558cca6a840e}{Verbose}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the verbosity of the session host. \end{DoxyCompactList}\item 
+Cancellation\+Token\+Source \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_ac1f3fbefc97570ab5574cd0dca41367a}{Master\+Token}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the special cancellation token to use in non-\/standard codes. (Blocking codes outside of sessions) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}}
+
+
+\doxysubsection{Detailed Description}
+Represents abstraction for session hosts. 
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00006}{6}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a673cfb01a50d8e9f9d8e543b70b9c406}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!SessionHost@{SessionHost}}
+\index{SessionHost@{SessionHost}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{SessionHost()}{SessionHost()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a673cfb01a50d8e9f9d8e543b70b9c406} 
+SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Session\+Host (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Initializes all \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{Session\+Host} instances. 
+
+
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00026}{26}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+References \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00013}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Container}}, and \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Master\+Token}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_aba3647d930e3ac1b6478d1f550b7a340}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!End@{End}}
+\index{End@{End}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{End()}{End()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_aba3647d930e3ac1b6478d1f550b7a340} 
+virtual void SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End (\begin{DoxyParamCaption}\item[{bool}]{cancelled}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Ends the host session.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancelled} & Whether the host session ending triggered by cancel request. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_aa81e617c6aa1bd543591f3e2f3b64d86}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{36}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_manager_8cs_source_l00077}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Cancel()}}, \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00013}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Container}}, \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Master\+Token}}, \mbox{\hyperlink{_session_manager_8cs_source_l00208}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Start\+Queued\+Sessions()}}, and \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a317833ef53eee5db350abde0d9f5e2f7}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wait\+For\+Running\+Tasks()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a3fed15a255408f83d461360fe5a19da7}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!MonitorTask@{MonitorTask}}
+\index{MonitorTask@{MonitorTask}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{MonitorTask()}{MonitorTask()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a3fed15a255408f83d461360fe5a19da7} 
+virtual void SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Monitor\+Task (\begin{DoxyParamCaption}\item[{Task}]{task}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Adds given task to the task pool and be monitored by the session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & The task to be monitored. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_ad892405a4d2dab6b619506d42d9515f9}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_session_host_8cs_source_l00553}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Show\+Progress\+Monitored()}}, and \mbox{\hyperlink{_cli_session_host_8cs_source_l00567}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Show\+Progress\+Monitored()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!NewSession@{NewSession}}
+\index{NewSession@{NewSession}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{NewSession()}{NewSession()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d} 
+virtual void SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+New\+Session (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{, }\item[{bool}]{auto\+Remove}{ = {\ttfamily false}, }\item[{bool}]{auto\+Start}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Starts a new session in this session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+{\em auto\+Remove} & Determines whether to automatically remove session after end. \\
+\hline
+{\em auto\+Start} & Determines whether to automatically call the session manager to start this session. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_a6af94e56494dfb6d729fab75b24fba5a}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_session_host_8cs_source_l00574}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Load\+Key\+Store()}}, \mbox{\hyperlink{_decryption_session_host_8cs_source_l00012}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session\+Host.\+Start()}}, \mbox{\hyperlink{_encryption_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session\+Host.\+Start()}}, \mbox{\hyperlink{cli_2_kryptor_8_cli_8_shared_2_key_store_analyze_2_session_host_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Analyze.\+Session\+Host.\+Start()}}, \mbox{\hyperlink{_key_store_generate_session_host_8cs_source_l00025}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Generate\+Session\+Host.\+Start()}}, \mbox{\hyperlink{_import_session_host_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Import\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_query_session_host_8cs_source_l00016}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Query\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_abb8c97694b2999f69daf43726076b919}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!OnSessionRequest$<$ TResponse $>$@{OnSessionRequest$<$ TResponse $>$}}
+\index{OnSessionRequest$<$ TResponse $>$@{OnSessionRequest$<$ TResponse $>$}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{OnSessionRequest$<$ TResponse $>$()}{OnSessionRequest< TResponse >()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_abb8c97694b2999f69daf43726076b919} 
+Task$<$ TResponse $>$ SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+On\+Session\+Request$<$ TResponse $>$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$}]{request}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+
+
+Handles requests from the sessions.
+
+This method should send requests to user and if it\textquotesingle{}s not possible, it could return the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request_a8c4483ce4bbd9dc314556536b0a45e5d}{Session\+Request$<$\+TResponse$>$.\+Default\+Value} or throws an exception. The thrown exception would be catched on the sender session and the session will fail.  
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_a4966a86988ff620769005ec0cb0e23c4}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a26a7a841a1f7947d871c13c7e24e98cf}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!Start@{Start}}
+\index{Start@{Start}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{Start()}{Start()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a26a7a841a1f7947d871c13c7e24e98cf} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}}}]{context}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+
+
+Starts the host session in the current thread.
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & The caller context. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_a4f82fae91444ac35c4d3267b79e86a8e}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!Container@{Container}}
+\index{Container@{Container}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{Container}{Container}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{Session\+Container}} SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Container\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected]}}
+
+
+
+Gets the session container. 
+
+
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00013}{13}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End()}}, \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Session\+Host()}}, \mbox{\hyperlink{_decryption_session_host_8cs_source_l00012}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session\+Host.\+Start()}}, \mbox{\hyperlink{_encryption_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session\+Host.\+Start()}}, \mbox{\hyperlink{cli_2_kryptor_8_cli_8_shared_2_key_store_analyze_2_session_host_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Analyze.\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_query_session_host_8cs_source_l00016}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Query\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_ac1f3fbefc97570ab5574cd0dca41367a}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!MasterToken@{MasterToken}}
+\index{MasterToken@{MasterToken}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{MasterToken}{MasterToken}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_ac1f3fbefc97570ab5574cd0dca41367a} 
+Cancellation\+Token\+Source SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Master\+Token\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected]}}
+
+
+
+Gets the special cancellation token to use in non-\/standard codes. (Blocking codes outside of sessions) 
+
+
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00021}{21}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End()}}, and \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Session\+Host()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_af92a4e9ca21bae466d5f558cca6a840e}\index{SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}!Verbose@{Verbose}}
+\index{Verbose@{Verbose}!SAPTeam.Kryptor.Client.SessionHost@{SAPTeam.Kryptor.Client.SessionHost}}
+\doxysubsubsection{\texorpdfstring{Verbose}{Verbose}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_af92a4e9ca21bae466d5f558cca6a840e} 
+bool SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+Verbose\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected set]}}
+
+
+
+Gets the verbosity of the session host. 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_a4c64a1e68ce203814adc5b5cf677db55}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+Definition at line \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00016}{16}} of file \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_session_host_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Cli\+Session\+Host()}}, \mbox{\hyperlink{_cli_session_host_8cs_source_l00587}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Create\+Key\+Store\+Load\+Session()}}, \mbox{\hyperlink{_cli_session_host_8cs_source_l00080}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Debug\+Log()}}, \mbox{\hyperlink{_encryption_session_8cs_source_l00029}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session.\+Run\+Async()}}, \mbox{\hyperlink{_cli_session_host_8cs_source_l00053}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_header_reader_session_host_8cs_source_l00011}{SAPTeam.\+Kryptor.\+Cli.\+Header\+Reader\+Session\+Host.\+Start()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs}{src/\+Kryptor.\+Client/\+Session\+Host.\+cs}}\end{DoxyCompactItemize}

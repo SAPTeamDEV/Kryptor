@@ -1,0 +1,71 @@
+\doxysection{Key\+Store\+Random\+Load\+Session.\+cs}
+\hypertarget{_key_store_random_load_session_8cs_source}{}\label{_key_store_random_load_session_8cs_source}\index{KeyStoreRandomLoadSession.cs@{KeyStoreRandomLoadSession.cs}}
+\mbox{\hyperlink{_key_store_random_load_session_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{SAPTeam.Kryptor.Generators}};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_helpers}{SAPTeam.Kryptor.Helpers}};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00007}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session}{KeyStoreRandomLoadSession}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session}{KeyStoreLoadSession}}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ CancellationToken\ CancellationToken;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}\ Generator;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{int}\ Size;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00014}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session_a4787cec229a8cae8b229d3855f61385d}{00014}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session_a4787cec229a8cae8b229d3855f61385d}{KeyStoreRandomLoadSession}}(\textcolor{keywordtype}{bool}\ showFingerprint,\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}\ generator,\ \textcolor{keywordtype}{int}\ size,\ \textcolor{keywordtype}{int}\ margin)\ :\ base(showFingerprint)}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ Generator\ =\ generator;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ Size\ =\ (size\ *\ 32)\ +\ margin;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00020}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session_a52b0904160d1d3b5d9fae37300260968}{00020}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ async\ Task<bool>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_random_load_session_a52b0904160d1d3b5d9fae37300260968}{RunAsync}}(\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISessionHost}}\ sessionHost,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ CancellationToken\ =\ cancellationToken;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{Description}}\ =\ \textcolor{stringliteral}{"{}Generating\ keystore"{}};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ await\ AsyncCompat.Delay(2,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_generator}{IGenerator}}\ gen;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (Generator)}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}.CryptoRng:}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gen\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random}{CryptoRandom}}();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}.Unix:}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gen\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_unix_random}{UnixRandom}}();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}.SafeRng:}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gen\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734a616666c48ad648867a662b218bac738e}{SafeRng}}();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734}{KeyStoreGenerator}}.EntroX:}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gen\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_a1f7dbbb3b15dea80c951935ae570e734a0264b6c2b1c59c72512dee4a8dae43fe}{EntroX}}();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ System.ArgumentException(\textcolor{stringliteral}{"{}generator"{}});}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ gen.ProgressChanged\ +=\ UpdateProgress;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ buffer\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[Size];}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ gen.\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_generator_a49bca541b2f14055dee0987404ffee92}{Generate}}(buffer);}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{Description}}\ =\ \textcolor{stringliteral}{"{}Loading\ keystore"{}};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ad11f185d08996f8498c5c1b897c4c58d}{Progress}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_a7f0a9087fb341bc726eb03b2405af4ec}{KeyStore}}(buffer);}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_aa0af00209e7ed90c5cf4d8fc5daa6791}{SetEndDescription}}();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ UpdateProgress(\textcolor{keywordtype}{object}\ sender,\ \textcolor{keywordtype}{double}\ progress)}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ad11f185d08996f8498c5c1b897c4c58d}{Progress}}\ =\ progress;}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ CancellationToken.ThrowIfCancellationRequested();}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00064}00064\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_random_load_session_8cs_source_l00065}00065\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,519 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+ISession Interface Reference}
+\hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{}\label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+
+
+Represents interface to start, monitor and control tasks.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Client.\+ISession\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=9.710983cm]{d6/dae/interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Task \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a80c185442881ea3d0a432cdf1dd7abb0}{Start\+Async}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Starts the task asynchronously. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9c7919cc01f07266f7f32d787e71fe07}{Continue\+With}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session)
+\begin{DoxyCompactList}\small\item\em Sets this session as dependency for the given {\itshape session} . The session waits for this session to successfully end. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a03efd91e0ff460917679eca6ba1affbc}{Add\+Dependency}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session)
+\begin{DoxyCompactList}\small\item\em Adds the given {\itshape session}  as dependency. this session won\textquotesingle{}t start unless all dependecy session completed successfully. All dependencies must be set before starting the session otherwise it won\textquotesingle{}t have any effects. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}{Is\+Ready}} (Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Asks from session whether it could be started right now. \end{DoxyCompactList}\item 
+Task$<$ TResponse $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a1d6c2c0ac34dd4675048d0f2c2136ca4}{Send\+Request$<$ TResponse $>$}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$ request, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Pauses this session and sends the request to the {\itshape session\+Host}  to process the request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a84d3ac778e84b2227c1fcf695cc1e5ad}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the user-\/friendly name of the session. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a44b003d3f5db4d3b51c9c8d7e9cedc76}{Progress}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the progress percentage of this session. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aca29b60bc5505f1eaf9457532c1ef30e}{Description}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the description of this session. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aa80c6978d372613bee87d44c99780e83}{Is\+Running}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is running. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_accdc31d83e98539ee180d0109117b6c4}{Is\+Paused}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is paused. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a710b7c428cb4e147d3358e8b03f8b654}{Is\+Hidden}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is hidden. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962a}{Session\+Status}} \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_abfc37ebe91f934ee9db587a76c781a75}{Status}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the current status of the session. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_ac7997acf12e1bf4d3d24f165177e455d}{Session\+End\+Reason}} \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4e6384ec6f769dde80ffa751392a797a}{End\+Reason}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the reason of ending the session. \end{DoxyCompactList}\item 
+Exception \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a938df2f04ee33d435aae82128c31c21f}{Exception}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the thrown exception during session run. \end{DoxyCompactList}\item 
+Stopwatch \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4b015970f6bb02ebcb5a38234dac4221}{Timer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the stopwatch for this session. \end{DoxyCompactList}\item 
+List$<$ string $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ada14f92c8f1d9e1cfa9640e50ed716cb}{Messages}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the message queue of the session. All message will be handled and shown by client application. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a7930c3ccae8a728062cffbbb80aa95c6}{Session\+Started}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session started by Session\+Manager. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a278d5aff25cb58ce7e9931dd1df8c88f}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the progress value of the session is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a76f74d17f98b857fc39a933ba5c5330a}{Description\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the description value is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_acf53910ae757cd275bc1d2966d15af73}{Session\+Paused}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is paused. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4c26131d7bcbad05a32434427410b9d3}{Session\+Resumed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is resumed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9f9b574cd19389cf5c8560c7b788aea2}{Status\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the status of the session is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ab8b165ff0f15064d5e5bba93810dc9b5}{Session\+Ended}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is ended. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents interface to start, monitor and control tasks. 
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a03efd91e0ff460917679eca6ba1affbc}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!AddDependency@{AddDependency}}
+\index{AddDependency@{AddDependency}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{AddDependency()}{AddDependency()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a03efd91e0ff460917679eca6ba1affbc} 
+bool SAPTeam.\+Kryptor.\+Client.\+ISession.\+Add\+Dependency (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{}\end{DoxyParamCaption})}
+
+
+
+Adds the given {\itshape session}  as dependency. this session won\textquotesingle{}t start unless all dependecy session completed successfully. All dependencies must be set before starting the session otherwise it won\textquotesingle{}t have any effects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & The session to be added as dependency. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the {\itshape session}  is added to the dependency list and {\ttfamily false} if the {\itshape session}  is not added because this session already started or duplicated {\itshape session} . 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a4a1bf632bc24edb1b027fb696a99e206}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_8cs_source_l00248}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Continue\+With()}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9c7919cc01f07266f7f32d787e71fe07}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!ContinueWith@{ContinueWith}}
+\index{ContinueWith@{ContinueWith}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{ContinueWith()}{ContinueWith()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9c7919cc01f07266f7f32d787e71fe07} 
+void SAPTeam.\+Kryptor.\+Client.\+ISession.\+Continue\+With (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{}\end{DoxyParamCaption})}
+
+
+
+Sets this session as dependency for the given {\itshape session} . The session waits for this session to successfully end. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_acc4973d4de42592644cb833c1346278f}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!IsReady@{IsReady}}
+\index{IsReady@{IsReady}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{IsReady()}{IsReady()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948} 
+bool SAPTeam.\+Kryptor.\+Client.\+ISession.\+Is\+Ready (\begin{DoxyParamCaption}\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Asks from session whether it could be started right now. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the session has been ready and {\ttfamily false} when it\textquotesingle{}s not ready.
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeff558e2dac41be9e97f69134a154030}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_group_storage_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Add()}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a1d6c2c0ac34dd4675048d0f2c2136ca4}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!SendRequest$<$ TResponse $>$@{SendRequest$<$ TResponse $>$}}
+\index{SendRequest$<$ TResponse $>$@{SendRequest$<$ TResponse $>$}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{SendRequest$<$ TResponse $>$()}{SendRequest< TResponse >()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a1d6c2c0ac34dd4675048d0f2c2136ca4} 
+Task$<$ TResponse $>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Send\+Request$<$ TResponse $>$ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}}}]{session\+Host}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$}]{request}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Pauses this session and sends the request to the {\itshape session\+Host}  to process the request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em request} & The request data. \\
+\hline
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em TResponse} & The type of requested response from user. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+The response of the end user. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a3d7731dc29861a019ded8695ac0b30ac}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a80c185442881ea3d0a432cdf1dd7abb0}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!StartAsync@{StartAsync}}
+\index{StartAsync@{StartAsync}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{StartAsync()}{StartAsync()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a80c185442881ea3d0a432cdf1dd7abb0} 
+Task SAPTeam.\+Kryptor.\+Client.\+ISession.\+Start\+Async (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}}}]{session\+Host}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Starts the task asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new Task representation of the session. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ae4d4f28145e5eb7c49c5d1221ae45f1d}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aca29b60bc5505f1eaf9457532c1ef30e}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Description@{Description}}
+\index{Description@{Description}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Description}{Description}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aca29b60bc5505f1eaf9457532c1ef30e} 
+string SAPTeam.\+Kryptor.\+Client.\+ISession.\+Description\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the description of this session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4e6384ec6f769dde80ffa751392a797a}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!EndReason@{EndReason}}
+\index{EndReason@{EndReason}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{EndReason}{EndReason}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4e6384ec6f769dde80ffa751392a797a} 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_ac7997acf12e1bf4d3d24f165177e455d}{Session\+End\+Reason}} SAPTeam.\+Kryptor.\+Client.\+ISession.\+End\+Reason\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the reason of ending the session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_afa848840d4c02acddcfe85fbbe1edec2}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_8cs_source_l00280}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Is\+Ready()}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a938df2f04ee33d435aae82128c31c21f}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Exception@{Exception}}
+\index{Exception@{Exception}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Exception}{Exception}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a938df2f04ee33d435aae82128c31c21f} 
+Exception SAPTeam.\+Kryptor.\+Client.\+ISession.\+Exception\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the thrown exception during session run. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a894a60b07e1af1473515eed56266b272}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a710b7c428cb4e147d3358e8b03f8b654}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!IsHidden@{IsHidden}}
+\index{IsHidden@{IsHidden}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{IsHidden}{IsHidden}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a710b7c428cb4e147d3358e8b03f8b654} 
+bool SAPTeam.\+Kryptor.\+Client.\+ISession.\+Is\+Hidden\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets whether this session is hidden. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_sub_session_ac82482dcae98e0fad7fdd2f38dcc950c}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Analyze.\+Crack\+Sub\+Session}}, and \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ab0c332c714f74487c03b51ffd16184ca}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_accdc31d83e98539ee180d0109117b6c4}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!IsPaused@{IsPaused}}
+\index{IsPaused@{IsPaused}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{IsPaused}{IsPaused}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_accdc31d83e98539ee180d0109117b6c4} 
+bool SAPTeam.\+Kryptor.\+Client.\+ISession.\+Is\+Paused\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets whether this session is paused. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a1be7afaf3bb39655e97c0bab44224a19}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aa80c6978d372613bee87d44c99780e83}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!IsRunning@{IsRunning}}
+\index{IsRunning@{IsRunning}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{IsRunning}{IsRunning}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_aa80c6978d372613bee87d44c99780e83} 
+bool SAPTeam.\+Kryptor.\+Client.\+ISession.\+Is\+Running\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets whether this session is running. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a7d6a0ccf6497306d7051786c8ce45d63}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ada14f92c8f1d9e1cfa9640e50ed716cb}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Messages@{Messages}}
+\index{Messages@{Messages}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Messages}{Messages}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ada14f92c8f1d9e1cfa9640e50ed716cb} 
+List$<$string$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Messages\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the message queue of the session. All message will be handled and shown by client application. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a50d1681aa5ca96e490b32d98848bd66f}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00063}{63}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a84d3ac778e84b2227c1fcf695cc1e5ad}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Name@{Name}}
+\index{Name@{Name}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Name}{Name}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a84d3ac778e84b2227c1fcf695cc1e5ad} 
+string SAPTeam.\+Kryptor.\+Client.\+ISession.\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the user-\/friendly name of the session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_ab7c233ec1d4cf6135455cdb286dabb6a}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_encryption_session_a133c09027289e0fa563babbe037c5780}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session}}, and \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a973207a08085debd0dd108a96d5e45f0}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00013}{13}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a44b003d3f5db4d3b51c9c8d7e9cedc76}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Progress@{Progress}}
+\index{Progress@{Progress}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Progress}{Progress}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a44b003d3f5db4d3b51c9c8d7e9cedc76} 
+double SAPTeam.\+Kryptor.\+Client.\+ISession.\+Progress\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the progress percentage of this session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ad11f185d08996f8498c5c1b897c4c58d}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_abfc37ebe91f934ee9db587a76c781a75}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Status@{Status}}
+\index{Status@{Status}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Status}{Status}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_abfc37ebe91f934ee9db587a76c781a75} 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962a}{Session\+Status}} SAPTeam.\+Kryptor.\+Client.\+ISession.\+Status\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the current status of the session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aec393d98720570571a6eb717596497b8}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_group_storage_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Add()}}, \mbox{\hyperlink{_session_8cs_source_l00248}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Continue\+With()}}, \mbox{\hyperlink{_session_8cs_source_l00280}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Is\+Ready()}}, \mbox{\hyperlink{_session_holder_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Session\+Holder()}}, and \mbox{\hyperlink{_session_manager_8cs_source_l00174}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wrap\+Session()}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4b015970f6bb02ebcb5a38234dac4221}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!Timer@{Timer}}
+\index{Timer@{Timer}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{Timer}{Timer}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4b015970f6bb02ebcb5a38234dac4221} 
+Stopwatch SAPTeam.\+Kryptor.\+Client.\+ISession.\+Timer\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the stopwatch for this session. 
+
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a806116b667d31ac9dc8dbe0daac8717e}{SAPTeam.\+Kryptor.\+Client.\+Session}}.
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00058}{58}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+
+
+\doxysubsection{Event Documentation}
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a76f74d17f98b857fc39a933ba5c5330a}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!DescriptionChanged@{DescriptionChanged}}
+\index{DescriptionChanged@{DescriptionChanged}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{DescriptionChanged}{DescriptionChanged}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a76f74d17f98b857fc39a933ba5c5330a} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Description\+Changed}
+
+
+
+Occurs when the description value is changed. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00078}{78}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a278d5aff25cb58ce7e9931dd1df8c88f}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!ProgressChanged@{ProgressChanged}}
+\index{ProgressChanged@{ProgressChanged}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{ProgressChanged}{ProgressChanged}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a278d5aff25cb58ce7e9931dd1df8c88f} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Progress\+Changed}
+
+
+
+Occurs when the progress value of the session is changed. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ab8b165ff0f15064d5e5bba93810dc9b5}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!SessionEnded@{SessionEnded}}
+\index{SessionEnded@{SessionEnded}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{SessionEnded}{SessionEnded}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ab8b165ff0f15064d5e5bba93810dc9b5} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Session\+Ended}
+
+
+
+Occurs when the session is ended. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00098}{98}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_acf53910ae757cd275bc1d2966d15af73}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!SessionPaused@{SessionPaused}}
+\index{SessionPaused@{SessionPaused}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{SessionPaused}{SessionPaused}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_acf53910ae757cd275bc1d2966d15af73} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Session\+Paused}
+
+
+
+Occurs when the session is paused. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4c26131d7bcbad05a32434427410b9d3}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!SessionResumed@{SessionResumed}}
+\index{SessionResumed@{SessionResumed}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{SessionResumed}{SessionResumed}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4c26131d7bcbad05a32434427410b9d3} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Session\+Resumed}
+
+
+
+Occurs when the session is resumed. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00088}{88}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a7930c3ccae8a728062cffbbb80aa95c6}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!SessionStarted@{SessionStarted}}
+\index{SessionStarted@{SessionStarted}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{SessionStarted}{SessionStarted}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a7930c3ccae8a728062cffbbb80aa95c6} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Session\+Started}
+
+
+
+Occurs when the session started by Session\+Manager. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00068}{68}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9f9b574cd19389cf5c8560c7b788aea2}\index{SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}!StatusChanged@{StatusChanged}}
+\index{StatusChanged@{StatusChanged}!SAPTeam.Kryptor.Client.ISession@{SAPTeam.Kryptor.Client.ISession}}
+\doxysubsubsection{\texorpdfstring{StatusChanged}{StatusChanged}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9f9b574cd19389cf5c8560c7b788aea2} 
+Event\+Handler$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}}$>$ SAPTeam.\+Kryptor.\+Client.\+ISession.\+Status\+Changed}
+
+
+
+Occurs when the status of the session is changed. 
+
+
+
+Definition at line \mbox{\hyperlink{_i_session_8cs_source_l00093}{93}} of file \mbox{\hyperlink{_i_session_8cs_source}{ISession.\+cs}}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_i_session_8cs}{ISession.\+cs}}\end{DoxyCompactItemize}

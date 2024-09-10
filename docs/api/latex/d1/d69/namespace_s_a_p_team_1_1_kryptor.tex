@@ -1,0 +1,88 @@
+\doxysection{SAPTeam.\+Kryptor Namespace Reference}
+\hypertarget{namespace_s_a_p_team_1_1_kryptor}{}\label{namespace_s_a_p_team_1_1_kryptor}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{Cli}}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{Client}}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_crypto_providers}{Crypto\+Providers}}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{Extensions}}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{Generators}}
+\item 
+namespace \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_helpers}{Helpers}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}
+\begin{DoxyCompactList}\small\item\em Holds data about the crypto process. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{Crypto\+Provider}}
+\begin{DoxyCompactList}\small\item\em Represents the abstract base class for KES Crypto Providers. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}}
+\begin{DoxyCompactList}\small\item\em Provides standard to hold the crypto providers configuration. \end{DoxyCompactList}\item 
+class {\bfseries Crypto\+Provider\+Factory}
+\begin{DoxyCompactList}\small\item\em Represents methods to create crypto provider objects. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}
+\begin{DoxyCompactList}\small\item\em Specifies the data header. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_generator}{IGenerator}}
+\begin{DoxyCompactList}\small\item\em Represents standard to generate random output. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer}{ITranformer}}
+\begin{DoxyCompactList}\small\item\em Represents standard to transform specified inputs to a reproducible output. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker}{Json\+Worker}}
+\begin{DoxyCompactList}\small\item\em Represents methods to work with json serialization and deserialization with full support for AOT. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}
+\begin{DoxyCompactList}\small\item\em Provides methods to encrypt and decrypt data using the \doxylink{namespace_s_a_p_team_1_1_kryptor}{Kryptor} Encryption Standard (KES). \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}}
+\begin{DoxyCompactList}\small\item\em Stores keys for the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes} class. \end{DoxyCompactList}\item 
+class {\bfseries Transformers}
+\begin{DoxyCompactList}\small\item\em Contains methods to transform vlues. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token}{Transformer\+Token}}
+\begin{DoxyCompactList}\small\item\em Parses and holds transformer token data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{Header\+Verbosity}} \{ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84ace2c8aed9c2fa0cfbed56cbda4d8bf07}{Empty}} = 0
+, \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84aa1d0ec6d56f8833a078b5a7ac4caf2d4}{Minimum}} = 1
+, \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84a960b44c579bc2f6818d2daaf9e4c16f0}{Normal}} = 2
+, \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84a8321e79c278ec510f63675c040594892}{Maximum}} = 3
+ \}
+\begin{DoxyCompactList}\small\item\em Specifies the level of details included in header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}!HeaderVerbosity@{HeaderVerbosity}}
+\index{HeaderVerbosity@{HeaderVerbosity}!SAPTeam.Kryptor@{SAPTeam.Kryptor}}
+\doxysubsubsection{\texorpdfstring{HeaderVerbosity}{HeaderVerbosity}}
+{\footnotesize\ttfamily \label{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84} 
+enum \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{SAPTeam.\+Kryptor.\+Header\+Verbosity}}}
+
+
+
+Specifies the level of details included in header. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Empty@{Empty}!SAPTeam.Kryptor@{SAPTeam.Kryptor}}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}!Empty@{Empty}}}\Hypertarget{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84ace2c8aed9c2fa0cfbed56cbda4d8bf07}\label{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84} 
+Empty&Indicates an empty header. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Minimum@{Minimum}!SAPTeam.Kryptor@{SAPTeam.Kryptor}}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}!Minimum@{Minimum}}}\Hypertarget{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84aa1d0ec6d56f8833a078b5a7ac4caf2d4}\label{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84} 
+Minimum&The lowest detail level, Only includes api version and engine version. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Normal@{Normal}!SAPTeam.Kryptor@{SAPTeam.Kryptor}}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}!Normal@{Normal}}}\Hypertarget{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84a960b44c579bc2f6818d2daaf9e4c16f0}\label{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84} 
+Normal&The Medium detail level, Includes block size besides the minimum level. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Maximum@{Maximum}!SAPTeam.Kryptor@{SAPTeam.Kryptor}}\index{SAPTeam.Kryptor@{SAPTeam.Kryptor}!Maximum@{Maximum}}}\Hypertarget{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84a8321e79c278ec510f63675c040594892}\label{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84} 
+Maximum&The Highest detail level, Includes all parameters in yje header. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{_header_verbosity_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_header_verbosity_8cs_source}{Header\+Verbosity.\+cs}}.
+

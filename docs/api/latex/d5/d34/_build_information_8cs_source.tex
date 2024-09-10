@@ -1,0 +1,100 @@
+\doxysection{Build\+Information.\+cs}
+\hypertarget{_build_information_8cs_source}{}\label{_build_information_8cs_source}\index{BuildInformation.cs@{BuildInformation.cs}}
+\mbox{\hyperlink{_build_information_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keyword}{partial\ class\ }BuildInformation}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_ab35bcedb29a78de13cae10d44898b438}{BuildVariant}}\ Variant\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}\ Branch\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsAot\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsAndroidPlatform\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ DateTime\ BuildTime\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ TargetPlatform\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ TargetFramework\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Version\ ApplicationVersion\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ ApplicationInformationalVersion\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Version\ ClientVersion\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Version\ EngineVersion\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ BuildInformation()}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ DefineVariant();}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ DefineConstants();}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isAndroid\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00038}00038\ \textcolor{preprocessor}{\#if\ NET6\_0\_OR\_GREATER}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ isAndroid\ =\ OperatingSystem.IsAndroid();}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00040}00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ IsAndroidPlatform\ =\ isAndroid;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAndroidPlatform)}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TargetPlatform\ =\ \textcolor{stringliteral}{"{}android"{}};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ format\ =\ \textcolor{stringliteral}{"{}MM/dd/yyyy\ HH:mm:ss"{}};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ dateTimeString\ =\ Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x\ =>\ x.Key\ ==\ \textcolor{stringliteral}{"{}BuildTime"{}}).First().Value;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Parse\ the\ string\ into\ a\ DateTime\ object}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ DateTime\ parsedDateTime\ =\ DateTime.ParseExact(dateTimeString,\ format,\ CultureInfo.InvariantCulture,\ DateTimeStyles.AssumeUniversal);}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ BuildTime\ =\ parsedDateTime;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ AssemblyPlatformAttribute\ platformInfo\ =\ Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyPlatformAttribute>();}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(platformInfo.RuntimeIdentifier))}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TargetPlatform\ =\ platformInfo.RuntimeIdentifier;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ TargetFramework\ =\ platformInfo.TargetFrameworkMoniker;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ ApplicationVersion\ =\ \textcolor{keyword}{new}\ Version(Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyFileVersionAttribute>().Version);}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ ApplicationInformationalVersion\ =\ Assembly.GetAssembly(typeof(Program)).GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ ClientVersion\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context_a737987713b39471de731a8c049b6f7cf}{ClientVersion}};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ EngineVersion\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context_aa96ca4c9bd4ad2b0346193814310ac3c}{EngineVersion}};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ DefineConstants()}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00073}00073\ \textcolor{preprocessor}{\#if\ DEBUG}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.Debug;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00075}00075\ \textcolor{preprocessor}{\#elif\ NUGET}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.Nuget;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00077}00077\ \textcolor{preprocessor}{\#elif\ INDEXER}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.Indexer;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00079}00079\ \textcolor{preprocessor}{\#elif\ LIGHT}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.Light;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00081}00081\ \textcolor{preprocessor}{\#elif\ RELEASE}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.Release;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00083}00083\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ Branch\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_abeca743da99a05ddcffd1ff09e32655f}{BuildBranch}}.None;}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00085}00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00087}00087\ \textcolor{preprocessor}{\#if\ AOT}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ IsAot\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00089}00089\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ IsAot\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00091}00091\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00093}00093\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_build_information_8cs_source_l00094}00094\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,92 @@
+\doxysection{Lite\+En.\+cs}
+\hypertarget{_lite_en_8cs_source}{}\label{_lite_en_8cs_source}\index{LiteEn.cs@{LiteEn.cs}}
+\mbox{\hyperlink{_lite_en_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Security.Cryptography;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}};}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{SAPTeam.Kryptor.Generators}}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00010}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{LiteEn}}\ :\ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer}{ITranformer}}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{string}\ \_seed;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{byte}[]\ \_salt;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{int}\ \_sCount;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ SHA256\ \_sha256;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ SHA384\ \_sha384;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ SHA512\ \_sha512;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00021}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423}{00021}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{event}\ EventHandler<double>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423}{ProgressChanged}};}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00032}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a1ac440994c5e223b96d5ca9f620f6d70}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a1ac440994c5e223b96d5ca9f620f6d70}{LiteEn}}(\textcolor{keywordtype}{byte}[]\ seed,\ \textcolor{keywordtype}{byte}[]\ salt)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \_sha256\ =\ SHA256.Create();}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \_sha384\ =\ SHA384.Create();}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \_sha512\ =\ SHA512.Create();}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \_seed\ =\ BitConverter.ToString(\_sha512.ComputeHash(seed.Concat(salt).ToArray())).Replace(\textcolor{stringliteral}{"{}-\/"{}},\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \_salt\ =\ \_sha384.ComputeHash(salt);}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \_sCount\ =\ \_seed.Length;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00044}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_afa5d4e7cb0924b37a4970f135270d5a3}{00044}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_afa5d4e7cb0924b37a4970f135270d5a3}{Generate}}(\textcolor{keywordtype}{byte}[]\ buffer,\ \textcolor{keywordtype}{int}\ rotate)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ totalProgress\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rotate\ <\ 1)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rotate\ =\ Transformers.ToAbsInt32(\_salt,\ (buffer.Length\ \%\ 41)\ +\ \_seed[28]\ +\ \_salt[0])\ \%\ 10;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ tl\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[5]}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (byte)(buffer.Length\ *\ 6\ \%\ 256),}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (byte)Math.Abs((buffer.Length\ -\/\ \_sCount)\ *\ rotate\ \%\ 256),}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (byte)(buffer.Length\ *\ 124\ \%\ 256),}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (byte)((buffer.Length\ +\ rotate)\ *\ 75\ \%\ 128),}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (byte)(buffer.Length\ *\ 13\ \%\ 64),}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ tl2\ =\ \_sha384.ComputeHash(Transformers.Mix((buffer.Length\ +\ rotate)\ *\ \_seed[17],\ tl,\ \_salt));}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ vf\ =\ \_sha512.ComputeHash(tl).Concat(\_sha256.ComputeHash(ChangeCase(tl2.Base64Encode(),\ \_salt[23]\ +\ (buffer.Length\ \%\ 14)).Base64EncodeToByte()).Base64EncodeToByte()).ToArray();}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ vt\ =\ \_sha256.ComputeHash(vf.Concat(\_sha384.ComputeHash(tl2.Select(x\ =>\ (\textcolor{keywordtype}{byte})(x\ *\ 6\ \%\ 256)).ToArray())).ToArray());}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <\ buffer.Length)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vt\ =\ \_sha384.ComputeHash(\_sha512.ComputeHash(vt));}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ rotate;\ j++)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vt\ =\ \_sha256.ComputeHash(\_sha384.ComputeHash(vt).Concat(\_salt).ToArray());}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Array.Copy(vt,\ 0,\ buffer,\ i,\ Math.Min(vt.Length,\ buffer.Length\ -\/\ i));}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalProgress\ +=\ (double)vt.Length\ /\ buffer.Length;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423}{ProgressChanged}}?.Invoke(\textcolor{keyword}{this},\ totalProgress\ *\ 100);}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ vt.Length;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ ChangeCase(\textcolor{keywordtype}{string}\ src,\ \textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ c\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}[]\ clone\ =\ src.ToArray();}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ Transformers.Shuffle(clone,\ seed);}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ string(clone.Select(x\ =>}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ c++\ \%\ 2\ ==\ 0\ ?\ x.ToString().ToUpper()[0]\ :\ x;}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}).ToArray());}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lite_en_8cs_source_l00100}00100\ \}}
+
+\end{DoxyCode}

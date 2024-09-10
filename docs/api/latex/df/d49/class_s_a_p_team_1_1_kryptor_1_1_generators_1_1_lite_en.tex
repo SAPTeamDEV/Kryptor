@@ -1,0 +1,131 @@
+\doxysection{SAPTeam.\+Kryptor.\+Generators.\+Lite\+En Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{}\label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}\index{SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}}
+
+
+Generates bytes array populated from specified seed, with fast speed designed for network transmissions.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Generators.\+Lite\+En\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{df/d49/class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a1ac440994c5e223b96d5ca9f620f6d70}{Lite\+En}} (byte\mbox{[}$\,$\mbox{]} seed, byte\mbox{[}$\,$\mbox{]} salt)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{Lite\+En} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_afa5d4e7cb0924b37a4970f135270d5a3}{Generate}} (byte\mbox{[}$\,$\mbox{]} buffer, int rotate)
+\begin{DoxyCompactList}\small\item\em Fills the buffer with generated values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The output buffer. \\
+\hline
+{\em rotate} & The number of changes applies to buffer after filling. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer}{SAPTeam.\+Kryptor.\+ITranformer}}}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423}{Progress\+Changed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report}{SAPTeam.\+Kryptor.\+Helpers.\+IProgress\+Report}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report_af821856547bc1dd04e0444306bae86a8}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Triggered when the work progress is changed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Generates bytes array populated from specified seed, with fast speed designed for network transmissions. 
+
+Definition at line \mbox{\hyperlink{_lite_en_8cs_source_l00010}{10}} of file \mbox{\hyperlink{_lite_en_8cs_source}{Lite\+En.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a1ac440994c5e223b96d5ca9f620f6d70}\index{SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}!LiteEn@{LiteEn}}
+\index{LiteEn@{LiteEn}!SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}}
+\doxysubsubsection{\texorpdfstring{LiteEn()}{LiteEn()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a1ac440994c5e223b96d5ca9f620f6d70} 
+SAPTeam.\+Kryptor.\+Generators.\+Lite\+En.\+Lite\+En (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{seed}{, }\item[{byte\mbox{[}$\,$\mbox{]}}]{salt}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{Lite\+En} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & The seed to generate values. \\
+\hline
+{\em salt} & The additional value to alter the seed and outputs. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_lite_en_8cs_source_l00032}{32}} of file \mbox{\hyperlink{_lite_en_8cs_source}{Lite\+En.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_afa5d4e7cb0924b37a4970f135270d5a3}\index{SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}!Generate@{Generate}}
+\index{Generate@{Generate}!SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}}
+\doxysubsubsection{\texorpdfstring{Generate()}{Generate()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_afa5d4e7cb0924b37a4970f135270d5a3} 
+void SAPTeam.\+Kryptor.\+Generators.\+Lite\+En.\+Generate (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{buffer}{, }\item[{int}]{rotate}{}\end{DoxyParamCaption})}
+
+
+
+Fills the buffer with generated values.
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The output buffer. \\
+\hline
+{\em rotate} & The number of changes applies to buffer after filling. \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer_ab03098eaa28d5b6571eb35136b5608f3}{SAPTeam.\+Kryptor.\+ITranformer}}.
+
+
+
+Definition at line \mbox{\hyperlink{_lite_en_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_lite_en_8cs_source}{Lite\+En.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_lite_en_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Generators.\+Lite\+En.\+Progress\+Changed}}.
+
+
+
+\doxysubsection{Event Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423}\index{SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}!ProgressChanged@{ProgressChanged}}
+\index{ProgressChanged@{ProgressChanged}!SAPTeam.Kryptor.Generators.LiteEn@{SAPTeam.Kryptor.Generators.LiteEn}}
+\doxysubsubsection{\texorpdfstring{ProgressChanged}{ProgressChanged}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en_a25e03e4ecb3e92fea3e55669645d4423} 
+Event\+Handler$<$double$>$ SAPTeam.\+Kryptor.\+Generators.\+Lite\+En.\+Progress\+Changed}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_lite_en_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_lite_en_8cs_source}{Lite\+En.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_lite_en_8cs_source_l00044}{SAPTeam.\+Kryptor.\+Generators.\+Lite\+En.\+Generate()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_lite_en_8cs}{Lite\+En.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,156 @@
+\doxysection{SAPTeam.\+Kryptor.\+Json\+Worker Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker}{}\label{class_s_a_p_team_1_1_kryptor_1_1_json_worker}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+
+
+Represents methods to work with json serialization and deserialization with full support for AOT.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a4fdab2c062d1cb96fd40a75b00a9a435}{Json\+Worker}} (Json\+Serializer\+Options options=null, Json\+Serializer\+Context context=null)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_json_worker}{Json\+Worker} class. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a3cead821b25ccfe35c12bf7e152474fa}{To\+Json}} (object obj)
+\begin{DoxyCompactList}\small\item\em Converts the provided object to json string. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aaf36a6a2c3dd78af3f3af67d491b089a}{Read\+Json$<$ T $>$}} (string json)
+\begin{DoxyCompactList}\small\item\em Converts the provided json string to {\itshape T} . \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a897871242236f6b3243732dd287580cd}{To\+Json}} (object obj, Json\+Serializer\+Options options)
+\begin{DoxyCompactList}\small\item\em Converts the provided object to json string. \end{DoxyCompactList}\item 
+static T \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aef8a703c9c1bee10c709824168cb0a1e}{Read\+Json$<$ T $>$}} (string json, Json\+Serializer\+Options options)
+\begin{DoxyCompactList}\small\item\em Converts the provided json string to {\itshape T} . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents methods to work with json serialization and deserialization with full support for AOT. 
+
+Definition at line \mbox{\hyperlink{_json_worker_8cs_source_l00009}{9}} of file \mbox{\hyperlink{_json_worker_8cs_source}{Json\+Worker.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a4fdab2c062d1cb96fd40a75b00a9a435}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}!JsonWorker@{JsonWorker}}
+\index{JsonWorker@{JsonWorker}!SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+\doxysubsubsection{\texorpdfstring{JsonWorker()}{JsonWorker()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a4fdab2c062d1cb96fd40a75b00a9a435} 
+SAPTeam.\+Kryptor.\+Json\+Worker.\+Json\+Worker (\begin{DoxyParamCaption}\item[{Json\+Serializer\+Options}]{options}{ = {\ttfamily null}, }\item[{Json\+Serializer\+Context}]{context}{ = {\ttfamily null}}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_json_worker}{Json\+Worker} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em options} & The serializer options. (used in netstandard2.\+0 or net461 targets) \\
+\hline
+{\em context} & The source-\/generated serializer context. (used in net6.\+0+ targets) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_json_worker_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_json_worker_8cs_source}{Json\+Worker.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aaf36a6a2c3dd78af3f3af67d491b089a}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}!ReadJson$<$ T $>$@{ReadJson$<$ T $>$}}
+\index{ReadJson$<$ T $>$@{ReadJson$<$ T $>$}!SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+\doxysubsubsection{\texorpdfstring{ReadJson$<$ T $>$()}{ReadJson< T >()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aaf36a6a2c3dd78af3f3af67d491b089a} 
+T SAPTeam.\+Kryptor.\+Json\+Worker.\+Read\+Json$<$ T $>$ (\begin{DoxyParamCaption}\item[{string}]{json}{}\end{DoxyParamCaption})}
+
+
+
+Converts the provided json string to {\itshape T} . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json} & The json string to convert. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of the object to convert to and return. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+A new instance of {\itshape T}  initialized with json data. 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Type Constraints]\begin{description}
+\item[{\em T} : {\em class}]\end{description}
+\end{Desc}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aef8a703c9c1bee10c709824168cb0a1e}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}!ReadJson$<$ T $>$@{ReadJson$<$ T $>$}}
+\index{ReadJson$<$ T $>$@{ReadJson$<$ T $>$}!SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+\doxysubsubsection{\texorpdfstring{ReadJson$<$ T $>$()}{ReadJson< T >()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_json_worker_aef8a703c9c1bee10c709824168cb0a1e} 
+static T SAPTeam.\+Kryptor.\+Json\+Worker.\+Read\+Json$<$ T $>$ (\begin{DoxyParamCaption}\item[{string}]{json}{, }\item[{Json\+Serializer\+Options}]{options}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts the provided json string to {\itshape T} . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em json} & The json string to convert. \\
+\hline
+{\em options} & Options to control the conversion behavior. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of the object to convert to and return. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+A new instance of {\itshape T}  initialized with json data. 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Type Constraints]\begin{description}
+\item[{\em T} : {\em class}]\end{description}
+\end{Desc}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a3cead821b25ccfe35c12bf7e152474fa}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}!ToJson@{ToJson}}
+\index{ToJson@{ToJson}!SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+\doxysubsubsection{\texorpdfstring{ToJson()}{ToJson()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a3cead821b25ccfe35c12bf7e152474fa} 
+string SAPTeam.\+Kryptor.\+Json\+Worker.\+To\+Json (\begin{DoxyParamCaption}\item[{object}]{obj}{}\end{DoxyParamCaption})}
+
+
+
+Converts the provided object to json string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object to convert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The converted json string. 
+\end{DoxyReturn}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a897871242236f6b3243732dd287580cd}\index{SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}!ToJson@{ToJson}}
+\index{ToJson@{ToJson}!SAPTeam.Kryptor.JsonWorker@{SAPTeam.Kryptor.JsonWorker}}
+\doxysubsubsection{\texorpdfstring{ToJson()}{ToJson()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_json_worker_a897871242236f6b3243732dd287580cd} 
+static string SAPTeam.\+Kryptor.\+Json\+Worker.\+To\+Json (\begin{DoxyParamCaption}\item[{object}]{obj}{, }\item[{Json\+Serializer\+Options}]{options}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts the provided object to json string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & The object to convert. \\
+\hline
+{\em options} & Options to control the conversion behavior. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The converted json string. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_json_worker_8cs}{Json\+Worker.\+cs}}\end{DoxyCompactItemize}

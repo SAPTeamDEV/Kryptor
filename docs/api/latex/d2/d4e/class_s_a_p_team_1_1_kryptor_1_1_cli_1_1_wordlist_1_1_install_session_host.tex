@@ -1,0 +1,280 @@
+\doxysection{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host}{}\label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+Inheritance diagram for SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=6.000000cm]{d2/d4e/class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_ac9653316558845b2e3d5571dcbe7ec54}{Install\+Session\+Host}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{Global\+Options}} global\+Options, bool list, bool all, bool recommended, bool optimize, string\mbox{[}$\,$\mbox{]} ids)
+\item 
+override void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a2a994da5139fb74e44074ce098ee5f8c}{Start}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}} context)
+\begin{DoxyCompactList}\small\item\em Starts the host session in the current thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a0236f96351e0b705cb4cf9f1a29135aa}{Session\+Host}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{Global\+Options}} global\+Options)
+\item 
+override void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a8409b3182d31311d8359f1b642b006d2}{Start}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}} context)
+\begin{DoxyCompactList}\small\item\em Starts the host session in the current thread. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a8250db58211ebf60386e04fc3cc0f167}{Finalize\+Installation}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{Wordlist\+Index\+Entry}} entry)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a123c756c005db1147768b0fbecf4b241}{Cli\+Session\+Host}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{Global\+Options}} global\+Options)
+\item 
+override void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a64b0d43bb4a6553fd871619a4c5c1e43}{Start}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}} context)
+\begin{DoxyCompactList}\small\item\em Starts the host session in the current thread. \end{DoxyCompactList}\item 
+override async Task$<$ TResponse $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a23b98753651ef6de51dd9e1420dc35ee}{On\+Session\+Request$<$ TResponse $>$}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$ request, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Handles requests from the sessions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a26a7a841a1f7947d871c13c7e24e98cf}{Start}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}} context)
+\begin{DoxyCompactList}\small\item\em Starts the host session in the current thread.
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & The caller context. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_aba3647d930e3ac1b6478d1f550b7a340}{End}} (bool cancelled)
+\begin{DoxyCompactList}\small\item\em Ends the host session.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancelled} & Whether the host session ending triggered by cancel request. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}{New\+Session}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, bool auto\+Remove=false, bool auto\+Start=true)
+\begin{DoxyCompactList}\small\item\em Starts a new session in this session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+{\em auto\+Remove} & Determines whether to automatically remove session after end. \\
+\hline
+{\em auto\+Start} & Determines whether to automatically call the session manager to start this session. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a3fed15a255408f83d461360fe5a19da7}{Monitor\+Task}} (Task task)
+\begin{DoxyCompactList}\small\item\em Adds given task to the task pool and be monitored by the session host.
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & The task to be monitored. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+Task$<$ TResponse $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_abb8c97694b2999f69daf43726076b919}{On\+Session\+Request$<$ TResponse $>$}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$ request, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Handles requests from the sessions.
+
+This method should send requests to user and if it\textquotesingle{}s not possible, it could return the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request_a8c4483ce4bbd9dc314556536b0a45e5d}{Session\+Request$<$\+TResponse$>$.\+Default\+Value} or throws an exception. The thrown exception would be catched on the sender session and the session will fail.  \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+static Uri \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee}{Wordlist\+Index\+Uri}} = new Uri("{}https\+://raw.\+githubusercontent.\+com/SAPTeam\+DEV/Wordlists/master/index.\+json"{})\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+virtual string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{Download\+Dir}} = Path.\+Combine(Program.\+Context.\+Wordlist\+Directory, "{}\+\_\+cache"{})\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+virtual string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{Install\+Dir}} = Program.\+Context.\+Wordlist\+Directory\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{Wordlist\+Index}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{Wordlist\+Index}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a1b0ed6b35d63597eef85c335eca80951}{Local\+Index}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+virtual string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ac0e43bbb42774f1880507fade4f140d3}{Local\+Index\+Path}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ada06c99b4cf2402ab53d938c896f2319}{Quiet}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ae9ed2f7fac5c9ebbedf79c653fdcc725}{No\+Color}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ae0ab18885bc1daea1bc61689f3d21c8b}{No\+Interactions}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a0d5cd53a365991108255dd869684afe1}{Is\+Output\+Redirected}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_pause_request}{Pause\+Request}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a9f95dea3b372b75cdb41366318d498d6}{Request}} = new \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_pause_request}{Pause\+Request}}(null, false)\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ad04b951d0ed30e265ac450fb114919bd}{Has\+Request}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+Console\+Key\+Info \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a8248c1918eea3ee555492759354c9387}{Key\+Queue}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{Session\+Container}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0}{Container}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the session container. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_af92a4e9ca21bae466d5f558cca6a840e}{Verbose}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the verbosity of the session host. \end{DoxyCompactList}\item 
+Cancellation\+Token\+Source \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_ac1f3fbefc97570ab5574cd0dca41367a}{Master\+Token}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the special cancellation token to use in non-\/standard codes. (Blocking codes outside of sessions) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a747d4052ff2f519ffaa58f61abaa8abf}{Update\+Local\+Index}} ()
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ab9b2d595abc8f6cd2d7b834a65737a1f}{List\+Installed\+Wordlists}} ()
+\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ae6c06049d7f8c3d46c6151d5d1bb3ad5}{Get\+Installation\+Permission}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{Wordlist\+Index\+Entry}} entry)
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a5a575bb427c3f607e20afaeadc76dce9}{Remove\+Wordlist}} (string id)
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ade3f7d887b8417c7c733fd282b4080c1}{Sort\+Index}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a67444c512643ef00bbea0cd2615a3ff5}{Log}} (string message=null)
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a71251be161babf3532cd3db453dd6a8f}{Log\+Error}} (string message=null)
+\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ae557033d1ef8edb4803ce2dd8f8073ff}{Debug\+Log}} (string message)
+\item 
+Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a5efa2f7959d58fd6ad600a9bebc9b1d9}{Show\+Progress}} (bool show\+Overall, bool show\+Remaining)
+\item 
+Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a8840d943fc0d878f06abc99e25ae7208}{Show\+Progress\+Monitored}} (bool show\+Overall, bool show\+Remaining=true)
+\item 
+Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a75d048317342290b6d8ecae405aa4846}{Show\+Progress}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}} session\+Group)
+\item 
+Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a0e6951243c4320401c24c8f18f4c2f23}{Show\+Progress\+Monitored}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}} session\+Group)
+\item 
+\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a095a6a1125f381c6e09035bfd2d3a879}{Load\+Key\+Store}} (string key\+Store)
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session}{Key\+Store\+Load\+Session}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_aa2cbfcfb19eac7833b9daa2c88bce675}{Create\+Key\+Store\+Load\+Session}} (string key\+Store)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a673cfb01a50d8e9f9d8e543b70b9c406}{Session\+Host}} ()
+\begin{DoxyCompactList}\small\item\em Initializes all \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host}{Session\+Host} instances. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_ac9653316558845b2e3d5571dcbe7ec54}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!InstallSessionHost@{InstallSessionHost}}
+\index{InstallSessionHost@{InstallSessionHost}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{InstallSessionHost()}{InstallSessionHost()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_ac9653316558845b2e3d5571dcbe7ec54} 
+SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Install\+Session\+Host (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{Global\+Options}}}]{global\+Options}{, }\item[{bool}]{list}{, }\item[{bool}]{all}{, }\item[{bool}]{recommended}{, }\item[{bool}]{optimize}{, }\item[{string\mbox{[}$\,$\mbox{]}}]{ids}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00025}{25}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a2a994da5139fb74e44074ce098ee5f8c}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!Start@{Start}}
+\index{Start@{Start}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{Start()}{Start()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a2a994da5139fb74e44074ce098ee5f8c} 
+override void SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{Client\+Context}}}]{context}{}\end{DoxyParamCaption})}
+
+
+
+Starts the host session in the current thread. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & The caller context. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_a4f82fae91444ac35c4d3267b79e86a8e}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host}}.
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00040}{40}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_cli_session_host_8cs_source_l00080}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Debug\+Log()}}, \mbox{\hyperlink{_install_session_host_8cs_source_l00019}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Download\+Dir}}, \mbox{\hyperlink{_wordlist_index_entry_8cs_source_l00035}{SAPTeam.\+Kryptor.\+Client.\+Security.\+Wordlist\+Index\+Entry.\+Enforced}}, \mbox{\hyperlink{_install_session_host_8cs_source_l00023}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Index}}, \mbox{\hyperlink{_install_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Install\+Dir}}, \mbox{\hyperlink{_cli_session_host_8cs_source_l00553}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Session\+Host.\+Show\+Progress\+Monitored()}}, \mbox{\hyperlink{cli_2_kryptor_8_cli_8_shared_2_wordlist_2_session_host_8cs_source_l00099}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Session\+Host.\+Sort\+Index()}}, \mbox{\hyperlink{_install_session_host_8cs_source_l00010}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Wordlist\+Index\+Uri}}, and \mbox{\hyperlink{_wordlist_index_8cs_source_l00033}{SAPTeam.\+Kryptor.\+Client.\+Security.\+Wordlist\+Index.\+Wordlists}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!DownloadDir@{DownloadDir}}
+\index{DownloadDir@{DownloadDir}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{DownloadDir}{DownloadDir}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5} 
+virtual string SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Download\+Dir = Path.\+Combine(Program.\+Context.\+Wordlist\+Directory, "{}\+\_\+cache"{})\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_install_session_host_8cs_source_l00040}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!Index@{Index}}
+\index{Index@{Index}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{Index}{Index}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{Wordlist\+Index}} SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [protected set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_index_session_host_8cs_source_l00034}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Index\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_install_session_host_8cs_source_l00040}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!InstallDir@{InstallDir}}
+\index{InstallDir@{InstallDir}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{InstallDir}{InstallDir}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e} 
+virtual string SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Install\+Dir = Program.\+Context.\+Wordlist\+Directory\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_install_session_host_8cs_source_l00040}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee}\index{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}!WordlistIndexUri@{WordlistIndexUri}}
+\index{WordlistIndexUri@{WordlistIndexUri}!SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost@{SAPTeam.Kryptor.Cli.Wordlist.InstallSessionHost}}
+\doxysubsubsection{\texorpdfstring{WordlistIndexUri}{WordlistIndexUri}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee} 
+Uri SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Wordlist\+Index\+Uri = new Uri("{}https\+://raw.\+githubusercontent.\+com/SAPTeam\+DEV/Wordlists/master/index.\+json"{})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_install_session_host_8cs_source_l00010}{10}} of file \mbox{\hyperlink{_install_session_host_8cs_source}{Install\+Session\+Host.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_install_session_host_8cs_source_l00040}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Install\+Session\+Host.\+Start()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_install_session_host_8cs}{Install\+Session\+Host.\+cs}}\end{DoxyCompactItemize}

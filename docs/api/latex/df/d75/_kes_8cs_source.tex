@@ -1,0 +1,224 @@
+\doxysection{Kes.\+cs}
+\hypertarget{_kes_8cs_source}{}\label{_kes_8cs_source}\index{Kes.cs@{Kes.cs}}
+\mbox{\hyperlink{_kes_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Data;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_crypto_providers}{SAPTeam.Kryptor.CryptoProviders}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_helpers}{SAPTeam.Kryptor.Helpers}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor}{SAPTeam.Kryptor}}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00012}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{00012}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}\ :\ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report}{IProgressReport}}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00014}00014\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ Size\ Parameters}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00019}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{00019}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{DefaultBlockSize}}\ =\ 0x8000;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00024}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{DefaultBlockSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00029}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{GetDecryptionBufferSize}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process\ =\ \textcolor{keywordflow}{default})\ =>\ (process.BlockSize\ >\ 0\ ?\ process.BlockSize\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}})\ *\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{DecryptionChunkSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00034}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{00034}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{GetEncryptionBufferSize}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process\ =\ \textcolor{keywordflow}{default})\ =>\ ((process.BlockSize\ >\ 0\ ?\ process.BlockSize\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}})\ -\/\ (Provider.Configuration.RemoveHash\ ?\ 0\ :\ 1))\ *\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{EncryptionChunkSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00036}00036\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00041}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{00041}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}\ =>\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}(0,\ 16,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00046}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95}{00046}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95}{MinimumSupportedVersion}}\ =>\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}(0,\ 14,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00051}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{00051}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00054}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}{00054}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{event}\ EventHandler<double>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}{ProgressChanged}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}{Kes}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ keyStore,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ configuration,\ \textcolor{keywordtype}{int}\ blockSize\ =\ \textcolor{keywordflow}{default})\ :\ this(blockSize)\ =>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}\ =\ CryptoProviderFactory.Create(keyStore,\ configuration);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}{Kes}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}}\ provider,\ \textcolor{keywordtype}{int}\ blockSize\ =\ \textcolor{keywordflow}{default})\ :\ this(blockSize)\ =>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}\ =\ provider;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00087}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}{00087}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}{Kes}}(\textcolor{keywordtype}{int}\ blockSize\ =\ \textcolor{keywordflow}{default})}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockSize\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}}\ =\ blockSize;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ UpdateHeader(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}\ header)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{int})header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.Version\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.EngineVersion\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}(Assembly.GetAssembly(typeof(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}})).GetCustomAttribute<AssemblyFileVersionAttribute>().\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{int})header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.BlockSize\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00118}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7}{00118}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7}{EncryptAsync}}(Stream\ source,\ Stream\ dest)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7}{EncryptAsync}}(source,\ dest,\ \textcolor{keyword}{null},\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00132}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c}{00132}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c}{EncryptAsync}}(Stream\ source,\ Stream\ dest,\ CancellationToken\ cancellationToken)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c}{EncryptAsync}}(source,\ dest,\ \textcolor{keyword}{null},\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00146}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b}{00146}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b}{EncryptAsync}}(Stream\ source,\ Stream\ dest,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}\ header)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b}{EncryptAsync}}(source,\ dest,\ header,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00163}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aff59dfe971bcde3acbd113533f056289}{00163}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aff59dfe971bcde3acbd113533f056289}{EncryptAsync}}(Stream\ source,\ Stream\ dest,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}\ header,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there\ is\ no\ header,\ create\ a\ header\ with\ normal\ details.}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (header\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Dictionary<string,\ string>\ extra\ =\ \textcolor{keyword}{new}\ Dictionary<string,\ string>}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\textcolor{stringliteral}{"{}client"{}}]\ =\ \textcolor{stringliteral}{"{}kryptor-\/core"{}}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}()}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Verbosity\ =\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{HeaderVerbosity}}.Normal,}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Extra\ =\ extra,}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateHeader(header);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.UpdateHeader(header);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ hArray\ =\ header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_aaaed606f3e910479da0941689400a789}{CreatePayload}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ await\ AsyncCompat.WriteAsync(dest,\ hArray,\ 0,\ hArray.Length,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ await\ ProcessDataAsync(source,\ dest,\ \textcolor{keyword}{true},\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00201}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}{00201}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}{DecryptAsync}}(Stream\ source,\ Stream\ dest)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}{DecryptAsync}}(source,\ dest,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00215}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_abf3855d152088bf2a315a33629522239}{00215}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_abf3855d152088bf2a315a33629522239}{DecryptAsync}}(Stream\ source,\ Stream\ dest,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00216}00216\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}\ header\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}.ReadHeader<\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}>(source);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\ !=\ \textcolor{keyword}{null}\ \&\&\ (header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\ <\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95}{MinimumSupportedVersion}}\ ||\ header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\ >\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}))}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a797d465df2b7bec75ffc2334e5f5f92d}{EngineVersion}}\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidOperationException(\$\textcolor{stringliteral}{"{}Encryptor\ api\ version\ is\ not\ supported.\ You\ must\ use\ kryptor\ engine\ v\{header.EngineVersion\}"{}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidOperationException(\textcolor{stringliteral}{"{}Encryptor\ api\ version\ is\ not\ supported."{}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ await\ ProcessDataAsync(source,\ dest,\ \textcolor{keyword}{false},\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ async\ Task\ ProcessDataAsync(Stream\ source,\ Stream\ dest,\ \textcolor{keywordtype}{bool}\ doEncrypt,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{InitializeData}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ Func<CryptoProcess,\ int>\ blockSizeCallback;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ Func<byte[],\ CryptoProcess,\ Task<byte[]>>\ cryptoCallback;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ chunckSize;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (doEncrypt)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockSizeCallback\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{GetEncryptionBufferSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cryptoCallback\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{EncryptBlockAsync}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunckSize\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{EncryptionChunkSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockSizeCallback\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{GetDecryptionBufferSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cryptoCallback\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{DecryptBlockAsync}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunckSize\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{DecryptionChunkSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ step\ =\ (double)((\textcolor{keywordtype}{double})chunckSize\ /\ (source.Length\ -\/\ source.Position))\ *\ 100;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ counter\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ blockSize;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}{ProgressChanged}}?.Invoke(\textcolor{keyword}{this},\ 0);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <\ source.Length)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.BlockSize\ =\ Provider.Configuration.DynamicBlockProccessing\ ?\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption}{DynamicEncryption}}.GetDynamicBlockSize(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_ad98d4fcae05b6d430cb7e0d225ebed23}{KeyStore}},\ process)\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{BlockSize}};}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockSize\ =\ blockSizeCallback(process);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ actualSize\ =\ (int)Math.Min(source.Length\ -\/\ source.Position,\ blockSize);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ slice\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[actualSize];}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ await\ AsyncCompat.ReadAsync(source,\ slice,\ 0,\ slice.Length,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ eSlice\ =\ await\ cryptoCallback(slice,\ process);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ await\ AsyncCompat.WriteAsync(dest,\ eSlice,\ 0,\ eSlice.Length,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counter\ +=\ blockSize\ /\ chunckSize;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ prog\ =\ step\ *\ counter;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}{ProgressChanged}}?.Invoke(\textcolor{keyword}{this},\ Math.Min(prog,\ 100));}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.NextBlock(!\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration_a34e85b6862e7ea820ecd67f57b7df631}{Continuous}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ blockSize;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (ArgumentOutOfRangeException)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ DataException(\textcolor{stringliteral}{"{}Small\ keystore\ size"{}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00287}00287\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00294}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{00294}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{EncryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{EncryptBlockAsync}}(data,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00304}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac424e84e620790c88808dede4bd49ee3}{00304}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac424e84e620790c88808dede4bd49ee3}{EncryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{InitializeData}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{EncryptBlockAsync}}(data,\ process,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00309}00309\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00319}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa}{00319}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa}{EncryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa}{EncryptBlockAsync}}(data,\ process,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00332}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae009cba35622f3db9ef3a270a60614c1}{00332}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae009cba35622f3db9ef3a270a60614c1}{EncryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00333}00333\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data.Length\ >\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{GetEncryptionBufferSize}}(process))}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\$\textcolor{stringliteral}{"{}Max\ allowed\ size\ for\ input\ buffer\ is\ :\{GetEncryptionBufferSize(process)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ result\ =\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{EncryptBlockAsync}}(data,\ process,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result.Length\ >\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{GetDecryptionBufferSize}}(process)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ OverflowException(\textcolor{stringliteral}{"{}Resulting\ buffer\ size\ is\ larger\ than\ the\ allowed\ size"{}})}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ result;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00344}00344\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00351}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{00351}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{DecryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{DecryptBlockAsync}}(data,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00361}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae79efb4dee4b89f92cd67357eaf68a81}{00361}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae79efb4dee4b89f92cd67357eaf68a81}{DecryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00362}00362\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ proc\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ proc.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{InitializeData}}();}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{DecryptBlockAsync}}(data,\ proc,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00366}00366\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00376}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3}{00376}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3}{DecryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process)\ =>\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3}{DecryptBlockAsync}}(data,\ process,\ CancellationToken.None);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00389}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae382fd5e0f975cfc49dff23429b24779}{00389}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae382fd5e0f975cfc49dff23429b24779}{DecryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00390}00390\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data.Length\ >\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{GetDecryptionBufferSize}}(process))}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\$\textcolor{stringliteral}{"{}Max\ allowed\ size\ for\ input\ buffer\ is\ :\{GetDecryptionBufferSize(process)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ result\ =\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{DecryptBlockAsync}}(data,\ process,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result.Length\ >\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{GetEncryptionBufferSize}}(process)}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ OverflowException(\textcolor{stringliteral}{"{}Resulting\ buffer\ size\ is\ larger\ than\ the\ allowed\ size"{}})}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ result;}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00401}00401\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00402}00402\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_kes_8cs_source_l00403}00403\ \}}
+
+\end{DoxyCode}

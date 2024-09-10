@@ -1,0 +1,111 @@
+\doxysection{Data\+Processing\+Session\+Host.\+cs}
+\hypertarget{_data_processing_session_host_8cs_source}{}\label{_data_processing_session_host_8cs_source}\index{DataProcessingSessionHost.cs@{DataProcessingSessionHost.cs}}
+\mbox{\hyperlink{_data_processing_session_host_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.CommandLine;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00007}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host}{DataProcessingSessionHost}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host}{CliSessionHost}}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}[]\ fString;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00011}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a0b7bf07772bae877efa4a3c55e304811}{00011}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a0b7bf07772bae877efa4a3c55e304811}{BlockSize}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00013}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a5df3d64bfc44e9b9e9227d71d242dfe0}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a5df3d64bfc44e9b9e9227d71d242dfe0}{Configuration}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8cb3180a2d21c5c1f8665c981d1a99b7}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8cb3180a2d21c5c1f8665c981d1a99b7}{OutputPath}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00017}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a2fbe7da2d138b494ecda27665899d645}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00019}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afc6e17bb2780be0a645a3c9f19fb28c6}{00019}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ readonly\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afc6e17bb2780be0a645a3c9f19fb28c6}{KeystoreString}};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00021}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a38edde08b520cdbf38fe6a7c42e578cc}{00021}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a38edde08b520cdbf38fe6a7c42e578cc}{DataProcessingSessionHost}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{GlobalOptions}}\ globalOptions,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{DataProcessingOptions}}\ options)\ :\ base(globalOptions)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a0b7bf07772bae877efa4a3c55e304811}{BlockSize}}\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0605e689774ae70d6fc55fc1510e5d52}{BlockSize}};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a5df3d64bfc44e9b9e9227d71d242dfe0}{Configuration}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}()}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Id\ =\ CryptoProviderFactory.GetRegisteredCryptoProviderId(options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a2a60cd764201ee5eca31288c97b98eff}{Provider}}),}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Continuous\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a1fe6cba516f9851f77598a0ed87d249a}{Continuous}},}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RemoveHash\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3d2284a574bc55d01ff6e01f25de181a}{RemoveHash}},}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DynamicBlockProccessing\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a8e08fdec3b720ab73d1c1bd287b7fcfe}{DynamicBlockProcessing}},}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8cb3180a2d21c5c1f8665c981d1a99b7}{OutputPath}}\ =\ Utilities.EnsureDirectoryExists(options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3c2d58288b76819556c24b0830a3c323}{OutputPath}});}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ fString\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0b35137548ad8bdd6e78133920675765}{Files}};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afc6e17bb2780be0a645a3c9f19fb28c6}{KeystoreString}}\ =\ options.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_aa432993d734a1c2606ad4aee203f2d06}{KeyStore}};}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00040}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8eba84bfc635311ac5509f442b58d405}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8eba84bfc635311ac5509f442b58d405}{Start}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}\ context)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(context);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a095a6a1125f381c6e09035bfd2d3a879}{LoadKeyStore}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afc6e17bb2780be0a645a3c9f19fb28c6}{KeystoreString}});}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00047}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a3958427fca011c3b4234aed773572cdf}{00047}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Task\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a3958427fca011c3b4234aed773572cdf}{GetSmartProgress}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{SessionGroup}}\ sessionGroup)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ Task\ progress;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sessionGroup.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a91bb86a33035df4a719e231cd61aa118}{Count}}\ >\ 20)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ progress\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a8840d943fc0d878f06abc99e25ae7208}{ShowProgressMonitored}}(sessionGroup);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ progress\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a8840d943fc0d878f06abc99e25ae7208}{ShowProgressMonitored}}(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ progress;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00062}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_ab49ccf3e6089fa7f43b8b08e41f357b8}{00062}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_ab49ccf3e6089fa7f43b8b08e41f357b8}{EnumerateFiles}}(Action<string,\ string>\ action)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ Parallel.ForEach(fString,\ file\ =>}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Directory.Exists(file))}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ subfile\ \textcolor{keywordflow}{in}\ Directory.GetFiles(file,\ \textcolor{stringliteral}{"{}*"{}},\ SearchOption.AllDirectories))}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action(subfile,\ Utilities.EnsureDirectoryExists(Path.Combine(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8cb3180a2d21c5c1f8665c981d1a99b7}{OutputPath}},\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afac4d1c0b2c03940373731e8896b6a51}{GetRelativePath}}(file,\ Path.GetDirectoryName(subfile)))));}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action(Path.GetFullPath(file),\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a8cb3180a2d21c5c1f8665c981d1a99b7}{OutputPath}});}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00080}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afac4d1c0b2c03940373731e8896b6a51}{00080}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_afac4d1c0b2c03940373731e8896b6a51}{GetRelativePath}}(\textcolor{keywordtype}{string}\ relativeTo,\ \textcolor{keywordtype}{string}\ path)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00082}00082\ \textcolor{preprocessor}{\#if\ NET6\_0\_OR\_GREATER}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Path.GetRelativePath(relativeTo,\ path);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00084}00084\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ RelativePathLegacy(relativeTo,\ path);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00086}00086\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ RelativePathLegacy(\textcolor{keywordtype}{string}\ relativeTo,\ \textcolor{keywordtype}{string}\ path)}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Directory.Exists(path)\ \&\&\ !path.EndsWith(Path.DirectorySeparatorChar.ToString()))}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\ +=\ Path.DirectorySeparatorChar;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ Uri\ pathUri\ =\ \textcolor{keyword}{new}\ Uri(path);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Folders\ must\ end\ in\ a\ slash}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!relativeTo.EndsWith(Path.DirectorySeparatorChar.ToString()))}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ relativeTo\ +=\ Path.DirectorySeparatorChar;}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ Uri\ folderUri\ =\ \textcolor{keyword}{new}\ Uri(relativeTo);}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace(\textcolor{charliteral}{'/'},\ Path.DirectorySeparatorChar));}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00104}00104\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_session_host_8cs_source_l00105}00105\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,62 @@
+\doxysection{Data\+Processing\+Options.\+cs}
+\hypertarget{_data_processing_options_8cs_source}{}\label{_data_processing_options_8cs_source}\index{DataProcessingOptions.cs@{DataProcessingOptions.cs}}
+\mbox{\hyperlink{_data_processing_options_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.CommandLine;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.CommandLine.Binding;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00006}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{DataProcessingOptions}}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00008}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0605e689774ae70d6fc55fc1510e5d52}{00008}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0605e689774ae70d6fc55fc1510e5d52}{BlockSize}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00009}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a2a60cd764201ee5eca31288c97b98eff}{00009}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a2a60cd764201ee5eca31288c97b98eff}{Provider}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00010}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a1fe6cba516f9851f77598a0ed87d249a}{00010}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a1fe6cba516f9851f77598a0ed87d249a}{Continuous}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00011}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3d2284a574bc55d01ff6e01f25de181a}{00011}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3d2284a574bc55d01ff6e01f25de181a}{RemoveHash}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00012}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a8e08fdec3b720ab73d1c1bd287b7fcfe}{00012}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a8e08fdec3b720ab73d1c1bd287b7fcfe}{DynamicBlockProcessing}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00013}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3c2d58288b76819556c24b0830a3c323}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a3c2d58288b76819556c24b0830a3c323}{OutputPath}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00014}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_aa432993d734a1c2606ad4aee203f2d06}{00014}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0b35137548ad8bdd6e78133920675765}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}[]\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_a0b35137548ad8bdd6e78133920675765}{Files}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00016}00016\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00018}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder}{00018}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder}{DataProcessingOptionsBinder}}\ :\ BinderBase<DataProcessingOptions>}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<int>\ blockSize;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<string>\ provider;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<bool>\ continuous;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<bool>\ removeHash;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<bool>\ dbp;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<string>\ outputPath;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Option<string>\ keyStore;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ Argument<IEnumerable<string>>\ files;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00029}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder_a987363a33a49d4e7ed99a36bfbbd14fb}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder_a987363a33a49d4e7ed99a36bfbbd14fb}{DataProcessingOptionsBinder}}(Option<int>\ blockSize,\ Option<string>\ provider,\ Option<bool>\ continuous,\ Option<bool>\ removeHash,\ Option<bool>\ dbp,\ Option<string>\ outputPath,\ Option<string>\ keyStore,\ Argument<IEnumerable<string>>\ files)}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ this.blockSize\ =\ blockSize;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ this.provider\ =\ provider;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ this.continuous\ =\ continuous;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ this.removeHash\ =\ removeHash;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ this.dbp\ =\ dbp;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ this.outputPath\ =\ outputPath;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ this.keyStore\ =\ keyStore;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ this.files\ =\ files;}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00041}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder_ac4fe7b12bdfbcf4140fa62a8a386f92f}{00041}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{DataProcessingOptions}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options_binder_ac4fe7b12bdfbcf4140fa62a8a386f92f}{GetBoundValue}}(BindingContext\ bindingContext)}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{DataProcessingOptions}}()}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BlockSize\ =\ bindingContext.ParseResult.GetValueForOption(blockSize),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Provider\ =\ bindingContext.ParseResult.GetValueForOption(provider),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Continuous\ =\ bindingContext.ParseResult.GetValueForOption(continuous),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RemoveHash\ =\ bindingContext.ParseResult.GetValueForOption(removeHash),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DynamicBlockProcessing\ =\ bindingContext.ParseResult.GetValueForOption(dbp),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OutputPath\ =\ bindingContext.ParseResult.GetValueForOption(outputPath),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ =\ bindingContext.ParseResult.GetValueForOption(keyStore),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Files\ =\ bindingContext.ParseResult.GetValueForArgument(files).ToArray(),}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_data_processing_options_8cs_source_l00056}00056\ \}}
+
+\end{DoxyCode}

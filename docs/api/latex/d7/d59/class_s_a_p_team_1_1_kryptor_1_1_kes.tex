@@ -1,0 +1,614 @@
+\doxysection{SAPTeam.\+Kryptor.\+Kes Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes}{}\label{class_s_a_p_team_1_1_kryptor_1_1_kes}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+
+
+Provides methods to encrypt and decrypt data using the \doxylink{namespace_s_a_p_team_1_1_kryptor}{Kryptor} Encryption Standard (KES).  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Kes\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d7/d59/class_s_a_p_team_1_1_kryptor_1_1_kes}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{Get\+Decryption\+Buffer\+Size}} (\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process=default)
+\begin{DoxyCompactList}\small\item\em Gets max input buffer size for \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{Crypto\+Provider.\+Decrypt\+Block\+Async}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{Get\+Encryption\+Buffer\+Size}} (\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process=default)
+\begin{DoxyCompactList}\small\item\em Gets max input buffer size for \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{Crypto\+Provider.\+Encrypt\+Block\+Async}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} configuration, int block\+Size=default) \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{Crypto\+Provider}} provider, int block\+Size=default) \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}{Kes}} (int block\+Size=default)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes} class with a new instance of the requested crypto provider. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7}{Encrypt\+Async}} (Stream source, Stream dest)
+\begin{DoxyCompactList}\small\item\em Encrypts the given data stream and writes the encrypted data to the destination stream. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c}{Encrypt\+Async}} (Stream source, Stream dest, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts the given data stream and writes the encrypted data to the destination stream. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b}{Encrypt\+Async}} (Stream source, Stream dest, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}} header)
+\begin{DoxyCompactList}\small\item\em Encrypts the given data stream and writes the encrypted data to the destination stream. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aff59dfe971bcde3acbd113533f056289}{Encrypt\+Async}} (Stream source, Stream dest, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}} header, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts the given data stream and writes the encrypted data to the destination stream. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}{Decrypt\+Async}} (Stream source, Stream dest)
+\begin{DoxyCompactList}\small\item\em Decrypts the given data stream and writes the decrypted data to the destination data stream. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_abf3855d152088bf2a315a33629522239}{Decrypt\+Async}} (Stream source, Stream dest, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Decrypts the given data stream and writes the decrypted data to the destination data stream. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{Encrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data)
+\begin{DoxyCompactList}\small\item\em Encrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ac424e84e620790c88808dede4bd49ee3}{Encrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa}{Encrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process)
+\begin{DoxyCompactList}\small\item\em Encrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae009cba35622f3db9ef3a270a60614c1}{Encrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{Decrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data)
+\begin{DoxyCompactList}\small\item\em Decrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae79efb4dee4b89f92cd67357eaf68a81}{Decrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Decrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3}{Decrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process)
+\begin{DoxyCompactList}\small\item\em Decrypts block of data asynchronously. \end{DoxyCompactList}\item 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ae382fd5e0f975cfc49dff23429b24779}{Decrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Decrypts block of data asynchronously. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{Default\+Block\+Size}} = 0x8000
+\begin{DoxyCompactList}\small\item\em Gets the default value for block size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}{Block\+Size}} = \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{Default\+Block\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the block size used for buffer creation in encryption and decryption. \end{DoxyCompactList}\item 
+static Version \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the version of the kes encryptor. \end{DoxyCompactList}\item 
+static \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95}{Minimum\+Supported\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the minimum supported version of the kes decryptor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{Crypto\+Provider}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}{Provider}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the crypto provider. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}{Progress\+Changed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report}{SAPTeam.\+Kryptor.\+Helpers.\+IProgress\+Report}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report_af821856547bc1dd04e0444306bae86a8}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Triggered when the work progress is changed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides methods to encrypt and decrypt data using the \doxylink{namespace_s_a_p_team_1_1_kryptor}{Kryptor} Encryption Standard (KES). 
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00012}{12}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!Kes@{Kes}}
+\index{Kes@{Kes}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{Kes()}{Kes()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ac4f98ab0421a2413273fbfa2ac57af36} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} configuration, int block\+Size=default) \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{Crypto\+Provider}} provider, int block\+Size=default) SAPTeam.\+Kryptor.\+Kes.\+Kes (\begin{DoxyParamCaption}\item[{int}]{block\+Size}{ = {\ttfamily default}}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes} class with a new instance of the requested crypto provider. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\+Store} & The keystore. \\
+\hline
+{\em configuration} & The configuration to initialize crypto provider. \\
+\hline
+{\em block\+Size} & The block size used to read and process data. \\
+\hline
+\end{DoxyParams}
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes} class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em provider} & The crypto provider. \\
+\hline
+{\em block\+Size} & The block size used to read and process data. \\
+\hline
+\end{DoxyParams}
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_kes}{Kes} class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em block\+Size} & The block size used to read and process data. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00087}{87}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_kes_8cs_source_l00024}{SAPTeam.\+Kryptor.\+Kes.\+Block\+Size}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptAsync@{DecryptAsync}}
+\index{DecryptAsync@{DecryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptAsync()}{DecryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts the given data stream and writes the decrypted data to the destination data stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of encrypted data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+\end{DoxyParams}
+
+
+Referenced by \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_abf3855d152088bf2a315a33629522239}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptAsync@{DecryptAsync}}
+\index{DecryptAsync@{DecryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptAsync()}{DecryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_abf3855d152088bf2a315a33629522239} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts the given data stream and writes the decrypted data to the destination data stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of encrypted data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00215}{215}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_header_8cs_source_l00034}{SAPTeam.\+Kryptor.\+Header.\+Engine\+Version}}, \mbox{\hyperlink{_kes_8cs_source_l00046}{SAPTeam.\+Kryptor.\+Kes.\+Minimum\+Supported\+Version}}, \mbox{\hyperlink{_header_8cs_source_l00029}{SAPTeam.\+Kryptor.\+Header.\+Version}}, and \mbox{\hyperlink{_kes_8cs_source_l00041}{SAPTeam.\+Kryptor.\+Kes.\+Version}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptBlockAsync@{DecryptBlockAsync}}
+\index{DecryptBlockAsync@{DecryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptBlockAsync()}{DecryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw encrypted data block.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Decrypted data block.
+\end{DoxyReturn}
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00361}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ae79efb4dee4b89f92cd67357eaf68a81}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptBlockAsync@{DecryptBlockAsync}}
+\index{DecryptBlockAsync@{DecryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptBlockAsync()}{DecryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ae79efb4dee4b89f92cd67357eaf68a81} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw encrypted data block.\\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Decrypted data block.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00361}{361}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a32ba4b94f7824c1226ec217c735da53d}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptBlockAsync@{DecryptBlockAsync}}
+\index{DecryptBlockAsync@{DecryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptBlockAsync()}{DecryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_af1370bcdec88047331fcd3802700aaa3} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw encrypted data block.\\
+\hline
+{\em process} & The crypto process data holder. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Decrypted data block.
+\end{DoxyReturn}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ae382fd5e0f975cfc49dff23429b24779}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DecryptBlockAsync@{DecryptBlockAsync}}
+\index{DecryptBlockAsync@{DecryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DecryptBlockAsync()}{DecryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ae382fd5e0f975cfc49dff23429b24779} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Decrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw encrypted data block.\\
+\hline
+{\em process} & The crypto process data holder. \\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Decrypted data block.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00389}{389}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_crypto_provider_8cs_source_l00142}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Decrypt\+Block\+Async()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{SAPTeam.\+Kryptor.\+Kes.\+Get\+Decryption\+Buffer\+Size()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{SAPTeam.\+Kryptor.\+Kes.\+Get\+Encryption\+Buffer\+Size()}}, and \mbox{\hyperlink{_kes_8cs_source_l00051}{SAPTeam.\+Kryptor.\+Kes.\+Provider}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptAsync@{EncryptAsync}}
+\index{EncryptAsync@{EncryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptAsync()}{EncryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_af7fd832b349ab24b0a9639637ebc07b7} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts the given data stream and writes the encrypted data to the destination stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of the source data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptAsync@{EncryptAsync}}
+\index{EncryptAsync@{EncryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptAsync()}{EncryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a4c7000cf1a87f09060610bccb7654b7c} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts the given data stream and writes the encrypted data to the destination stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of the source data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptAsync@{EncryptAsync}}
+\index{EncryptAsync@{EncryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptAsync()}{EncryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ab2ef4f395097250c6caa094a42d09d4b} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}}]{header}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts the given data stream and writes the encrypted data to the destination stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of the source data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+{\em header} & The header to write in the beginning of destination stream. if null, a new header will be created automatically. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_aff59dfe971bcde3acbd113533f056289}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptAsync@{EncryptAsync}}
+\index{EncryptAsync@{EncryptAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptAsync()}{EncryptAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_aff59dfe971bcde3acbd113533f056289} 
+async Task SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async (\begin{DoxyParamCaption}\item[{Stream}]{source}{, }\item[{Stream}]{dest}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}}]{header}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts the given data stream and writes the encrypted data to the destination stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & The stream of the source data with read access. \\
+\hline
+{\em dest} & The stream of destination target with write access. \\
+\hline
+{\em header} & The header to write in the beginning of destination stream. if null, a new header will be created automatically. \\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00163}{163}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_header_8cs_source_l00061}{SAPTeam.\+Kryptor.\+Header.\+Create\+Payload()}}, \mbox{\hyperlink{_kes_8cs_source_l00051}{SAPTeam.\+Kryptor.\+Kes.\+Provider}}, and \mbox{\hyperlink{_header_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Header.\+Verbosity}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptBlockAsync@{EncryptBlockAsync}}
+\index{EncryptBlockAsync@{EncryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptBlockAsync()}{EncryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw data block.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Encrypted data block.
+\end{DoxyReturn}
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00304}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ac424e84e620790c88808dede4bd49ee3}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptBlockAsync@{EncryptBlockAsync}}
+\index{EncryptBlockAsync@{EncryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptBlockAsync()}{EncryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ac424e84e620790c88808dede4bd49ee3} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw data block.\\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Encrypted data block.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00304}{304}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_ad31b8dcec2356370628c3293604d15f2}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptBlockAsync@{EncryptBlockAsync}}
+\index{EncryptBlockAsync@{EncryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptBlockAsync()}{EncryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a84ee01563f963a0aa505ea7e6f9f21fa} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw data block.\\
+\hline
+{\em process} & The crypto process data holder. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Encrypted data block.
+\end{DoxyReturn}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_ae009cba35622f3db9ef3a270a60614c1}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!EncryptBlockAsync@{EncryptBlockAsync}}
+\index{EncryptBlockAsync@{EncryptBlockAsync}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{EncryptBlockAsync()}{EncryptBlockAsync()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_ae009cba35622f3db9ef3a270a60614c1} 
+async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{data}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Encrypts block of data asynchronously. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The raw data block.\\
+\hline
+{\em process} & The crypto process data holder. \\
+\hline
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Encrypted data block.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00332}{332}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_crypto_provider_8cs_source_l00108}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Encrypt\+Block\+Async()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}{SAPTeam.\+Kryptor.\+Kes.\+Get\+Decryption\+Buffer\+Size()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}{SAPTeam.\+Kryptor.\+Kes.\+Get\+Encryption\+Buffer\+Size()}}, and \mbox{\hyperlink{_kes_8cs_source_l00051}{SAPTeam.\+Kryptor.\+Kes.\+Provider}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!GetDecryptionBufferSize@{GetDecryptionBufferSize}}
+\index{GetDecryptionBufferSize@{GetDecryptionBufferSize}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{GetDecryptionBufferSize()}{GetDecryptionBufferSize()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a39320b97cf153cfd6bd375d1f901959a} 
+int SAPTeam.\+Kryptor.\+Kes.\+Get\+Decryption\+Buffer\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{ = {\ttfamily default}}\end{DoxyParamCaption})}
+
+
+
+Gets max input buffer size for \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{Crypto\+Provider.\+Decrypt\+Block\+Async}. 
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00389}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}, and \mbox{\hyperlink{_kes_8cs_source_l00332}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!GetEncryptionBufferSize@{GetEncryptionBufferSize}}
+\index{GetEncryptionBufferSize@{GetEncryptionBufferSize}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{GetEncryptionBufferSize()}{GetEncryptionBufferSize()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_acb70eddfb597dc2ea129d52036d4aea1} 
+int SAPTeam.\+Kryptor.\+Kes.\+Get\+Encryption\+Buffer\+Size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{ = {\ttfamily default}}\end{DoxyParamCaption})}
+
+
+
+Gets max input buffer size for \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{Crypto\+Provider.\+Encrypt\+Block\+Async}. 
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00389}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}, and \mbox{\hyperlink{_kes_8cs_source_l00332}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!DefaultBlockSize@{DefaultBlockSize}}
+\index{DefaultBlockSize@{DefaultBlockSize}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{DefaultBlockSize}{DefaultBlockSize}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112} 
+const int SAPTeam.\+Kryptor.\+Kes.\+Default\+Block\+Size = 0x8000\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Gets the default value for block size. 
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_program_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Program.\+Get\+Root\+Command()}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!BlockSize@{BlockSize}}
+\index{BlockSize@{BlockSize}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{BlockSize}{BlockSize}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a53ccf1e15af2a421242ad06fcf98186a} 
+int SAPTeam.\+Kryptor.\+Kes.\+Block\+Size = \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_af8d615104a03887772598d3f637c9112}{Default\+Block\+Size}}\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the block size used for buffer creation in encryption and decryption. 
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00087}{SAPTeam.\+Kryptor.\+Kes.\+Kes()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!MinimumSupportedVersion@{MinimumSupportedVersion}}
+\index{MinimumSupportedVersion@{MinimumSupportedVersion}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{MinimumSupportedVersion}{MinimumSupportedVersion}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a513fba5dda8619ab23a15dc39dc56c95} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}{Version}} SAPTeam.\+Kryptor.\+Kes.\+Minimum\+Supported\+Version\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Gets the minimum supported version of the kes decryptor. 
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00046}{46}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00215}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async()}}, and \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!Provider@{Provider}}
+\index{Provider@{Provider}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{Provider}{Provider}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_a413fa2e82ad1ee24dbe260c3c59a99c9} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{Crypto\+Provider}} SAPTeam.\+Kryptor.\+Kes.\+Provider\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the crypto provider. 
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00389}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}, \mbox{\hyperlink{_kes_8cs_source_l00163}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async()}}, and \mbox{\hyperlink{_kes_8cs_source_l00332}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!Version@{Version}}
+\index{Version@{Version}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{Version}{Version}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_afe352604d0877c18c85efb7975b88f40} 
+Version SAPTeam.\+Kryptor.\+Kes.\+Version\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Gets the version of the kes encryptor. 
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00041}{41}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00215}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async()}}, and \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+
+
+\doxysubsection{Event Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659}\index{SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}!ProgressChanged@{ProgressChanged}}
+\index{ProgressChanged@{ProgressChanged}!SAPTeam.Kryptor.Kes@{SAPTeam.Kryptor.Kes}}
+\doxysubsubsection{\texorpdfstring{ProgressChanged}{ProgressChanged}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_kes_aa230a67d7f495b3e932f964517704659} 
+Event\+Handler$<$double$>$ SAPTeam.\+Kryptor.\+Kes.\+Progress\+Changed}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_kes_8cs_source_l00054}{54}} of file \mbox{\hyperlink{_kes_8cs_source}{Kes.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_kes_8cs}{Kes.\+cs}}\end{DoxyCompactItemize}

@@ -1,0 +1,127 @@
+\doxysection{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key}{}\label{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key}\index{SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}}
+
+
+Provides Standalone Key (SK) Crypto mechanism. In this way, each 31 bytes of data is encrypted with a different key Until all the keys are used, then it continues from the first key and this process continues until the end of encryption.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{d6/d32/class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a3425fa4fd0d5534def8fa034687ff5e5}{Standalone\+Key}} ()
+\begin{DoxyCompactList}\small\item\em Creates an empty crypto provider. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_adb7bcc7db935d24554f251cafe4907f9}{Standalone\+Key}} (\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} configuration=null)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key}{Standalone\+Key} class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{SAPTeam.\+Kryptor.\+Crypto\+Provider}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{Encrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts block of data asynchronously. \end{DoxyCompactList}\item 
+virtual async Task$<$ byte\mbox{[}$\,$\mbox{]}$>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{Decrypt\+Block\+Async}} (byte\mbox{[}$\,$\mbox{]} data, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Decrypts block of data asynchronously. \end{DoxyCompactList}\item 
+object \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a952e35bd97f5ff02bcfc2cb782a70591}{Clone}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override async Task$<$ IEnumerable$<$ byte $>$ $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a76c22eff1e8c4683f52a00e66353bc90}{Encrypt\+Chunk\+Async}} (byte\mbox{[}$\,$\mbox{]} chunk, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\item 
+override async Task$<$ IEnumerable$<$ byte $>$ $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a38e3fd931440f7523ae0f8ff3025b006}{Decrypt\+Chunk\+Async}} (byte\mbox{[}$\,$\mbox{]} cipher, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{SAPTeam.\+Kryptor.\+Crypto\+Provider}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_acc57d90780c392e32d2f2c6c247df642}{Apply\+Header}} (\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} configuration=null)
+\begin{DoxyCompactList}\small\item\em Initializes a new crypto provider. \end{DoxyCompactList}\item 
+Task$<$ IEnumerable$<$ byte $>$ $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1d8a34976c80b4589d3e741bd58afa2a}{Encrypt\+Chunk\+Async}} (byte\mbox{[}$\,$\mbox{]} chunk, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Encrypts chunk of data asynchronously. \end{DoxyCompactList}\item 
+Task$<$ IEnumerable$<$ byte $>$ $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_af93bf90de3a97a48c25406070af5a9ec}{Decrypt\+Chunk\+Async}} (byte\mbox{[}$\,$\mbox{]} chunk, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}} process, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Decrypts chunk of data asynchronously. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Package Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{SAPTeam.\+Kryptor.\+Crypto\+Provider}}}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{SAPTeam.\+Kryptor.\+Crypto\+Provider}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{Decryption\+Chunk\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the Decryption Chunk Size. \end{DoxyCompactList}\item 
+virtual int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{Encryption\+Chunk\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the Encryption Chunk Size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the configuration of this crypto provider instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_ad98d4fcae05b6d430cb7e0d225ebed23}{Key\+Store}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the keystore for crypto operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides Standalone Key (SK) Crypto mechanism. In this way, each 31 bytes of data is encrypted with a different key Until all the keys are used, then it continues from the first key and this process continues until the end of encryption. 
+
+Definition at line \mbox{\hyperlink{_standalone_key_8cs_source_l00009}{9}} of file \mbox{\hyperlink{_standalone_key_8cs_source}{Standalone\+Key.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a3425fa4fd0d5534def8fa034687ff5e5}\index{SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}!StandaloneKey@{StandaloneKey}}
+\index{StandaloneKey@{StandaloneKey}!SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}}
+\doxysubsubsection{\texorpdfstring{StandaloneKey()}{StandaloneKey()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a3425fa4fd0d5534def8fa034687ff5e5} 
+SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key.\+Standalone\+Key (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Creates an empty crypto provider. 
+
+
+
+Definition at line \mbox{\hyperlink{_standalone_key_8cs_source_l00014}{14}} of file \mbox{\hyperlink{_standalone_key_8cs_source}{Standalone\+Key.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_adb7bcc7db935d24554f251cafe4907f9}\index{SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}!StandaloneKey@{StandaloneKey}}
+\index{StandaloneKey@{StandaloneKey}!SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}}
+\doxysubsubsection{\texorpdfstring{StandaloneKey()}{StandaloneKey()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_adb7bcc7db935d24554f251cafe4907f9} 
+SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key.\+Standalone\+Key (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}}}]{key\+Store}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}}}]{configuration}{ = {\ttfamily null}}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key}{Standalone\+Key} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\+Store} & The keystore with at least 2 keys. \\
+\hline
+{\em configuration} & The configuration to initialize the crypto provider \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a38e3fd931440f7523ae0f8ff3025b006}\index{SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}!DecryptChunkAsync@{DecryptChunkAsync}}
+\index{DecryptChunkAsync@{DecryptChunkAsync}!SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}}
+\doxysubsubsection{\texorpdfstring{DecryptChunkAsync()}{DecryptChunkAsync()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a38e3fd931440f7523ae0f8ff3025b006} 
+override async Task$<$ IEnumerable$<$ byte $>$ $>$ SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key.\+Decrypt\+Chunk\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{cipher}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a76c22eff1e8c4683f52a00e66353bc90}\index{SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}!EncryptChunkAsync@{EncryptChunkAsync}}
+\index{EncryptChunkAsync@{EncryptChunkAsync}!SAPTeam.Kryptor.CryptoProviders.StandaloneKey@{SAPTeam.Kryptor.CryptoProviders.StandaloneKey}}
+\doxysubsubsection{\texorpdfstring{EncryptChunkAsync()}{EncryptChunkAsync()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_standalone_key_a76c22eff1e8c4683f52a00e66353bc90} 
+override async Task$<$ IEnumerable$<$ byte $>$ $>$ SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Standalone\+Key.\+Encrypt\+Chunk\+Async (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{chunk}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{Crypto\+Process}}}]{process}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_standalone_key_8cs}{Standalone\+Key.\+cs}}\end{DoxyCompactItemize}

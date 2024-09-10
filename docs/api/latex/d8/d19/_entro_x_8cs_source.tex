@@ -1,0 +1,124 @@
+\doxysection{Entro\+X.\+cs}
+\hypertarget{_entro_x_8cs_source}{}\label{_entro_x_8cs_source}\index{EntroX.cs@{EntroX.cs}}
+\mbox{\hyperlink{_entro_x_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Security.Cryptography;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{SAPTeam.Kryptor.Generators}}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00008}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x}{EntroX}}\ :\ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_generator}{IGenerator}}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{byte}[]\ entropy\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[8192];}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random}{CryptoRandom}}\ crng\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random}{CryptoRandom}}();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ SHA512\ \_sha512;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a0b9149c45afda4dfeeb97a0ac31e4221}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{event}\ EventHandler<double>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a0b9149c45afda4dfeeb97a0ac31e4221}{ProgressChanged}};}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x}{EntroX}}()}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Initialize\ entropy\ with\ some\ random\ data.}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ crng.NextBytes(entropy);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \_sha512\ =\ SHA512.Create();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_aabeba6d05c92e789685d9f40631d40d9}{Instance}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x}{EntroX}}();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00030}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_aabeba6d05c92e789685d9f40631d40d9}{00030}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x}{EntroX}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_aabeba6d05c92e789685d9f40631d40d9}{Instance}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00038}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_af8f7d00109670e6e7b743fb0679c2e31}{00038}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_af8f7d00109670e6e7b743fb0679c2e31}{EntroX}}(params\ \textcolor{keywordtype}{byte}[][]\ entropies)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\textcolor{keywordtype}{byte}[]\ data\ \textcolor{keywordflow}{in}\ entropies)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AddEntropyInternal(data);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00049}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a48ecce8edbaff2504594926e9db3c195}{00049}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a48ecce8edbaff2504594926e9db3c195}{Generate}}(\textcolor{keywordtype}{byte}[]\ buffer)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ TransformEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ totalProgress\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ tries\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ pos\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (pos\ <\ buffer.Length)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tries\ \%\ 10\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TransformEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ data\ =\ \_sha512.ComputeHash(entropy).Concat(QueryEntropy(24,\ 96)).ToArray();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Array.Copy(data,\ 0,\ buffer,\ pos,\ Math.Min(data.Length,\ buffer.Length\ -\/\ pos));}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ data.Length;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalProgress\ +=\ (double)data.Length\ /\ buffer.Length;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a0b9149c45afda4dfeeb97a0ac31e4221}{ProgressChanged}}?.Invoke(\textcolor{keyword}{this},\ totalProgress\ *\ 100);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tries++;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ TransformEntropy()}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <\ entropy.Length)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ tData\ =\ QueryEntropy(86,\ 384);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tData.CopyTo(entropy,\ i);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ tData.Length;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ QueryEntropy(\textcolor{keywordtype}{int}\ min,\ \textcolor{keywordtype}{int}\ max)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ picked\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[crng.Next(min,\ max)];}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ j\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (j\ <\ picked.Length)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ picked[j]\ =\ entropy[crng.Next(entropy.Length)];}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j++;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ tData\ =\ \_sha512.ComputeHash(picked);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tData;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00112}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_af57e054d8cb15c07b4ead3cf8cfe9a8c}{00112}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_af57e054d8cb15c07b4ead3cf8cfe9a8c}{AddEntropy}}(\textcolor{keywordtype}{byte}[]\ data)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ AddEntropyInternal(data);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateEntropy();}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddEntropyInternal(\textcolor{keywordtype}{byte}[]\ data)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\textcolor{keywordtype}{byte}\ i\ \textcolor{keywordflow}{in}\ data)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ crng.Next(entropy.Length);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entropy[n]\ =\ i;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ UpdateEntropy()}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ max\ =\ crng.Next(6,\ 12);}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <=\ max)}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AddEntropyInternal(\_sha512.ComputeHash(entropy));}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i++;}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entro_x_8cs_source_l00138}00138\ \}}
+
+\end{DoxyCode}

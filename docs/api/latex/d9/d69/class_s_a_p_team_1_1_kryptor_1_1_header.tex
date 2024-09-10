@@ -1,0 +1,220 @@
+\doxysection{SAPTeam.\+Kryptor.\+Header Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header}{}\label{class_s_a_p_team_1_1_kryptor_1_1_header}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+
+
+Specifies the data header.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+Header\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{d9/d69/class_s_a_p_team_1_1_kryptor_1_1_header}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+byte\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_aaaed606f3e910479da0941689400a789}{Create\+Payload}} ()
+\begin{DoxyCompactList}\small\item\em Exports the header contents as base64 encoded bytes array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static T \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a2c5f1a3a1669a9b0490e642d7c07ec33}{Read\+Header$<$ T $>$}} (Stream stream)
+\begin{DoxyCompactList}\small\item\em Reads the KES header of stream and skips the header area. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Version \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the version of the encryptor api backend. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a797d465df2b7bec75ffc2334e5f5f92d}{Engine\+Version}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the version of the encryptor engine. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{Header\+Verbosity}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the amount of details included in this header. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_ae58fb5f2c9215f79716b6ec6e1a18c64}{Block\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the file block size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a9e7aaed6020d24fa2603c5a71a001ac8}{Configuration}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the crypto provider configuration. \end{DoxyCompactList}\item 
+Dictionary$<$ string, string $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a8a0ca27281434d45ba8f7bc6f1471852}{Extra}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the extra header entries. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Specifies the data header. 
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00011}{11}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_aaaed606f3e910479da0941689400a789}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!CreatePayload@{CreatePayload}}
+\index{CreatePayload@{CreatePayload}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{CreatePayload()}{CreatePayload()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_aaaed606f3e910479da0941689400a789} 
+byte\mbox{[}$\,$\mbox{]} SAPTeam.\+Kryptor.\+Header.\+Create\+Payload (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Exports the header contents as base64 encoded bytes array. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Overflow\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00061}{61}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00163}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a2c5f1a3a1669a9b0490e642d7c07ec33}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!ReadHeader$<$ T $>$@{ReadHeader$<$ T $>$}}
+\index{ReadHeader$<$ T $>$@{ReadHeader$<$ T $>$}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{ReadHeader$<$ T $>$()}{ReadHeader< T >()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a2c5f1a3a1669a9b0490e642d7c07ec33} 
+static T SAPTeam.\+Kryptor.\+Header.\+Read\+Header$<$ T $>$ (\begin{DoxyParamCaption}\item[{Stream}]{stream}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the KES header of stream and skips the header area. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stream} & The data stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header} class. 
+\end{DoxyReturn}
+\begin{Desc}
+\item[Type Constraints]\begin{description}
+\item[{\em T} : {\em Header}]\item[{\em T} : {\em new()}]\end{description}
+\end{Desc}
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_header_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Header.\+Verbosity}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_ae58fb5f2c9215f79716b6ec6e1a18c64}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!BlockSize@{BlockSize}}
+\index{BlockSize@{BlockSize}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{BlockSize}{BlockSize}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_ae58fb5f2c9215f79716b6ec6e1a18c64} 
+int SAPTeam.\+Kryptor.\+Header.\+Block\+Size\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the file block size. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a9e7aaed6020d24fa2603c5a71a001ac8}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!Configuration@{Configuration}}
+\index{Configuration@{Configuration}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{Configuration}{Configuration}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a9e7aaed6020d24fa2603c5a71a001ac8} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} SAPTeam.\+Kryptor.\+Header.\+Configuration\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the crypto provider configuration. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00049}{49}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}, and \mbox{\hyperlink{_header_reader_session_host_8cs_source_l00011}{SAPTeam.\+Kryptor.\+Cli.\+Header\+Reader\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a797d465df2b7bec75ffc2334e5f5f92d}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!EngineVersion@{EngineVersion}}
+\index{EngineVersion@{EngineVersion}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{EngineVersion}{EngineVersion}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a797d465df2b7bec75ffc2334e5f5f92d} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}{Version}} SAPTeam.\+Kryptor.\+Header.\+Engine\+Version\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the version of the encryptor engine. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00215}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a8a0ca27281434d45ba8f7bc6f1471852}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!Extra@{Extra}}
+\index{Extra@{Extra}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{Extra}{Extra}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a8a0ca27281434d45ba8f7bc6f1471852} 
+Dictionary$<$string, string$>$ SAPTeam.\+Kryptor.\+Header.\+Extra\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the extra header entries. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00054}{54}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_header_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Header.\+Create()}}, and \mbox{\hyperlink{_header_reader_session_host_8cs_source_l00011}{SAPTeam.\+Kryptor.\+Cli.\+Header\+Reader\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!Verbosity@{Verbosity}}
+\index{Verbosity@{Verbosity}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{Verbosity}{Verbosity}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc} 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_aa3bfcf310a60520503fc3d281307dc84}{Header\+Verbosity}} SAPTeam.\+Kryptor.\+Header.\+Verbosity\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the amount of details included in this header. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00163}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Async()}}, \mbox{\hyperlink{_header_8cs_source_l00083}{SAPTeam.\+Kryptor.\+Header.\+Read\+Header$<$ T $>$()}}, \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}, and \mbox{\hyperlink{_header_reader_session_host_8cs_source_l00011}{SAPTeam.\+Kryptor.\+Cli.\+Header\+Reader\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0}\index{SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}!Version@{Version}}
+\index{Version@{Version}!SAPTeam.Kryptor.Header@{SAPTeam.Kryptor.Header}}
+\doxysubsubsection{\texorpdfstring{Version}{Version}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_header_a5ab449f803dcd16817b248cf5c01c0f0} 
+Version SAPTeam.\+Kryptor.\+Header.\+Version\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the version of the encryptor api backend. 
+
+
+
+Definition at line \mbox{\hyperlink{_header_8cs_source_l00029}{29}} of file \mbox{\hyperlink{_header_8cs_source}{Header.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_cli_header_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Cli\+Header.\+Create()}}, \mbox{\hyperlink{_kes_8cs_source_l00215}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async()}}, and \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_header_8cs}{Header.\+cs}}\end{DoxyCompactItemize}

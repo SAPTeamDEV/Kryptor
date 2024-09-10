@@ -1,0 +1,33 @@
+\doxysection{Internal\+Extensions.\+cs}
+\hypertarget{_internal_extensions_8cs_source}{}\label{_internal_extensions_8cs_source}\index{InternalExtensions.cs@{InternalExtensions.cs}}
+\mbox{\hyperlink{_internal_extensions_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}}}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }InternalExtensions}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Encode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{string}\ src)\ =>\ Encoding.UTF8.GetBytes(src);}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ Decode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ src)\ =>\ Encoding.UTF8.GetString(src);}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ Base64Encode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ src)\ =>\ Convert.ToBase64String(src);}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ Base64Encode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{string}\ src)\ =>\ src.Encode().Base64Encode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Base64EncodeToByte(\textcolor{keyword}{this}\ \textcolor{keywordtype}{string}\ src)\ =>\ src.Base64Encode().Encode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Base64EncodeToByte(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ src)\ =>\ src.Base64Encode().Encode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Base64Decode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{string}\ src)\ =>\ Convert.FromBase64String(src);}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Base64Decode(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ src)\ =>\ src.Decode().Base64Decode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ Base64DecodeToString(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ src)\ =>\ src.Base64Decode().Decode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ Base64DecodeToString(\textcolor{keyword}{this}\ \textcolor{keywordtype}{string}\ src)\ =>\ src.Base64Decode().Decode();}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_internal_extensions_8cs_source_l00027}00027\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,74 @@
+\doxysection{Crack\+Session.\+cs}
+\hypertarget{_crack_session_8cs_source}{}\label{_crack_session_8cs_source}\index{CrackSession.cs@{CrackSession.cs}}
+\mbox{\hyperlink{_crack_session_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Diagnostics;}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00006}\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze}{00006}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze}{SAPTeam.Kryptor.Cli.KeyStoreAnalyze}}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00008}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session}{CrackSession}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{Session}},\ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISessionHost}}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{SessionContainer}}\ container;}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{byte}[]\ test;}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00013}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_aa01fb5fa62c91db8e47019f88f7a5142}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Stopwatch\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_aa01fb5fa62c91db8e47019f88f7a5142}{CalcTimer}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00014}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ac827999ce8d87293d156c8a3dffa1fbd}{00014}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ac827999ce8d87293d156c8a3dffa1fbd}{Found}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a619aab3f5841643514a32d2e0389795a}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a619aab3f5841643514a32d2e0389795a}{Verbose}}\ =>\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00017}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ad8a20c77561aed07bdc54bed6315708d}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ad8a20c77561aed07bdc54bed6315708d}{CrackSession}}(\textcolor{keywordtype}{int}\ maxRunningSessions)}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ad11f185d08996f8498c5c1b897c4c58d}{Progress}}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ container\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{SessionContainer}}(\textcolor{keyword}{this},\ maxRunningSessions);}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_aa01fb5fa62c91db8e47019f88f7a5142}{CalcTimer}}\ =\ \textcolor{keyword}{new}\ Stopwatch();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00026}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a398228976d74f25ee7bcda9327de45af}{00026}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ async\ Task<bool>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a398228976d74f25ee7bcda9327de45af}{RunAsync}}(\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISessionHost}}\ sessionHost,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{Description}}\ =\ \textcolor{stringliteral}{"{}Calculating\ crack\ time"{}};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ sample\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{byte}[3]\ \{\ 127,\ 255,\ 255\ \};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ test\ =\ sample.Sha256();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_aa01fb5fa62c91db8e47019f88f7a5142}{CalcTimer}}.Start();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 256;\ i++)}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_sub_session}{CrackSubSession}}\ session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_sub_session}{CrackSubSession}}(i,\ test);}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ session.OnVerify\ +=\ StopTimer;}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a56dee88be5dac65f7bcfcdd2b7813b40}{NewSession}}(session,\ \textcolor{keyword}{false},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ await\ container.WaitAll(cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ StopTimer()}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_aa01fb5fa62c91db8e47019f88f7a5142}{CalcTimer}}.Stop();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ac827999ce8d87293d156c8a3dffa1fbd}{Found}}\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (CancellationTokenSource\ token\ \textcolor{keywordflow}{in}\ container.TokenSources)}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token.Cancel();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00058}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a53e4ed6212ac9179e4b97cb7c9b78b92}{00058}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a53e4ed6212ac9179e4b97cb7c9b78b92}{Start}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}\ context)\ =>\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ System.NotImplementedException();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00060}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ad3e764dd91048e64d137dd83b91d789a}{00060}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ad3e764dd91048e64d137dd83b91d789a}{End}}(\textcolor{keywordtype}{bool}\ cancelled)\ =>\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ System.NotImplementedException();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00062}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a56dee88be5dac65f7bcfcdd2b7813b40}{00062}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_a56dee88be5dac65f7bcfcdd2b7813b40}{NewSession}}(\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}\ session,\ \textcolor{keywordtype}{bool}\ autoRemove,\ \textcolor{keywordtype}{bool}\ autoStart)\ =>\ container.NewSession(session,\ autoRemove,\ autoStart);}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00064}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_af334fc8f1df6dd97618aa9b44a1da3ac}{00064}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_af334fc8f1df6dd97618aa9b44a1da3ac}{MonitorTask}}(Task\ task)\ =>\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ System.NotImplementedException();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00066}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ae3a5fb7d04f9513c7f3f5e02806a0533}{00066}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Task<TResponse>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_analyze_1_1_crack_session_ae3a5fb7d04f9513c7f3f5e02806a0533}{OnSessionRequest<TResponse>}}(\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}\ session,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{SessionRequest<TResponse>}}\ request,\ CancellationToken\ cancellationToken)\ =>\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ System.NotImplementedException();}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crack_session_8cs_source_l00068}00068\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,62 @@
+\doxysection{SAPTeam.\+Kryptor.\+IGenerator Interface Reference}
+\hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_i_generator}{}\label{interface_s_a_p_team_1_1_kryptor_1_1_i_generator}\index{SAPTeam.Kryptor.IGenerator@{SAPTeam.Kryptor.IGenerator}}
+
+
+Represents standard to generate random output.  
+
+
+Inheritance diagram for SAPTeam.\+Kryptor.\+IGenerator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.527273cm]{df/d0c/interface_s_a_p_team_1_1_kryptor_1_1_i_generator}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_generator_a49bca541b2f14055dee0987404ffee92}{Generate}} (byte\mbox{[}$\,$\mbox{]} buffer)
+\begin{DoxyCompactList}\small\item\em Fills the buffer with random values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report}{SAPTeam.\+Kryptor.\+Helpers.\+IProgress\+Report}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ double $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_helpers_1_1_i_progress_report_af821856547bc1dd04e0444306bae86a8}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Triggered when the work progress is changed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents standard to generate random output. 
+
+Definition at line \mbox{\hyperlink{_i_generator_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_i_generator_8cs_source}{IGenerator.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{interface_s_a_p_team_1_1_kryptor_1_1_i_generator_a49bca541b2f14055dee0987404ffee92}\index{SAPTeam.Kryptor.IGenerator@{SAPTeam.Kryptor.IGenerator}!Generate@{Generate}}
+\index{Generate@{Generate}!SAPTeam.Kryptor.IGenerator@{SAPTeam.Kryptor.IGenerator}}
+\doxysubsubsection{\texorpdfstring{Generate()}{Generate()}}
+{\footnotesize\ttfamily \label{interface_s_a_p_team_1_1_kryptor_1_1_i_generator_a49bca541b2f14055dee0987404ffee92} 
+void SAPTeam.\+Kryptor.\+IGenerator.\+Generate (\begin{DoxyParamCaption}\item[{byte\mbox{[}$\,$\mbox{]}}]{buffer}{}\end{DoxyParamCaption})}
+
+
+
+Fills the buffer with random values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & The output buffer. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_crypto_random_a98524a6057a1939a7e2094fb9194276b}{SAPTeam.\+Kryptor.\+Generators.\+Crypto\+Random}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_entro_x_a48ecce8edbaff2504594926e9db3c195}{SAPTeam.\+Kryptor.\+Generators.\+EntroX}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_safe_rng_aa709f7694d98ce955709086f9e8a7d2d}{SAPTeam.\+Kryptor.\+Generators.\+Safe\+Rng}}, and \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_unix_random_a0fdf47bc58945f6d342f5e73468fb1c9}{SAPTeam.\+Kryptor.\+Generators.\+Unix\+Random}}.
+
+
+
+Referenced by \mbox{\hyperlink{_key_store_random_load_session_8cs_source_l00020}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Random\+Load\+Session.\+Run\+Async()}}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_i_generator_8cs}{IGenerator.\+cs}}\end{DoxyCompactItemize}

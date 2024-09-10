@@ -1,0 +1,85 @@
+\doxysection{Crypto\+Extensions.\+cs}
+\hypertarget{_crypto_extensions_8cs_source}{}\label{_crypto_extensions_8cs_source}\index{CryptoExtensions.cs@{CryptoExtensions.cs}}
+\mbox{\hyperlink{_crypto_extensions_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Security.Cryptography;}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00003}\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{00003}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }CryptoExtensions}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Sha256(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (SHA256\ sha256\ =\ SHA256.Create())}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sha256.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Sha256(\textcolor{keyword}{this}\ Stream\ stream,\ \textcolor{keywordtype}{bool}\ startFromOrigin\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ curPos\ =\ stream.Position;}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (startFromOrigin\ \&\&\ stream.CanSeek)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream.Seek(0,\ SeekOrigin.Begin);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ hash;}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (SHA256\ sha256\ =\ SHA256.Create())}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hash\ =\ sha256.ComputeHash(stream);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (startFromOrigin\ \&\&\ stream.CanSeek)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stream.Seek(curPos,\ SeekOrigin.Begin);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hash;}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Sha384(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (SHA384\ sha384\ =\ SHA384.Create())}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sha384.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ Sha512(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (SHA512\ sha512\ =\ SHA512.Create())}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sha512.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ HmacSha256(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer,\ \textcolor{keywordtype}{byte}[]\ key)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (HMACSHA256\ hmacSha256\ =\ \textcolor{keyword}{new}\ HMACSHA256(key))}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hmacSha256.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ HmacSha384(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer,\ \textcolor{keywordtype}{byte}[]\ key)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (HMACSHA384\ hmacSha384\ =\ \textcolor{keyword}{new}\ HMACSHA384(key))}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hmacSha384.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ HmacSha512(\textcolor{keyword}{this}\ \textcolor{keywordtype}{byte}[]\ buffer,\ \textcolor{keywordtype}{byte}[]\ key)}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (HMACSHA512\ hmacSha512\ =\ \textcolor{keyword}{new}\ HMACSHA512(key))}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hmacSha512.ComputeHash(buffer);}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00120}00120\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_extensions_8cs_source_l00121}00121\ \}}
+
+\end{DoxyCode}

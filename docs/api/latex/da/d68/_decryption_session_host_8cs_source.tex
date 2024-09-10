@@ -1,0 +1,34 @@
+\doxysection{Decryption\+Session\+Host.\+cs}
+\hypertarget{_decryption_session_host_8cs_source}{}\label{_decryption_session_host_8cs_source}\index{DecryptionSessionHost.cs@{DecryptionSessionHost.cs}}
+\mbox{\hyperlink{_decryption_session_host_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00005}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host}{00005}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host}{DecryptionSessionHost}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host}{DataProcessingSessionHost}}}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00007}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host_add7b2a62bf899a2765e1791c32649595}{00007}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host_add7b2a62bf899a2765e1791c32649595}{DecryptionSessionHost}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{GlobalOptions}}\ globalOptions,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_options}{DataProcessingOptions}}\ options)\ :\ base(globalOptions,\ options)}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00012}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host_a2804db05f3cbe283af61c8052802f3a8}{00012}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_host_a2804db05f3cbe283af61c8052802f3a8}{Start}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}\ context)}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(context);}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ var\ sessionGroup\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0}{Container}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a9dc3510f10d643477d9c62f3348c598f}{SetSessionGroup}}(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{SessionGroup}}());}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_ab49ccf3e6089fa7f43b8b08e41f357b8}{EnumerateFiles}}((filePath,\ outputPath)\ =>}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session}{DecryptionSession}}\ session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session}{DecryptionSession}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}},\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a5df3d64bfc44e9b9e9227d71d242dfe0}{Configuration}},\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a0b7bf07772bae877efa4a3c55e304811}{BlockSize}},\ filePath,\ outputPath);}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}{NewSession}}(session,\ autoStart:\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_adf209ea79f7c20222f699d54cd8a4be0}{Container}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a957759bed87e665b037f850e559c77c6}{StartQueuedSessions}}();}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_data_processing_session_host_a3958427fca011c3b4234aed773572cdf}{GetSmartProgress}}(sessionGroup).Wait();}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_decryption_session_host_8cs_source_l00028}00028\ \}}
+
+\end{DoxyCode}

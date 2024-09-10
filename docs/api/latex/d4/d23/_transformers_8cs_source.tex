@@ -1,0 +1,121 @@
+\doxysection{Transformers.\+cs}
+\hypertarget{_transformers_8cs_source}{}\label{_transformers_8cs_source}\index{Transformers.cs@{Transformers.cs}}
+\mbox{\hyperlink{_transformers_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Security.Cryptography;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}};}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_generators}{SAPTeam.Kryptor.Generators}};}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor}{SAPTeam.Kryptor}}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }Transformers}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_i_tranformer}{ITranformer}}\ GetTranformer(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token}{TransformerToken}}\ token)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a3097e104cdfe393982a2f92cc9ec34e5}{TransformerName}})}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}generica"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}gen"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}g"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_generica}{Generica}}(token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a705190551fec69944c0fcd17f84abe8f}{SecretKey}},\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_adb3ca794a2fde1d3811edc04509ae8f6}{Salt}}\ ??\ GenerateSalt(token));}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}liteen"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}lite"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}l"{}}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_generators_1_1_lite_en}{LiteEn}}(token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a705190551fec69944c0fcd17f84abe8f}{SecretKey}},\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_adb3ca794a2fde1d3811edc04509ae8f6}{Salt}}\ ??\ GenerateSalt(token));}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\textcolor{stringliteral}{"{}Invalid\ transformer\ name:\ "{}}\ +\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a3097e104cdfe393982a2f92cc9ec34e5}{TransformerName}});}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ GenerateSalt(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token}{TransformerToken}}\ token)\ =>\ Pick(token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a705190551fec69944c0fcd17f84abe8f}{SecretKey}}.Sha256(),\ 16,\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a982b8fe2af4c114840a730e77ea883ff}{Rotate}}\ >\ 0\ ?\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a750a98d6030fbe740f902c373f7df93a}{KeySize}}\ *\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a982b8fe2af4c114840a730e77ea883ff}{Rotate}}\ :\ token.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_transformer_token_a750a98d6030fbe740f902c373f7df93a}{KeySize}}).ToArray();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ T[]\ Rotate<T>(T[]\ array,\ \textcolor{keywordtype}{int}\ positions)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ length\ =\ array.Length;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (length\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Array.Empty<T>();\ \textcolor{comment}{//\ Nothing\ to\ rotate}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Normalize\ the\ rotation\ amount\ (handle\ negative\ values\ and\ large\ rotations)}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ positions\ =\ ((positions\ \%\ length)\ +\ length)\ \%\ length;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Create\ a\ temporary\ array\ to\ store\ rotated\ elements}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ T[]\ rotatedArray\ =\ \textcolor{keyword}{new}\ T[length];}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ elements\ after\ rotation\ to\ the\ temporary\ array}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ newIndex\ =\ (i\ +\ positions)\ \%\ length;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rotatedArray[newIndex]\ =\ array[i];}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rotatedArray;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ IEnumerable<T>\ Pick<T>(IEnumerable<T>\ collection,\ \textcolor{keywordtype}{int}\ count,\ \textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ T[]\ array\ =\ collection.ToArray();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ Shuffle(array,\ seed);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Take\ the\ first\ 'count'\ items\ from\ the\ shuffled\ array}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ array.Take(Math.Min(count,\ array.Length));}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ T[]\ Mix<T>(\textcolor{keywordtype}{int}\ seed,\ params\ IEnumerable<T>[]\ collections)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ List<T>\ combinedList\ =\ \textcolor{keyword}{new}\ List<T>();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (IEnumerable<T>\ collection\ \textcolor{keywordflow}{in}\ collections)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ combinedList.AddRange(collection);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ T[]\ combinedArray\ =\ combinedList.ToArray();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ Shuffle(combinedArray,\ seed);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ combinedArray;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Shuffle<T>(T[]\ array,\ \textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using}\ (SHA256\ sha256\ =\ SHA256.Create())}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\ =\ array.Length;}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ n\ -\/\ 1;\ i\ >\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ a\ hash-\/based\ random\ index}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ hashBytes\ =\ sha256.ComputeHash(BitConverter.GetBytes(seed\ +\ i));}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ j\ =\ Math.Abs(BitConverter.ToInt32(hashBytes,\ 0))\ \%\ (i\ +\ 1);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Swap\ elements}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (array[j],\ array[i])\ =\ (array[i],\ array[j]);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ ToAbsInt32(IEnumerable<byte>\ collection,\ \textcolor{keywordtype}{int}\ seed)\ =>\ Math.Abs(ToInt32(collection,\ seed));}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ ToInt32(IEnumerable<byte>\ collection,\ \textcolor{keywordtype}{int}\ seed)\ =>\ BitConverter.ToInt32(Pick(collection,\ 4,\ seed).ToArray(),\ 0);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{long}\ ToInt64(IEnumerable<byte>\ collection,\ \textcolor{keywordtype}{int}\ seed)\ =>\ BitConverter.ToInt64(Pick(collection,\ 8,\ seed).ToArray(),\ 0);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ CreateKey(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ keyStore,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process)}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ seed\ =\ ToAbsInt32(process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}},\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}\ +\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}});}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ IEnumerable<byte>\ sets\ =\ Pick(keyStore.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store_a915c2bc45850f49ff277bebc78f5642a}{Keys}},\ (seed\ \%\ 8)\ +\ 1,\ seed).SelectMany(x\ =>\ x);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ mixed\ =\ Mix(seed,\ sets);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ IEnumerable<byte>\ key\ =\ Pick(mixed,\ 32,\ seed);}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ key.ToArray();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{byte}[]\ CreateIV(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ keyStore,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process)\ =>\ Pick(keyStore.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store_a915c2bc45850f49ff277bebc78f5642a}{Keys}},\ 1,\ (process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}}[5]\ \%\ (process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}}[19]\ +\ 4))\ -\/\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}).First().Take(16).ToArray();}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00189}00189\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transformers_8cs_source_l00190}00190\ \}}
+
+\end{DoxyCode}

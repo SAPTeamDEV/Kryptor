@@ -1,0 +1,175 @@
+\doxysection{SAPTeam.\+Kryptor.\+Crypto\+Process Struct Reference}
+\hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{}\label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+
+
+Holds data about the crypto process.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}{Initialize\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Initializes all properties. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{Chunk\+Index}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the index of the chunk being processed. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{Block\+Index}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the index of the block being processed. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a595bacd26f1a8e2d678728bc9bfb30f6}{Block\+Size}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the size of the block being processed. \end{DoxyCompactList}\item 
+byte\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{Block\+Hash}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the SHA256 hash of the block being processed. \end{DoxyCompactList}\item 
+Dictionary$<$ string, object $>$ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}{Block\+Data}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets custom data stored by crypto processors for this block. \end{DoxyCompactList}\item 
+Dictionary$<$ string, object $>$ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d}{Process\+Data}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets custom data stored by crypto processors for the entire process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Holds data about the crypto process. 
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!InitializeData@{InitializeData}}
+\index{InitializeData@{InitializeData}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{InitializeData()}{InitializeData()}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a81e60bcc4784fd332d48c0fd7d8daf53} 
+void SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Initializes all properties. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_crypto_process_8cs_source_l00033}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Data}}, \mbox{\hyperlink{_crypto_process_8cs_source_l00028}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Hash}}, \mbox{\hyperlink{_crypto_process_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Index}}, \mbox{\hyperlink{_crypto_process_8cs_source_l00013}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Chunk\+Index}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00038}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Process\+Data}}.
+
+
+
+Referenced by \mbox{\hyperlink{_kes_8cs_source_l00361}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Block\+Async()}}, and \mbox{\hyperlink{_kes_8cs_source_l00304}{SAPTeam.\+Kryptor.\+Kes.\+Encrypt\+Block\+Async()}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!BlockData@{BlockData}}
+\index{BlockData@{BlockData}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{BlockData}{BlockData}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_ae460dbf52b2f52dedde4fad4e2fee617} 
+Dictionary$<$string, object$>$ SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Data\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets custom data stored by crypto processors for this block. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!BlockHash@{BlockHash}}
+\index{BlockHash@{BlockHash}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{BlockHash}{BlockHash}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49} 
+byte \mbox{[}$\,$\mbox{]} SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Hash\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the SHA256 hash of the block being processed. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption_a4b870f27b37ee2b71ac07e3b99d278b8}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Decrypt\+Chunk\+Async()}}, \mbox{\hyperlink{_crypto_provider_8cs_source_l00108}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Encrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!BlockIndex@{BlockIndex}}
+\index{BlockIndex@{BlockIndex}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{BlockIndex}{BlockIndex}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df} 
+int SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the index of the block being processed. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_crypto_provider_8cs_source_l00142}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Decrypt\+Block\+Async()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption_a4b870f27b37ee2b71ac07e3b99d278b8}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Decrypt\+Chunk\+Async()}}, \mbox{\hyperlink{_crypto_provider_8cs_source_l00108}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Encrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a595bacd26f1a8e2d678728bc9bfb30f6}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!BlockSize@{BlockSize}}
+\index{BlockSize@{BlockSize}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{BlockSize}{BlockSize}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a595bacd26f1a8e2d678728bc9bfb30f6} 
+int SAPTeam.\+Kryptor.\+Crypto\+Process.\+Block\+Size\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the size of the block being processed. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption_a4b870f27b37ee2b71ac07e3b99d278b8}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Decrypt\+Chunk\+Async()}}.
+
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!ChunkIndex@{ChunkIndex}}
+\index{ChunkIndex@{ChunkIndex}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{ChunkIndex}{ChunkIndex}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515} 
+int SAPTeam.\+Kryptor.\+Crypto\+Process.\+Chunk\+Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the index of the chunk being processed. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00013}{13}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_crypto_provider_8cs_source_l00142}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Decrypt\+Block\+Async()}}, \mbox{\hyperlink{_crypto_provider_8cs_source_l00108}{SAPTeam.\+Kryptor.\+Crypto\+Provider.\+Encrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+\Hypertarget{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d}\index{SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}!ProcessData@{ProcessData}}
+\index{ProcessData@{ProcessData}!SAPTeam.Kryptor.CryptoProcess@{SAPTeam.Kryptor.CryptoProcess}}
+\doxysubsubsection{\texorpdfstring{ProcessData}{ProcessData}}
+{\footnotesize\ttfamily \label{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a79ae3d2618fcb6694b47fbcf31221f5d} 
+Dictionary$<$string, object$>$ SAPTeam.\+Kryptor.\+Crypto\+Process.\+Process\+Data\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets custom data stored by crypto processors for the entire process. 
+
+
+
+Definition at line \mbox{\hyperlink{_crypto_process_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_crypto_process_8cs_source}{Crypto\+Process.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_dynamic_encryption_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Decrypt\+Block\+Async()}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption_a4b870f27b37ee2b71ac07e3b99d278b8}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Decrypt\+Chunk\+Async()}}, \mbox{\hyperlink{_dynamic_encryption_8cs_source_l00032}{SAPTeam.\+Kryptor.\+Crypto\+Providers.\+Dynamic\+Encryption.\+Encrypt\+Block\+Async()}}, and \mbox{\hyperlink{_crypto_process_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Crypto\+Process.\+Initialize\+Data()}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_crypto_process_8cs}{Crypto\+Process.\+cs}}\end{DoxyCompactItemize}

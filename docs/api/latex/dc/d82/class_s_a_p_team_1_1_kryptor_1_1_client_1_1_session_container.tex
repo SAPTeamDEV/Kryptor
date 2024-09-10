@@ -1,0 +1,419 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+Session\+Container Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{}\label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+
+
+Represents container to store sessions.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4cbeb1d1dd6e6121bf45d9180cd768d0}{Add}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}} session\+Holder)
+\begin{DoxyCompactList}\small\item\em Adds new session to the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a6b23554bd5af272950bac79c79752af1}{Add\+Monitoring\+Task}} (Task task)
+\begin{DoxyCompactList}\small\item\em Adds just a task to \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4c2557208da370bac85c8703d15e11d2}{Tasks}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ab64620e56b7173a35ede386fb0b92b65}{Remove}} (int id)
+\begin{DoxyCompactList}\small\item\em Removes an entry from the container. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa86f7ab118f5454395b65a9675253f2a}{Session\+Container}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, int max\+Running\+Sessions)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{Session\+Container} class. \end{DoxyCompactList}\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_abf3c02a55b37fad54db6136ccee4d858}{Wait\+All}} (Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Waits until all sessions have been ended. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a317833ef53eee5db350abde0d9f5e2f7}{Wait\+For\+Running\+Tasks}} ()
+\begin{DoxyCompactList}\small\item\em Waits for all running tasks at the moment to end. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aed2b3d240aeb3c16d86d0832023ee513}{Cancel}} ()
+\begin{DoxyCompactList}\small\item\em Sends cancellation request to all cancellation tokens in this container. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a9dc3510f10d643477d9c62f3348c598f}{Set\+Session\+Group}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}} session\+Group)
+\begin{DoxyCompactList}\small\item\em Sets the provided {\itshape session\+Group}  as the Session\+Manager\textquotesingle{}s cache system. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a77cb6c6290c11cbb93dcbf55338baa62}{New\+Session}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, bool auto\+Remove, bool auto\+Start)
+\begin{DoxyCompactList}\small\item\em Starts a new session in this container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a957759bed87e665b037f850e559c77c6}{Start\+Queued\+Sessions}} ()
+\begin{DoxyCompactList}\small\item\em Starts registered sessions in a managed way. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa41d01967524247d60d85d168a2257d4}{Wrap\+Session}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, bool auto\+Remove)
+\begin{DoxyCompactList}\small\item\em Wraps the given {\itshape session}  into a \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a0b228d68a31ec04d687bacbbf5b9b798}{Sessions}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets an array of all sessions. \end{DoxyCompactList}\item 
+Task\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4c2557208da370bac85c8703d15e11d2}{Tasks}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets an array of all tasks. \end{DoxyCompactList}\item 
+Cancellation\+Token\+Source\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ae10391f1f2edd9d4279c3920002a3069}{Token\+Sources}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets an array of all cancellation tokens. \end{DoxyCompactList}\item 
+ICollection$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_adb01b4072b6acec8fec21643d6ae6959}{Holders}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets all session holders. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a7c2c6200b867f9235a7275e26686ced5}{Max\+Running\+Sessions}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets or sets the maximum allowed running sessions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents container to store sessions. 
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00005}{5}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa86f7ab118f5454395b65a9675253f2a}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!SessionContainer@{SessionContainer}}
+\index{SessionContainer@{SessionContainer}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{SessionContainer()}{SessionContainer()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa86f7ab118f5454395b65a9675253f2a} 
+SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Session\+Container (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}}}]{session\+Host}{, }\item[{int}]{max\+Running\+Sessions}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container}{Session\+Container} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em max\+Running\+Sessions} & The maximum allowed running sessions. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_manager_8cs_source_l00015}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Max\+Running\+Sessions}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4cbeb1d1dd6e6121bf45d9180cd768d0}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Add@{Add}}
+\index{Add@{Add}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4cbeb1d1dd6e6121bf45d9180cd768d0} 
+int SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}}}]{session\+Holder}{}\end{DoxyParamCaption})}
+
+
+
+Adds new session to the container. 
+
+\begin{DoxyReturn}{Returns}
+The unique identifier of this entry.
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00063}{63}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_manager_8cs_source_l00145}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+New\+Session()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a6b23554bd5af272950bac79c79752af1}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!AddMonitoringTask@{AddMonitoringTask}}
+\index{AddMonitoringTask@{AddMonitoringTask}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{AddMonitoringTask()}{AddMonitoringTask()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a6b23554bd5af272950bac79c79752af1} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Add\+Monitoring\+Task (\begin{DoxyParamCaption}\item[{Task}]{task}{}\end{DoxyParamCaption})}
+
+
+
+Adds just a task to \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4c2557208da370bac85c8703d15e11d2}{Tasks}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & The task to be added. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00081}{81}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aed2b3d240aeb3c16d86d0832023ee513}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Cancel@{Cancel}}
+\index{Cancel@{Cancel}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Cancel()}{Cancel()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aed2b3d240aeb3c16d86d0832023ee513} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Cancel (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Sends cancellation request to all cancellation tokens in this container. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00077}{77}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_container_8cs_source_l00037}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Token\+Sources}}.
+
+
+
+Referenced by \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End()}}, and \mbox{\hyperlink{_session_manager_8cs_source_l00045}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wait\+All()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a77cb6c6290c11cbb93dcbf55338baa62}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!NewSession@{NewSession}}
+\index{NewSession@{NewSession}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{NewSession()}{NewSession()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a77cb6c6290c11cbb93dcbf55338baa62} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+New\+Session (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{, }\item[{bool}]{auto\+Remove}{, }\item[{bool}]{auto\+Start}{}\end{DoxyParamCaption})}
+
+
+
+Starts a new session in this container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+{\em auto\+Remove} & Determines whether to automatically remove session after end. \\
+\hline
+{\em auto\+Start} & Determines whether to automatically call the session manager\textquotesingle{}s task schedular to start the session. This value is ignored when a valid session group was set. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00145}{145}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_container_8cs_source_l00063}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Add()}}, \mbox{\hyperlink{_session_group_storage_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Add()}}, \mbox{\hyperlink{_session_manager_8cs_source_l00208}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Start\+Queued\+Sessions()}}, \mbox{\hyperlink{_session_group_storage_8cs_source_l00028}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Throw\+If\+Locked()}}, and \mbox{\hyperlink{_session_manager_8cs_source_l00174}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wrap\+Session()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ab64620e56b7173a35ede386fb0b92b65}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Remove@{Remove}}
+\index{Remove@{Remove}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ab64620e56b7173a35ede386fb0b92b65} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Remove (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Removes an entry from the container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The unique identifier returned by Add call. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00096}{96}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a9dc3510f10d643477d9c62f3348c598f}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!SetSessionGroup@{SetSessionGroup}}
+\index{SetSessionGroup@{SetSessionGroup}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{SetSessionGroup()}{SetSessionGroup()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a9dc3510f10d643477d9c62f3348c598f} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}} SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Set\+Session\+Group (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group}}}]{session\+Group}{}\end{DoxyParamCaption})}
+
+
+
+Sets the provided {\itshape session\+Group}  as the Session\+Manager\textquotesingle{}s cache system. 
+
+The provided session group must be unused and unlocked. If a session group is already set, it must be fully finnished, otherwise it will throw a Invalid\+Operation\+Exception. A new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{Session\+Group} class is always unlocked. It\textquotesingle{}s highly recommended to use a new session group. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Group} & A new session group with unlocked status. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\itshape session\+Group}  
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & \\
+\hline
+{\em Argument\+Null\+Exception} & \\
+\hline
+{\em Argument\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00101}{101}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_group_storage_8cs_source_l00022}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Is\+Locked}}.
+
+
+
+Referenced by \mbox{\hyperlink{_decryption_session_host_8cs_source_l00012}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_encryption_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a957759bed87e665b037f850e559c77c6}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!StartQueuedSessions@{StartQueuedSessions}}
+\index{StartQueuedSessions@{StartQueuedSessions}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{StartQueuedSessions()}{StartQueuedSessions()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a957759bed87e665b037f850e559c77c6} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Start\+Queued\+Sessions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Starts registered sessions in a managed way. 
+
+This is the core of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{Session} based Application Model logic. This task scheduler logic works with checking the number of running sessions (sessions with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aa5bda814c4aedb126839228f1a3d92f09}{Session\+Status.\+Running}) and checking the waiting sessions (sessions with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started} and be ready). The ready to run sessions determined by calling the \doxylink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}{ISession.\+Is\+Ready(\+Cancellation\+Token)} method, if the return value is {\ttfamily true} the session will be added to the waiting list, otherwise it will be ignored and rechecked at the next run of the task scheduler. There is some important notes about this process. 
+
+The task scheduler only runs after each \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a77cb6c6290c11cbb93dcbf55338baa62}{New\+Session(\+ISession, bool, bool)}calls and session ends. so if there is two sessions and the second session does not get ready until first session end, the task scheduler won\textquotesingle{}t try to run that session and it will stuck at waiting status. 
+
+The \doxylink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}{ISession.\+Is\+Ready(\+Cancellation\+Token)} should not throw ANY exceptions at all. it may break the scheduler. Although there is some layers to handle exceptions, but the \doxylink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}{ISession.\+Is\+Ready(\+Cancellation\+Token)} is only allwed to response with {\ttfamily true} or {\ttfamily false}. 
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00208}{208}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End()}}, \mbox{\hyperlink{_session_manager_8cs_source_l00145}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+New\+Session()}}, \mbox{\hyperlink{_decryption_session_host_8cs_source_l00012}{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_encryption_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_abf3c02a55b37fad54db6136ccee4d858}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!WaitAll@{WaitAll}}
+\index{WaitAll@{WaitAll}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{WaitAll()}{WaitAll()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_abf3c02a55b37fad54db6136ccee4d858} 
+async Task SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wait\+All (\begin{DoxyParamCaption}\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})}
+
+
+
+Waits until all sessions have been ended. 
+
+This method also waits for sessions that are not started yet. If the {\itshape cancellation\+Token}  was cancelled, this method will cancel all existing tokens in this container and waits for all of them to end. This method intended to be used by sub-\/session models. in standard session host based model, the monitoring, cancelling and ending is managed by various parts. But in sub-\/session models, you could achieve all of these features in this method. Using this method in session host is not recommended at all because this method is not intended for that porpose. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancellation\+Token} & The token to monitor for cancellation requests. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_manager_8cs_source_l00077}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Cancel()}}, and \mbox{\hyperlink{_session_container_8cs_source_l00019}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Sessions}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a317833ef53eee5db350abde0d9f5e2f7}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!WaitForRunningTasks@{WaitForRunningTasks}}
+\index{WaitForRunningTasks@{WaitForRunningTasks}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{WaitForRunningTasks()}{WaitForRunningTasks()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a317833ef53eee5db350abde0d9f5e2f7} 
+void SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wait\+For\+Running\+Tasks (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Waits for all running tasks at the moment to end. 
+
+This method just waits for running tasks and does not care about waiting sessions (as they don\textquotesingle{}t have a registered task). A Task must be registered by \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a6b23554bd5af272950bac79c79752af1}{Add\+Monitoring\+Task(\+Task)} that waits for not started sessions before calling this method. This method only intended to be used in \doxylink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host_aa81e617c6aa1bd543591f3e2f3b64d86}{ISession\+Host.\+End(bool)}. so using it in sub-\/session models is not recommended as it could be lead to unexpected session exit and losing control of sub-\/sessions. it\textquotesingle{}s highly recommended to use \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_abf3c02a55b37fad54db6136ccee4d858}{Wait\+All(\+Cancellation\+Token)} method in that situation. 
+
+Referenced by \mbox{\hyperlink{src_2_kryptor_8_client_2_session_host_8cs_source_l00036}{SAPTeam.\+Kryptor.\+Client.\+Session\+Host.\+End()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa41d01967524247d60d85d168a2257d4}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!WrapSession@{WrapSession}}
+\index{WrapSession@{WrapSession}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{WrapSession()}{WrapSession()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_aa41d01967524247d60d85d168a2257d4} 
+static \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}} SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wrap\+Session (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{, }\item[{bool}]{auto\+Remove}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Wraps the given {\itshape session}  into a \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+{\em auto\+Remove} & Determines whether to automatically remove session after end. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00174}{174}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_i_session_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+ISession.\+Status}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_manager_8cs_source_l00145}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+New\+Session()}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_adb01b4072b6acec8fec21643d6ae6959}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Holders@{Holders}}
+\index{Holders@{Holders}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Holders}{Holders}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_adb01b4072b6acec8fec21643d6ae6959} 
+ICollection$<$\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder}}$>$ SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Holders\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets all session holders. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00049}{49}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a7c2c6200b867f9235a7275e26686ced5}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!MaxRunningSessions@{MaxRunningSessions}}
+\index{MaxRunningSessions@{MaxRunningSessions}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{MaxRunningSessions}{MaxRunningSessions}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a7c2c6200b867f9235a7275e26686ced5} 
+int SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Max\+Running\+Sessions\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets or sets the maximum allowed running sessions. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_manager_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_session_manager_8cs_source}{Session\+Manager.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_manager_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Session\+Container()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a0b228d68a31ec04d687bacbbf5b9b798}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Sessions@{Sessions}}
+\index{Sessions@{Sessions}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Sessions}{Sessions}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a0b228d68a31ec04d687bacbbf5b9b798} 
+\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} \mbox{[}$\,$\mbox{]} SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Sessions\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets an array of all sessions. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{cli_2_kryptor_8_cli_8_shared_2_key_store_analyze_2_session_host_8cs_source_l00018}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Store\+Analyze.\+Session\+Host.\+Start()}}, \mbox{\hyperlink{_query_session_host_8cs_source_l00016}{SAPTeam.\+Kryptor.\+Cli.\+Wordlist.\+Query\+Session\+Host.\+Start()}}, and \mbox{\hyperlink{_session_manager_8cs_source_l00045}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Wait\+All()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4c2557208da370bac85c8703d15e11d2}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!Tasks@{Tasks}}
+\index{Tasks@{Tasks}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{Tasks}{Tasks}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_a4c2557208da370bac85c8703d15e11d2} 
+Task \mbox{[}$\,$\mbox{]} SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Tasks\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets an array of all tasks. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ae10391f1f2edd9d4279c3920002a3069}\index{SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}!TokenSources@{TokenSources}}
+\index{TokenSources@{TokenSources}!SAPTeam.Kryptor.Client.SessionContainer@{SAPTeam.Kryptor.Client.SessionContainer}}
+\doxysubsubsection{\texorpdfstring{TokenSources}{TokenSources}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_container_ae10391f1f2edd9d4279c3920002a3069} 
+Cancellation\+Token\+Source \mbox{[}$\,$\mbox{]} SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Token\+Sources\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets an array of all cancellation tokens. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_container_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_session_container_8cs_source}{Session\+Container.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_manager_8cs_source_l00077}{SAPTeam.\+Kryptor.\+Client.\+Session\+Container.\+Cancel()}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_session_container_8cs}{Session\+Container.\+cs}}\item 
+\mbox{\hyperlink{_session_manager_8cs}{Session\+Manager.\+cs}}\end{DoxyCompactItemize}

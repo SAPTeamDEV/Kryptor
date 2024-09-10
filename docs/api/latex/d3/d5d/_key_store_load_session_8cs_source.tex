@@ -1,0 +1,44 @@
+\doxysection{Key\+Store\+Load\+Session.\+cs}
+\hypertarget{_key_store_load_session_8cs_source}{}\label{_key_store_load_session_8cs_source}\index{KeyStoreLoadSession.cs@{KeyStoreLoadSession.cs}}
+\mbox{\hyperlink{_key_store_load_session_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli}{SAPTeam.Kryptor.Cli}}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00005}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session}{00005}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{abstract}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session}{KeyStoreLoadSession}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{Session}}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00007}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_a7f0a9087fb341bc726eb03b2405af4ec}{00007}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{protected}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00009}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ac5f492a86ef2a13d689a027d6b2c8145}{00009}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ac5f492a86ef2a13d689a027d6b2c8145}{ShowFingerprint}}\ \{\ \textcolor{keyword}{get};\ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00011}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ab177095ebb1524105562d0388e7ce393}{00011}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ab177095ebb1524105562d0388e7ce393}{KeyStoreLoadSession}}(\textcolor{keywordtype}{bool}\ showFingerprint)}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ac5f492a86ef2a13d689a027d6b2c8145}{ShowFingerprint}}\ =\ showFingerprint;}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a0165bb649c3434bd8635d50c24bccd8a}{SessionEnded}}\ +=\ TransferData;}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ TransferData(\textcolor{keywordtype}{object}\ sender,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{SessionEventArgs}}\ e)}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (e.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args_a7188eaa796f84ec5ddba71a5305f8a95}{EndReason}}\ ==\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_ac7997acf12e1bf4d3d24f165177e455d}{SessionEndReason}}.Completed)}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a832eb31584926dce33f432191f6dd5e9}{Dependents}}.OfType<\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_file_save_session}{FileSaveSession}}>().ForEach(x\ =>}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(x.FilePath))}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x.FilePath\ =\ BitConverter.ToString(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store_a13eeddb6bcec7c0663c13ea9502a4472}{Fingerprint}}).Replace(\textcolor{stringliteral}{"{}-\/"{}},\ \textcolor{stringliteral}{"{}"{}}).ToLower()\ +\ \textcolor{stringliteral}{"{}.kks"{}};}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.Data\ ==\ \textcolor{keyword}{null}\ ||\ x.Data.Length\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x.Data\ =\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store_a43d431b918a4fc357132e26cd457f526}{Raw}};}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00036}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_aa0af00209e7ed90c5cf4d8fc5daa6791}{00036}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_aa0af00209e7ed90c5cf4d8fc5daa6791}{SetEndDescription}}()\ =>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{Description}}\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_key_store_load_session_ac5f492a86ef2a13d689a027d6b2c8145}{ShowFingerprint}}\ ?\ \$\textcolor{stringliteral}{"{}Keystore\ fingerprint:\ \{KeyStore.Fingerprint.FormatFingerprint()\}"{}}\ :\ \textcolor{stringliteral}{"{}Keystore\ loaded"{}};}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_key_store_load_session_8cs_source_l00038}00038\ \}}
+
+\end{DoxyCode}

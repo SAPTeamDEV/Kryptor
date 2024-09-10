@@ -1,0 +1,250 @@
+\doxysection{SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session}{}\label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session}\index{SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}}
+Inheritance diagram for SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{db/d9e/class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a497e7acb87f506c77f41142f9b858b47}{Decryption\+Session}} (\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}} configuration, int block\+Size, string file, string output\+Path)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{SAPTeam.\+Kryptor.\+Client.\+Session}}}
+\begin{DoxyCompactItemize}
+\item 
+async Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ae4d4f28145e5eb7c49c5d1221ae45f1d}{Start\+Async}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Starts the task asynchronously.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A new Task representation of the session. 
+\end{DoxyReturn}
+ \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_acc4973d4de42592644cb833c1346278f}{Continue\+With}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session)
+\begin{DoxyCompactList}\small\item\em Sets this session as dependency for the given {\itshape session} . The session waits for this session to successfully end.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & A session with status \doxylink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962aafa7be7845bc42b3491d9d0377958be94}{Session\+Status.\+Not\+Started}. \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a4a1bf632bc24edb1b027fb696a99e206}{Add\+Dependency}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session)
+\begin{DoxyCompactList}\small\item\em Adds the given {\itshape session}  as dependency. this session won\textquotesingle{}t start unless all dependecy session completed successfully. All dependencies must be set before starting the session otherwise it won\textquotesingle{}t have any effects.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & The session to be added as dependency. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the {\itshape session}  is added to the dependency list and {\ttfamily false} if the {\itshape session}  is not added because this session already started or duplicated {\itshape session} . 
+\end{DoxyReturn}
+ \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeff558e2dac41be9e97f69134a154030}{Is\+Ready}} (Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Asks from session whether it could be started right now.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the session has been ready and {\ttfamily false} when it\textquotesingle{}s not ready.
+\end{DoxyReturn}
+ \end{DoxyCompactList}\item 
+virtual async Task$<$ TResponse $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a3d7731dc29861a019ded8695ac0b30ac}{Send\+Request$<$ TResponse $>$}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_request}{Session\+Request}}$<$ TResponse $>$ request, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Pauses this session and sends the request to the {\itshape session\+Host}  to process the request.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em request} & The request data. \\
+\hline
+{\em cancellation\+Token} & A cancellation token to monitor the task. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em TResponse} & The type of requested response from user. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+The response of the end user. 
+\end{DoxyReturn}
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{SAPTeam.\+Kryptor.\+Client.\+ISession}}}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override async Task$<$ bool $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a2f0d85c6749d462fe24b9ef0eaafaf41}{Run\+Async}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, Cancellation\+Token cancellation\+Token)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{SAPTeam.\+Kryptor.\+Client.\+Session}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a2389baf7b040a040951aaa6503c7f492}{Session}} ()
+\begin{DoxyCompactList}\small\item\em Sets all session properties to their default data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a7389e5f0f30523c07a4e8971736fef3f}{On\+Session\+Started}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a6e43ad3bcae1e705880d6d39551c7021}{Session\+Started} event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a639966d861993f981965ded870760adf}{On\+Progress\+Changed}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a33060b95a0580b58670b4d464049942f}{Progress\+Changed} event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a17dff68538d818984154eb6524fccb6d}{On\+Description\+Changed}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a9a931090c8505911b5dd9aa3bfb1dc0e}{Description\+Changed} event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a4fbcbe2652dfaa7b36751d423edbb8aa}{On\+Pause\+Status\+Changed}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a5aa1474fbdffa022c0da3d4b2a7089a7}{Session\+Paused} or \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ae50ade35f141f8e260a19cae1e14a10d}{Session\+Resumed} events. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a3c7a77d29248eb6eaaa778b9a69af51d}{On\+Status\+Changed}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a80b89cb839327da3e86a19a189a09d3e}{Status\+Changed} event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_add1d71eadca6355ea47dc800258c4db6}{On\+Session\+Ended}} ()
+\begin{DoxyCompactList}\small\item\em Triggers the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a0165bb649c3434bd8635d50c24bccd8a}{Session\+Ended} event. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aabcb4003b693465543348c73373cc548}{Throw\+If\+Not\+Started}} ()
+\begin{DoxyCompactList}\small\item\em Throws an Invalid\+Operation\+Exception if the session is not started. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ab4f133306070e6e18c84740e4d21f334}{Throw\+If\+Ended}} ()
+\begin{DoxyCompactList}\small\item\em Throws an Invalid\+Operation\+Exception if the session is ended. \end{DoxyCompactList}\item 
+Task$<$ bool $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_acdc2b114a3fa44477458cac68cde02d5}{Run\+Async}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, Cancellation\+Token cancellation\+Token)
+\begin{DoxyCompactList}\small\item\em Starts the session in a managed manner. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+override string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_ab7c233ec1d4cf6135455cdb286dabb6a}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the user-\/friendly name of the session. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{SAPTeam.\+Kryptor.\+Client.\+Session}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a973207a08085debd0dd108a96d5e45f0}{Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the user-\/friendly name of the session. \end{DoxyCompactList}\item 
+virtual double \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ad11f185d08996f8498c5c1b897c4c58d}{Progress}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the progress percentage of this session. \end{DoxyCompactList}\item 
+virtual string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aeece2b1ec8342121f0a90ea24e812be7}{Description}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the description of this session. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a7d6a0ccf6497306d7051786c8ce45d63}{Is\+Running}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is running. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a1be7afaf3bb39655e97c0bab44224a19}{Is\+Paused}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is paused. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ab0c332c714f74487c03b51ffd16184ca}{Is\+Hidden}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets whether this session is hidden. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962a}{Session\+Status}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aec393d98720570571a6eb717596497b8}{Status}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the current status of the session. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_ac7997acf12e1bf4d3d24f165177e455d}{Session\+End\+Reason}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_afa848840d4c02acddcfe85fbbe1edec2}{End\+Reason}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the reason of ending the session. \end{DoxyCompactList}\item 
+Exception \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a894a60b07e1af1473515eed56266b272}{Exception}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, protected set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the thrown exception during session run. \end{DoxyCompactList}\item 
+Stopwatch \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a806116b667d31ac9dc8dbe0daac8717e}{Timer}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the stopwatch for this session. \end{DoxyCompactList}\item 
+List$<$ string $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a50d1681aa5ca96e490b32d98848bd66f}{Messages}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the message queue of the session. All message will be handled and shown by client application. \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aecf9f5b8080dbf95da1f883628a2afaa}{Dependencies}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the dependency list of the session. This session only starts when all of dependency sessions where completed successfully. \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a832eb31584926dce33f432191f6dd5e9}{Dependents}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the list of the dependents sessions. These sessions only starts when this session where completed successfully. Note this list is only intended for inter session communications and if you want to bind a session with this session you must call either \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_acc4973d4de42592644cb833c1346278f}{Continue\+With(\+ISession)} or add this session to the target session\textquotesingle{}s \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_aecf9f5b8080dbf95da1f883628a2afaa}{Dependencies} property. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{SAPTeam.\+Kryptor.\+Client.\+ISession}}}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session}{SAPTeam.\+Kryptor.\+Client.\+Session}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a6e43ad3bcae1e705880d6d39551c7021}{Session\+Started}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a33060b95a0580b58670b4d464049942f}{Progress\+Changed}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a9a931090c8505911b5dd9aa3bfb1dc0e}{Description\+Changed}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a80b89cb839327da3e86a19a189a09d3e}{Status\+Changed}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a0165bb649c3434bd8635d50c24bccd8a}{Session\+Ended}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_a5aa1474fbdffa022c0da3d4b2a7089a7}{Session\+Paused}}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_ae50ade35f141f8e260a19cae1e14a10d}{Session\+Resumed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Events inherited from \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{SAPTeam.\+Kryptor.\+Client.\+ISession}}}
+\begin{DoxyCompactItemize}
+\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a7930c3ccae8a728062cffbbb80aa95c6}{Session\+Started}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session started by Session\+Manager. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a278d5aff25cb58ce7e9931dd1df8c88f}{Progress\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the progress value of the session is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a76f74d17f98b857fc39a933ba5c5330a}{Description\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the description value is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_acf53910ae757cd275bc1d2966d15af73}{Session\+Paused}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is paused. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_update_event_args}{Session\+Update\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a4c26131d7bcbad05a32434427410b9d3}{Session\+Resumed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is resumed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a9f9b574cd19389cf5c8560c7b788aea2}{Status\+Changed}}
+\begin{DoxyCompactList}\small\item\em Occurs when the status of the session is changed. \end{DoxyCompactList}\item 
+Event\+Handler$<$ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_event_args}{Session\+Event\+Args}} $>$ \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_ab8b165ff0f15064d5e5bba93810dc9b5}{Session\+Ended}}
+\begin{DoxyCompactList}\small\item\em Occurs when the session is ended. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_decryption_session_8cs_source_l00005}{5}} of file \mbox{\hyperlink{_decryption_session_8cs_source}{Decryption\+Session.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a497e7acb87f506c77f41142f9b858b47}\index{SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}!DecryptionSession@{DecryptionSession}}
+\index{DecryptionSession@{DecryptionSession}!SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}}
+\doxysubsubsection{\texorpdfstring{DecryptionSession()}{DecryptionSession()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a497e7acb87f506c77f41142f9b858b47} 
+SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Decryption\+Session (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}}}]{key\+Store}{, }\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{Crypto\+Provider\+Configuration}}}]{configuration}{, }\item[{int}]{block\+Size}{, }\item[{string}]{file}{, }\item[{string}]{output\+Path}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_decryption_session_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_decryption_session_8cs_source}{Decryption\+Session.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_8cs_source_l00038}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Description}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a2f0d85c6749d462fe24b9ef0eaafaf41}\index{SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}!RunAsync@{RunAsync}}
+\index{RunAsync@{RunAsync}!SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}}
+\doxysubsubsection{\texorpdfstring{RunAsync()}{RunAsync()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_a2f0d85c6749d462fe24b9ef0eaafaf41} 
+override async Task$<$ bool $>$ SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Run\+Async (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}}}]{session\+Host}{, }\item[{Cancellation\+Token}]{cancellation\+Token}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_decryption_session_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_decryption_session_8cs_source}{Decryption\+Session.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_header_8cs_source_l00044}{SAPTeam.\+Kryptor.\+Header.\+Block\+Size}}, \mbox{\hyperlink{_header_8cs_source_l00049}{SAPTeam.\+Kryptor.\+Header.\+Configuration}}, \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_kes_acccfb447308a41489ef3b1c116bbb18e}{SAPTeam.\+Kryptor.\+Kes.\+Decrypt\+Async()}}, \mbox{\hyperlink{_session_8cs_source_l00038}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Description}}, \mbox{\hyperlink{_session_8cs_source_l00114}{SAPTeam.\+Kryptor.\+Client.\+Session.\+End\+Reason}}, \mbox{\hyperlink{_session_8cs_source_l00126}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Exception}}, \mbox{\hyperlink{_client_header_8cs_source_l00034}{SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+File\+Name}}, \mbox{\hyperlink{_session_8cs_source_l00140}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Messages}}, \mbox{\hyperlink{_kes_8cs_source_l00046}{SAPTeam.\+Kryptor.\+Kes.\+Minimum\+Supported\+Version}}, \mbox{\hyperlink{_i_session_host_8cs_source_l00011}{SAPTeam.\+Kryptor.\+Client.\+ISession\+Host.\+Verbose}}, \mbox{\hyperlink{_header_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Header.\+Verbosity}}, \mbox{\hyperlink{_header_8cs_source_l00029}{SAPTeam.\+Kryptor.\+Header.\+Version}}, and \mbox{\hyperlink{_kes_8cs_source_l00041}{SAPTeam.\+Kryptor.\+Kes.\+Version}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_ab7c233ec1d4cf6135455cdb286dabb6a}\index{SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}!Name@{Name}}
+\index{Name@{Name}!SAPTeam.Kryptor.Cli.DecryptionSession@{SAPTeam.Kryptor.Cli.DecryptionSession}}
+\doxysubsubsection{\texorpdfstring{Name}{Name}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_decryption_session_ab7c233ec1d4cf6135455cdb286dabb6a} 
+override string SAPTeam.\+Kryptor.\+Cli.\+Decryption\+Session.\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the user-\/friendly name of the session. 
+
+
+
+Implements \mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_a84d3ac778e84b2227c1fcf695cc1e5ad}{SAPTeam.\+Kryptor.\+Client.\+ISession}}.
+
+
+
+Definition at line \mbox{\hyperlink{_decryption_session_8cs_source_l00013}{13}} of file \mbox{\hyperlink{_decryption_session_8cs_source}{Decryption\+Session.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_decryption_session_8cs}{Decryption\+Session.\+cs}}\end{DoxyCompactItemize}

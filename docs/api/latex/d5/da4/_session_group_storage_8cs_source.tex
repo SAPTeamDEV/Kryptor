@@ -1,0 +1,85 @@
+\doxysection{Session\+Group\+Storage.\+cs}
+\hypertarget{_session_group_storage_8cs_source}{}\label{_session_group_storage_8cs_source}\index{SessionGroupStorage.cs@{SessionGroupStorage.cs}}
+\mbox{\hyperlink{_session_group_storage_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00010}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{partial\ class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group}{SessionGroup}}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object}\ \_addLock\ =\ \textcolor{keyword}{new}\ object();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ readonly\ HashSet<SessionHolder>\ storage\ =\ \textcolor{keyword}{new}\ HashSet<SessionHolder>();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00022}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a17b8cb30a1cd0b841df4d75495586ba4}{00022}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a17b8cb30a1cd0b841df4d75495586ba4}{IsLocked}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00028}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a5f0860b14135abc5e91f4b4dff026322}{00028}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a5f0860b14135abc5e91f4b4dff026322}{ThrowIfLocked}}()}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a17b8cb30a1cd0b841df4d75495586ba4}{IsLocked}})}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidOperationException(\textcolor{stringliteral}{"{}The\ session\ group\ is\ locked"{}});}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00037}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a91bb86a33035df4a719e231cd61aa118}{00037}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a91bb86a33035df4a719e231cd61aa118}{Count}}\ =>\ storage.Count;}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00040}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a0c3ce32ff086d2cbdc04903e1a28e193}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a0c3ce32ff086d2cbdc04903e1a28e193}{IsReadOnly}}\ =>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a17b8cb30a1cd0b841df4d75495586ba4}{IsLocked}};}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00043}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_ae1075e8f1a60d028af945d43cc965c8b}{00043}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_ae1075e8f1a60d028af945d43cc965c8b}{Add}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{SessionHolder}}\ item)}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a5f0860b14135abc5e91f4b4dff026322}{ThrowIfLocked}}();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ lock\ (\_addLock)}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentNullException(nameof(item));}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!item.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_aeb0e3c456ddb94a21b9cc5a82b6b6154}{Session}}.\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_afc1437184579a5819ef206f6d16d0948}{IsReady}}(CancellationToken.None))}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ NotSupportedException(\textcolor{stringliteral}{"{}Session\ dependency\ feature\ is\ not\ supported\ by\ SessionGroup"{}});}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_aeb0e3c456ddb94a21b9cc5a82b6b6154}{Session}}.\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_abfc37ebe91f934ee9db587a76c781a75}{Status}}\ !=\ \mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_acfaef7f387541bf99fb0b3db2e77962a}{SessionStatus}}.NotStarted)}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ArgumentException(\textcolor{stringliteral}{"{}Cannot\ add\ an\ already\ started\ session"{}});}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (storage.Add(item))}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a177f6be097aebd5c4e809a13ea2dd9a6}{AddHooks}}(item);}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidOperationException(\textcolor{stringliteral}{"{}Item\ is\ already\ exists"{}});}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00073}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a9355332fdf477c5af776d8640fad531b}{00073}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a9355332fdf477c5af776d8640fad531b}{Clear}}()}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a5f0860b14135abc5e91f4b4dff026322}{ThrowIfLocked}}();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ storage.Clear();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00080}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a03d89f1c902b78f842ea24237726915e}{00080}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a03d89f1c902b78f842ea24237726915e}{Contains}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{SessionHolder}}\ item)\ =>\ storage.Contains(item);}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00083}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_aa55651dd7c6c60cf244e8aa9e0d525ad}{00083}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_aa55651dd7c6c60cf244e8aa9e0d525ad}{CopyTo}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{SessionHolder}}[]\ array,\ \textcolor{keywordtype}{int}\ arrayIndex)\ =>\ storage.CopyTo(array,\ arrayIndex);}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00086}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a8809eae6532bdec795685c2f93954570}{00086}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a8809eae6532bdec795685c2f93954570}{Remove}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{SessionHolder}}\ item)}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a5f0860b14135abc5e91f4b4dff026322}{ThrowIfLocked}}();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ storage.Remove(item);}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00093}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a82c07c89a80d1a10493219cf55628243}{00093}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ IEnumerator<SessionHolder>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_group_a82c07c89a80d1a10493219cf55628243}{GetEnumerator}}()\ =>\ storage.GetEnumerator();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ IEnumerator\ IEnumerable.GetEnumerator()\ =>\ storage.GetEnumerator();}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00097}00097\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_session_group_storage_8cs_source_l00098}00098\ \}}
+
+\end{DoxyCode}

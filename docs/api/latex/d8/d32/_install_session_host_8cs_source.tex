@@ -1,0 +1,137 @@
+\doxysection{Install\+Session\+Host.\+cs}
+\hypertarget{_install_session_host_8cs_source}{}\label{_install_session_host_8cs_source}\index{InstallSessionHost.cs@{InstallSessionHost.cs}}
+\mbox{\hyperlink{_install_session_host_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Net.Http;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client}{SAPTeam.Kryptor.Client}};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_client_1_1_security}{SAPTeam.Kryptor.Client.Security}};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist}{SAPTeam.Kryptor.Cli.Wordlist}}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00008}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host}{InstallSessionHost}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host}{SessionHost}}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00010}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee}{00010}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Uri\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee}{WordlistIndexUri}}\ \{\ \textcolor{keyword}{get};\ \}\ =\ \textcolor{keyword}{new}\ Uri(\textcolor{stringliteral}{"{}https://raw.githubusercontent.com/SAPTeamDEV/Wordlists/master/index.json"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ List;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ All;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ Recommended;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ Optimize;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{string}[]\ Ids;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ Indexing;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00019}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{00019}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{DownloadDir}}\ \{\ \textcolor{keyword}{get};\ \}\ =\ Path.Combine(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_program}{Program}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_program_a3df3e08e56e033d4f78416ad9ec078fe}{Context}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_context_a667a90764c8e18b67238f67646233365}{WordlistDirectory}},\ \textcolor{stringliteral}{"{}\_cache"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00021}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{00021}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{InstallDir}}\ \{\ \textcolor{keyword}{get};\ \}\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_program}{Program}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_program_a3df3e08e56e033d4f78416ad9ec078fe}{Context}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_context_a667a90764c8e18b67238f67646233365}{WordlistDirectory}};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00023}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{00023}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{WordlistIndex}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{protected}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00025}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_ac9653316558845b2e3d5571dcbe7ec54}{00025}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_ac9653316558845b2e3d5571dcbe7ec54}{InstallSessionHost}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_global_options}{GlobalOptions}}\ globalOptions,\ \textcolor{keywordtype}{bool}\ list,\ \textcolor{keywordtype}{bool}\ all,\ \textcolor{keywordtype}{bool}\ recommended,\ \textcolor{keywordtype}{bool}\ optimize,\ \textcolor{keywordtype}{string}[]\ ids)\ :\ base(globalOptions)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ List\ =\ list;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ All\ =\ all;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ Recommended\ =\ recommended;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ Optimize\ =\ optimize;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ Ids\ =\ ids;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ Indexing\ =\ \textcolor{keyword}{this}\ is\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_index_session_host}{IndexSessionHost}};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Indexing)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Container.MaxRunningSessions\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00040}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a2a994da5139fb74e44074ce098ee5f8c}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a2a994da5139fb74e44074ce098ee5f8c}{Start}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_context}{ClientContext}}\ context)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(context);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Directory.Exists(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{InstallDir}}))}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Directory.CreateDirectory(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{InstallDir}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Directory.Exists(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{DownloadDir}}))}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Directory.CreateDirectory(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{DownloadDir}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_ae557033d1ef8edb4803ce2dd8f8073ff}{DebugLog}}(\textcolor{stringliteral}{"{}Getting\ remote\ index..."{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ HttpClient\ client\ =\ \textcolor{keyword}{new}\ HttpClient();}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ rawIndex\ =\ client.GetStringAsync(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aba85f58565215d6b8ab26f7ecfba66ee}{WordlistIndexUri}}).Result;}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}\ =\ Utilities.ClientTypesJsonWorker.ReadJson<\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index}{WordlistIndex}}>(rawIndex);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (List\ ||\ (!All\ \&\&\ !Recommended\ \&\&\ Ids.Length\ ==\ 0))}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PrintList();}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (All)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ wordlist\ \textcolor{keywordflow}{in}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}})}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Install(wordlist);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (Recommended)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ wordlist\ \textcolor{keywordflow}{in}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}})}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!wordlist.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ac25c940fa94e3014b6c87310a1b22e4c}{Enforced}})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Install(wordlist);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\textcolor{keywordtype}{string}\ \textcolor{keywordtype}{id}\ \textcolor{keywordflow}{in}\ Ids)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Install(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}[\textcolor{keywordtype}{id}]);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a8840d943fc0d878f06abc99e25ae7208}{ShowProgressMonitored}}(\textcolor{keyword}{true},\ \textcolor{keyword}{false}).Wait();}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ade3f7d887b8417c7c733fd282b4080c1}{SortIndex}}();}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Install(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ entry)}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_ae6c06049d7f8c3d46c6151d5d1bb3ad5}{GetInstallationPermission}}(entry))}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ downloadPath\ =\ Path.Combine(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_a00e53d02302f6cb6681ed6825ad98ca5}{DownloadDir}},\ entry.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ installPath\ =\ Path.Combine(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_af43dfca2c66bb8b15c6380276db9050e}{InstallDir}},\ entry.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ DownloadSession\ downloader\ =\ \textcolor{keyword}{new}\ DownloadSession(entry,\ \textcolor{keyword}{new}\ DirectoryInfo(downloadPath));}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ CompileSession\ compiler\ =\ \textcolor{keyword}{new}\ CompileSession(downloader.OutputFile.FullName,\ installPath,\ entry,\ optimize:\ Optimize,\ indexing:\ Indexing,\ importing:\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ downloader.ContinueWith(compiler);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}{NewSession}}(downloader);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_host_a9741e4fbbac17fb9ee56ffeaecb3736d}{NewSession}}(compiler);}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ PrintList()}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry}{WordlistIndexEntry}}\ wordlist\ \textcolor{keywordflow}{in}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_install_session_host_aa31fca1f5a44964231edb3c2e396fc6a}{Index}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a22a6a9a90b8df6f6fcc1e941be86c4ca}{Wordlists}})}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ status\ =\ !\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a1b0ed6b35d63597eef85c335eca80951}{LocalIndex}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_a7ebb386a57cbf87d8c22edc6124f1ff3}{ContainsId}}(wordlist.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}})\ ?\ \textcolor{stringliteral}{"{}"{}}\ :\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a1b0ed6b35d63597eef85c335eca80951}{LocalIndex}}[wordlist.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}}].Hash.SequenceEqual(wordlist.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_a23378879523334849075375f7b9f078c}{Hash}})\ \&\&\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_wordlist_1_1_session_host_a1b0ed6b35d63597eef85c335eca80951}{LocalIndex}}[wordlist.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_security_1_1_wordlist_index_entry_ad18b59025e01acac8d7c1f2a86544436}{Id}}].Verify(\textcolor{keyword}{false})\ ?\ \textcolor{stringliteral}{"{}(Installed)"{}}\ :\ \textcolor{stringliteral}{"{}(Update\ Avaiable)"{}};}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a67444c512643ef00bbea0cd2615a3ff5}{Log}}(\$\textcolor{stringliteral}{"{}\(\backslash\)n\{wordlist.Id\}:\ \{status\}"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a67444c512643ef00bbea0cd2615a3ff5}{Log}}(\$\textcolor{stringliteral}{"{}Description:\ \{wordlist.Name\}"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a67444c512643ef00bbea0cd2615a3ff5}{Log}}(\$\textcolor{stringliteral}{"{}Words:\ \{wordlist.Words.FormatWithCommas()\}"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_cli_1_1_cli_session_host_a67444c512643ef00bbea0cd2615a3ff5}{Log}}(\$\textcolor{stringliteral}{"{}Download\ Size:\ \{Utilities.ConvertBytes(wordlist.Size)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00130}00130\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_install_session_host_8cs_source_l00131}00131\ \}}
+
+\end{DoxyCode}

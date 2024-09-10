@@ -1,0 +1,169 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{}\label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+
+
+Represents class to store session and related informations.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0f48630b3388c9a7673f2aa0d54c5d6b}{Session\+Holder}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} session, Cancellation\+Token\+Source token\+Source)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_afc770b626bdc8ed52d2be10ee3bfe1f4}{Task}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a995bd0173a45f1095fa65019f310375f}{Start\+Task}} (\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}} session\+Host, bool throw\+If\+Running=true)
+\begin{DoxyCompactList}\small\item\em Starts the session task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_ad950fe5dbc6bef3bbcf434f41bcb984c}{Id}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the id of the session holder in the container. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_aeb0e3c456ddb94a21b9cc5a82b6b6154}{Session}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the session instance. \end{DoxyCompactList}\item 
+Task \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_afc770b626bdc8ed52d2be10ee3bfe1f4}{Task}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the task of this session. \end{DoxyCompactList}\item 
+Cancellation\+Token\+Source \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0b55e2c34f70c58aa5876cd339c74cf5}{Token\+Source}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the cancellation token source that controls the running session. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents class to store session and related informations. 
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0f48630b3388c9a7673f2aa0d54c5d6b}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!SessionHolder@{SessionHolder}}
+\index{SessionHolder@{SessionHolder}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{SessionHolder()}{SessionHolder()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0f48630b3388c9a7673f2aa0d54c5d6b} 
+SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Session\+Holder (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}}}]{session}{, }\item[{Cancellation\+Token\+Source}]{token\+Source}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder}{Session\+Holder} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & The session instance. \\
+\hline
+{\em token\+Source} & The cancellation token source that controls the running task. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_i_session_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+ISession.\+Status}}, and \mbox{\hyperlink{_session_holder_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Token\+Source}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a995bd0173a45f1095fa65019f310375f}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!StartTask@{StartTask}}
+\index{StartTask@{StartTask}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{StartTask()}{StartTask()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a995bd0173a45f1095fa65019f310375f} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_afc770b626bdc8ed52d2be10ee3bfe1f4}{Task}} SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Start\+Task (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session_host}{ISession\+Host}}}]{session\+Host}{, }\item[{bool}]{throw\+If\+Running}{ = {\ttfamily true}}\end{DoxyParamCaption})}
+
+
+
+Starts the session task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+Host} & The parent session host. \\
+\hline
+{\em throw\+If\+Running} & Throw exception if the task already started. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Invalid\+Operation\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00060}{60}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_session_8cs_source_l00186}{SAPTeam.\+Kryptor.\+Client.\+Session.\+Start\+Async()}}, \mbox{\hyperlink{_session_holder_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Task}}, and \mbox{\hyperlink{_session_holder_8cs_source_l00026}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Token\+Source}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_ad950fe5dbc6bef3bbcf434f41bcb984c}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!Id@{Id}}
+\index{Id@{Id}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{Id}{Id}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_ad950fe5dbc6bef3bbcf434f41bcb984c} 
+int SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Id\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets the id of the session holder in the container. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00011}{11}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_aeb0e3c456ddb94a21b9cc5a82b6b6154}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!Session@{Session}}
+\index{Session@{Session}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{Session}{Session}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_aeb0e3c456ddb94a21b9cc5a82b6b6154} 
+\mbox{\hyperlink{interface_s_a_p_team_1_1_kryptor_1_1_client_1_1_i_session}{ISession}} SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Session\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the session instance. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_group_storage_8cs_source_l00043}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Add()}}, and \mbox{\hyperlink{_session_group_8cs_source_l00132}{SAPTeam.\+Kryptor.\+Client.\+Session\+Group.\+Add\+Hooks()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_afc770b626bdc8ed52d2be10ee3bfe1f4}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!Task@{Task}}
+\index{Task@{Task}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{Task}{Task}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_afc770b626bdc8ed52d2be10ee3bfe1f4} 
+Task SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Task\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the task of this session. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_holder_8cs_source_l00060}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Start\+Task()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0b55e2c34f70c58aa5876cd339c74cf5}\index{SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}!TokenSource@{TokenSource}}
+\index{TokenSource@{TokenSource}!SAPTeam.Kryptor.Client.SessionHolder@{SAPTeam.Kryptor.Client.SessionHolder}}
+\doxysubsubsection{\texorpdfstring{TokenSource}{TokenSource}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_session_holder_a0b55e2c34f70c58aa5876cd339c74cf5} 
+Cancellation\+Token\+Source SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Token\+Source\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Gets the cancellation token source that controls the running session. 
+
+
+
+Definition at line \mbox{\hyperlink{_session_holder_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_session_holder_8cs_source}{Session\+Holder.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_session_holder_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Session\+Holder()}}, and \mbox{\hyperlink{_session_holder_8cs_source_l00060}{SAPTeam.\+Kryptor.\+Client.\+Session\+Holder.\+Start\+Task()}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_session_holder_8cs}{Session\+Holder.\+cs}}\end{DoxyCompactItemize}

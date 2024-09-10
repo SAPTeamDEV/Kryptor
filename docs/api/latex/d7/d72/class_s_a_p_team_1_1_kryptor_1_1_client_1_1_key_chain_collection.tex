@@ -1,0 +1,172 @@
+\doxysection{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection Class Reference}
+\hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection}{}\label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+
+
+Represents a collection to work with key chains.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_abbc1bfeeb7bdb00fcacfd44a5618d8f8}{Key\+Chain\+Collection}} (string path)
+\begin{DoxyCompactList}\small\item\em Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection}{Key\+Chain\+Collection} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a362440dd4927a2ccc074ed7ea5653df8}{Add}} (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}{Client\+Header}} header, \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}} key\+Store, string transformer\+Token=null)
+\begin{DoxyCompactList}\small\item\em Adds a new keychain to the collection. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_ae3fb56e9557825416b9a6719d084a27d}{Save}} ()
+\begin{DoxyCompactList}\small\item\em Saves the keychain file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a73b0251bf7f720e7a5ebce006bd54193}{File\+Path}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the path of the keychain json file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain}{Key\+Chain}} \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a3963a969846928ec0da23e7bf7596cb0}{this\mbox{[}string serial\mbox{]}}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Gets the keychain with the specified {\itshape serial} . \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a collection to work with key chains. 
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_abbc1bfeeb7bdb00fcacfd44a5618d8f8}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}!KeyChainCollection@{KeyChainCollection}}
+\index{KeyChainCollection@{KeyChainCollection}!SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+\doxysubsubsection{\texorpdfstring{KeyChainCollection()}{KeyChainCollection()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_abbc1bfeeb7bdb00fcacfd44a5618d8f8} 
+SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Key\+Chain\+Collection (\begin{DoxyParamCaption}\item[{string}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Initializes a new instance of the \doxylink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection}{Key\+Chain\+Collection} class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The keychain file name or directory name to create of search for existing keychain file. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00050}{50}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_key_chain_collection_8cs_source_l00015}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+File\+Path}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a362440dd4927a2ccc074ed7ea5653df8}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}!Add@{Add}}
+\index{Add@{Add}!SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a362440dd4927a2ccc074ed7ea5653df8} 
+void SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_client_header}{Client\+Header}}}]{header}{, }\item[{\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{Key\+Store}}}]{key\+Store}{, }\item[{string}]{transformer\+Token}{ = {\ttfamily null}}\end{DoxyParamCaption})}
+
+
+
+Adds a new keychain to the collection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em header} & The header of the encrypted file. \\
+\hline
+{\em key\+Store} & The keystore used to encrypt the file. \\
+\hline
+{\em transformer\+Token} & The transformer token used to generate the keystore (if presents). \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Argument\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00092}{92}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_key_chain_collection_8cs_source_l00015}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+File\+Path}}, \mbox{\hyperlink{_key_store_8cs_source_l00037}{SAPTeam.\+Kryptor.\+Key\+Store.\+Fingerprint}}, \mbox{\hyperlink{_key_store_8cs_source_l00032}{SAPTeam.\+Kryptor.\+Key\+Store.\+Raw}}, and \mbox{\hyperlink{_client_header_8cs_source_l00039}{SAPTeam.\+Kryptor.\+Client.\+Client\+Header.\+Serial}}.
+
+
+
+Referenced by \mbox{\hyperlink{_encryption_session_8cs_source_l00029}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session.\+Run\+Async()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_ae3fb56e9557825416b9a6719d084a27d}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}!Save@{Save}}
+\index{Save@{Save}!SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_ae3fb56e9557825416b9a6719d084a27d} 
+void SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Save (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Saves the keychain file. 
+
+
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00121}{121}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+References \mbox{\hyperlink{_key_chain_collection_8cs_source_l00015}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+File\+Path}}.
+
+
+
+Referenced by \mbox{\hyperlink{_encryption_session_host_8cs_source_l00021}{SAPTeam.\+Kryptor.\+Cli.\+Encryption\+Session\+Host.\+Start()}}.
+
+
+
+\doxysubsection{Property Documentation}
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a73b0251bf7f720e7a5ebce006bd54193}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}!FilePath@{FilePath}}
+\index{FilePath@{FilePath}!SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+\doxysubsubsection{\texorpdfstring{FilePath}{FilePath}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a73b0251bf7f720e7a5ebce006bd54193} 
+string SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+File\+Path\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the path of the keychain json file. 
+
+
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+Referenced by \mbox{\hyperlink{_key_chain_collection_8cs_source_l00092}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Add()}}, \mbox{\hyperlink{_key_chain_collection_8cs_source_l00050}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Key\+Chain\+Collection()}}, \mbox{\hyperlink{_key_chain_collection_8cs_source_l00121}{SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+Save()}}, and \mbox{\hyperlink{_key_chain_reader_session_host_8cs_source_l00016}{SAPTeam.\+Kryptor.\+Cli.\+Key\+Chain\+Reader\+Session\+Host.\+Start()}}.
+
+\Hypertarget{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a3963a969846928ec0da23e7bf7596cb0}\index{SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}!this\mbox{[}string serial\mbox{]}@{this[string serial]}}
+\index{this\mbox{[}string serial\mbox{]}@{this[string serial]}!SAPTeam.Kryptor.Client.KeyChainCollection@{SAPTeam.Kryptor.Client.KeyChainCollection}}
+\doxysubsubsection{\texorpdfstring{this[string serial]}{this[string serial]}}
+{\footnotesize\ttfamily \label{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain_collection_a3963a969846928ec0da23e7bf7596cb0} 
+\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_client_1_1_key_chain}{Key\+Chain}} SAPTeam.\+Kryptor.\+Client.\+Key\+Chain\+Collection.\+this\mbox{[}string serial\mbox{]}\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Gets the keychain with the specified {\itshape serial} . 
+
+
+\begin{DoxyParams}{Parameters}
+{\em serial} & The unique identifier of the file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Key\+Not\+Found\+Exception} & \\
+\hline
+{\em Application\+Exception} & \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line \mbox{\hyperlink{_key_chain_collection_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_key_chain_collection_8cs_source}{Key\+Chain\+Collection.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_key_chain_collection_8cs}{Key\+Chain\+Collection.\+cs}}\end{DoxyCompactItemize}

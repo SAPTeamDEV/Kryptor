@@ -1,0 +1,145 @@
+\doxysection{Crypto\+Provider.\+cs}
+\hypertarget{_crypto_provider_8cs_source}{}\label{_crypto_provider_8cs_source}\index{CryptoProvider.cs@{CryptoProvider.cs}}
+\mbox{\hyperlink{_crypto_provider_8cs}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_crypto_providers}{SAPTeam.Kryptor.CryptoProviders}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_extensions}{SAPTeam.Kryptor.Extensions}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor_1_1_helpers}{SAPTeam.Kryptor.Helpers}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_a_p_team_1_1_kryptor}{SAPTeam.Kryptor}}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00010}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{abstract}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}}\ :\ ICloneable}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00015}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{DecryptionChunkSize}}\ =>\ 32;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00020}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{00020}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{EncryptionChunkSize}}\ =>\ 31;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ configuration;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00027}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{00027}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ =>\ configuration;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{set}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ selfId\ =\ CryptoProviderFactory.GetRegisteredCryptoProviderId(GetType());}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value.Id\ !=\ \textcolor{keyword}{null}\ \&\&\ CryptoProviderFactory.GetRegisteredCryptoProviderId(value.Id)\ !=\ selfId)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidOperationException(\textcolor{stringliteral}{"{}Invalid\ configuration"{}});}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ clone\ =\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}})value.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration_aece48cc08fa506b2e6542f474b9f6b96}{Clone}}();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clone.Id\ =\ selfId;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ configuration\ =\ clone;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00047}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_ad98d4fcae05b6d430cb7e0d225ebed23}{00047}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{internal}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ UpdateHeader(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header}{Header}}\ header)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{int})header.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_header_a5f67bc394c3a978c85c9ea74aac1e7fc}{Verbosity}}\ >\ 2)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.Configuration\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}}\ Fork(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ keyStore,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ configuration\ =\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ ApplicationException(\textcolor{stringliteral}{"{}Broken\ crypto\ provider\ instance\ storage"{}});}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}}\ clone\ =\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a952e35bd97f5ff02bcfc2cb782a70591}{Clone}}()\ as\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider}{CryptoProvider}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ clone.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_acc57d90780c392e32d2f2c6c247df642}{ApplyHeader}}(keyStore,\ configuration);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ return\ clone;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00090}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_acc57d90780c392e32d2f2c6c247df642}{00090}}\ \ \ \ \ \ \ \ \ protected\ virtual\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_acc57d90780c392e32d2f2c6c247df642}{ApplyHeader}}(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ keyStore,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}\ configuration\ =\ null)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}}\ =\ keyStore;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}\ =\ configuration\ ??\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration}{CryptoProviderConfiguration}}();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00108}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{00108}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a70994d6f3e7064584b363b2c4acf2247}{EncryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ AesHelper.CheckArgument(data,\ nameof(data));}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}\ ==\ 0\ \&\&\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.ChunkIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ process.BlockHash\ =\ Configuration.RemoveHash\ ?\ Array.Empty<\textcolor{keywordtype}{byte}>()\ :\ data.Sha256();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ hash\ =\ Configuration.DynamicBlockProccessing\ ?\ Transformers.Rotate(process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}},\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption}{DynamicEncryption}}.GetDynamicBlockEntropy(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}},\ process))\ :\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a2adefff6d95c1aa4dca2a880a1403e49}{BlockHash}};}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ List<byte>\ result\ =\ \textcolor{keyword}{new}\ List<byte>(hash);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\textcolor{keywordtype}{byte}[]\ chunk\ \textcolor{keywordflow}{in}\ data.Chunk(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2e1f1aab66fd7814ea4e8a35b9e65807}{EncryptionChunkSize}}))}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IEnumerable<byte>\ c\ =\ await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1d8a34976c80b4589d3e741bd58afa2a}{EncryptChunkAsync}}(chunk,\ process,\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.AddRange(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration_a0ff38b8e9db91dd7cd2475a3fdaca6c3}{DynamicBlockProccessing}}\ ?\ Transformers.Rotate(c.ToArray(),\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption}{DynamicEncryption}}.GetDynamicChunkEntropy(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}},\ process))\ :\ c);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.ChunkIndex++;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result.ToArray();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00142}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{00142}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ async\ Task<byte[]>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a0adf2e7e89dc35e3e9619f8c1abb9fd9}{DecryptBlockAsync}}(\textcolor{keywordtype}{byte}[]\ data,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ AesHelper.CheckArgument(data,\ nameof(data));}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a1497fa24adbf3278698a14ab1ecd33df}{BlockIndex}}\ ==\ 0\ \&\&\ process.\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process_a84625de43ef2ce2991f9d20c084c3515}{ChunkIndex}}\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.ChunkIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ IEnumerable<byte[]>\ chunks;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration_a37533c432714541e532245477ec02b87}{RemoveHash}})}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Chunk(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{DecryptionChunkSize}});}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ \_hash\ =\ data.Take(32).ToArray();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.BlockHash\ =\ Configuration.DynamicBlockProccessing\ ?\ Transformers.Rotate(\_hash,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption}{DynamicEncryption}}.GetDynamicBlockEntropy(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}},\ process)\ *\ -\/1)\ :\ \_hash;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Unmerged\ change\ from\ project\ 'Kryptor\ (netstandard2.0)'}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00163}00163\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Before:}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00164}00164\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Skip(32).ChunkCompat(DecryptionChunkSize);}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00165}00165\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ After:}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00166}00166\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Skip(32).Chunk(DecryptionChunkSize);}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00167}00167\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Unmerged\ change\ from\ project\ 'Kryptor\ (net461)'}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00170}00170\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Before:}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00171}00171\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Skip(32).ChunkCompat(DecryptionChunkSize);}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00172}00172\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ After:}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00173}00173\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Skip(32).Chunk(DecryptionChunkSize);}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00174}00174\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunks\ =\ data.Skip(32).Chunk(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1da70fb6bf7dde6c76ce3a168d8a9558}{DecryptionChunkSize}});}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ List<byte>\ result\ =\ \textcolor{keyword}{new}\ List<byte>();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\textcolor{keywordtype}{byte}[]\ chunk\ \textcolor{keywordflow}{in}\ chunks)}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.AddRange(await\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_af93bf90de3a97a48c25406070af5a9ec}{DecryptChunkAsync}}(\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a2177eda486a7e4a3a84a60d83c887d11}{Configuration}}.\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_configuration_a0ff38b8e9db91dd7cd2475a3fdaca6c3}{DynamicBlockProccessing}}\ ?\ Transformers.Rotate(chunk,\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_providers_1_1_dynamic_encryption}{DynamicEncryption}}.GetDynamicChunkEntropy(\mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_key_store}{KeyStore}},\ process)\ *\ -\/1)\ :\ chunk,\ process,\ cancellationToken));}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ process.ChunkIndex++;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{byte}[]\ array\ =\ result.ToArray();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !Configuration.RemoveHash\ \&\&\ !process.BlockHash.SequenceEqual(array.Sha256())\ ?\ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ InvalidDataException(\textcolor{stringliteral}{"{}Hash\ mismatch"{}})\ :\ array;}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00202}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1d8a34976c80b4589d3e741bd58afa2a}{00202}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{abstract}\ Task<IEnumerable<byte>>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a1d8a34976c80b4589d3e741bd58afa2a}{EncryptChunkAsync}}(\textcolor{keywordtype}{byte}[]\ chunk,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00215}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_af93bf90de3a97a48c25406070af5a9ec}{00215}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{abstract}\ Task<IEnumerable<byte>>\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_af93bf90de3a97a48c25406070af5a9ec}{DecryptChunkAsync}}(\textcolor{keywordtype}{byte}[]\ chunk,\ \mbox{\hyperlink{struct_s_a_p_team_1_1_kryptor_1_1_crypto_process}{CryptoProcess}}\ process,\ CancellationToken\ cancellationToken);}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00218}\mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a952e35bd97f5ff02bcfc2cb782a70591}{00218}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{object}\ \mbox{\hyperlink{class_s_a_p_team_1_1_kryptor_1_1_crypto_provider_a952e35bd97f5ff02bcfc2cb782a70591}{Clone}}()\ =>\ MemberwiseClone();}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00219}00219\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_crypto_provider_8cs_source_l00220}00220\ \}}
+
+\end{DoxyCode}
