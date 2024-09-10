@@ -31,10 +31,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@1.9.8
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Run Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install doxygen
+          mkdir -p docs/api
+          doxygen
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
