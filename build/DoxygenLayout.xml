@@ -6,6 +6,11 @@
     <tab type="mainpage" visible="yes" title="Home"/>
     <tab type="pages" visible="yes" title="Manual" intro=""/>
     <tab type="topics" visible="yes" title="" intro=""/>
+    <tab type="usergroup" title="Nuget Packages">
+		<tab type="user" url="https://www.nuget.org/packages/SAPTeam.Kryptor" title="Kryptor Engine"/>
+		<tab type="user" url="https://www.nuget.org/packages/SAPTeam.Kryptor.Client" title="Kryptor Front-End Library"/>
+		<tab type="user" url="https://www.nuget.org/packages/SAPTeam.Kryptor.Tool" title="Kryptor CLI"/>
+	</tab>
     <tab type="usergroup" title="API References">
 		<tab type="modules" visible="yes" title="" intro="">
 		  <tab type="modulelist" visible="yes" title="" intro=""/>
