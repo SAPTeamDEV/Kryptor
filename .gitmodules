@@ -1,3 +1,6 @@
 [submodule "external/command-line-api"]
 	path = external/command-line-api
 	url = https://github.com/dotnet/command-line-api.git
+[submodule "build/doxygen-awesome-css"]
+	path = build/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css.git
