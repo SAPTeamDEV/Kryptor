@@ -141,7 +141,7 @@ namespace SAPTeam.Kryptor
                 id = $"kryptor:{id}";
             }
 
-            return GlobalProviders.ContainsKey(id) ? id : GlobalAliases.TryGetValue(id, out string value) ? value : throw new KeyNotFoundException(id);
+            return GlobalProviders.ContainsKey(id) ? id : GlobalAliases.TryGetValue(id, out string value) ? value : throw new KeyNotFoundException($"Crypto provider with id {id} is not registered");
         }
 
         /// <summary>
