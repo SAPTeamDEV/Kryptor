@@ -68,6 +68,7 @@ namespace SAPTeam.Kryptor.Cli
             try
             {
                 await kes.EncryptAsync(sourceStream, destStream, header, cancellationToken);
+                destStream.Flush();
 
                 if (encSessionHost.UseKeyChain)
                 {

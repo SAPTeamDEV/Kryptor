@@ -84,6 +84,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Description = file;
                 await kes.DecryptAsync(sourceStream, destStream, cancellationToken);
+                destStream.Flush();
 
                 if (sessionHost.Verbose)
                 {

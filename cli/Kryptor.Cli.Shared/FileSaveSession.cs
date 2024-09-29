@@ -62,6 +62,8 @@ namespace SAPTeam.Kryptor.Cli
                     wroteBytes += chunk;
                     Progress = wroteBytes * steps;
                 }
+                
+                f.Flush();
             }
         }
     }
