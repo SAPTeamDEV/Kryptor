@@ -27,6 +27,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -48,6 +50,8 @@
                 Id = "TK",
             };
             Kes kes = new Kes(ks, cpc);
+
+            if (!kes.Provider.IsSecure) return;
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
@@ -138,6 +142,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -160,6 +166,8 @@
                 Continuous = true,
             };
             Kes kes = new Kes(ks, cpc);
+
+            if (!kes.Provider.IsSecure) return;
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
@@ -253,6 +261,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -322,6 +332,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -344,6 +356,8 @@
                 DynamicBlockProccessing = true,
             };
             Kes kes = new Kes(ks, cpc);
+
+            if (!kes.Provider.IsSecure) return;
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
@@ -438,6 +452,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -510,6 +526,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -533,6 +551,8 @@
                 DynamicBlockProccessing = true,
             };
             Kes kes = new Kes(ks, cpc);
+
+            if (!kes.Provider.IsSecure) return;
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
@@ -630,6 +650,8 @@
             };
             Kes kes = new Kes(ks, cpc);
 
+            if (!kes.Provider.IsSecure) return;
+
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
@@ -702,6 +724,8 @@
                 DynamicBlockProccessing = true,
             };
             Kes kes = new Kes(ks, cpc);
+
+            if (!kes.Provider.IsSecure) return;
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();

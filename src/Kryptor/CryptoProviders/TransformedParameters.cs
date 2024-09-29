@@ -8,6 +8,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class TransformedParameters : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "Transformed Parameters";
+
         /// <summary>
         /// Creates an empty crypto provider.
         /// </summary>
@@ -16,21 +19,10 @@ namespace SAPTeam.Kryptor.CryptoProviders
 
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TransformedParameters"/> class.
-        /// </summary>
-        /// <param name="keyStore">
-        /// The keystore with at least 2 keys.
-        /// </param>
-        /// <param name="configuration">
-        /// The configuration to initialize the crypto provider
-        /// </param>
-        public TransformedParameters(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
-
         /// <inheritdoc/>
-        protected override void ApplyHeader(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
+        protected override void Initialize(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
-            base.ApplyHeader(keyStore, configuration);
+            base.Initialize(keyStore, configuration);
 
             if (Configuration.RemoveHash)
             {

@@ -1,4 +1,6 @@
-﻿using SAPTeam.Kryptor.CryptoProviders;
+﻿// Ignore Spelling: Kryptor
+
+using SAPTeam.Kryptor.CryptoProviders;
 
 namespace SAPTeam.Kryptor
 {
@@ -7,94 +9,120 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public static class CryptoProviderFactory
     {
-        private static readonly bool allowKryptorPrefix = true;
-        private static readonly Dictionary<string, (string DisplayName, CryptoProvider Instance)> GlobalProviders = new Dictionary<string, (string DisplayName, CryptoProvider Instance)>();
-        private static readonly Dictionary<string, string> GlobalHints = new Dictionary<string, string>();
+        private static readonly Dictionary<string, CryptoProvider> GlobalProviders = new Dictionary<string, CryptoProvider>();
+        private static readonly Dictionary<string, string> GlobalAliases = new Dictionary<string, string>();
 
         static CryptoProviderFactory()
         {
-            RegisterProvider<StandaloneKey>("kryptor", "Standalone Key", "SK", "1");
-            RegisterProvider<TransformedKey>("kryptor", "Transformed Key", "TK", "2");
-            RegisterProvider<MixedVector>("kryptor", "Mixed Vector", "MV", "3");
-            RegisterProvider<TransformedParameters>("kryptor", "Transformed Parameters", "TP", "4");
-            RegisterProvider<DynamicEncryption>("kryptor", "Dynamic Encryption", "DE", "5");
-            allowKryptorPrefix = false;
+            RegisterProviderInternal(new StandaloneKey(), "SK", "1");
+            RegisterProviderInternal(new TransformedKey(), "TK", "2");
+            RegisterProviderInternal(new MixedVector(), "MV", "3");
+            RegisterProviderInternal(new TransformedParameters(), "TP", "4");
+            RegisterProviderInternal(new DynamicEncryption(), "DE", "5");
         }
 
         /// <summary>
         /// Registers a new crypto provider given identifier and hints.
         /// </summary>
-        /// <typeparam name="T">
-        /// The new crypto provider, must be inherited from <see cref="CryptoProvider"/>.
-        /// </typeparam>
+        /// <param name="instance">
+        /// The crypto provider object.
+        /// </param>
         /// <param name="prefix">
-        /// The preferred prefix for this crypto provider. The class name will be added to this prefix and creates the identifier, like "my_prefix:my_class".
+        /// The preferred prefix for this crypto provider.
         /// </param>
-        /// <param name="displayName">
-        /// The friendly name of this provider.
+        /// <param name="id">
+        /// The preferred identifier for this crypto provider.
         /// </param>
-        /// <param name="hints">
-        /// The additional identifiers. Acts like a shortcut. Hints uses the same prefix.
+        /// <param name="aliases">
+        /// The additional identifiers. Acts like a shortcut. Aliases uses the same prefix as the identifier.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-        public static void RegisterProvider<T>(string prefix, string displayName, params string[] hints)
-            where T : CryptoProvider, new()
+        public static void RegisterProvider(CryptoProvider instance, string prefix, string id, string[] aliases)
         {
-            if (!allowKryptorPrefix && prefix == "kryptor")
+            prefix = prefix.ToLower();
+
+            if (prefix == "kryptor")
             {
                 throw new ArgumentException("The kryptor prefix is only allowed for internal crypto providers");
             }
 
-            CryptoProvider instance = new T();
-            string name = $"{prefix}:{instance.GetType().Name}";
+            RegisterCryptoProviderImpl(instance, prefix, id, aliases);
+        }
 
-            if (!GlobalProviders.ContainsKey(name))
-            {
-                GlobalProviders[name] = (displayName, instance);
+        internal static void RegisterProviderInternal(CryptoProvider instance, params string[] aliases)
+        {
+            string prefix = "kryptor";
 
-                foreach (string hint in hints)
-                {
-                    string hintName = $"{prefix}:{hint}";
-                    if (!GlobalHints.ContainsKey(hintName))
-                    {
-                        GlobalHints.Add(hintName, name);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("A provider with this hint already registered: " + hintName);
-                    }
-                }
-            }
-            else
+            RegisterCryptoProviderImpl(instance, prefix, instance.GetType().Name, aliases);
+        }
+
+        private static void RegisterCryptoProviderImpl(CryptoProvider instance, string prefix, string id, string[] aliases)
+        {
+            string name = $"{prefix}:{id}";
+
+            if (GlobalProviders.ContainsKey(name))
             {
                 throw new ArgumentException("A provider with this name already registered: " + name);
             }
+
+            instance.RegisteredIdentifier = name;
+            GlobalProviders[name] = instance;
+
+            foreach (string alias in aliases)
+            {
+                string aliasName = $"{prefix}:{alias}";
+
+                if (GlobalAliases.ContainsKey(aliasName))
+                {
+                    throw new ArgumentException("A provider with this hint already registered: " + alias);
+                }
+
+                GlobalAliases[aliasName] = name;
+            }
         }
 
-        internal static string GetRegisteredCryptoProviderId(Type provider)
+        /// <summary>
+        /// Gets all registered crypto providers.
+        /// </summary>
+        /// <returns>
+        /// A Dictionary populated with registered crypto providers.
+        /// </returns>
+        public static Dictionary<string, CryptoProvider> GetProviders()
         {
-            foreach (KeyValuePair<string, (string DisplayName, CryptoProvider Instance)> item in GlobalProviders)
-            {
-                if (item.Value.Instance.GetType() == provider)
-                {
-                    return item.Key;
-                }
-            }
-
-            throw new ArgumentException("This crypto provider is not registered: " + provider.FullName);
+            return GlobalProviders.ToDictionary(x => x.Key,
+                                                x => (CryptoProvider)x.Value.Clone());
         }
 
         /// <summary>
         /// Gets all registered crypto provider identifiers.
         /// </summary>
         /// <returns>
-        /// An <see href="IEnumerable{string}"/> populated with registered crypto provider identifiers.
+        /// An array of all registered crypto providers.
         /// </returns>
-        public static IEnumerable<string> GetRegisteredCryptoProviders()
+        public static string[] GetProviderIds()
         {
-            foreach (string id in GlobalProviders.Keys)
+            return GlobalProviders.Keys.ToArray();
+        }
+
+        /// <summary>
+        /// Gets all aliases associated with the <paramref name="id"/>.
+        /// </summary>
+        /// <param name="id">
+        /// The id/alias of a registered crypto provider.
+        /// </param>
+        /// <returns>
+        /// An array of all registered aliases.
+        /// </returns>
+        public static IEnumerable<string> GetAliases(string id)
+        {
+            id = ResolveId(id);
+
+            foreach (var alias in GlobalAliases)
             {
-                yield return id;
+                if (alias.Key == id)
+                {
+                    yield return alias.Key;
+                }
             }
         }
 
@@ -102,34 +130,34 @@ namespace SAPTeam.Kryptor
         /// Translates given id to absolute identifier.
         /// </summary>
         /// <param name="id">
-        /// The id/hint of a registered crypto provider.
+        /// The id/alias of the registered crypto provider.
         /// </param>
         /// <returns>The absolute identifier of corresponding crypto provider. if given id is already absolute, returns the same id.</returns>
         /// <exception cref="KeyNotFoundException"></exception>
-        public static string GetRegisteredCryptoProviderId(string id)
+        public static string ResolveId(string id)
         {
-            if (!id.Contains(":"))
+            if (!id.Contains(':'))
             {
                 id = $"kryptor:{id}";
             }
 
-            return GlobalProviders.ContainsKey(id) ? id : GlobalHints.ContainsKey(id) ? GlobalHints[id] : throw new KeyNotFoundException(id);
+            return GlobalProviders.ContainsKey(id) ? id : GlobalAliases.TryGetValue(id, out string value) ? value : throw new KeyNotFoundException(id);
         }
 
         /// <summary>
         /// Gets display name of the registered crypto provider.
         /// </summary>
         /// <param name="id">
-        /// The id/hint of a registered crypto provider.
+        /// The id/alias of a registered crypto provider.
         /// </param>
         /// <returns>
         /// The user-friendly name of the crypto provider.
         /// </returns>
         public static string GetDisplayName(string id)
         {
-            string realId = GetRegisteredCryptoProviderId(id);
+            string realId = ResolveId(id);
 
-            string result = GlobalProviders[realId].DisplayName;
+            string result = GlobalProviders[realId].Name;
 
             if (!realId.StartsWith("kryptor:"))
             {
@@ -138,15 +166,6 @@ namespace SAPTeam.Kryptor
 
             return result;
         }
-
-        /// <summary>
-        /// Translates given id to an absolute identifier and then returns the corresponding <see cref="Type"/> object.
-        /// </summary>
-        /// <param name="id">
-        /// The id/hint of a registered crypto provider.
-        /// </param>
-        /// <returns>The <see cref="Type"/> object of that crypto provider.</returns>
-        public static Type ResolveProviderById(string id) => GlobalProviders[GetRegisteredCryptoProviderId(id)].Instance.GetType();
 
         /// <summary>
         /// Creates a <see cref="CryptoProvider"/> object to use with KES engine.
@@ -184,7 +203,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public static CryptoProvider Create(KeyStore keyStore, CryptoProviderConfiguration configuration)
         {
-            CryptoProvider provider = GlobalProviders[GetRegisteredCryptoProviderId(configuration.Id)].Instance.Fork(keyStore, configuration);
+            CryptoProvider provider = GlobalProviders[ResolveId(configuration.Id)].Fork(keyStore, configuration);
 
             return provider;
         }

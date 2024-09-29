@@ -9,6 +9,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class DynamicEncryption : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "Dynamic Encryption";
+
         /// <summary>
         /// Creates an empty crypto provider.
         /// </summary>
@@ -16,17 +19,6 @@ namespace SAPTeam.Kryptor.CryptoProviders
         {
 
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicEncryption"/> class.
-        /// </summary>
-        /// <param name="keyStore">
-        /// The keystore with at least 2 keys.
-        /// </param>
-        /// <param name="configuration">
-        /// The configuration to initialize the crypto provider
-        /// </param>
-        public DynamicEncryption(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
 
         /// <inheritdoc/>
         public override async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)

@@ -15,7 +15,7 @@
             {
                 Id = "SK",
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SK);
@@ -37,7 +37,7 @@
             {
                 Id = "TK",
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TK);
@@ -59,7 +59,7 @@
             {
                 Id = "MV",
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MV);
@@ -81,7 +81,7 @@
             {
                 Id = "TP",
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TP);
@@ -103,7 +103,7 @@
             {
                 Id = "DE",
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DE);
@@ -126,7 +126,7 @@
                 Id = "SK",
                 Continuous = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuous);
@@ -149,7 +149,7 @@
                 Id = "TK",
                 Continuous = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuous);
@@ -172,7 +172,7 @@
                 Id = "MV",
                 Continuous = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuous);
@@ -195,7 +195,7 @@
                 Id = "TP",
                 Continuous = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuous);
@@ -218,7 +218,7 @@
                 Id = "DE",
                 Continuous = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuous);
@@ -241,7 +241,7 @@
                 Id = "SK",
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHash);
@@ -264,7 +264,7 @@
                 Id = "MV",
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHash);
@@ -287,7 +287,7 @@
                 Id = "DE",
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHash);
@@ -310,7 +310,7 @@
                 Id = "SK",
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithDBP);
@@ -333,7 +333,7 @@
                 Id = "TK",
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TKWithDBP);
@@ -356,7 +356,7 @@
                 Id = "MV",
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithDBP);
@@ -379,7 +379,7 @@
                 Id = "TP",
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TPWithDBP);
@@ -402,7 +402,7 @@
                 Id = "DE",
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithDBP);
@@ -426,7 +426,7 @@
                 Continuous = true,
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHash);
@@ -450,7 +450,7 @@
                 Continuous = true,
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHash);
@@ -474,7 +474,7 @@
                 Continuous = true,
                 RemoveHash = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHash);
@@ -498,7 +498,7 @@
                 Continuous = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndDBP);
@@ -522,7 +522,7 @@
                 Continuous = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuousAndDBP);
@@ -546,7 +546,7 @@
                 Continuous = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndDBP);
@@ -570,7 +570,7 @@
                 Continuous = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuousAndDBP);
@@ -594,7 +594,7 @@
                 Continuous = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndDBP);
@@ -618,7 +618,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHashAndDBP);
@@ -642,7 +642,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHashAndDBP);
@@ -666,7 +666,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHashAndDBP);
@@ -691,7 +691,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHashAndDBP);
@@ -716,7 +716,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHashAndDBP);
@@ -741,7 +741,7 @@
                 RemoveHash = true,
                 DynamicBlockProccessing = true,
             };
-            cpc.Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(cpc.Id);
+            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHashAndDBP);

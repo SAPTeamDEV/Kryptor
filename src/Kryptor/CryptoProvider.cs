@@ -9,6 +9,17 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public abstract class CryptoProvider : ICloneable
     {
+        private string registeredIdentifier;
+        internal string RegisteredIdentifier
+        {
+            get => registeredIdentifier;
+            set
+            {
+                if (!string.IsNullOrEmpty(registeredIdentifier)) throw new InvalidOperationException("Cannot change the crypto provider registered id");
+                registeredIdentifier = value;
+            }
+        }
+
         /// <summary>
         /// Gets the Decryption Chunk Size.
         /// </summary>
@@ -29,8 +40,8 @@ namespace SAPTeam.Kryptor
             get => configuration;
             private set
             {
-                string selfId = CryptoProviderFactory.GetRegisteredCryptoProviderId(GetType());
-                if (value.Id != null && CryptoProviderFactory.GetRegisteredCryptoProviderId(value.Id) != selfId)
+                string selfId = RegisteredIdentifier;
+                if (value.Id != null && CryptoProviderFactory.ResolveId(value.Id) != selfId)
                 {
                     throw new InvalidOperationException("Invalid configuration");
                 }
@@ -45,6 +56,19 @@ namespace SAPTeam.Kryptor
         /// Gets the keystore for crypto operations.
         /// </summary>
         public KeyStore KeyStore { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicates whether this crypto provider is secure.
+        /// </summary>
+        /// <remarks>
+        /// This value is used in encryption, if the crypto provider is not secure, it only could be used for decryption.
+        /// </remarks>
+        public virtual bool IsSecure => true;
+
+        /// <summary>
+        /// Gets the friendly name of the crypto provider.
+        /// </summary>
+        public abstract string Name { get; }
 
         /// <summary>
         /// Updates the header to include crypto provider data.
@@ -74,7 +98,7 @@ namespace SAPTeam.Kryptor
             }
 
             CryptoProvider clone = Clone() as CryptoProvider;
-            clone.ApplyHeader(keyStore, configuration);
+            clone.Initialize(keyStore, configuration);
             return clone;
         }
 
@@ -87,7 +111,7 @@ namespace SAPTeam.Kryptor
         /// <param name="configuration">
         /// The configuration to initialize the crypto provider
         /// </param>
-        protected virtual void ApplyHeader(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
+        protected virtual void Initialize(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
             KeyStore = keyStore;
 
@@ -107,6 +131,10 @@ namespace SAPTeam.Kryptor
         /// <returns>Encrypted data block.</returns>
         public virtual async Task<byte[]> EncryptBlockAsync(byte[] data, CryptoProcess process, CancellationToken cancellationToken)
         {
+            if (!IsSecure)
+            {
+                throw new NotSupportedException("Cannot encrypt data with a security compromised crypto provider");
+            }
             AesHelper.CheckArgument(data, nameof(data));
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)

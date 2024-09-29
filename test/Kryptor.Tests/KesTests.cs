@@ -13,7 +13,8 @@ namespace SAPTeam.Kryptor.Tests
         public async void EncryptDecryptTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKey(ks));
+            CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
+            Kes kp = new Kes(cp);
 
             byte[] enc = await kp.EncryptBlockAsync(Encoding.UTF8.GetBytes(testText));
             byte[] output = await kp.DecryptBlockAsync(enc);
@@ -28,7 +29,8 @@ namespace SAPTeam.Kryptor.Tests
         public void BlockSizeTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
+            CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
+            Kes kp = new Kes(cp, blockSize: 0x8000);
 
             Assert.Equal(1048576, kp.GetDecryptionBufferSize());
             Assert.Equal(((1048576 / 32) - 1) * 31, kp.GetEncryptionBufferSize());
@@ -38,10 +40,12 @@ namespace SAPTeam.Kryptor.Tests
         public async void InvalidKeystoreTest()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKey(ks));
+            CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
+            Kes kp = new Kes(cp);
 
             KeyStore ks2 = KeyStore.Generate(128);
-            Kes kp2 = new Kes(new StandaloneKey(ks2));
+            CryptoProvider cp2 = CryptoProviderFactory.Create(ks2, "MixedVector");
+            Kes kp2 = new Kes(cp2);
 
             byte[] enc = await kp.EncryptBlockAsync(testBytes);
             await Assert.ThrowsAsync<InvalidDataException>(async () => await kp2.DecryptBlockAsync(enc));
@@ -51,7 +55,8 @@ namespace SAPTeam.Kryptor.Tests
         public async void EncryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
+            CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
+            Kes kp = new Kes(cp, blockSize: 0x8000);
 
             byte[] buffer = new byte[kp.GetEncryptionBufferSize() + 1];
             Random.Shared.NextBytes(buffer);
@@ -62,7 +67,8 @@ namespace SAPTeam.Kryptor.Tests
         public async void DecryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
-            Kes kp = new Kes(new StandaloneKey(ks), blockSize: 0x8000);
+            CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
+            Kes kp = new Kes(cp, blockSize: 0x8000);
 
             byte[] buffer = new byte[kp.GetDecryptionBufferSize() + 1];
             Random.Shared.NextBytes(buffer);

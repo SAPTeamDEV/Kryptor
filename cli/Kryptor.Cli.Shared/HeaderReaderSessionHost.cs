@@ -45,7 +45,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (header.Configuration != null)
                 {
-                    Log($"Crypto Provider: {(Verbose ? CryptoProviderFactory.GetRegisteredCryptoProviderId(header.Configuration.Id) : CryptoProviderFactory.GetDisplayName(header.Configuration.Id))}");
+                    Log($"Crypto Provider: {(Verbose ? CryptoProviderFactory.ResolveId(header.Configuration.Id) : CryptoProviderFactory.GetDisplayName(header.Configuration.Id))}");
                     Log($"Continuous: {header.Configuration.Continuous}");
                     Log($"Remove Hash: {header.Configuration.RemoveHash}");
                     Log($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");

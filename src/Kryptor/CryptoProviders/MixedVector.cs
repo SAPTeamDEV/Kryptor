@@ -8,6 +8,9 @@ namespace SAPTeam.Kryptor.CryptoProviders
     /// </summary>
     public sealed class MixedVector : CryptoProvider
     {
+        /// <inheritdoc/>
+        public override string Name => "Mixed Vector";
+
         /// <summary>
         /// Creates an empty crypto provider.
         /// </summary>
@@ -15,17 +18,6 @@ namespace SAPTeam.Kryptor.CryptoProviders
         {
 
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MixedVector"/> class.
-        /// </summary>
-        /// <param name="keyStore">
-        /// The keystore with at least 2 keys.
-        /// </param>
-        /// <param name="configuration">
-        /// The configuration to initialize the crypto provider
-        /// </param>
-        public MixedVector(KeyStore keyStore, CryptoProviderConfiguration configuration = null) => ApplyHeader(keyStore, configuration);
 
         /// <inheritdoc/>
         protected override async Task<IEnumerable<byte>> EncryptChunkAsync(byte[] chunk, CryptoProcess process, CancellationToken cancellationToken) => await AesHelper.EncryptAesCbcAsync(chunk, KeyStore[process.ChunkIndex], DynamicEncryption.CreateMixedIV(KeyStore, process), cancellationToken);

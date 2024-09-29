@@ -60,15 +60,15 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
                     Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
 
-                    IEnumerable<string> cryptoProviders = CryptoProviderFactory.GetRegisteredCryptoProviders();
+                    var cryptoProviders = CryptoProviderFactory.GetProviders();
                     if (!cryptoProviders.Any()) return;
 
                     Console.WriteLine();
                     Console.WriteLine("Registered Crypto Providers:");
 
-                    foreach (string id in cryptoProviders)
+                    foreach (var provider in cryptoProviders)
                     {
-                        Console.WriteLine($"{id} ({CryptoProviderFactory.GetDisplayName(id)})");
+                        Console.WriteLine($"{provider.Key} ({provider.Value.Name})");
                     }
                 }
                 else

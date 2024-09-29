@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Cli
 
             Configuration = new CryptoProviderConfiguration()
             {
-                Id = CryptoProviderFactory.GetRegisteredCryptoProviderId(options.Provider),
+                Id = CryptoProviderFactory.ResolveId(options.Provider),
                 Continuous = options.Continuous,
                 RemoveHash = options.RemoveHash,
                 DynamicBlockProccessing = options.DynamicBlockProcessing,
