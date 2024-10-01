@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-    <IsPackable>True</IsPackable>
     <PackageId>SAPTeam.Kryptor.Tool</PackageId>
     <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -18,4 +17,6 @@
     </None>
   </ItemGroup>
 
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\PackageLogo.props" />
+  
 </Project>

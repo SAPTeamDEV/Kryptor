@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <PackageIcon>kryptor-small.jpg</PackageIcon>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="$(RepoRootPath)build\kryptor-small.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

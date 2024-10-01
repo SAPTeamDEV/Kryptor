@@ -24,4 +24,5 @@
   </ItemGroup>
 
   <Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(SrcRootPath)..))" />
+  <Import Project="$(SrcRootPath)..\build\PackageLogo.props" />
 </Project>
