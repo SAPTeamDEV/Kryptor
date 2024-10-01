@@ -32,8 +32,8 @@ namespace SAPTeam.Kryptor.Tests
             CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
             Kes kp = new Kes(cp, blockSize: 0x8000);
 
-            Assert.Equal(1048576, kp.GetDecryptionBufferSize());
-            Assert.Equal(((1048576 / 32) - 1) * 31, kp.GetEncryptionBufferSize());
+            Assert.Equal(16777216, kp.GetDecryptionBufferSize());
+            Assert.Equal(((16777216 / 512) * 511) - 32, kp.GetEncryptionBufferSize());
         }
 
         [Fact]
