@@ -31,19 +31,19 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets max input buffer size for <see cref="CryptoProvider.EncryptBlockAsync"/>.
         /// </summary>
-        public int GetEncryptionBufferSize(CryptoProcess process = default) => ((process.BlockSize > 0 ? process.BlockSize : BlockSize) - (Provider.Configuration.RemoveHash ? 0 : 1)) * Provider.EncryptionChunkSize;
+        public int GetEncryptionBufferSize(CryptoProcess process = default) => ((process.BlockSize > 0 ? process.BlockSize : BlockSize) * Provider.EncryptionChunkSize) - (Provider.Configuration.RemoveHash ? 0 : 32);
 
         #endregion
 
         /// <summary>
         /// Gets the version of the kes encryptor.
         /// </summary>
-        public static Version Version => new Version(0, 16, 0, 0);
+        public static Version Version => new Version(0, 18, 0, 0);
 
         /// <summary>
         /// Gets the minimum supported version of the kes decryptor.
         /// </summary>
-        public static Version MinimumSupportedVersion => new Version(0, 14, 0, 0);
+        public static Version MinimumSupportedVersion => new Version(0, 18, 0, 0);
 
         /// <summary>
         /// Gets or sets the crypto provider.

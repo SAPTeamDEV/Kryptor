@@ -23,12 +23,12 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the Decryption Chunk Size.
         /// </summary>
-        public virtual int DecryptionChunkSize => 32;
+        public virtual int DecryptionChunkSize => 512;
 
         /// <summary>
         /// Gets the Encryption Chunk Size.
         /// </summary>
-        public virtual int EncryptionChunkSize => 31;
+        public virtual int EncryptionChunkSize => 511;
 
         private CryptoProviderConfiguration configuration;
 
@@ -186,20 +186,6 @@ namespace SAPTeam.Kryptor
             {
                 byte[] _hash = data.Take(32).ToArray();
                 process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
-
-                /* Unmerged change from project 'Kryptor (netstandard2.0)'
-                Before:
-                                chunks = data.Skip(32).ChunkCompat(DecryptionChunkSize);
-                After:
-                                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
-                */
-
-                /* Unmerged change from project 'Kryptor (net461)'
-                Before:
-                                chunks = data.Skip(32).ChunkCompat(DecryptionChunkSize);
-                After:
-                                chunks = data.Skip(32).Chunk(DecryptionChunkSize);
-                */
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
