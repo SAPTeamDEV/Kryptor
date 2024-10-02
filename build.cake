@@ -65,6 +65,20 @@ DotNetPackSettings GlobalPackSettings => new(){
 	OutputDirectory = output,
 };
 
+string ResolveRuntimeIdentifier(){
+	var rawId = RuntimeInformation.RuntimeIdentifier;
+	string resId;
+
+	if (IsRunningOnLinux()){
+		resId = $"linux-{rawId.Split('-')[1]}";
+	}
+	else{
+		resId = rawId;
+	}
+
+	return resId;
+}
+
 Setup(context => {
 	if (context.TasksToExecute.Where(task => task.Name == "Restore-Cli.Aot").Count() > 0){
 		Information("Lock file ignored due to requesting aot compilation");
@@ -169,7 +183,7 @@ Task("Restore-Cli.Aot")
 		var restoreSettings = GlobalRestoreSettings;
 
 		if (string.IsNullOrEmpty(restoreSettings.Runtime)){
-			restoreSettings.Runtime = RuntimeInformation.RuntimeIdentifier;
+			restoreSettings.Runtime = ResolveRuntimeIdentifier();
 		}
 
 		DotNetRestore(cliAotProjectFile, restoreSettings);
@@ -182,7 +196,7 @@ Task("Build-Cli.Aot")
 		var publishSettings = GlobalPublishSettings;
 
 		if (string.IsNullOrEmpty(publishSettings.Runtime)){
-			publishSettings.Runtime = RuntimeInformation.RuntimeIdentifier;
+			publishSettings.Runtime = ResolveRuntimeIdentifier();
 		}
 
 		if (string.IsNullOrEmpty(publishSettings.Framework)){
