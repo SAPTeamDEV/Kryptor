@@ -204,7 +204,7 @@ Task("Build-Cli.Aot")
 		}
 
 		if (publishSettings.OutputDirectory == null){
-			publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}";
+			publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}/{publishSettings.Runtime}";
 		}
 
 		publishSettings.NoBuild = false;
