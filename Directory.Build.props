@@ -16,7 +16,6 @@
 
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>

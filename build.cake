@@ -24,8 +24,11 @@ string engineTestProjectFile = "test/Kryptor.Tests/Kryptor.Tests.csproj";
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
+bool ignoreLockFile = false;
+
 DotNetRestoreSettings GlobalRestoreSettings => new(){
 	Runtime = runtime,
+	UseLockFile = !ignoreLockFile,
 };
 
 DotNetBuildSettings GlobalBuildSettings => new(){
@@ -61,6 +64,13 @@ DotNetPackSettings GlobalPackSettings => new(){
 	Runtime = runtime,
 	OutputDirectory = output,
 };
+
+Setup(context => {
+	if (context.TasksToExecute.Where(task => task.Name == "Restore-Cli.Aot").Count() > 0){
+		Information("Lock file ignored due to requesting aot compilation");
+		ignoreLockFile = true;
+	}
+});
 
 Task("Restore-Engine")
 	.Description("Restore kryptor engine dependencies")
