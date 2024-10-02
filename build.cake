@@ -7,7 +7,8 @@
 var target = Argument("t", "Build-Cli");
 var configuration = Argument("c", "Release");
 var runtime = Argument("r", "");
-string framework  = Argument("f", "");
+var framework  = Argument("f", "");
+var output  = Argument("o", "");
 
 string engineProjectFile = "src/Kryptor/Kryptor.csproj";
 string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
@@ -32,6 +33,7 @@ DotNetBuildSettings GlobalBuildSettings => new(){
 	Configuration = configuration,
 	Framework = framework,
 	Runtime = runtime,
+	OutputDirectory = output,
 };
 
 DotNetTestSettings GlobalTestSettings => new(){
@@ -49,6 +51,7 @@ DotNetPublishSettings GlobalPublishSettings => new(){
 	Configuration = configuration,
 	Framework = framework,
 	Runtime = runtime,
+	OutputDirectory = output,
 };
 
 DotNetPackSettings GlobalPackSettings => new(){
@@ -56,6 +59,7 @@ DotNetPackSettings GlobalPackSettings => new(){
 	NoBuild = true,
 	Configuration = configuration,
 	Runtime = runtime,
+	OutputDirectory = output,
 };
 
 Task("Restore-Engine")
@@ -175,8 +179,11 @@ Task("Build-Cli.Aot")
 			publishSettings.Framework = "net8.0";
 		}
 
+		if (publishSettings.OutputDirectory == null || string.IsNullOrEmpty(publishSettings.OutputDirectory.ToString())){
+			publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}";
+		}
+
 		publishSettings.NoBuild = false;
-		publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}";
 
 		DotNetPublish(cliAotProjectFile, publishSettings);
 	});
