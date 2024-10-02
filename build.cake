@@ -195,4 +195,12 @@ Task("Build-All")
 	.IsDependentOn("Build-Cli.Legacy")
 	.IsDependentOn("Build-Cli.Aot");
 
+Task("Pack-All")
+	.IsDependentOn("Pack-Engine")
+	.IsDependentOn("Pack-Client")
+	.IsDependentOn("Pack-Cli");
+	
+Task("Test-All")
+	.IsDependentOn("Test-Engine");
+
 RunTarget(target);
