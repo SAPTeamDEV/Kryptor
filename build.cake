@@ -8,7 +8,7 @@ var target = Argument("t", "Build-Cli");
 var configuration = Argument("c", "Release");
 var runtime = Argument("r", "");
 var framework  = Argument("f", "");
-var output  = Argument("o", "");
+var output = Argument<string>("o", null);
 
 string engineProjectFile = "src/Kryptor/Kryptor.csproj";
 string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
@@ -179,7 +179,7 @@ Task("Build-Cli.Aot")
 			publishSettings.Framework = "net8.0";
 		}
 
-		if (publishSettings.OutputDirectory == null || string.IsNullOrEmpty(publishSettings.OutputDirectory.ToString())){
+		if (publishSettings.OutputDirectory == null){
 			publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}";
 		}
 
