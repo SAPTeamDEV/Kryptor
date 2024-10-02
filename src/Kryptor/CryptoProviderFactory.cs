@@ -99,10 +99,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// An array of all registered crypto providers.
         /// </returns>
-        public static string[] GetProviderIds()
-        {
-            return GlobalProviders.Keys.ToArray();
-        }
+        public static string[] GetProviderIds() => GlobalProviders.Keys.ToArray();
 
         /// <summary>
         /// Gets all aliases associated with the <paramref name="id"/>.
@@ -117,7 +114,7 @@ namespace SAPTeam.Kryptor
         {
             id = ResolveId(id);
 
-            foreach (var alias in GlobalAliases)
+            foreach (KeyValuePair<string, string> alias in GlobalAliases)
             {
                 if (alias.Key == id)
                 {

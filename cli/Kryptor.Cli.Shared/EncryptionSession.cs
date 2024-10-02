@@ -52,7 +52,7 @@ namespace SAPTeam.Kryptor.Cli
             string destName;
             if (encSessionHost.Obfuscate)
             {
-                var buffer = new byte[12];
+                byte[] buffer = new byte[12];
                 CryptoRandom.Instance.Generate(buffer);
                 destName = BitConverter.ToString(buffer).Replace("-", "").ToLower();
             }

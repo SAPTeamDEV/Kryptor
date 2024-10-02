@@ -1,14 +1,7 @@
 
 using System.CommandLine;
-using System.Security.Permissions;
-using System.Text;
 
 using Android.Text.Method;
-using Android.Widget;
-
-using Java.Security;
-
-using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -27,14 +20,14 @@ namespace SAPTeam.Kryptor.Cli
             //CheckPermissions();
             Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
 
-            var input = FindViewById<EditText>(Resource.Id.editText1);
-            var btn = FindViewById<Button>(Resource.Id.button1);
-            var output = FindViewById<TextView>(Resource.Id.textView1);
+            EditText input = FindViewById<EditText>(Resource.Id.editText1);
+            Button btn = FindViewById<Button>(Resource.Id.button1);
+            TextView output = FindViewById<TextView>(Resource.Id.textView1);
             output.MovementMethod = new ScrollingMovementMethod();
 
-            var root = Program.GetRootCommand();
-            var lw = new LiveWriter(output);
-            var vc = new VirtualConsole(lw);
+            RootCommand root = Program.GetRootCommand();
+            LiveWriter lw = new LiveWriter(output);
+            VirtualConsole vc = new VirtualConsole(lw);
             Console.SetOut(lw);
             Console.SetError(lw);
 
@@ -55,7 +48,7 @@ namespace SAPTeam.Kryptor.Cli
                 output.Text += $"===Execution finished at {DateTime.Now}, Exit code: {exit}===\n\n";
             };
 
-            var warn = new AlertDialog.Builder(this);
+            AlertDialog.Builder warn = new AlertDialog.Builder(this);
             warn.SetTitle($"Warning");
             warn.SetMessage("The Android build in development and may not work properly");
             warn.SetPositiveButton("OK", delegate { });
@@ -64,7 +57,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private static void HandleButton(EditText input, RootCommand root, LiveWriter lw, VirtualConsole vc, out int exit)
         {
-            var tx = input.Text;
+            string tx = input.Text;
 
             try
             {
@@ -93,7 +86,7 @@ namespace SAPTeam.Kryptor.Cli
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var alert = new AlertDialog.Builder(this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.SetTitle($"{e.ExceptionObject.GetType().Name}");
             alert.SetMessage(e.ToString());
             alert.SetPositiveButton("OK", delegate { });

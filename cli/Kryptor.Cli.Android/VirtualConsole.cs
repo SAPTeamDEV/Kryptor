@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SAPTeam.Kryptor.Cli
 {
@@ -26,13 +21,10 @@ namespace SAPTeam.Kryptor.Cli
 
     internal class SSW : IStandardStreamWriter
     {
-        TextWriter inner;
+        private readonly TextWriter inner;
 
         public void Write(string value) => inner.Write(value);
 
-        public SSW(TextWriter streamWriter)
-        {
-            inner = streamWriter;
-        }
+        public SSW(TextWriter streamWriter) => inner = streamWriter;
     }
 }

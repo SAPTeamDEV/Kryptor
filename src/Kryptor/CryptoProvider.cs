@@ -135,6 +135,7 @@ namespace SAPTeam.Kryptor
             {
                 throw new NotSupportedException("Cannot encrypt data with a security compromised crypto provider");
             }
+
             AesHelper.CheckArgument(data, nameof(data));
 
             if (process.BlockIndex == 0 && process.ChunkIndex > 0)

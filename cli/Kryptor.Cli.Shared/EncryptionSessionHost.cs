@@ -27,7 +27,7 @@ namespace SAPTeam.Kryptor.Cli
                 KeyChainCollection = new KeyChainCollection(KeyChainPath);
             }
 
-            var sessionGroup = Container.SetSessionGroup(new SessionGroup());
+            SessionGroup sessionGroup = Container.SetSessionGroup(new SessionGroup());
 
             EnumerateFiles((filePath, outputPath) =>
             {

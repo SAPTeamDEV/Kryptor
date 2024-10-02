@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using static System.Collections.Specialized.BitVector32;
+﻿using System.Diagnostics;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -14,13 +7,12 @@ namespace SAPTeam.Kryptor.Client
     /// </summary>
     public partial class SessionGroup : ICollection<SessionHolder>
     {
-        object _lockStatus = new object();
-        object _lockStart = new object();
-        object _lockEnd = new object();
-
-        int _slotId = 0;
+        private readonly object _lockStatus = new object();
+        private readonly object _lockStart = new object();
+        private readonly object _lockEnd = new object();
+        private int _slotId = 0;
         private double _progress = 0;
-        double[] _progressArray;
+        private double[] _progressArray;
         private readonly List<string> messages = new List<string>();
 
         /// <summary>
@@ -131,9 +123,9 @@ namespace SAPTeam.Kryptor.Client
         /// <param name="sessionHolder"></param>
         protected void AddHooks(SessionHolder sessionHolder)
         {
-            var session = sessionHolder.Session;
+            ISession session = sessionHolder.Session;
 
-            var slotId = _slotId++;
+            int slotId = _slotId++;
             WaitingSessions.Add(sessionHolder);
             Waiting++;
 
@@ -170,7 +162,7 @@ namespace SAPTeam.Kryptor.Client
             }
         }
 
-        void OnSessionStarted(object sender, SessionEventArgs e)
+        private void OnSessionStarted(object sender, SessionEventArgs e)
         {
             lock (_lockStart)
             {
@@ -184,16 +176,16 @@ namespace SAPTeam.Kryptor.Client
             }
         }
 
-        void OnSessionProgressChanged(int slotId, object sender, SessionUpdateEventArgs e)
+        private void OnSessionProgressChanged(int slotId, object sender, SessionUpdateEventArgs e)
         {
-            if (e.Progress <= 0 ||  e.Progress > 100) return;
+            if (e.Progress <= 0 || e.Progress > 100) return;
 
-            var fragment = e.Progress / Count;
+            double fragment = e.Progress / Count;
             Interlocked.Exchange(ref _progress, _progress + fragment - _progressArray[slotId]);
             _progressArray[slotId] = fragment;
         }
 
-        void OnSessionEnded(object sender, SessionEventArgs e)
+        private void OnSessionEnded(object sender, SessionEventArgs e)
         {
             lock (_lockEnd)
             {

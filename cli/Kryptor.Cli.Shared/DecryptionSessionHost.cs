@@ -13,7 +13,7 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.Start(context);
 
-            var sessionGroup = Container.SetSessionGroup(new SessionGroup());
+            SessionGroup sessionGroup = Container.SetSessionGroup(new SessionGroup());
 
             EnumerateFiles((filePath, outputPath) =>
             {

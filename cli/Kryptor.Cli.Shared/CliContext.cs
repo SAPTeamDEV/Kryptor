@@ -1,6 +1,4 @@
 using System.Drawing;
-using System.Reflection;
-using System.Diagnostics.CodeAnalysis;
 
 using SAPTeam.Kryptor.Client;
 
@@ -23,8 +21,8 @@ namespace SAPTeam.Kryptor.Cli
             {
                 try
                 {
-                    var f = File.Open(Path.Combine(ApplicationDataDirectory, ".write_test"), FileMode.Create, FileAccess.Write);
-                    var buffer = new byte[] { 79, 75 };
+                    FileStream f = File.Open(Path.Combine(ApplicationDataDirectory, ".write_test"), FileMode.Create, FileAccess.Write);
+                    byte[] buffer = new byte[] { 79, 75 };
                     f.Write(buffer, 0, buffer.Length);
                     f.Flush();
                     f.Close();
@@ -56,7 +54,6 @@ namespace SAPTeam.Kryptor.Cli
             WordlistDirectory = Path.Combine(ApplicationDataDirectory, "Wordlist".ToLowerIfUnix());
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         protected override void CreateContext()
         {
             base.CreateContext();

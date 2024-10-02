@@ -8,7 +8,6 @@ using Downloader;
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Client.Security;
 using SAPTeam.Kryptor.Extensions;
-using SAPTeam.Kryptor.Generators;
 
 using SharpCompress.Archives;
 using SharpCompress.Archives.SevenZip;
@@ -176,9 +175,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
             else
             {
-                var dest = Utilities.EnsureDirectoryExists(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
+                string dest = Utilities.EnsureDirectoryExists(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName()));
 
-                var tempFile = Path.Combine(dest, HashString);
+                string tempFile = Path.Combine(dest, HashString);
 
                 await Downloader.DownloadFileTaskAsync(IndexEntry.Uri.OriginalString, tempFile, cancellationToken);
             }

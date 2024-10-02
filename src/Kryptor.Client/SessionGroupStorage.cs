@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 
 namespace SAPTeam.Kryptor.Client
 {
     public partial class SessionGroup
     {
-        object _addLock = new object();
-
-        readonly HashSet<SessionHolder> storage = new HashSet<SessionHolder>();
+        private readonly object _addLock = new object();
+        private readonly HashSet<SessionHolder> storage = new HashSet<SessionHolder>();
 
         /// <summary>
         /// Gets a bool indicates the lock status of this session group.

@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Generators;
 
@@ -56,7 +54,6 @@ namespace SAPTeam.Kryptor.Cli
             ShowProgressMonitored(true).Wait();
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         public static void CollectEntropy()
         {
             if (BuildInformation.IsAndroidPlatform)

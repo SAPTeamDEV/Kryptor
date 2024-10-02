@@ -1,12 +1,10 @@
-using System.CommandLine;
-
 using SAPTeam.Kryptor.Client;
 
 namespace SAPTeam.Kryptor.Cli
 {
     public class DataProcessingSessionHost : CliSessionHost
     {
-        string[] fString;
+        private readonly string[] fString;
 
         public int BlockSize { get; }
 
@@ -46,16 +44,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public Task GetSmartProgress(SessionGroup sessionGroup)
         {
-            Task progress;
-            if (sessionGroup.Count > 20)
-            {
-                progress = ShowProgressMonitored(sessionGroup);
-            }
-            else
-            {
-                progress = ShowProgressMonitored(true);
-            }
-
+            Task progress = sessionGroup.Count > 20 ? ShowProgressMonitored(sessionGroup) : ShowProgressMonitored(true);
             return progress;
         }
 
@@ -65,7 +54,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (Directory.Exists(file))
                 {
-                    foreach (var subfile in Directory.GetFiles(file, "*", SearchOption.AllDirectories))
+                    foreach (string subfile in Directory.GetFiles(file, "*", SearchOption.AllDirectories))
                     {
                         action(subfile, Utilities.EnsureDirectoryExists(Path.Combine(OutputPath, GetRelativePath(file, Path.GetDirectoryName(subfile)))));
                     }
@@ -77,27 +66,27 @@ namespace SAPTeam.Kryptor.Cli
             });
         }
 
-        public static string GetRelativePath(string relativeTo, string path)
-        {
+        public static string GetRelativePath(string relativeTo, string path) =>
 #if NET6_0_OR_GREATER
-            return Path.GetRelativePath(relativeTo, path);
+            Path.GetRelativePath(relativeTo, path);
 #else
-            return RelativePathLegacy(relativeTo, path);
+            RelativePathLegacy(relativeTo, path);
 #endif
-        }
 
-        static string RelativePathLegacy(string relativeTo, string path)
+        private static string RelativePathLegacy(string relativeTo, string path)
         {
             if (Directory.Exists(path) && !path.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
                 path += Path.DirectorySeparatorChar;
             }
+
             Uri pathUri = new Uri(path);
             // Folders must end in a slash
             if (!relativeTo.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
                 relativeTo += Path.DirectorySeparatorChar;
             }
+
             Uri folderUri = new Uri(relativeTo);
             return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }

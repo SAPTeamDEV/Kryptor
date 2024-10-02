@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Android.Widget;
+﻿using System.Text;
 
 namespace SAPTeam.Kryptor.Cli
 {
     internal class LiveWriter : TextWriter
     {
-        TextView output;
-        StringBuilder sb;
+        private readonly TextView output;
+        private readonly StringBuilder sb;
 
         public LiveWriter(TextView textView)
         {
@@ -19,17 +13,11 @@ namespace SAPTeam.Kryptor.Cli
             output = textView;
         }
 
-        void ResetBuffer()
-        {
-            sb.Clear();
-        }
+        private void ResetBuffer() => sb.Clear();
 
         public override Encoding Encoding => Encoding.UTF8;
 
-        public override void Write(char value)
-        {
-            sb.Append(value);
-        }
+        public override void Write(char value) => sb.Append(value);
 
         public override void Flush()
         {

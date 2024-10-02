@@ -120,7 +120,7 @@ namespace SAPTeam.Kryptor.Client
             return sessionGroup;
         }
 
-        void ValidateSessionGroup()
+        private void ValidateSessionGroup()
         {
             if (_sessionGroup == null) return;
 

@@ -5,7 +5,7 @@
     /// </summary>
     public partial class SessionContainer
     {
-        readonly object _addLock = new object();
+        private readonly object _addLock = new object();
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;

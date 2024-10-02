@@ -13,10 +13,7 @@ namespace SAPTeam.Kryptor.Helpers
         /// </summary>
         public static bool IsAsyncCompatible { get; set; }
 
-        static AsyncCompat()
-        {
-            IsAsyncCompatible = true;
-        }
+        static AsyncCompat() => IsAsyncCompatible = true;
 
         /// <summary>
         /// Suspends the current thread or creates a task that completes after a specified number of milliseconds.
@@ -38,7 +35,9 @@ namespace SAPTeam.Kryptor.Helpers
         public static async Task Delay(int ms, CancellationToken cancellationToken)
         {
             if (IsAsyncCompatible)
+            {
                 await Task.Delay(ms, cancellationToken);
+            }
             else
             {
                 Thread.Sleep(ms);
@@ -83,7 +82,9 @@ namespace SAPTeam.Kryptor.Helpers
         public static async Task WriteAsync(Stream stream, byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (IsAsyncCompatible)
+            {
                 await stream.WriteAsync(buffer, offset, count, cancellationToken);
+            }
             else
             {
                 stream.Write(buffer, offset, count);
@@ -128,7 +129,9 @@ namespace SAPTeam.Kryptor.Helpers
         public static async Task ReadAsync(Stream stream, byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             if (IsAsyncCompatible)
+            {
                 await stream.ReadAsync(buffer, offset, count, cancellationToken);
+            }
             else
             {
                 stream.Read(buffer, offset, count);
@@ -144,16 +147,6 @@ namespace SAPTeam.Kryptor.Helpers
         /// <returns>
         /// The next line from the reader, or <see langword="null"/> if all characters have been read.
         /// </returns>
-        public static async Task<string> ReadLineAsync(TextReader textReader)
-        {
-            if (IsAsyncCompatible)
-            {
-                return await textReader.ReadLineAsync();
-            }
-            else
-            {
-                return textReader.ReadLine();
-            }
-        }
+        public static async Task<string> ReadLineAsync(TextReader textReader) => IsAsyncCompatible ? await textReader.ReadLineAsync() : textReader.ReadLine();
     }
 }

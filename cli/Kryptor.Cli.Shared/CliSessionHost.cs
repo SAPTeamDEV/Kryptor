@@ -1,8 +1,5 @@
 using System.Diagnostics;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Diagnostics.CodeAnalysis;
 
 using SAPTeam.Kryptor.Client;
 using SAPTeam.Kryptor.Helpers;
@@ -88,7 +85,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
             int bufferWidth = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
@@ -240,7 +236,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private void HandleRequests(int bufferWidth, int paddingBufferSize)
         {
             if (!BuildInformation.IsAndroidPlatform && !NoInteractions)
@@ -278,11 +273,10 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
         {
-            var bw = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
-            var paddingSize = IsOutputRedirected ? 1 : bw;
+            int bw = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
+            int paddingSize = IsOutputRedirected ? 1 : bw;
             int counter = 0;
 
             if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
@@ -292,7 +286,7 @@ namespace SAPTeam.Kryptor.Cli
 
             while (true)
             {
-                var ended = sessionGroup.Status == SessionStatus.Ended;
+                bool ended = sessionGroup.Status == SessionStatus.Ended;
 
                 string progress;
                 Color color;
@@ -310,7 +304,7 @@ namespace SAPTeam.Kryptor.Cli
                     color = Color.Yellow;
                 }
 
-                var description = $"Finnished {sessionGroup.Completed} of {sessionGroup.Count} tasks";
+                string description = $"Finnished {sessionGroup.Completed} of {sessionGroup.Count} tasks";
 
                 if (BuildInformation.Branch == BuildBranch.Debug || Verbose)
                 {
@@ -318,14 +312,17 @@ namespace SAPTeam.Kryptor.Cli
                     {
                         description += $", cancelled: {sessionGroup.Cancelled}";
                     }
+
                     if (sessionGroup.Failed > 0)
                     {
                         description += $", failed: {sessionGroup.Failed}";
                     }
+
                     if (sessionGroup.Skipped > 0)
                     {
                         description += $", skipped: {sessionGroup.Skipped}";
                     }
+
                     if (sessionGroup.Unknown > 0)
                     {
                         description += $", unknown: {sessionGroup.Unknown}";
@@ -362,7 +359,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (ended)
                 {
-                    foreach (var msg in sessionGroup.Messages)
+                    foreach (string msg in sessionGroup.Messages)
                     {
                         LogError(msg);
                     }
@@ -517,7 +514,6 @@ namespace SAPTeam.Kryptor.Cli
             }
         }
 
-        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "All non-compatible calls checked with IsAndroidPlatform property of BuildInformation")]
         private async Task ReadKey()
         {
             if (BuildInformation.IsAndroidPlatform)
@@ -546,7 +542,7 @@ namespace SAPTeam.Kryptor.Cli
         protected Task ShowProgress(bool showOverall, bool showRemaining)
         {
             Task pTask = ShowProgressImpl(showOverall, showRemaining);
-            
+
             return pTask;
         }
 

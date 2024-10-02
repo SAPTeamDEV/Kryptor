@@ -1,6 +1,5 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Parsing;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 using SAPTeam.Kryptor.Helpers;
@@ -60,13 +59,13 @@ namespace SAPTeam.Kryptor.Cli
                     Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
                     Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
 
-                    var cryptoProviders = CryptoProviderFactory.GetProviders();
+                    Dictionary<string, CryptoProvider> cryptoProviders = CryptoProviderFactory.GetProviders();
                     if (!cryptoProviders.Any()) return;
 
                     Console.WriteLine();
                     Console.WriteLine("Registered Crypto Providers:");
 
-                    foreach (var provider in cryptoProviders)
+                    foreach (KeyValuePair<string, CryptoProvider> provider in cryptoProviders)
                     {
                         Console.WriteLine($"{provider.Key} ({provider.Value.Name})");
                     }

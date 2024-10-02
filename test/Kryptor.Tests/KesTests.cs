@@ -1,7 +1,5 @@
 ﻿using System.Text;
 
-using SAPTeam.Kryptor.CryptoProviders;
-
 namespace SAPTeam.Kryptor.Tests
 {
     public class KesTests
@@ -33,7 +31,7 @@ namespace SAPTeam.Kryptor.Tests
             Kes kp = new Kes(cp, blockSize: 0x8000);
 
             Assert.Equal(16777216, kp.GetDecryptionBufferSize());
-            Assert.Equal(((16777216 / 512) * 511) - 32, kp.GetEncryptionBufferSize());
+            Assert.Equal((16777216 / 512 * 511) - 32, kp.GetEncryptionBufferSize());
         }
 
         [Fact]
