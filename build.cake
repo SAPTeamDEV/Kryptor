@@ -23,134 +23,176 @@ string engineTestProjectFile = "test/Kryptor.Tests/Kryptor.Tests.csproj";
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
+DotNetRestoreSettings GlobalRestoreSettings => new(){
+	Runtime = runtime,
+};
+
+DotNetBuildSettings GlobalBuildSettings => new(){
+	NoRestore = true,
+	Configuration = configuration,
+	Framework = framework,
+	Runtime = runtime,
+};
+
+DotNetTestSettings GlobalTestSettings => new(){
+	NoRestore = true,
+	NoBuild = true,
+	Verbosity = DotNetVerbosity.Normal,
+	Configuration = configuration,
+	Framework = framework,
+	Runtime = runtime,
+};
+
+DotNetPublishSettings GlobalPublishSettings => new(){
+	NoRestore = true,
+	NoBuild = true,
+	Configuration = configuration,
+	Framework = framework,
+	Runtime = runtime,
+};
+
+DotNetPackSettings GlobalPackSettings => new(){
+	NoRestore = true,
+	NoBuild = true,
+	Configuration = configuration,
+	Runtime = runtime,
+};
+
 Task("Restore-Engine")
 	.Does(() => {
-		DotNetRestore(engineProjectFile);
+		DotNetRestore(engineProjectFile, GlobalRestoreSettings);
 	});
 	
 Task("Build-Engine")
 	.IsDependentOn("Restore-Engine")
 	.Does(() => {
-		DotNetBuild(engineProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(engineProjectFile, GlobalBuildSettings);
+	});
+
+Task("Pack-Engine")
+	.IsDependentOn("Build-Engine")
+	.Does(() => {
+		DotNetPack(engineProjectFile, GlobalPackSettings);
 	});
 
 Task("Restore-Client")
 	.IsDependentOn("Restore-Engine")
 	.Does(() => {
-		DotNetRestore(clientProjectFile);
+		DotNetRestore(clientProjectFile, GlobalRestoreSettings);
 	});
 	
 Task("Build-Client")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
-		DotNetBuild(clientProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(clientProjectFile, GlobalBuildSettings);
+	});
+
+Task("Pack-Client")
+	.IsDependentOn("Build-Client")
+	.Does(() => {
+		DotNetPack(clientProjectFile, GlobalPackSettings);
 	});
 
 Task("Restore-Cli")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
-		DotNetRestore(cliProjectFile);
+		DotNetRestore(cliProjectFile, GlobalRestoreSettings);
 	});
 
 Task("Build-Cli")
 	.IsDependentOn("Restore-Cli")
 	.Does(() => {
-		DotNetBuild(cliProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(cliProjectFile, GlobalBuildSettings);
 	});
 
-Task("Restore-Android")
+Task("Pack-Cli")
+	.IsDependentOn("Build-Cli")
+	.Does(() => {
+		DotNetPack(cliProjectFile, GlobalPackSettings);
+	});
+
+Task("Restore-Cli.Android")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
-		DotNetRestore(cliAndroidProjectFile);
+		DotNetRestore(cliAndroidProjectFile, GlobalRestoreSettings);
 	});
 
-Task("Build-Android")
-	.IsDependentOn("Restore-Android")
+Task("Build-Cli.Android")
+	.IsDependentOn("Restore-Cli.Android")
 	.Does(() => {
-		DotNetBuild(cliAndroidProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(cliAndroidProjectFile, GlobalBuildSettings);
 	});
 
-Task("Restore-Legacy")
+Task("Restore-Cli.Legacy")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
-		DotNetRestore(cliLegacyProjectFile);
+		DotNetRestore(cliLegacyProjectFile, GlobalRestoreSettings);
 	});
 
-Task("Build-Legacy")
-	.IsDependentOn("Restore-Legacy")
+Task("Build-Cli.Legacy")
+	.IsDependentOn("Restore-Cli.Legacy")
 	.Does(() => {
-		DotNetBuild(cliLegacyProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(cliLegacyProjectFile, GlobalBuildSettings);
 	});
 
-Task("Restore-Aot")
+Task("Restore-Cli.Aot")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
-		if (string.IsNullOrEmpty(framework)){
-			framework = "net8.0";
+		var restoreSettings = GlobalRestoreSettings;
+
+		if (string.IsNullOrEmpty(restoreSettings.Runtime)){
+			restoreSettings.Runtime = RuntimeInformation.RuntimeIdentifier;
 		}
-		if (string.IsNullOrEmpty(runtime)){
-			runtime = RuntimeInformation.RuntimeIdentifier;
+
+		DotNetRestore(cliAotProjectFile, restoreSettings);
+	});
+
+Task("Build-Cli.Aot")
+	.IsDependentOn("Restore-Cli.Aot")
+	.Does(() => {
+		var publishSettings = GlobalPublishSettings;
+
+		if (string.IsNullOrEmpty(publishSettings.Runtime)){
+			publishSettings.Runtime = RuntimeInformation.RuntimeIdentifier;
 		}
 
-		DotNetRestore(cliAotProjectFile, new DotNetRestoreSettings(){
-			Runtime = runtime,
-		});
+		if (string.IsNullOrEmpty(publishSettings.Framework)){
+			publishSettings.Framework = "net8.0";
+		}
+
+		publishSettings.NoBuild = false;
+		publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}";
+
+		DotNetPublish(cliAotProjectFile, publishSettings);
 	});
 
-Task("Build-Aot")
-	.IsDependentOn("Restore-Aot")
-	.Does(() => {
-		DotNetPublish(cliAotProjectFile, new DotNetPublishSettings(){
-			NoRestore = true,
-			Runtime = runtime,
-			Framework = framework,
-			OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{configuration}/{framework}"
-		});
-	});
-
-Task("Restore-EngineTest")
+Task("Restore-Engine.Test")
 	.Description("Restore kryptor engine test project dependencies")
 	.IsDependentOn("Restore-Engine")
 	.Does(() => {
-		DotNetRestore(engineTestProjectFile);
+		DotNetRestore(engineTestProjectFile, GlobalRestoreSettings);
 	});
 
-Task("Build-EngineTest")
+Task("Build-Engine.Test")
 	.Description("Compile kryptor engine test project")
-	.IsDependentOn("Restore-EngineTest")
+	.IsDependentOn("Restore-Engine.Test")
 	.Does(() => {
-		DotNetBuild(engineTestProjectFile, new DotNetBuildSettings(){
-			NoRestore = true,
-		});
+		DotNetBuild(engineTestProjectFile, GlobalBuildSettings);
 	});
 
 Task("Test-Engine")
 	.Description("Run kryptor engine tests")
-	.IsDependentOn("Build-EngineTest")
+	.IsDependentOn("Build-Engine.Test")
 	.Does(() => {
-		DotNetTest(engineTestProjectFile, new DotNetTestSettings(){
-			NoRestore = true,
-			NoBuild = true,
-			Verbosity = DotNetVerbosity.Normal
-		});
+		DotNetTest(engineTestProjectFile, GlobalTestSettings);
 	});
 
 Task("Build-All")
 	.IsDependentOn("Build-Engine")
 	.IsDependentOn("Build-Client")
 	.IsDependentOn("Build-Cli")
-	.IsDependentOn("Build-Android")
-	.IsDependentOn("Build-Legacy")
-	.IsDependentOn("Build-Aot");
+	.IsDependentOn("Build-Cli.Android")
+	.IsDependentOn("Build-Cli.Legacy")
+	.IsDependentOn("Build-Cli.Aot");
 
 RunTarget(target);
