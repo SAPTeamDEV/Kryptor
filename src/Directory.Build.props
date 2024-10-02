@@ -7,6 +7,8 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <IsTrimmable>true</IsTrimmable>
+    <Deterministic>True</Deterministic>
+    <ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

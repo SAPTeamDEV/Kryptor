@@ -16,7 +16,6 @@
 
     <LangVersion>latest</LangVersion>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <Deterministic>True</Deterministic>
     <RestorePackagesWithLockFile>True</RestorePackagesWithLockFile>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -33,11 +32,4 @@
     <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     <Optimize>True</Optimize>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-      <_Parameter1>BuildTime</_Parameter1>
-      <_Parameter2>$([System.DateTime]::UtcNow.ToString("MM/dd/yyyy HH:mm:ss"))</_Parameter2>
-    </AssemblyAttribute>
-  </ItemGroup>
 </Project>
