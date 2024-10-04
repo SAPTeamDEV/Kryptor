@@ -93,12 +93,16 @@ namespace SAPTeam.Kryptor.Cli
                         var g = new Grid()
                             .AddColumn(GetNiceColumn())
                             .AddColumn()
-                            .AddRow("Aliases", provider.Key);
+                            .AddRow("Aliases", provider.Key.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
 
                         foreach (var alias in CryptoProviderFactory.GetAliases(provider.Key))
                         {
-                            g.AddRow("", alias);
+                            g.AddRow("", alias.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
                         }
+
+                        g.AddRow("Is Secure", $"[{(provider.Value.IsSecure ? Color.LightGreen : Color.Red)}]{provider.Value.IsSecure}[/]");
+
+                        g.AddRow("E&D Chunk Size", $"{provider.Value.EncryptionChunkSize}/{provider.Value.DecryptionChunkSize}");
 
                         providerCards.Add(new Panel(g)
                             .Header(provider.Value.Name));
