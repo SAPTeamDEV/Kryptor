@@ -54,6 +54,9 @@
           "SAPTeam.CommonTK": "[4.0.3, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
+      },
+      "system.commandline": {
+        "type": "Project"
       }
     },
     "net8.0-android34.0/android-arm64": {},

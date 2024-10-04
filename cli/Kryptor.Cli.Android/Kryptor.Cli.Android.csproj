@@ -28,9 +28,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="System.CommandLine">
-      <HintPath>..\..\..\command-line-api\artifacts\bin\System.CommandLine\Debug\net8.0-android\System.CommandLine.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\external\command-line-api\src\System.CommandLine\System.CommandLine.csproj" />
   </ItemGroup>
-  
+
 </Project>
