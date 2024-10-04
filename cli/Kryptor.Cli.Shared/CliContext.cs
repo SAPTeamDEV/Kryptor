@@ -2,6 +2,8 @@ using System.Drawing;
 
 using SAPTeam.Kryptor.Client;
 
+using Spectre.Console;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public partial class CliContext : ClientContext
@@ -87,12 +89,12 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (CatchExceptions)
                 {
-                    Console.Error.WriteLine($"{ex.GetType().Name.WithColor(Color.Red)}: {ex.Message}");
+                    Console.Error.WriteLine($"{ex.GetType().Name.WithColor(System.Drawing.Color.Red)}: {ex.Message}");
                     Environment.Exit(255);
                 }
                 else
                 {
-                    throw;
+                    AnsiConsole.WriteException(ex);
                 }
             }
         }
