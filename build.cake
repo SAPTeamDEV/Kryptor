@@ -152,6 +152,11 @@ Task("Restore-Cli.Android")
 	.Description("Restore kryptor cli for android dependencies")
 	.IsDependentOn("Restore-Client")
 	.Does(() => {
+		var buildSettings = GlobalBuildSettings;
+		buildSettings.Verbosity = DotNetVerbosity.Quiet;
+
+		DotNetBuild("external/command-line-api/System.CommandLine.sln", buildSettings);
+
 		DotNetRestore(cliAndroidProjectFile, GlobalRestoreSettings);
 	});
 
