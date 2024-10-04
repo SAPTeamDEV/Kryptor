@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 
 using SAPTeam.Kryptor.Helpers;
 
+using Spectre.Console;
+
 namespace SAPTeam.Kryptor.Cli
 {
     public class Program
@@ -15,6 +17,11 @@ namespace SAPTeam.Kryptor.Cli
             RootCommand root = GetRootCommand();
 
             return root.Invoke(args);
+        }
+
+        static GridColumn GetNiceColumn()
+        {
+            return new GridColumn().NoWrap().PadRight(4);
         }
 
         public static RootCommand GetRootCommand()
@@ -33,42 +40,71 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (verInfoT)
                 {
-                    Console.WriteLine($"Kryptor Command-Line Interface for {BuildInformation.TargetFramework}");
-
-                    Console.WriteLine($"Build Time: {BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss zzz}");
-                    Console.WriteLine($"Build Type: {BuildInformation.Variant}");
-                    Console.WriteLine($"Build Configuration: {BuildInformation.Branch}");
+                    var mainGrid = new Grid()
+                        .AddColumn(GetNiceColumn())
+                        .AddColumn()
+                        .AddRow("Build Time", $"{BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss}")
+                        .AddRow("Build Type", $"{BuildInformation.Variant}")
+                        .AddRow("Build Configuration", $"{BuildInformation.Branch}")
+                        .AddRow("Target Framework", $"{BuildInformation.TargetFramework}");
 
                     if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
                     {
-                        string platformStr = $"Platform: {BuildInformation.TargetPlatform}";
+                        string platformStr = $"{BuildInformation.TargetPlatform}";
 #if AOT
                         platformStr += " (AOT)";
 #endif
-                        Console.WriteLine(platformStr);
+                        mainGrid.AddRow("Target Platform", platformStr);
                     }
 
-                    Console.WriteLine($"Application Version: {BuildInformation.ApplicationVersion}");
-                    Console.WriteLine($"Application Informational Version: {BuildInformation.ApplicationInformationalVersion}");
-                    Console.WriteLine($"Kryptor Client Utility Version: {BuildInformation.ClientVersion.ToString(3)}");
-                    Console.WriteLine($"Kryptor Engine Version: {BuildInformation.EngineVersion.ToString(3)}");
-                    Console.WriteLine($"KES API Version: {Kes.Version.ToString(2)}");
-                    Console.WriteLine($"KES API Minimum Supported Version: {Kes.MinimumSupportedVersion.ToString(2)}");
-                    Console.WriteLine($"Async Compatible: {AsyncCompat.IsAsyncCompatible}");
+                    mainGrid.AddRow("Application Version", $"{BuildInformation.ApplicationVersion}");
+                    mainGrid.AddRow("Application Informational Version", $"{BuildInformation.ApplicationInformationalVersion}");
+                    mainGrid.AddRow("Kryptor Client Utility Version", $"{BuildInformation.ClientVersion.ToString(3)}");
+                    mainGrid.AddRow("Kryptor Engine Version", $"{BuildInformation.EngineVersion.ToString(3)}");
+                    mainGrid.AddRow("KES API Version", $"{Kes.Version.ToString(2)}");
+                    mainGrid.AddRow("KES API Minimum Supported Version", $"{Kes.MinimumSupportedVersion.ToString(2)}");
 
-                    Console.WriteLine($"Application data directory: {Context.ApplicationDataDirectory}");
-                    Console.WriteLine($"Data directory is writable: {Context.ApplicationDataDirectoryIsWritable}");
+                    var envGrid = new Grid()
+                        .AddColumn(GetNiceColumn())
+                        .AddColumn()
+                        .AddRow("Async Compatible", $"{AsyncCompat.IsAsyncCompatible}")
+                        .AddRow("Application data directory", $"{Context.ApplicationDataDirectory}")
+                        .AddRow("Data directory is writable", $"{Context.ApplicationDataDirectoryIsWritable}");
+
+                    var mainPanel = new Panel(mainGrid)
+                        .Header("Build Info");
+
+                    var envPanel = new Panel(envGrid)
+                        .Header("Environment Info");
+
+                    AnsiConsole.Write(new Columns(mainPanel, envPanel));
 
                     Dictionary<string, CryptoProvider> cryptoProviders = CryptoProviderFactory.GetProviders();
-                    if (!cryptoProviders.Any()) return;
+                    if (cryptoProviders.Count == 0) return;
 
-                    Console.WriteLine();
-                    Console.WriteLine("Registered Crypto Providers:");
+                    AnsiConsole.WriteLine();
+                    AnsiConsole.Write(new Rule("Registered Crypto Providers").LeftJustified());
+                    AnsiConsole.WriteLine();
+
+                    var providerCards = new List<Panel>();
 
                     foreach (KeyValuePair<string, CryptoProvider> provider in cryptoProviders)
                     {
-                        Console.WriteLine($"{provider.Key} ({provider.Value.Name})");
+                        var g = new Grid()
+                            .AddColumn(GetNiceColumn())
+                            .AddColumn()
+                            .AddRow("Aliases", provider.Key);
+
+                        foreach (var alias in CryptoProviderFactory.GetAliases(provider.Key))
+                        {
+                            g.AddRow("", alias);
+                        }
+
+                        providerCards.Add(new Panel(g)
+                            .Header(provider.Value.Name));
                     }
+
+                    AnsiConsole.Write(new Columns(providerCards));
                 }
                 else
                 {

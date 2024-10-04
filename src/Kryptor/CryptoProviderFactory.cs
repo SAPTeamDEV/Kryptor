@@ -116,7 +116,7 @@ namespace SAPTeam.Kryptor
 
             foreach (KeyValuePair<string, string> alias in GlobalAliases)
             {
-                if (alias.Key == id)
+                if (alias.Value == id)
                 {
                     yield return alias.Key;
                 }
