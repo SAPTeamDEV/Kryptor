@@ -148,25 +148,6 @@ Task("Pack-Cli")
 		DotNetPack(cliProjectFile, GlobalPackSettings);
 	});
 
-Task("Restore-Cli.Android")
-	.Description("Restore kryptor cli for android dependencies")
-	.IsDependentOn("Restore-Client")
-	.Does(() => {
-		var buildSettings = GlobalBuildSettings;
-		buildSettings.Verbosity = DotNetVerbosity.Quiet;
-
-		DotNetBuild("external/command-line-api/System.CommandLine.sln", buildSettings);
-
-		DotNetRestore(cliAndroidProjectFile, GlobalRestoreSettings);
-	});
-
-Task("Build-Cli.Android")
-	.Description("Build kryptor cli for android")
-	.IsDependentOn("Restore-Cli.Android")
-	.Does(() => {
-		DotNetBuild(cliAndroidProjectFile, GlobalBuildSettings);
-	});
-
 Task("Restore-Cli.Legacy")
 	.Description("Restore kryptor cli for .NET Framework dependencies")
 	.IsDependentOn("Restore-Client")
