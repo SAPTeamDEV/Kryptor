@@ -112,10 +112,10 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of the source data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest) => await EncryptAsync(source, dest, null, CancellationToken.None);
+        public async Task EncryptAsync(Stream source, Stream destination) => await EncryptAsync(source, destination, null, CancellationToken.None);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -123,13 +123,13 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of the source data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
         /// <param name="cancellationToken">
         /// The token to monitor for cancellation requests.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest, CancellationToken cancellationToken) => await EncryptAsync(source, dest, null, cancellationToken);
+        public async Task EncryptAsync(Stream source, Stream destination, CancellationToken cancellationToken) => await EncryptAsync(source, destination, null, cancellationToken);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -137,13 +137,13 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of the source data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
         /// <param name="header">
         /// The header to write in the beginning of destination stream. if null, a new header will be created automatically.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest, Header header) => await EncryptAsync(source, dest, header, CancellationToken.None);
+        public async Task EncryptAsync(Stream source, Stream destination, Header header) => await EncryptAsync(source, destination, header, CancellationToken.None);
 
         /// <summary>
         /// Encrypts the given data stream and writes the encrypted data to the destination stream.
@@ -151,7 +151,7 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of the source data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
         /// <param name="header">
@@ -160,7 +160,7 @@ namespace SAPTeam.Kryptor
         /// <param name="cancellationToken">
         /// The token to monitor for cancellation requests.
         /// </param>
-        public async Task EncryptAsync(Stream source, Stream dest, Header header, CancellationToken cancellationToken)
+        public async Task EncryptAsync(Stream source, Stream destination, Header header, CancellationToken cancellationToken)
         {
             // If there is no header, create a header with normal details.
             if (header == null)
@@ -183,10 +183,10 @@ namespace SAPTeam.Kryptor
             if (header.Verbosity > 0)
             {
                 byte[] hArray = header.CreatePayload();
-                await AsyncCompat.WriteAsync(dest, hArray, 0, hArray.Length, cancellationToken);
+                await AsyncCompat.WriteAsync(destination, hArray, 0, hArray.Length, cancellationToken);
             }
 
-            await ProcessDataAsync(source, dest, true, cancellationToken);
+            await ProcessDataAsync(source, destination, true, cancellationToken);
         }
 
         /// <summary>
@@ -195,10 +195,10 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of encrypted data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
-        public async Task DecryptAsync(Stream source, Stream dest) => await DecryptAsync(source, dest, CancellationToken.None);
+        public async Task DecryptAsync(Stream source, Stream destination) => await DecryptAsync(source, destination, CancellationToken.None);
 
         /// <summary>
         /// Decrypts the given data stream and writes the decrypted data to the destination data stream.
@@ -206,13 +206,13 @@ namespace SAPTeam.Kryptor
         /// <param name="source">
         /// The stream of encrypted data with read access.
         /// </param>
-        /// <param name="dest">
+        /// <param name="destination">
         /// The stream of destination target with write access.
         /// </param>
         /// <param name="cancellationToken">
         /// The token to monitor for cancellation requests.
         /// </param>
-        public async Task DecryptAsync(Stream source, Stream dest, CancellationToken cancellationToken)
+        public async Task DecryptAsync(Stream source, Stream destination, CancellationToken cancellationToken)
         {
             Header header = Header.ReadHeader<Header>(source);
 
@@ -228,7 +228,7 @@ namespace SAPTeam.Kryptor
                 }
             }
 
-            await ProcessDataAsync(source, dest, false, cancellationToken);
+            await ProcessDataAsync(source, destination, false, cancellationToken);
         }
 
         private async Task ProcessDataAsync(Stream source, Stream dest, bool doEncrypt, CancellationToken cancellationToken)

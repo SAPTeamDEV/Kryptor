@@ -44,9 +44,9 @@ namespace SAPTeam.Kryptor.Client
         public int Completed { get; private set; }
 
         /// <summary>
-        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Cancelled"/> end reason.
+        /// Gets the number of the ended sessions with <see cref="SessionEndReason.Canceled"/> end reason.
         /// </summary>
-        public int Cancelled { get; private set; }
+        public int Canceled { get; private set; }
 
         /// <summary>
         /// Gets the number of the ended sessions with <see cref="SessionEndReason.Failed"/> end reason.
@@ -81,7 +81,7 @@ namespace SAPTeam.Kryptor.Client
         /// <remarks>
         /// When all sessions ended successfully, the end reason would be <see cref="SessionEndReason.Completed"/>.
         /// <para>
-        /// When there is any cancelled session, the end reason would be <see cref="SessionEndReason.Cancelled"/>.
+        /// When there is any cancelled session, the end reason would be <see cref="SessionEndReason.Canceled"/>.
         /// </para>
         /// <para>
         /// When there is any failed session, the end reason would be <see cref="SessionEndReason.Failed"/>.
@@ -191,7 +191,7 @@ namespace SAPTeam.Kryptor.Client
             {
                 if (e.EndReason == SessionEndReason.Completed) Completed++;
                 else if (e.EndReason == SessionEndReason.Failed) Failed++;
-                else if (e.EndReason == SessionEndReason.Cancelled) Cancelled++;
+                else if (e.EndReason == SessionEndReason.Canceled) Canceled++;
                 else if (e.EndReason == SessionEndReason.Skipped) Skipped++;
                 else Unknown++;
 

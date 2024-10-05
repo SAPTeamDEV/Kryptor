@@ -33,7 +33,7 @@
         public abstract void Start(ClientContext context);
 
         /// <inheritdoc/>
-        public virtual void End(bool cancelled)
+        public virtual void End(bool canceled)
         {
             if (_ending)
             {
@@ -42,7 +42,7 @@
 
             _ending = true;
 
-            if (cancelled)
+            if (canceled)
             {
                 Container.Cancel();
 

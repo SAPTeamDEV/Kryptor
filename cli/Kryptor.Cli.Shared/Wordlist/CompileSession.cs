@@ -17,7 +17,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         private HashSet<string> uniqueLines = new HashSet<string>();
 
         public string FilePath;
-        public string DestPath;
+        public string DestinationPath;
 
         public WordlistIndexEntry IndexEntry;
         private readonly bool Indexing;
@@ -32,7 +32,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             }
 
             FilePath = path;
-            DestPath = destination;
+            DestinationPath = destination;
 
             IndexEntry = entry;
 
@@ -58,7 +58,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 IndexEntry.Optimized = Optimize;
                 if (!Indexing)
                 {
-                    IndexEntry.InstallDirectory = DestPath;
+                    IndexEntry.InstallDirectory = DestinationPath;
 
                     if (fileStreams.Count > 0 && lookupStrings.Count > 0 && fileStreams.Count == lookupStrings.Count)
                     {
@@ -110,9 +110,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
             Dependencies.OfType<DownloadSession>().ForEach(x => x.DeleteCache());
 #endif
 
-            if (Directory.Exists(DestPath) && (deleteInstallation || Directory.GetFiles(DestPath).Length == 0))
+            if (Directory.Exists(DestinationPath) && (deleteInstallation || Directory.GetFiles(DestinationPath).Length == 0))
             {
-                Directory.Delete(DestPath, true);
+                Directory.Delete(DestinationPath, true);
             }
         }
 
@@ -148,7 +148,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                         if (!fileStreams.ContainsKey(c))
                         {
                             lookupStrings[c] = line;
-                            fileStreams[c] = File.Open(Path.Combine(DestPath, c.ToString()), FileMode.Create, FileAccess.ReadWrite);
+                            fileStreams[c] = File.Open(Path.Combine(DestinationPath, c.ToString()), FileMode.Create, FileAccess.ReadWrite);
                         }
 
                         fileStreams[c].Write(data, 0, data.Length);
@@ -190,12 +190,12 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 throw new FileNotFoundException(FilePath);
             }
 
-            if (Directory.Exists(DestPath))
+            if (Directory.Exists(DestinationPath))
             {
-                Directory.Delete(DestPath, true);
+                Directory.Delete(DestinationPath, true);
             }
 
-            Directory.CreateDirectory(DestPath);
+            Directory.CreateDirectory(DestinationPath);
 
             return installSessionHost;
         }

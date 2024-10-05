@@ -10,7 +10,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
         private readonly SessionContainer container;
         private byte[] test;
 
-        public Stopwatch CalcTimer { get; }
+        public Stopwatch CalculationTimer { get; }
         public bool Found { get; private set; }
         public bool Verbose => false;
 
@@ -20,7 +20,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
             container = new SessionContainer(this, maxRunningSessions);
 
-            CalcTimer = new Stopwatch();
+            CalculationTimer = new Stopwatch();
         }
 
         protected override async Task<bool> RunAsync(ISessionHost sessionHost, CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
             byte[] sample = new byte[3] { 127, 255, 255 };
             test = sample.Sha256();
 
-            CalcTimer.Start();
+            CalculationTimer.Start();
 
             for (int i = 0; i < 256; i++)
             {
@@ -46,7 +46,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
         private void StopTimer()
         {
-            CalcTimer.Stop();
+            CalculationTimer.Stop();
             Found = true;
 
             foreach (CancellationTokenSource token in container.TokenSources)

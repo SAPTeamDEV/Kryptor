@@ -23,7 +23,7 @@
         /// <summary>
         /// The session ended by session host cancellation request.
         /// </summary>
-        Cancelled,
+        Canceled,
 
         /// <summary>
         /// The session has been skipped.

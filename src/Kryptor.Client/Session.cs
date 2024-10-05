@@ -213,7 +213,7 @@ namespace SAPTeam.Kryptor.Client
             }
             catch (OperationCanceledException ocex)
             {
-                EndReason = cancellationToken.IsCancellationRequested ? SessionEndReason.Cancelled : SessionEndReason.Failed;
+                EndReason = cancellationToken.IsCancellationRequested ? SessionEndReason.Canceled : SessionEndReason.Failed;
                 Exception = ocex;
             }
             catch (Exception ex)

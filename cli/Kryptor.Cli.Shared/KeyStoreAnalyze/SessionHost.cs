@@ -36,7 +36,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
             KeyStore = ksLoadSession.KeyStore;
 
             double ratio = Math.Pow(2, 32) / Math.Pow(2, 3);
-            double estimatedTimeFor32ByteArray = calcSession.CalcTimer.Elapsed.TotalSeconds * ratio;
+            double estimatedTimeFor32ByteArray = calcSession.CalculationTimer.Elapsed.TotalSeconds * ratio;
             double estimatedTimeForLargeArrayInYears = (double)TimeSpan.FromSeconds(estimatedTimeFor32ByteArray).Days / 365 * KeyStore.Keys.Length;
 
             if (calcSession.Found)

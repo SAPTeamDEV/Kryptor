@@ -1,6 +1,6 @@
 ﻿namespace SAPTeam.Kryptor.InteractiveTests
 {
-    public static class Utils
+    public static class Utilities
     {
         public static IEnumerable<string> Divide(string str, int maxChunkSize)
         {

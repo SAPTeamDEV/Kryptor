@@ -140,7 +140,7 @@ namespace SAPTeam.Kryptor.Cli
                         && (session.IsRunning
                             || session.Status == SessionStatus.NotStarted
                             || (session.Status == SessionStatus.Ended && (session.EndReason == SessionEndReason.Completed
-                                                                          || session.EndReason == SessionEndReason.Cancelled))))
+                                                                          || session.EndReason == SessionEndReason.Canceled))))
                     {
                         double sProg = session.Progress;
 
@@ -305,9 +305,9 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (BuildInformation.Branch == BuildBranch.Debug || Verbose)
                 {
-                    if (sessionGroup.Cancelled > 0)
+                    if (sessionGroup.Canceled > 0)
                     {
-                        description += $", cancelled: {sessionGroup.Cancelled}";
+                        description += $", cancelled: {sessionGroup.Canceled}";
                     }
 
                     if (sessionGroup.Failed > 0)
@@ -493,7 +493,7 @@ namespace SAPTeam.Kryptor.Cli
                     color = Color.Red;
                     prog = "failed";
                     break;
-                case SessionEndReason.Cancelled:
+                case SessionEndReason.Canceled:
                     color = Color.Orange;
                     prog = "cancelled";
                     break;
