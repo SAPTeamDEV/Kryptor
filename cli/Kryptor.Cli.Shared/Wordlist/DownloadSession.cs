@@ -47,11 +47,7 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
             };
 
-#if NET6_0_OR_GREATER
             JsonWorker = new JsonWorker(null, SourceGenerationPackageContext.Default);
-#else
-            JsonWorker = new JsonWorker(jOptions, null);
-#endif
 
             Description = $"{entry.Id}: Initializing download";
 
@@ -234,11 +230,9 @@ namespace SAPTeam.Kryptor.Cli.Wordlist
         }
     }
 
-#if NET6_0_OR_GREATER
     [JsonSourceGenerationOptions(GenerationMode = JsonSourceGenerationMode.Metadata, WriteIndented = false, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
     [JsonSerializable(typeof(DownloadPackage))]
     internal partial class SourceGenerationPackageContext : JsonSerializerContext
     {
     }
-#endif
 }

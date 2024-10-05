@@ -66,12 +66,7 @@ namespace SAPTeam.Kryptor.Cli
             });
         }
 
-        public static string GetRelativePath(string relativeTo, string path) =>
-#if NET6_0_OR_GREATER
-            Path.GetRelativePath(relativeTo, path);
-#else
-            RelativePathLegacy(relativeTo, path);
-#endif
+        public static string GetRelativePath(string relativeTo, string path) => Path.GetRelativePath(relativeTo, path);
 
         private static string RelativePathLegacy(string relativeTo, string path)
         {
