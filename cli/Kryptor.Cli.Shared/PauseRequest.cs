@@ -8,18 +8,18 @@ namespace SAPTeam.Kryptor.Cli
 
         public bool Response { get; private set; }
 
-        public bool IsResponsed { get; private set; }
+        public bool IsResponded { get; private set; }
 
         public PauseRequest(string message, bool defaultValue)
         {
             Message = message;
             Default = defaultValue;
-            IsResponsed = false;
+            IsResponded = false;
         }
 
         public void SetResponse(bool response)
         {
-            IsResponsed = true;
+            IsResponded = true;
             Response = response;
         }
 

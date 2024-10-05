@@ -25,7 +25,7 @@ namespace SAPTeam.Kryptor.Cli
                 Id = CryptoProviderFactory.ResolveId(options.Provider),
                 Continuous = options.Continuous,
                 RemoveHash = options.RemoveHash,
-                DynamicBlockProccessing = options.DynamicBlockProcessing,
+                DynamicBlockProcessing = options.DynamicBlockProcessing,
             };
 
             OutputPath = Utilities.EnsureDirectoryExists(options.OutputPath);

@@ -13,8 +13,6 @@ namespace SAPTeam.Kryptor.Cli
 
         public static bool IsAot { get; private set; }
 
-        public static bool IsAndroidPlatform { get; private set; }
-
         public static DateTime BuildTime { get; }
 
         public static string TargetPlatform { get; }
@@ -33,18 +31,6 @@ namespace SAPTeam.Kryptor.Cli
         {
             DefineVariant();
             DefineConstants();
-
-            bool isAndroid = false;
-#if NET6_0_OR_GREATER
-            isAndroid = OperatingSystem.IsAndroid();
-#endif
-
-            IsAndroidPlatform = isAndroid;
-
-            if (IsAndroidPlatform)
-            {
-                TargetPlatform = "android";
-            }
 
             string format = "MM/dd/yyyy HH:mm:ss";
             string dateTimeString = Assembly.GetAssembly(typeof(Program)).GetCustomAttributes<AssemblyMetadataAttribute>().Where(x => x.Key == "BuildTime").First().Value;

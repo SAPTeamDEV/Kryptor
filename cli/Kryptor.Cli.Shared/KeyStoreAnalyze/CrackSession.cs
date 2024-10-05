@@ -57,7 +57,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
         public void Start(ClientContext context) => throw new System.NotImplementedException();
 
-        public void End(bool cancelled) => throw new System.NotImplementedException();
+        public void End(bool canceled) => throw new System.NotImplementedException();
 
         public void NewSession(ISession session, bool autoRemove, bool autoStart) => container.NewSession(session, autoRemove, autoStart);
 

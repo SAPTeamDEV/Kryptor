@@ -144,13 +144,13 @@ namespace SAPTeam.Kryptor
             }
 
             process.BlockHash = Configuration.RemoveHash ? Array.Empty<byte>() : data.Sha256();
-            byte[] hash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
+            byte[] hash = Configuration.DynamicBlockProcessing ? Transformers.Rotate(process.BlockHash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process)) : process.BlockHash;
             List<byte> result = new List<byte>(hash);
 
             foreach (byte[] chunk in data.Chunk(EncryptionChunkSize))
             {
                 IEnumerable<byte> c = await EncryptChunkAsync(chunk, process, cancellationToken);
-                result.AddRange(Configuration.DynamicBlockProccessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
+                result.AddRange(Configuration.DynamicBlockProcessing ? Transformers.Rotate(c.ToArray(), DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process)) : c);
                 process.ChunkIndex++;
             }
 
@@ -186,7 +186,7 @@ namespace SAPTeam.Kryptor
             else
             {
                 byte[] _hash = data.Take(32).ToArray();
-                process.BlockHash = Configuration.DynamicBlockProccessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
+                process.BlockHash = Configuration.DynamicBlockProcessing ? Transformers.Rotate(_hash, DynamicEncryption.GetDynamicBlockEntropy(KeyStore, process) * -1) : _hash;
                 chunks = data.Skip(32).Chunk(DecryptionChunkSize);
             }
 
@@ -194,7 +194,7 @@ namespace SAPTeam.Kryptor
 
             foreach (byte[] chunk in chunks)
             {
-                result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProccessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process, cancellationToken));
+                result.AddRange(await DecryptChunkAsync(Configuration.DynamicBlockProcessing ? Transformers.Rotate(chunk, DynamicEncryption.GetDynamicChunkEntropy(KeyStore, process) * -1) : chunk, process, cancellationToken));
                 process.ChunkIndex++;
             }
 

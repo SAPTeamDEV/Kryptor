@@ -51,7 +51,7 @@ namespace SAPTeam.Kryptor.Tests
             Assert.Null(token4.Salt);
             Assert.Equal(64, token4.Rotate);
 
-            Assert.Throws<ArgumentException>(() => Transformers.GetTranformer(token5));
+            Assert.Throws<ArgumentException>(() => Transformers.GetTransformer(token5));
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace SAPTeam.Kryptor.Tests
                 Rotate = 64,
             };
 
-            ITranformer tranformer = Transformers.GetTranformer(token);
+            ITransformer tranformer = Transformers.GetTransformer(token);
             byte[] buffer = new byte[token.KeySize * 32];
             tranformer.Generate(buffer, token.Rotate);
             Assert.Equal(data, buffer);
@@ -82,7 +82,7 @@ namespace SAPTeam.Kryptor.Tests
                 KeySize = 128,
             };
 
-            ITranformer tranformer2 = Transformers.GetTranformer(token2);
+            ITransformer tranformer2 = Transformers.GetTransformer(token2);
             byte[] buffer2 = new byte[token2.KeySize * 32];
             tranformer2.Generate(buffer2, token2.Rotate);
             Assert.Equal(data2, buffer2);
@@ -97,7 +97,7 @@ namespace SAPTeam.Kryptor.Tests
                 Rotate = 64,
             };
 
-            ITranformer tranformer3 = Transformers.GetTranformer(token3);
+            ITransformer tranformer3 = Transformers.GetTransformer(token3);
             byte[] buffer3 = new byte[token3.KeySize * 32];
             tranformer3.Generate(buffer3, token3.Rotate);
             Assert.Equal(data3, buffer3);
@@ -112,7 +112,7 @@ namespace SAPTeam.Kryptor.Tests
                 Salt = Encoding.UTF8.GetBytes("salt")
             };
 
-            ITranformer tranformer4 = Transformers.GetTranformer(token4);
+            ITransformer tranformer4 = Transformers.GetTransformer(token4);
             byte[] buffer4 = new byte[token4.KeySize * 32];
             tranformer4.Generate(buffer4, token4.Rotate);
             Assert.Equal(data4, buffer4);
@@ -132,7 +132,7 @@ namespace SAPTeam.Kryptor.Tests
                 Rotate = 64,
             };
 
-            ITranformer tranformer = Transformers.GetTranformer(token);
+            ITransformer tranformer = Transformers.GetTransformer(token);
             byte[] buffer = new byte[token.KeySize * 32];
             tranformer.Generate(buffer, token.Rotate);
             Assert.Equal(data, buffer);
@@ -146,7 +146,7 @@ namespace SAPTeam.Kryptor.Tests
                 KeySize = 128,
             };
 
-            ITranformer tranformer2 = Transformers.GetTranformer(token2);
+            ITransformer tranformer2 = Transformers.GetTransformer(token2);
             byte[] buffer2 = new byte[token2.KeySize * 32];
             tranformer2.Generate(buffer2, token2.Rotate);
             Assert.Equal(data2, buffer2);
@@ -161,7 +161,7 @@ namespace SAPTeam.Kryptor.Tests
                 Rotate = 64,
             };
 
-            ITranformer tranformer3 = Transformers.GetTranformer(token3);
+            ITransformer tranformer3 = Transformers.GetTransformer(token3);
             byte[] buffer3 = new byte[token3.KeySize * 32];
             tranformer3.Generate(buffer3, token3.Rotate);
             Assert.Equal(data3, buffer3);
@@ -176,7 +176,7 @@ namespace SAPTeam.Kryptor.Tests
                 Salt = Encoding.UTF8.GetBytes("salt")
             };
 
-            ITranformer tranformer4 = Transformers.GetTranformer(token4);
+            ITransformer tranformer4 = Transformers.GetTransformer(token4);
             byte[] buffer4 = new byte[token4.KeySize * 32];
             tranformer4.Generate(buffer4, token4.Rotate);
             Assert.Equal(data4, buffer4);

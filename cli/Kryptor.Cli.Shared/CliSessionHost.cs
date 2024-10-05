@@ -18,7 +18,7 @@ namespace SAPTeam.Kryptor.Cli
 
         public PauseRequest Request { get; private set; } = new PauseRequest(null, false);
 
-        public bool HasRequest => !Request.IsEmpty() && !Request.IsResponsed;
+        public bool HasRequest => !Request.IsEmpty() && !Request.IsResponded;
 
         private readonly object _requestLock = new object();
         private MemoryStream mem;
@@ -41,16 +41,16 @@ namespace SAPTeam.Kryptor.Cli
         {
             Verbose = globalOptions.Verbose;
             Quiet = globalOptions.Quiet;
-            NoColor = BuildInformation.IsAndroidPlatform || globalOptions.NoColor;
+            NoColor = globalOptions.NoColor;
 
-            IsOutputRedirected = BuildInformation.IsAndroidPlatform || Console.IsOutputRedirected || Quiet;
+            IsOutputRedirected = Console.IsOutputRedirected || Quiet;
             NoInteractions = IsOutputRedirected || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("KRYPTOR_NO_INTERACTION"));
         }
 
         public override void Start(ClientContext context)
         {
             CliContext cliContext = context as CliContext;
-            cliContext.CatchExceptions = !BuildInformation.IsAndroidPlatform && !Verbose;
+            cliContext.CatchExceptions = !Verbose;
             cliContext.NoColor = NoColor;
 
             if (Quiet)
@@ -87,14 +87,14 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ShowProgressImpl(bool showOverall, bool showRemaining = true)
         {
-            int bufferWidth = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
+            int bufferWidth = Console.BufferWidth;
             int paddingBufferSize = IsOutputRedirected ? 1 : bufferWidth;
 
             Stopwatch sw = null;
             ConsoleFrameBuffer animations = new ConsoleFrameBuffer();
             int qCounter = 0;
 
-            if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
+            if (!IsOutputRedirected)
             {
                 Console.CursorVisible = false;
             }
@@ -119,7 +119,7 @@ namespace SAPTeam.Kryptor.Cli
             List<ISession> flaggedSessions = new List<ISession>();
 
             int lines = Container.Sessions.Where(x => !x.IsHidden).Count() + extraLines;
-            int maxLines = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferHeight - 1;
+            int maxLines = Console.BufferHeight - 1;
             int ceilingLine = 0;
 
             while (true)
@@ -208,7 +208,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     sw?.Stop();
 
-                    if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
+                    if (!IsOutputRedirected)
                     {
                         Console.CursorVisible = true;
                     }
@@ -227,18 +227,15 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     await AsyncCompat.Delay(100);
 
-                    if (!BuildInformation.IsAndroidPlatform)
-                    {
-                        Console.CursorLeft = 0;
-                        Console.CursorTop -= Math.Min(ceilingLine, maxLines);
-                    }
+                    Console.CursorLeft = 0;
+                    Console.CursorTop -= Math.Min(ceilingLine, maxLines);
                 }
             }
         }
 
         private void HandleRequests(int bufferWidth, int paddingBufferSize)
         {
-            if (!BuildInformation.IsAndroidPlatform && !NoInteractions)
+            if (!NoInteractions)
             {
                 if (HasRequest)
                 {
@@ -275,11 +272,11 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ShowProgressNewImpl(SessionGroup sessionGroup)
         {
-            int bw = BuildInformation.IsAndroidPlatform ? int.MaxValue : Console.BufferWidth;
+            int bw = Console.BufferWidth;
             int paddingSize = IsOutputRedirected ? 1 : bw;
             int counter = 0;
 
-            if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
+            if (!IsOutputRedirected)
             {
                 Console.CursorVisible = false;
             }
@@ -364,7 +361,7 @@ namespace SAPTeam.Kryptor.Cli
                         LogError(msg);
                     }
 
-                    if (!BuildInformation.IsAndroidPlatform && !IsOutputRedirected)
+                    if (!IsOutputRedirected)
                     {
                         Console.CursorVisible = true;
                     }
@@ -381,10 +378,7 @@ namespace SAPTeam.Kryptor.Cli
                 {
                     await AsyncCompat.Delay(100);
 
-                    if (!BuildInformation.IsAndroidPlatform)
-                    {
-                        Console.SetCursorPosition(0, Console.CursorTop - 2);
-                    }
+                    Console.SetCursorPosition(0, Console.CursorTop - 2);
                 }
             }
         }
@@ -516,11 +510,6 @@ namespace SAPTeam.Kryptor.Cli
 
         private async Task ReadKey()
         {
-            if (BuildInformation.IsAndroidPlatform)
-            {
-                throw new NotSupportedException("The key reading feature is not supported in this platform");
-            }
-
             if (_readerRunning) return;
             _readerRunning = true;
 
@@ -596,7 +585,7 @@ namespace SAPTeam.Kryptor.Cli
 
                 if (Verbose)
                 {
-                    ITranformer tranformer = Transformers.GetTranformer(token);
+                    ITransformer tranformer = Transformers.GetTransformer(token);
                     DebugLog($"Generating keystore with {token.KeySize} keys using {tranformer.GetType().Name}");
                 }
 
@@ -631,12 +620,12 @@ namespace SAPTeam.Kryptor.Cli
             {
                 Request = new PauseRequest(request.Message, request.DefaultValue.Cast<bool>());
 
-                if (!BuildInformation.IsAndroidPlatform && !NoInteractions && !_readerRunning)
+                if (!NoInteractions && !_readerRunning)
                 {
                     _ = Task.Run(ReadKey);
                 }
 
-                while (!Request.IsResponsed)
+                while (!Request.IsResponded)
                 {
                     await AsyncCompat.Delay(5, cancellationToken);
                 }

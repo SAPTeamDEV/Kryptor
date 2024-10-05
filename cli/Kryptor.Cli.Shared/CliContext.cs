@@ -60,13 +60,10 @@ namespace SAPTeam.Kryptor.Cli
         {
             base.CreateContext();
 
-            if (!BuildInformation.IsAndroidPlatform)
+            Console.CancelKeyPress += delegate
             {
-                Console.CancelKeyPress += delegate
-                {
-                    Dispose();
-                };
-            }
+                Dispose();
+            };
 
             if (!Directory.Exists(ApplicationDataDirectory))
             {

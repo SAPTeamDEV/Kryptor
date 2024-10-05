@@ -114,7 +114,7 @@ internal class Program
                     Console.WriteLine($"Id: {header.Configuration.Id}");
                     Console.WriteLine($"Continuous: {header.Configuration.Continuous}");
                     Console.WriteLine($"Remove Hash: {header.Configuration.RemoveHash}");
-                    Console.WriteLine($"Dynamic Block Processing: {header.Configuration.DynamicBlockProccessing}");
+                    Console.WriteLine($"Dynamic Block Processing: {header.Configuration.DynamicBlockProcessing}");
                 }
 
                 if (header.Extra != null)

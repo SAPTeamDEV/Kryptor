@@ -17,7 +17,7 @@ namespace SAPTeam.Kryptor
         /// The tranformer token.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-        public static ITranformer GetTranformer(TransformerToken token)
+        public static ITransformer GetTransformer(TransformerToken token)
         {
             switch (token.TransformerName)
             {

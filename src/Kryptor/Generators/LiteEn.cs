@@ -7,7 +7,7 @@ namespace SAPTeam.Kryptor.Generators
     /// <summary>
     /// Generates bytes array populated from specified seed, with fast speed designed for network transmissions.
     /// </summary>
-    public class LiteEn : ITranformer
+    public class LiteEn : ITransformer
     {
         private readonly string _seed;
         private readonly byte[] _salt;

@@ -45,7 +45,7 @@ namespace SAPTeam.Kryptor.Client
         /// </returns>
         public static KeyStore GenerateKeyStoreFromToken(TransformerToken token, EventHandler<double> progressReport, int margin = 0)
         {
-            ITranformer transformer = Transformers.GetTranformer(token);
+            ITransformer transformer = Transformers.GetTransformer(token);
             transformer.ProgressChanged += progressReport;
 
             byte[] buffer = new byte[(token.KeySize * 32) + margin];

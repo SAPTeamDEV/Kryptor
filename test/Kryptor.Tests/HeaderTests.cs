@@ -24,7 +24,7 @@ namespace SAPTeam.Kryptor.Tests
                     Id = "MV",
                     Continuous = true,
                     RemoveHash = false,
-                    DynamicBlockProccessing = true,
+                    DynamicBlockProcessing = true,
                 },
                 Extra = ex,
             };
@@ -41,7 +41,7 @@ namespace SAPTeam.Kryptor.Tests
             Assert.Equal(header.Configuration.Id, h2.Configuration.Id);
             Assert.Equal(header.Configuration.Continuous, h2.Configuration.Continuous);
             Assert.Equal(header.Configuration.RemoveHash, h2.Configuration.RemoveHash);
-            Assert.Equal(header.Configuration.DynamicBlockProccessing, h2.Configuration.DynamicBlockProccessing);
+            Assert.Equal(header.Configuration.DynamicBlockProcessing, h2.Configuration.DynamicBlockProcessing);
             Assert.Equal(header.Extra, h2.Extra);
 
             Kes kp = new Kes(KeyStore.Generate(), header.Configuration, header.BlockSize);
@@ -72,7 +72,7 @@ namespace SAPTeam.Kryptor.Tests
             Assert.Equal("kryptor:MixedVector", h3.Configuration.Id);
             Assert.Equal(header.Configuration.Continuous, h3.Configuration.Continuous);
             Assert.Equal(header.Configuration.RemoveHash, h3.Configuration.RemoveHash);
-            Assert.Equal(header.Configuration.DynamicBlockProccessing, h3.Configuration.DynamicBlockProccessing);
+            Assert.Equal(header.Configuration.DynamicBlockProcessing, h3.Configuration.DynamicBlockProcessing);
             Assert.Equal(header.Extra, h3.Extra);
         }
     }

@@ -8,7 +8,7 @@ namespace SAPTeam.Kryptor.Generators
     /// <summary>
     /// Generates bytes array populated from specified seed.
     /// </summary>
-    public class Generica : ITranformer
+    public class Generica : ITransformer
     {
         private readonly string _seed;
         private readonly byte[] _salt;

@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets the configuration of dynamic block processing feature.
         /// </summary>
-        public virtual bool DynamicBlockProccessing { get; set; }
+        public virtual bool DynamicBlockProcessing { get; set; }
 
         /// <inheritdoc/>
         public object Clone() => MemberwiseClone();
@@ -34,7 +34,7 @@
             return Id == other.Id
                 && Continuous == other.Continuous
                 && RemoveHash == other.RemoveHash
-                && DynamicBlockProccessing == other.DynamicBlockProccessing;
+                && DynamicBlockProcessing == other.DynamicBlockProcessing;
         }
 
         /// <inheritdoc/>
@@ -46,7 +46,7 @@
             return Id.GetHashCode()
                  & Continuous.GetHashCode()
                  & RemoveHash.GetHashCode()
-                 & DynamicBlockProccessing.GetHashCode();
+                 & DynamicBlockProcessing.GetHashCode();
         }
     }
 }

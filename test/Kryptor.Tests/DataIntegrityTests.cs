@@ -328,7 +328,7 @@
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
                 Id = "SK",
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -353,7 +353,7 @@
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
                 Id = "TK",
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -378,7 +378,7 @@
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
                 Id = "MV",
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -401,7 +401,7 @@
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
                 Id = "TP",
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -424,7 +424,7 @@
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
                 Id = "DE",
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -522,7 +522,7 @@
             {
                 Id = "SK",
                 Continuous = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -548,7 +548,7 @@
             {
                 Id = "TK",
                 Continuous = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -574,7 +574,7 @@
             {
                 Id = "MV",
                 Continuous = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -598,7 +598,7 @@
             {
                 Id = "TP",
                 Continuous = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -622,7 +622,7 @@
             {
                 Id = "DE",
                 Continuous = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -646,7 +646,7 @@
             {
                 Id = "SK",
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -672,7 +672,7 @@
             {
                 Id = "MV",
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -696,7 +696,7 @@
             {
                 Id = "DE",
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -721,7 +721,7 @@
                 Id = "SK",
                 Continuous = true,
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -748,7 +748,7 @@
                 Id = "MV",
                 Continuous = true,
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -773,7 +773,7 @@
                 Id = "DE",
                 Continuous = true,
                 RemoveHash = true,
-                DynamicBlockProccessing = true,
+                DynamicBlockProcessing = true,
             };
             Kes kes = new Kes(ks, cpc);
 

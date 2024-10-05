@@ -11,12 +11,12 @@ namespace SAPTeam.Kryptor.Cli
         private readonly int Margin;
         private readonly string Output;
 
-        public KeyStoreGenerateSessionHost(GlobalOptions globalOptions, KeyStoreGenerator generator, int size, TransformerToken token, int magin, string output) : base(globalOptions)
+        public KeyStoreGenerateSessionHost(GlobalOptions globalOptions, KeyStoreGenerator generator, int size, TransformerToken token, int margin, string output) : base(globalOptions)
         {
             Generator = generator;
             Size = size > 0 ? size : KeyStore.GetRandomOddNumber();
             Token = token;
-            Margin = magin;
+            Margin = margin;
             Output = output;
         }
 
@@ -28,14 +28,14 @@ namespace SAPTeam.Kryptor.Cli
 
             if (Token.IsValid())
             {
-                ITranformer tranformer = Transformers.GetTranformer(Token);
+                ITransformer tranformer = Transformers.GetTransformer(Token);
                 string kSize = Margin > 0 ? $"{Token.KeySize.FormatWithCommas()}+{Margin.FormatWithCommas()}" : $"{Token.KeySize.FormatWithCommas()}";
                 Log($"Generating keystore with {kSize} keys using {tranformer.GetType().Name}");
                 ksLoader = new KeyStoreTokenLoadSession(true, Token, Margin);
             }
             else
             {
-                if (!BuildInformation.IsAndroidPlatform && !NoInteractions && Generator == KeyStoreGenerator.EntroX)
+                if (!NoInteractions && Generator == KeyStoreGenerator.EntroX)
                 {
                     CollectEntropy();
                 }
@@ -56,11 +56,6 @@ namespace SAPTeam.Kryptor.Cli
 
         public static void CollectEntropy()
         {
-            if (BuildInformation.IsAndroidPlatform)
-            {
-                throw new NotSupportedException("The console input reading feature is not supported in this platform");
-            }
-
             CryptoRandom crng = new CryptoRandom();
             List<(DateTime start, DateTime end, string data)> entropy = new List<(DateTime start, DateTime end, string data)>();
 

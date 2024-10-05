@@ -263,7 +263,7 @@ namespace SAPTeam.Kryptor
             {
                 while (i < source.Length)
                 {
-                    process.BlockSize = Provider.Configuration.DynamicBlockProccessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
+                    process.BlockSize = Provider.Configuration.DynamicBlockProcessing ? DynamicEncryption.GetDynamicBlockSize(Provider.KeyStore, process) : BlockSize;
                     blockSize = blockSizeCallback(process);
                     int actualSize = (int)Math.Min(source.Length - source.Position, blockSize);
 

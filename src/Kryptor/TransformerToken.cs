@@ -99,7 +99,7 @@ namespace SAPTeam.Kryptor
         /// Initializes a new transformer with this token.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public readonly ITranformer GetTranformer() => Transformers.GetTranformer(this);
+        public readonly ITransformer GetTransformer() => Transformers.GetTransformer(this);
 
         /// <summary>
         /// Generates keystore based on this token data.
@@ -112,7 +112,7 @@ namespace SAPTeam.Kryptor
         /// </returns>
         public readonly KeyStore GenerateKeyStore(int margin)
         {
-            ITranformer transformer = GetTranformer();
+            ITransformer transformer = GetTransformer();
 
             byte[] buffer = new byte[(KeySize * 32) + margin];
             transformer.Generate(buffer, Rotate);
