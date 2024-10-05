@@ -4,7 +4,6 @@ namespace SAPTeam.Kryptor.Cli
     {
         None = 0,
         Standard,
-        Legacy,
         Native
     }
 }

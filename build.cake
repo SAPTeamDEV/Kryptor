@@ -15,8 +15,6 @@ string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
 
 string cliProjectFile = "cli/Kryptor.Cli/Kryptor.Cli.csproj";
 string cliAotProjectFile = "cli/Kryptor.Cli.Native/Kryptor.Cli.Native.csproj";
-string cliAndroidProjectFile = "cli/Kryptor.Cli.Android/Kryptor.Cli.Android.csproj";
-string cliLegacyProjectFile = "cli/Kryptor.Cli.Legacy/Kryptor.Cli.Legacy.csproj";
 
 string engineTestProjectFile = "test/Kryptor.Tests/Kryptor.Tests.csproj";
 
@@ -148,20 +146,6 @@ Task("Pack-Cli")
 		DotNetPack(cliProjectFile, GlobalPackSettings);
 	});
 
-Task("Restore-Cli.Legacy")
-	.Description("Restore kryptor cli for .NET Framework dependencies")
-	.IsDependentOn("Restore-Client")
-	.Does(() => {
-		DotNetRestore(cliLegacyProjectFile, GlobalRestoreSettings);
-	});
-
-Task("Build-Cli.Legacy")
-	.Description("Build kryptor cli for .NET Framework")
-	.IsDependentOn("Restore-Cli.Legacy")
-	.Does(() => {
-		DotNetBuild(cliLegacyProjectFile, GlobalBuildSettings);
-	});
-
 Task("Restore-Cli.Aot")
 	.Description("Restore kryptor cli native AOT dependencies")
 	.IsDependentOn("Restore-Client")
@@ -224,8 +208,6 @@ Task("Build-All")
 	.IsDependentOn("Build-Engine")
 	.IsDependentOn("Build-Client")
 	.IsDependentOn("Build-Cli")
-	.IsDependentOn("Build-Cli.Android")
-	.IsDependentOn("Build-Cli.Legacy")
 	.IsDependentOn("Build-Cli.Aot");
 
 Task("Pack-All")
