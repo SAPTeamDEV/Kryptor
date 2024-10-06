@@ -27,9 +27,12 @@
 
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) And '$(CompileAot)' == 'True'">
     <_PubMode>Aot</_PubMode>
-    <IsAotCompatible>true</IsAotCompatible>
     <PublishTrimmed>True</PublishTrimmed>
     <PublishAot>True</PublishAot>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(CompileBundled)' == 'True'">
+    <_PubMode>Bundle</_PubMode>
   </PropertyGroup>
 
   <ItemGroup>

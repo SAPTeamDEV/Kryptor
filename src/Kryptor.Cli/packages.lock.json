@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net6.0": {
+      "Downloader": {
+        "type": "Direct",
+        "requested": "[3.1.2, )",
+        "resolved": "3.1.2",
+        "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
+      },
+      "Nerdbank.GitVersioning": {
+        "type": "Direct",
+        "requested": "[3.6.143, )",
+        "resolved": "3.6.143",
+        "contentHash": "N24MtdLq4PmdJ2woTQd9515q0I1jeO/DlimYCB/GoRd510Fc9dk9H6YaN8MPPrVF8RHrIalCUfWbWvcoarYeoQ=="
+      },
+      "Pastel": {
+        "type": "Direct",
+        "requested": "[5.1.0, )",
+        "resolved": "5.1.0",
+        "contentHash": "jQ0fTkHZvgQsmbr5qU0IdCP1PWuUfmEmekIsTwysWK/iIwmT9Mbm0x5GpjYSTEwHTNVEpjYhBhyKVdzESgRCpg=="
+      },
+      "SharpCompress": {
+        "type": "Direct",
+        "requested": "[0.37.2, )",
+        "resolved": "0.37.2",
+        "contentHash": "cFBpTct57aubLQXkdqMmgP8GGTFRh7fnRWP53lgE/EYUpDZJ27SSvTkdjB4OYQRZ20SJFpzczUquKLbt/9xkhw==",
+        "dependencies": {
+          "ZstdSharp.Port": "0.8.0"
+        }
+      },
+      "Spectre.Console": {
+        "type": "Direct",
+        "requested": "[0.49.1, )",
+        "resolved": "0.49.1",
+        "contentHash": "USV+pdu49OJ3nCjxNuw1K9Zw/c1HCBbwbjXZp0EOn6wM99tFdAtN34KEBZUMyRuJuXlUMDqhd8Yq9obW2MslYA=="
+      },
+      "System.CommandLine": {
+        "type": "Direct",
+        "requested": "[2.0.0-beta4.22272.1, )",
+        "resolved": "2.0.0-beta4.22272.1",
+        "contentHash": "1uqED/q2H0kKoLJ4+hI2iPSBSEdTuhfCYADeJrAqERmiGQ2NNacYKRNEQ+gFbU4glgVyK8rxI+ZOe1onEtr/Pg=="
+      },
+      "SAPTeam.CommonTK": {
+        "type": "Transitive",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA=="
+      },
+      "ZstdSharp.Port": {
+        "type": "Transitive",
+        "resolved": "0.8.0",
+        "contentHash": "Z62eNBIu8E8YtbqlMy57tK3dV1+m2b9NhPeaYovB5exmLKvrGCqOhJTzrEUH5VyUWU6vwX3c1XHJGhW5HVs8dA=="
+      },
+      "SAPTeam.Kryptor": {
+        "type": "Project"
+      },
+      "SAPTeam.Kryptor.Client": {
+        "type": "Project",
+        "dependencies": {
+          "SAPTeam.CommonTK": "[4.0.3, )",
+          "SAPTeam.Kryptor": "[1.0.0, )"
+        }
+      }
+    },
+    "net6.0/win-x64": {},
+    "net8.0": {
+      "Downloader": {
+        "type": "Direct",
+        "requested": "[3.1.2, )",
+        "resolved": "3.1.2",
+        "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
+      },
+      "Microsoft.DotNet.ILCompiler": {
+        "type": "Direct",
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "OWFDT/S4Zl5QVakCjVfRaZTLrmWDhA20ud/BKkru7vWnIrejMcUk4Xz2MwavgyzBypryoHYta787k4avhxsU9A=="
+      },
+      "Microsoft.NET.ILLink.Tasks": {
+        "type": "Direct",
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "P8wR6MUWwYXIjPJuBaZgo5zlI/GWI6QEAo6NyVIbPefa9CCkohYu7dP2rD/mrqnjEqfRHyl+h9VZrDoGpELqYg=="
+      },
+      "Nerdbank.GitVersioning": {
+        "type": "Direct",
+        "requested": "[3.6.143, )",
+        "resolved": "3.6.143",
+        "contentHash": "N24MtdLq4PmdJ2woTQd9515q0I1jeO/DlimYCB/GoRd510Fc9dk9H6YaN8MPPrVF8RHrIalCUfWbWvcoarYeoQ=="
+      },
+      "Pastel": {
+        "type": "Direct",
+        "requested": "[5.1.0, )",
+        "resolved": "5.1.0",
+        "contentHash": "jQ0fTkHZvgQsmbr5qU0IdCP1PWuUfmEmekIsTwysWK/iIwmT9Mbm0x5GpjYSTEwHTNVEpjYhBhyKVdzESgRCpg=="
+      },
+      "SharpCompress": {
+        "type": "Direct",
+        "requested": "[0.37.2, )",
+        "resolved": "0.37.2",
+        "contentHash": "cFBpTct57aubLQXkdqMmgP8GGTFRh7fnRWP53lgE/EYUpDZJ27SSvTkdjB4OYQRZ20SJFpzczUquKLbt/9xkhw==",
+        "dependencies": {
+          "ZstdSharp.Port": "0.8.0"
+        }
+      },
+      "Spectre.Console": {
+        "type": "Direct",
+        "requested": "[0.49.1, )",
+        "resolved": "0.49.1",
+        "contentHash": "USV+pdu49OJ3nCjxNuw1K9Zw/c1HCBbwbjXZp0EOn6wM99tFdAtN34KEBZUMyRuJuXlUMDqhd8Yq9obW2MslYA=="
+      },
+      "System.CommandLine": {
+        "type": "Direct",
+        "requested": "[2.0.0-beta4.22272.1, )",
+        "resolved": "2.0.0-beta4.22272.1",
+        "contentHash": "1uqED/q2H0kKoLJ4+hI2iPSBSEdTuhfCYADeJrAqERmiGQ2NNacYKRNEQ+gFbU4glgVyK8rxI+ZOe1onEtr/Pg=="
+      },
+      "SAPTeam.CommonTK": {
+        "type": "Transitive",
+        "resolved": "4.0.3",
+        "contentHash": "ll7rgGn9/gHJB0V+mpaUVS7h6ZF4V6H1WXl2lvyW8LY1kp63D2w9fzXXf4je+7Bb4Z4LOTm53w9g7jC0CzLhBA=="
+      },
+      "ZstdSharp.Port": {
+        "type": "Transitive",
+        "resolved": "0.8.0",
+        "contentHash": "Z62eNBIu8E8YtbqlMy57tK3dV1+m2b9NhPeaYovB5exmLKvrGCqOhJTzrEUH5VyUWU6vwX3c1XHJGhW5HVs8dA=="
+      },
+      "SAPTeam.Kryptor": {
+        "type": "Project"
+      },
+      "SAPTeam.Kryptor.Client": {
+        "type": "Project",
+        "dependencies": {
+          "SAPTeam.CommonTK": "[4.0.3, )",
+          "SAPTeam.Kryptor": "[1.0.0, )"
+        }
+      }
+    },
+    "net8.0/win-x64": {
+      "Microsoft.DotNet.ILCompiler": {
+        "type": "Direct",
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "OWFDT/S4Zl5QVakCjVfRaZTLrmWDhA20ud/BKkru7vWnIrejMcUk4Xz2MwavgyzBypryoHYta787k4avhxsU9A==",
+        "dependencies": {
+          "runtime.win-x64.Microsoft.DotNet.ILCompiler": "8.0.8"
+        }
+      },
+      "runtime.win-x64.Microsoft.DotNet.ILCompiler": {
+        "type": "Transitive",
+        "resolved": "8.0.8",
+        "contentHash": "nbk0rvMYX+0BH71ucX45JIEdskCCtF1d/SBcmg/Pxpi/DFKCdX5voBlfwYtc0RRVvyr+MWQ/B2dB3s1Cr/l5/w=="
+      }
+    }
+  }
+}

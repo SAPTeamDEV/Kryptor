@@ -158,6 +158,9 @@ Task("Publish-Cli.bundle")
 	.Does(() => {
 		var publishSettings = GlobalPublishSettings;
 		publishSettings.SelfContained = true;
+		publishSettings.PublishTrimmed = true;
+		publishSettings.MSBuildSettings = new DotNetMSBuildSettings()
+			.WithProperty("CompileBundled", "True");
 
 		DotNetPublish(cliProjectFile, publishSettings);
 	});
@@ -171,6 +174,9 @@ Task("Restore-Cli.Aot")
 		if (string.IsNullOrEmpty(restoreSettings.Runtime)){
 			restoreSettings.Runtime = ResolveRuntimeIdentifier();
 		}
+
+		restoreSettings.MSBuildSettings = new DotNetMSBuildSettings()
+			.WithProperty("CompileAot", "True");
 
 		DotNetRestore(cliProjectFile, restoreSettings);
 	});
@@ -191,7 +197,8 @@ Task("Publish-Cli.Aot")
 
 		publishSettings.NoBuild = false;
 
-		publishSettings.MSBuildSettings = new DotNetMSBuildSettings().WithProperty("CompileAot", "True");
+		publishSettings.MSBuildSettings = new DotNetMSBuildSettings()
+			.WithProperty("CompileAot", "True");
 
 		DotNetPublish(cliProjectFile, publishSettings);
 	});
