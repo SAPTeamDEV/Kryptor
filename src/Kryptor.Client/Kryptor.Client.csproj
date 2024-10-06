@@ -31,6 +31,6 @@
       <ProjectReference Include="..\Kryptor\Kryptor.csproj" />
     </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\Library.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Library.props" />
   
 </Project>

@@ -39,6 +39,6 @@
     <Compile Remove="Helpers\RuntimeHelpers.cs" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\Library.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Library.props" />
   
 </Project>

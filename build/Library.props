@@ -25,6 +25,5 @@
     <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.4" PrivateAssets="All" />
   </ItemGroup>
 
-  <!--<Import Project="$([MSBuild]::GetPathOfFileAbove($(MSBuildThisFile), $(SrcRootPath)..))" />-->
-  <Import Project="$(SrcRootPath)..\build\PackageLogo.props" />
+  <Import Project="PackageLogo.props" />
 </Project>
