@@ -62,25 +62,12 @@
         }
       }
     },
-    "net6.0/win-x64": {},
     "net8.0": {
       "Downloader": {
         "type": "Direct",
         "requested": "[3.1.2, )",
         "resolved": "3.1.2",
         "contentHash": "gcWDRWn5QEE/kVZulOOy57UpJOP7tKVHGoU/jc/Kwp36xdeKCs1RXjYr1S6D0o4FhAdsWaxtNdpjt5Pn6XTGuA=="
-      },
-      "Microsoft.DotNet.ILCompiler": {
-        "type": "Direct",
-        "requested": "[8.0.8, )",
-        "resolved": "8.0.8",
-        "contentHash": "OWFDT/S4Zl5QVakCjVfRaZTLrmWDhA20ud/BKkru7vWnIrejMcUk4Xz2MwavgyzBypryoHYta787k4avhxsU9A=="
-      },
-      "Microsoft.NET.ILLink.Tasks": {
-        "type": "Direct",
-        "requested": "[8.0.8, )",
-        "resolved": "8.0.8",
-        "contentHash": "P8wR6MUWwYXIjPJuBaZgo5zlI/GWI6QEAo6NyVIbPefa9CCkohYu7dP2rD/mrqnjEqfRHyl+h9VZrDoGpELqYg=="
       },
       "Nerdbank.GitVersioning": {
         "type": "Direct",
@@ -134,22 +121,6 @@
           "SAPTeam.CommonTK": "[4.0.3, )",
           "SAPTeam.Kryptor": "[1.0.0, )"
         }
-      }
-    },
-    "net8.0/win-x64": {
-      "Microsoft.DotNet.ILCompiler": {
-        "type": "Direct",
-        "requested": "[8.0.8, )",
-        "resolved": "8.0.8",
-        "contentHash": "OWFDT/S4Zl5QVakCjVfRaZTLrmWDhA20ud/BKkru7vWnIrejMcUk4Xz2MwavgyzBypryoHYta787k4avhxsU9A==",
-        "dependencies": {
-          "runtime.win-x64.Microsoft.DotNet.ILCompiler": "8.0.8"
-        }
-      },
-      "runtime.win-x64.Microsoft.DotNet.ILCompiler": {
-        "type": "Transitive",
-        "resolved": "8.0.8",
-        "contentHash": "nbk0rvMYX+0BH71ucX45JIEdskCCtF1d/SBcmg/Pxpi/DFKCdX5voBlfwYtc0RRVvyr+MWQ/B2dB3s1Cr/l5/w=="
       }
     }
   }
