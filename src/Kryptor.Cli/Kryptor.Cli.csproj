@@ -34,6 +34,9 @@
 
   <ItemGroup>
     <Compile Remove="SchemaJsonConverter.cs" />
+    <Compile Remove="Wordlist\DownloadSession.cs" Condition="'$(Configuration)' == 'Light'" />
+    <Compile Remove="Wordlist\InstallSessionHost.cs" Condition="'$(Configuration)' == 'Light'" />
+    <Compile Remove="Wordlist\IndexSessionHost.cs" Condition="'$(Configuration)' == 'Light'" />
     <Content Include="..\..\build\kryptor.ico" />
   </ItemGroup>
 
