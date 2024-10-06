@@ -84,7 +84,7 @@ jobs:
       - name: Deploy to Github packages
         continue-on-error: true
         run: |
-          for TARGET in artifacts/packages/${{ matrix.configuration }}/*.*nupkg
+          for TARGET in artifacts/packages/${{ matrix.configuration }}/*.nupkg
           do
             echo Uploading $TARGET
             dotnet nuget push $TARGET --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate || continue
@@ -94,7 +94,7 @@ jobs:
       - name: Deploy to NuGet gallery
         continue-on-error: true
         run: |
-          for TARGET in artifacts/packages/${{ matrix.configuration }}/*.*nupkg
+          for TARGET in artifacts/packages/${{ matrix.configuration }}/*.nupkg
           do
             echo Uploading $TARGET
             dotnet nuget push $TARGET --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate || continue
