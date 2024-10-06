@@ -42,6 +42,10 @@ namespace SAPTeam.Kryptor.Cli
             {
                 TargetPlatform = platformInfo.RuntimeIdentifier;
             }
+            else
+            {
+                TargetPlatform = "portable";
+            }
 
             TargetFramework = platformInfo.TargetFrameworkMoniker;
 

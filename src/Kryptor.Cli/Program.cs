@@ -43,25 +43,17 @@ namespace SAPTeam.Kryptor.Cli
                     var mainGrid = new Grid()
                         .AddColumn(GetNiceColumn())
                         .AddColumn()
-                        .AddRow("Build Time", $"{BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss}")
-                        .AddRow("Build Configuration", $"{BuildInformation.Branch}")
-                        .AddRow("Target Framework", $"{BuildInformation.TargetFramework}");
-
-                    if (!string.IsNullOrEmpty(BuildInformation.TargetPlatform))
-                    {
-                        string platformStr = $"{BuildInformation.TargetPlatform}";
-#if AOT
-                        platformStr += " (AOT)";
-#endif
-                        mainGrid.AddRow("Target Platform", platformStr);
-                    }
-
-                    mainGrid.AddRow("Application Version", $"{BuildInformation.ApplicationVersion}");
-                    mainGrid.AddRow("Application Informational Version", $"{BuildInformation.ApplicationInformationalVersion}");
-                    mainGrid.AddRow("Kryptor Client Utility Version", $"{BuildInformation.ClientVersion.ToString(3)}");
-                    mainGrid.AddRow("Kryptor Engine Version", $"{BuildInformation.EngineVersion.ToString(3)}");
-                    mainGrid.AddRow("KES API Version", $"{Kes.Version.ToString(2)}");
-                    mainGrid.AddRow("KES API Minimum Supported Version", $"{Kes.MinimumSupportedVersion.ToString(2)}");
+                        .AddRow("Build Time", BuildInformation.BuildTime.ToLocalTime().ToString("MMM dd, yyyy HH:mm:ss"))
+                        .AddRow("Build Configuration", BuildInformation.Branch.ToString())
+                        .AddRow("Target Framework", BuildInformation.TargetFramework)
+                        .AddRow("Target Platform", BuildInformation.TargetPlatform)
+                        .AddRow("AOT Compiled", $"[{ColorizeBool(BuildInformation.IsAot)}]{BuildInformation.IsAot}[/]")
+                        .AddRow("Application Version", BuildInformation.ApplicationVersion.ToString())
+                        .AddRow("Application Informational Version", BuildInformation.ApplicationInformationalVersion.ToString())
+                        .AddRow("Kryptor Client Utility Version", BuildInformation.ClientVersion.ToString(3))
+                        .AddRow("Kryptor Engine Version", BuildInformation.EngineVersion.ToString(3))
+                        .AddRow("KES API Version", Kes.Version.ToString(2))
+                        .AddRow("KES API Minimum Supported Version", Kes.MinimumSupportedVersion.ToString(2));
 
                     var envGrid = new Grid()
                         .AddColumn(GetNiceColumn())
@@ -99,7 +91,7 @@ namespace SAPTeam.Kryptor.Cli
                             g.AddRow("", alias.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
                         }
 
-                        g.AddRow("Is Secure", $"[{(provider.Value.IsSecure ? Color.LightGreen : Color.Red)}]{provider.Value.IsSecure}[/]");
+                        g.AddRow("Is Secure", $"[{ColorizeBool(provider.Value.IsSecure)}]{provider.Value.IsSecure}[/]");
 
                         g.AddRow("E&D Chunk Size", $"{provider.Value.EncryptionChunkSize}/{provider.Value.DecryptionChunkSize}");
 
@@ -244,6 +236,8 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(wlCmd);
             return root;
         }
+
+        private static Color ColorizeBool(bool value) => value ? Color.LightGreen : Color.Red;
 
         private static Command GetHeaderCommand(GlobalOptionsBinder globalOptionsBinder)
         {
