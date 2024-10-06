@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+
+    <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
+    <Title>Kryptor CLI</Title>
+
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <OutputType>Exe</OutputType>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+
+    <AssemblyTitle>Kryptor Command-Line Interface</AssemblyTitle>
+    <Product>$(AssemblyTitle)</Product>
+    <Description>Command-Line Interface for Kryptor encryption engine.</Description>
+
+    <AssemblyName>kryptor</AssemblyName>
+    <ApplicationIcon>..\..\build\kryptor.ico</ApplicationIcon>
+
+    <PackageId>SAPTeam.Kryptor.Tool</PackageId>
+    <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackAsTool>True</PackAsTool>
+    <ToolCommandName>kryptor</ToolCommandName>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PublishTrimmed>True</PublishTrimmed>
+    <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
+   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SchemaJsonConverter.cs" />
+    <Content Include="..\..\build\kryptor.ico" />
+  </ItemGroup>
+
+    <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="SchemaJsonConverter.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(PublishAot)' != ''">
+    <DefineConstants>$(DefineConstants);AOT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.143" PrivateAssets="All" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="Downloader" Version="3.1.2" Condition="'$(Configuration)' != 'Light'" />
+    <PackageReference Include="SharpCompress" Version="0.37.2" Condition="'$(Configuration)' != 'Light'" />
+    <PackageReference Include="Spectre.Console" Version="0.49.1" />
+    <PackageReference Include="Pastel" Version="5.1.0" />
+
+    <ProjectReference Include="..\Kryptor\Kryptor.csproj" />
+    <ProjectReference Include="..\Kryptor.Client\Kryptor.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="SAPTeam.Kryptor.Cli.AssemblyPlatformAttribute">
+      <_Parameter1>$(TargetFramework)</_Parameter1>
+      <_Parameter2>$(RuntimeIdentifier)</_Parameter2>
+    </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>BuildTime</_Parameter1>
+      <_Parameter2>$([System.DateTime]::UtcNow.ToString("MM/dd/yyyy HH:mm:ss"))</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\..\build\PackageLogo.props" />
+  
+</Project>

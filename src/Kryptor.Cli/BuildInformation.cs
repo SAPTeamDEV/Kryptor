@@ -7,17 +7,15 @@ namespace SAPTeam.Kryptor.Cli
 {
     internal static partial class BuildInformation
     {
-        public static BuildVariant Variant { get; private set; }
+        public static DateTime BuildTime { get; }
 
         public static BuildBranch Branch { get; private set; }
 
         public static bool IsAot { get; private set; }
 
-        public static DateTime BuildTime { get; }
+        public static string TargetFramework { get; }
 
         public static string TargetPlatform { get; }
-
-        public static string TargetFramework { get; }
 
         public static Version ApplicationVersion { get; }
 
@@ -29,7 +27,6 @@ namespace SAPTeam.Kryptor.Cli
 
         static BuildInformation()
         {
-            DefineVariant();
             DefineConstants();
 
             string format = "MM/dd/yyyy HH:mm:ss";

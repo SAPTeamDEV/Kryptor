@@ -44,7 +44,6 @@ namespace SAPTeam.Kryptor.Cli
                         .AddColumn(GetNiceColumn())
                         .AddColumn()
                         .AddRow("Build Time", $"{BuildInformation.BuildTime.ToLocalTime():MMM dd, yyyy HH:mm:ss}")
-                        .AddRow("Build Type", $"{BuildInformation.Variant}")
                         .AddRow("Build Configuration", $"{BuildInformation.Branch}")
                         .AddRow("Target Framework", $"{BuildInformation.TargetFramework}");
 
