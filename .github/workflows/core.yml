@@ -78,7 +78,7 @@ jobs:
       - name: Create NuGet package
         if: github.event_name != 'pull_request'
         run: |
-          ./build.sh -t ppack-all  -c ${{ matrix.configuration }} -o __out__
+          ./build.sh -t pack-all  -c ${{ matrix.configuration }} -o __out__
         shell: bash
       
       - name: Deploy to Github packages
