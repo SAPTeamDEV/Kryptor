@@ -8,7 +8,6 @@
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <IsTrimmable>true</IsTrimmable>
     <Deterministic>True</Deterministic>
-    <ContinuousIntegrationBuild>True</ContinuousIntegrationBuild>
 
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -16,8 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">
-    <IsAotCompatible>true</IsAotCompatible>
-    <PublishTrimmed>True</PublishTrimmed>
+    <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
   
   <ItemGroup>

@@ -21,11 +21,17 @@ string engineTestProjectFile = "test/Kryptor.Tests/Kryptor.Tests.csproj";
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
-bool ignoreLockFile = false;
+bool ignoreLockFile;
+bool CiBuild;
+
+DotNetMSBuildSettings GlobalMSBuildSettings => new(){
+	ContinuousIntegrationBuild = CiBuild,
+};
 
 DotNetRestoreSettings GlobalRestoreSettings => new(){
 	Runtime = runtime,
 	UseLockFile = !ignoreLockFile,
+	MSBuildSettings = GlobalMSBuildSettings,
 };
 
 DotNetBuildSettings GlobalBuildSettings => new(){
@@ -34,6 +40,7 @@ DotNetBuildSettings GlobalBuildSettings => new(){
 	Framework = framework,
 	Runtime = runtime,
 	OutputDirectory = output,
+	MSBuildSettings = GlobalMSBuildSettings,
 };
 
 DotNetTestSettings GlobalTestSettings => new(){
@@ -45,6 +52,7 @@ DotNetTestSettings GlobalTestSettings => new(){
 	Configuration = configuration,
 	Framework = framework,
 	Runtime = runtime,
+	MSBuildSettings = GlobalMSBuildSettings,
 };
 
 DotNetPublishSettings GlobalPublishSettings => new(){
@@ -54,6 +62,7 @@ DotNetPublishSettings GlobalPublishSettings => new(){
 	Framework = framework,
 	Runtime = runtime,
 	OutputDirectory = output,
+	MSBuildSettings = GlobalMSBuildSettings,
 };
 
 DotNetPackSettings GlobalPackSettings => new(){
@@ -62,6 +71,7 @@ DotNetPackSettings GlobalPackSettings => new(){
 	Configuration = configuration,
 	Runtime = runtime,
 	OutputDirectory = output,
+	MSBuildSettings = GlobalMSBuildSettings,
 };
 
 string ResolveRuntimeIdentifier(){
@@ -79,9 +89,18 @@ string ResolveRuntimeIdentifier(){
 }
 
 Setup(context => {
+	CiBuild = GitHubActions.IsRunningOnGitHubActions;
+
+	if (CiBuild){
+		Information("Running build in Github Actions");
+	}
+
 	if (context.TasksToExecute.Where(task => task.Name.StartsWith("Publish-")).Count() > 0){
 		Information("Lock file ignored due to publish request");
 		ignoreLockFile = true;
+	}
+	else{
+		ignoreLockFile = false;
 	}
 });
 
