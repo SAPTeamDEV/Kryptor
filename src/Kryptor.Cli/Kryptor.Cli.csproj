@@ -3,30 +3,30 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 
-    <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
-    <Title>Kryptor CLI</Title>
-
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <OutputType>Exe</OutputType>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
 
+    <RootNamespace>SAPTeam.Kryptor.Cli</RootNamespace>
+    <Title>Kryptor CLI</Title>
     <AssemblyTitle>Kryptor Command-Line Interface</AssemblyTitle>
     <Product>$(AssemblyTitle)</Product>
     <Description>Command-Line Interface for Kryptor encryption engine.</Description>
-
     <AssemblyName>kryptor</AssemblyName>
     <ApplicationIcon>..\..\build\kryptor.ico</ApplicationIcon>
-
     <PackageId>SAPTeam.Kryptor.Tool</PackageId>
     <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    
     <PackAsTool>True</PackAsTool>
     <ToolCommandName>kryptor</ToolCommandName>
+    
     <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
 
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) And '$(DoAot)' != ''">
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) And '$(CompileAot)' == 'True'">
+    <_PubMode>Aot</_PubMode>
     <IsAotCompatible>true</IsAotCompatible>
     <PublishTrimmed>True</PublishTrimmed>
     <PublishAot>True</PublishAot>
@@ -37,7 +37,11 @@
     <Content Include="..\..\build\kryptor.ico" />
   </ItemGroup>
 
-    <ItemGroup>
+  <PropertyGroup>
+    <PublishDir>$(RepoRootPath)artifacts\publish\$(MSBuildProjectName)\$(_PubMode)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\</PublishDir>
+  </PropertyGroup>
+
+  <ItemGroup>
     <None Include="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -45,7 +49,7 @@
     <None Include="SchemaJsonConverter.cs" />
   </ItemGroup>
 
-  <PropertyGroup Condition="'$(PublishAot)' != ''">
+  <PropertyGroup Condition="'$(PublishAot)' == 'True'">
     <DefineConstants>$(DefineConstants);AOT</DefineConstants>
   </PropertyGroup>
 
