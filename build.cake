@@ -13,8 +13,7 @@ var output = Argument<string>("o", null);
 string engineProjectFile = "src/Kryptor/Kryptor.csproj";
 string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
 
-string cliProjectFile = "cli/Kryptor.Cli/Kryptor.Cli.csproj";
-string cliAotProjectFile = "cli/Kryptor.Cli.Native/Kryptor.Cli.Native.csproj";
+string cliProjectFile = "src/Kryptor.Cli/Kryptor.Cli.csproj";
 
 string engineTestProjectFile = "test/Kryptor.Tests/Kryptor.Tests.csproj";
 
@@ -146,6 +145,23 @@ Task("Pack-Cli")
 		DotNetPack(cliProjectFile, GlobalPackSettings);
 	});
 
+Task("Publish-Cli")
+	.Description("Publish kryptor cli")
+	.IsDependentOn("Build-Cli")
+	.Does(() => {
+		DotNetPublish(cliProjectFile, GlobalPublishSettings);
+	});
+
+Task("Publish-Cli.bundle")
+	.Description("Publish kryptor cli bundled (self contained)")
+	.IsDependentOn("Build-Cli")
+	.Does(() => {
+		var publishSettings = GlobalPublishSettings;
+		publishSettings.SelfContained = true;
+
+		DotNetPublish(cliProjectFile, publishSettings);
+	});
+
 Task("Restore-Cli.Aot")
 	.Description("Restore kryptor cli native AOT dependencies")
 	.IsDependentOn("Restore-Client")
@@ -156,11 +172,11 @@ Task("Restore-Cli.Aot")
 			restoreSettings.Runtime = ResolveRuntimeIdentifier();
 		}
 
-		DotNetRestore(cliAotProjectFile, restoreSettings);
+		DotNetRestore(cliProjectFile, restoreSettings);
 	});
 
-Task("Build-Cli.Aot")
-	.Description("Build kryptor cli native AOT")
+Task("Publish-Cli.Aot")
+	.Description("Publish kryptor cli native AOT")
 	.IsDependentOn("Restore-Cli.Aot")
 	.Does(() => {
 		var publishSettings = GlobalPublishSettings;
@@ -173,13 +189,11 @@ Task("Build-Cli.Aot")
 			publishSettings.Framework = "net8.0";
 		}
 
-		if (publishSettings.OutputDirectory == null){
-			publishSettings.OutputDirectory = $"bin/Kryptor.Cli.Native/Aot/{publishSettings.Configuration}/{publishSettings.Framework}/{publishSettings.Runtime}";
-		}
-
 		publishSettings.NoBuild = false;
 
-		DotNetPublish(cliAotProjectFile, publishSettings);
+		publishSettings.MSBuildSettings = new DotNetMSBuildSettings().WithProperty("CompileAot", "True");
+
+		DotNetPublish(cliProjectFile, publishSettings);
 	});
 
 Task("Restore-Engine.Test")
@@ -207,8 +221,7 @@ Task("Build-All")
 	.Description("Build all projects")
 	.IsDependentOn("Build-Engine")
 	.IsDependentOn("Build-Client")
-	.IsDependentOn("Build-Cli")
-	.IsDependentOn("Build-Cli.Aot");
+	.IsDependentOn("Build-Cli");
 
 Task("Pack-All")
 	.Description("Create NuGet package for all projects")
