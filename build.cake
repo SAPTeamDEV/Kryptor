@@ -77,8 +77,8 @@ string ResolveRuntimeIdentifier(){
 }
 
 Setup(context => {
-	if (context.TasksToExecute.Where(task => task.Name == "Restore-Cli.Aot").Count() > 0){
-		Information("Lock file ignored due to requesting aot compilation");
+	if (context.TasksToExecute.Where(task => task.Name.StartsWith("Publish-")).Count() > 0){
+		Information("Lock file ignored due to publish request");
 		ignoreLockFile = true;
 	}
 });
