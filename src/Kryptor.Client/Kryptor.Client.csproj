@@ -30,5 +30,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Kryptor\Kryptor.csproj" />
     </ItemGroup>
-    
+
+  <Import Project="$(MSBuildThisFileDirectory)..\Library.props" />
+  
 </Project>

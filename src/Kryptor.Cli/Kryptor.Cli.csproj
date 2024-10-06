@@ -23,10 +23,13 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackAsTool>True</PackAsTool>
     <ToolCommandName>kryptor</ToolCommandName>
-    <IsAotCompatible>true</IsAotCompatible>
-    <PublishTrimmed>True</PublishTrimmed>
     <Configurations>Debug;Release;Nuget;Indexer;Light</Configurations>
    </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) And '$(PublishAot)' != ''">
+    <IsAotCompatible>true</IsAotCompatible>
+    <PublishTrimmed>True</PublishTrimmed>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="SchemaJsonConverter.cs" />
