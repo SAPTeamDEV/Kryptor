@@ -5,7 +5,7 @@
     <RepoRootPath>$(MSBuildThisFileDirectory)</RepoRootPath>
     <BaseIntermediateOutputPath>$(RepoRootPath)artifacts\obj\$([MSBuild]::MakeRelative($(RepoRootPath), $(MSBuildProjectDirectory)))\</BaseIntermediateOutputPath>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(RepoRootPath)artifacts\bin\$(MSBuildProjectName)\</BaseOutputPath>
-    <PublishDir>$(RepoRootPath)artifacts\</PublishDir>
+    <PublishDir>$(RepoRootPath)artifacts\publish\$(MSBuildProjectName)\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\</PublishDir>
     <PackageOutputPath>$(RepoRootPath)artifacts\packages\$(Configuration)\</PackageOutputPath>
 
     <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
