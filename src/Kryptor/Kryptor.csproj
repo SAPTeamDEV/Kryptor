@@ -7,7 +7,7 @@
     <PackageId>$(AssemblyName)</PackageId>
     
     <Title>Kryptor</Title>
-    <AssemblyTitle>Kryptor</AssemblyTitle>
+    <AssemblyTitle>Kryptor Engine</AssemblyTitle>
     <Product>The Key-Based Encryption Engine.</Product>
     <Description>This library allows you to encrypt data with keystore-based mechanisms.</Description>
     <PackageTags>AES;KES;random;algorithm;transform;keystore;encrypt;decrypt</PackageTags>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="..\..\README.md">
+    <None Include="$(RepoRootPath)README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -39,6 +39,6 @@
     <Compile Remove="Helpers\RuntimeHelpers.cs" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\build\Library.props" />
+  <Import Project="$(RepoRootPath)build\Library.props" />
   
 </Project>

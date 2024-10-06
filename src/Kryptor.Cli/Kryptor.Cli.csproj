@@ -14,7 +14,7 @@
     <Product>$(AssemblyTitle)</Product>
     <Description>Command-Line Interface for Kryptor encryption engine.</Description>
     <AssemblyName>kryptor</AssemblyName>
-    <ApplicationIcon>..\..\build\kryptor.ico</ApplicationIcon>
+    <ApplicationIcon>$(RepoRootPath)build\kryptor.ico</ApplicationIcon>
     <PackageId>SAPTeam.Kryptor.Tool</PackageId>
     <PackageTags>AES;KES;RSA;keystore;encrypt;decrypt;tool</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -40,7 +40,7 @@
     <Compile Remove="Wordlist\DownloadSession.cs" Condition="'$(Configuration)' == 'Light'" />
     <Compile Remove="Wordlist\InstallSessionHost.cs" Condition="'$(Configuration)' == 'Light'" />
     <Compile Remove="Wordlist\IndexSessionHost.cs" Condition="'$(Configuration)' == 'Light'" />
-    <Content Include="..\..\build\kryptor.ico" />
+    <Content Include="$(RepoRootPath)build\kryptor.ico" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -83,6 +83,6 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\..\build\PackageLogo.props" />
+  <Import Project="$(RepoRootPath)build\PackageLogo.props" />
   
 </Project>
