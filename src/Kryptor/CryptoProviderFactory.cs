@@ -37,7 +37,7 @@ namespace SAPTeam.Kryptor
         /// The additional identifiers. Acts like a shortcut. Aliases uses the same prefix as the identifier.
         /// </param>
         /// <exception cref="ArgumentException"></exception>
-        public static void RegisterProvider(CryptoProvider instance, string prefix, string id, string[] aliases)
+        public static void RegisterProvider(CryptoProvider instance, string prefix, string id, string[] aliases = null)
         {
             prefix = prefix.ToLower();
 
@@ -68,6 +68,7 @@ namespace SAPTeam.Kryptor
             instance.RegisteredIdentifier = name;
             GlobalProviders[name] = instance;
 
+            if (aliases == null || aliases.Length == 0) return;
             foreach (string alias in aliases)
             {
                 string aliasName = $"{prefix}:{alias}";
