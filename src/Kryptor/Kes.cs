@@ -39,7 +39,7 @@ namespace SAPTeam.Kryptor
         /// <summary>
         /// Gets the version of the kes encryptor.
         /// </summary>
-        public static Version Version => new Version(0, 19, 0, 0);
+        public static Version Version => new Version(0, 20, 0, 0);
 
         /// <summary>
         /// Gets the minimum supported version of the kes decryptor.
