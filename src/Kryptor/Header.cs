@@ -10,6 +10,9 @@ namespace SAPTeam.Kryptor
     /// </summary>
     public class Header
     {
+        private static readonly byte[] StartHeaderPattern = new byte[] { 2, 97, 7, 64, 159, 37, 46, 128 };
+        private static readonly byte[] EndHeaderPattern = new byte[] { 97, 7, 64, 159, 37, 46, 128, 3 };
+
 #if NET6_0_OR_GREATER
         /// <summary>
         /// The source generated code of this header.
@@ -57,8 +60,7 @@ namespace SAPTeam.Kryptor
         /// <exception cref="OverflowException"></exception>
         public byte[] Export()
         {
-            string js = ToJson(this);
-            byte[] b64 = js.Base64EncodeToByte();
+            byte[] b64 = ToBase64Json();
 
             if (b64.Length > 65535)
             {
@@ -77,7 +79,32 @@ namespace SAPTeam.Kryptor
         }
 
         /// <summary>
-        /// Reads the KES header of stream and skips the header area.
+        /// Exports the header contents as base64 encoded bytes array with pre 0.20 method.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="OverflowException"></exception>
+        public byte[] ExportClassic()
+        {
+            byte[] b64 = ToBase64Json();
+
+            byte[] payload = StartHeaderPattern.Concat(b64)
+                                               .Concat(EndHeaderPattern)
+                                               .ToArray();
+
+            return payload.Length > 8192
+                ? throw new OverflowException($"Header payload size is out of allowed range {payload} > 8192")
+                : payload;
+        }
+
+        private byte[] ToBase64Json()
+        {
+            string js = ToJson(this);
+            byte[] b64 = js.Base64EncodeToByte();
+            return b64;
+        }
+
+        /// <summary>
+        /// Reads the KES header of the stream and skips the header area.
         /// </summary>
         /// <param name="stream">
         /// The data stream.
@@ -103,7 +130,97 @@ namespace SAPTeam.Kryptor
             byte[] buffer = new byte[headerSize];
             stream.Read(buffer, 0, headerSize);
 
-            T header = ReadJson<T>(buffer.Base64DecodeToString());
+            T header;
+            try
+            {
+                header = ReadHeaderInternal<T>(buffer.Base64DecodeToString());
+            }
+            catch
+            {
+                header = ReadHeaderClassic<T>(stream);
+            }
+
+            return header;
+        }
+
+        /// <summary>
+        /// Reads the KES header of the stream and skips the header area with pre 0.20 method.
+        /// </summary>
+        /// <param name="stream">
+        /// The data stream.
+        /// </param>
+        /// <returns>
+        /// A new instance of the <see cref="Header"/> class.
+        /// </returns>
+        public static T ReadHeaderClassic<T>(Stream stream)
+            where T : Header, new()
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+
+            byte[] buffer = new byte[Math.Min(1024, stream.Length)];
+
+            int startPos = -1;
+            int endPos = -1;
+            int startIndex = 0;
+            int tries = 0;
+
+            while (true)
+            {
+                tries++;
+
+                // Get 1KB of data to search for header.
+                stream.Read(buffer, 0, buffer.Length);
+
+                if (startPos == -1)
+                {
+                    int ts = buffer.LocatePattern(StartHeaderPattern);
+                    if (ts != -1)
+                    {
+                        startPos = ts + StartHeaderPattern.Length;
+                        startIndex = tries - 1;
+                    }
+                }
+
+                if (startPos > -1 && endPos == -1)
+                {
+                    int te = buffer.LocatePattern(EndHeaderPattern);
+                    if (te != -1)
+                    {
+                        endPos = te;
+                    }
+                }
+
+                if ((startPos == -1 && tries > 2) || (endPos == -1 && tries > 8 + startIndex))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    return new T()
+                    {
+                        Verbosity = HeaderVerbosity.Empty
+                    };
+                }
+
+                if (startPos > -1 && endPos > -1)
+                {
+                    break;
+                }
+            }
+
+            stream.Seek(startPos, SeekOrigin.Begin);
+
+            byte[] dataBuffer = new byte[endPos - startPos];
+            stream.Read(dataBuffer, 0, dataBuffer.Length);
+
+            T header = ReadHeaderInternal<T>(dataBuffer.Base64DecodeToString());
+
+            stream.Seek(endPos + EndHeaderPattern.Length, SeekOrigin.Begin);
+
+            return header;
+        }
+
+        private static T ReadHeaderInternal<T>(string headerJson) where T : Header, new()
+        {
+            T header = ReadJson<T>(headerJson);
 
             int detail = 0;
             if (header.Version != null && header.EngineVersion != null)
@@ -122,9 +239,6 @@ namespace SAPTeam.Kryptor
             }
 
             header.Verbosity = (HeaderVerbosity)detail;
-
-            stream.Seek(2 + headerSize, SeekOrigin.Begin);
-
             return header;
         }
 
