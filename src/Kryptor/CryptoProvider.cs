@@ -92,9 +92,9 @@ namespace SAPTeam.Kryptor
         /// <returns></returns>
         internal CryptoProvider Fork(KeyStore keyStore, CryptoProviderConfiguration configuration = null)
         {
-            if (Configuration != null)
+            if (Configuration != null || KeyStore.Raw != null)
             {
-                throw new ApplicationException("Broken crypto provider instance storage");
+                throw new ApplicationException("Broken crypto provider source instance");
             }
 
             CryptoProvider clone = Clone() as CryptoProvider;

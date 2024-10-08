@@ -11,19 +11,24 @@
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets the configuration of continuous encryption method.
+        /// Gets or sets the configuration of continuous encryption method.
         /// </summary>
         public virtual bool Continuous { get; set; }
 
         /// <summary>
-        /// Gets the configuration of remove hash feature.
+        /// Gets or sets the configuration of remove hash feature.
         /// </summary>
         public virtual bool RemoveHash { get; set; }
 
         /// <summary>
-        /// Gets the configuration of dynamic block processing feature.
+        /// Gets or sets the configuration of dynamic block processing feature.
         /// </summary>
         public virtual bool DynamicBlockProcessing { get; set; }
+
+        /// <summary>
+        /// Gets or sets crypto provider extra parameters
+        /// </summary>
+        public virtual string[] Parameters { get; set; }
 
         /// <inheritdoc/>
         public object Clone() => MemberwiseClone();
@@ -34,7 +39,8 @@
             return Id == other.Id
                 && Continuous == other.Continuous
                 && RemoveHash == other.RemoveHash
-                && DynamicBlockProcessing == other.DynamicBlockProcessing;
+                && DynamicBlockProcessing == other.DynamicBlockProcessing
+                && Parameters == other.Parameters;
         }
 
         /// <inheritdoc/>
@@ -46,7 +52,8 @@
             return Id.GetHashCode()
                  & Continuous.GetHashCode()
                  & RemoveHash.GetHashCode()
-                 & DynamicBlockProcessing.GetHashCode();
+                 & DynamicBlockProcessing.GetHashCode()
+                 & Parameters.GetHashCode();
         }
     }
 }
