@@ -113,11 +113,22 @@ namespace SAPTeam.Kryptor.Cli
 
             Option<string> provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
             provider.AddAlias("-p");
+            provider.AddValidator(x =>
+            {
+                try
+                {
+                    CryptoProviderFactory.ResolveId(x.Tokens[0].Value);
+                }
+                catch (Exception ex)
+                {
+                    x.ErrorMessage = ex.Message;
+                }
+            });
 
             Option<IEnumerable<string>> parameters = new Option<IEnumerable<string>>(
-                name: "extra-parameters",
+                name: "--extra-parameters",
                 description: "Extra parameters to pass to the crypto provider, comma delimited",
-                isDefault: true,
+                isDefault: false,
                 parseArgument: (x) =>
                 {
                     if (x.Tokens.Count == 0)
@@ -132,6 +143,8 @@ namespace SAPTeam.Kryptor.Cli
                 }
                 );
             parameters.AddAlias("-X");
+            parameters.AllowMultipleArgumentsPerToken = true;
+            parameters.ArgumentHelpName = "parameters";
 
             Option<bool> continuous = new Option<bool>("--continuous", "Enables using the Continuous method");
             continuous.AddAlias("-c");
@@ -150,7 +163,7 @@ namespace SAPTeam.Kryptor.Cli
             keystore.IsRequired = true;
             keystore.AddValidator(x =>
             {
-                string _inKs = x.Tokens.First().Value;
+                string _inKs = x.Tokens[0].Value;
                 if (File.Exists(_inKs) || TransformerToken.IsValid(_inKs))
                 {
                     return;
@@ -164,7 +177,7 @@ namespace SAPTeam.Kryptor.Cli
             Argument<IEnumerable<string>> files = new Argument<IEnumerable<string>>(
                 name: "files",
                 description: "Files or folders to be processed",
-                isDefault: true,
+                isDefault: false,
                 parse: (x) =>
                 {
                     if (x.Tokens.Count == 0)
