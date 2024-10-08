@@ -127,7 +127,7 @@ namespace SAPTeam.Kryptor.Cli
                     }
                     else
                     {
-                        return x.Tokens.First().Value.Split(',').ToArray();
+                        return x.Tokens.SelectMany(x => x.Value.Split(','));
                     }
                 }
                 );
