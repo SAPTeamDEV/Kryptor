@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Reflection;
 
 using SAPTeam.Kryptor.CryptoProviders;
@@ -180,11 +181,19 @@ namespace SAPTeam.Kryptor
             UpdateHeader(header);
             Provider.UpdateHeader(header);
 
+            byte[] headerBuffer;
             if (header.Verbosity > 0)
             {
-                byte[] hArray = header.CreatePayload();
-                await AsyncCompat.WriteAsync(destination, hArray, 0, hArray.Length, cancellationToken);
+                headerBuffer = header.Export();
             }
+            else
+            {
+                headerBuffer = new byte[2]
+                {
+                    0, 0
+                };
+            }
+            await AsyncCompat.WriteAsync(destination, headerBuffer, 0, headerBuffer.Length, cancellationToken);
 
             await ProcessDataAsync(source, destination, true, cancellationToken);
         }

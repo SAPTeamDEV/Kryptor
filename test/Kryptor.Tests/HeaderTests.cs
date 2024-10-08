@@ -29,7 +29,7 @@ namespace SAPTeam.Kryptor.Tests
                 Extra = ex,
             };
 
-            MemoryStream mem = new MemoryStream(header.CreatePayload());
+            MemoryStream mem = new MemoryStream(header.Export());
 
             Header h2 = Header.ReadHeader<Header>(mem);
 
