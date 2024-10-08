@@ -7,6 +7,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         public int BlockSize { get; set; }
         public string Provider { get; set; }
+        public string[] Parameters { get; set; }
         public bool Continuous { get; set; }
         public bool RemoveHash { get; set; }
         public bool DynamicBlockProcessing { get; set; }
@@ -19,6 +20,7 @@ namespace SAPTeam.Kryptor.Cli
     {
         private readonly Option<int> blockSize;
         private readonly Option<string> provider;
+        private readonly Option<IEnumerable<string>> parameters;
         private readonly Option<bool> continuous;
         private readonly Option<bool> removeHash;
         private readonly Option<bool> dbp;
@@ -26,10 +28,11 @@ namespace SAPTeam.Kryptor.Cli
         private readonly Option<string> keyStore;
         private readonly Argument<IEnumerable<string>> files;
 
-        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> outputPath, Option<string> keyStore, Argument<IEnumerable<string>> files)
+        public DataProcessingOptionsBinder(Option<int> blockSize, Option<string> provider, Option<IEnumerable<string>> parameters, Option<bool> continuous, Option<bool> removeHash, Option<bool> dbp, Option<string> outputPath, Option<string> keyStore, Argument<IEnumerable<string>> files)
         {
             this.blockSize = blockSize;
             this.provider = provider;
+            this.parameters = parameters;
             this.continuous = continuous;
             this.removeHash = removeHash;
             this.dbp = dbp;
@@ -44,6 +47,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 BlockSize = bindingContext.ParseResult.GetValueForOption(blockSize),
                 Provider = bindingContext.ParseResult.GetValueForOption(provider),
+                Parameters = bindingContext.ParseResult.GetValueForOption(parameters).ToArray(),
                 Continuous = bindingContext.ParseResult.GetValueForOption(continuous),
                 RemoveHash = bindingContext.ParseResult.GetValueForOption(removeHash),
                 DynamicBlockProcessing = bindingContext.ParseResult.GetValueForOption(dbp),

@@ -114,6 +114,25 @@ namespace SAPTeam.Kryptor.Cli
             Option<string> provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
             provider.AddAlias("-p");
 
+            Option<IEnumerable<string>> parameters = new Option<IEnumerable<string>>(
+                name: "extra-parameters",
+                description: "Extra parameters to pass to the crypto provider, comma delimited",
+                isDefault: true,
+                parseArgument: (x) =>
+                {
+                    if (x.Tokens.Count == 0)
+                    {
+                        x.ErrorMessage = "You must specify at least one parameter";
+                        return null;
+                    }
+                    else
+                    {
+                        return x.Tokens.First().Value.Split(',').ToArray();
+                    }
+                }
+                );
+            parameters.AddAlias("-X");
+
             Option<bool> continuous = new Option<bool>("--continuous", "Enables using the Continuous method");
             continuous.AddAlias("-c");
 
@@ -175,6 +194,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 blockSize,
                 provider,
+                parameters,
                 continuous,
                 removeHash,
                 dbp,
@@ -192,7 +212,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 EncryptionSessionHost sessionHost = new EncryptionSessionHost(globalOptionsT, dpoT, hVerboseT, keyChainT, obfuscateT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files), hVerbose, keyChain, obfuscate);
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, parameters, continuous, removeHash, dbp, outputPath, keystore, files), hVerbose, keyChain, obfuscate);
             #endregion
 
             #region Decryption Options
@@ -200,6 +220,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 blockSize,
                 provider,
+                parameters,
                 continuous,
                 removeHash,
                 dbp,
@@ -214,7 +235,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 DecryptionSessionHost sessionHost = new DecryptionSessionHost(globalOptionsT, dpoT);
                 Context.NewSessionHost(sessionHost);
-            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, continuous, removeHash, dbp, outputPath, keystore, files));
+            }, globalOptionsBinder, new DataProcessingOptionsBinder(blockSize, provider, parameters, continuous, removeHash, dbp, outputPath, keystore, files));
             #endregion
 
             Command genCmd = GetGenerateCommand(globalOptionsBinder);
