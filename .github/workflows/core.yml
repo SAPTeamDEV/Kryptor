@@ -87,7 +87,7 @@ jobs:
           for TARGET in artifacts/packages/${{ matrix.configuration }}/*.nupkg
           do
             echo Uploading $TARGET
-            dotnet nuget push $TARGET --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate || continue
+            dotnet nuget push $TARGET --api-key ${{ secrets.GITHUB_TOKEN }} --source github --skip-duplicate || continue
           done
         shell: bash
 
