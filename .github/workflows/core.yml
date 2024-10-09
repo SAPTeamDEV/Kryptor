@@ -53,6 +53,7 @@ jobs:
         run: |
           ./build.sh -t restore-all
           ./build.sh -t restore-tests
+          dotnet nuget update source github -u Aeliux -p ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
           
       - name: Build
         run: |
