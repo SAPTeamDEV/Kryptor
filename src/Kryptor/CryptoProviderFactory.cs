@@ -12,6 +12,8 @@ namespace SAPTeam.Kryptor
         private static readonly Dictionary<string, CryptoProvider> GlobalProviders = new Dictionary<string, CryptoProvider>();
         private static readonly Dictionary<string, string> GlobalAliases = new Dictionary<string, string>();
 
+        private static readonly string _defaultProvider;
+
         static CryptoProviderFactory()
         {
             RegisterProviderInternal(new StandaloneKey(), "SK", "1");
@@ -19,7 +21,14 @@ namespace SAPTeam.Kryptor
             RegisterProviderInternal(new MixedVector(), "MV", "3");
             RegisterProviderInternal(new TransformedParameters(), "TP", "4");
             RegisterProviderInternal(new DynamicEncryption(), "DE", "5");
+
+            _defaultProvider = "MixedVector";
         }
+
+        /// <summary>
+        /// Gets the default crypto provider identifier.
+        /// </summary>
+        public static string GetDefaultProvider() => _defaultProvider;
 
         /// <summary>
         /// Registers a new crypto provider given identifier and hints.

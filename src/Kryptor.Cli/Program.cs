@@ -40,66 +40,7 @@ namespace SAPTeam.Kryptor.Cli
             {
                 if (verInfoT)
                 {
-                    var mainGrid = new Grid()
-                        .AddColumn(GetNiceColumn())
-                        .AddColumn()
-                        .AddRow("Build Time", BuildInformation.BuildTime.ToLocalTime().ToString("MMM dd, yyyy HH:mm:ss"))
-                        .AddRow("Build Configuration", BuildInformation.Branch.ToString())
-                        .AddRow("Target Framework", BuildInformation.TargetFramework)
-                        .AddRow("Target Platform", BuildInformation.TargetPlatform)
-                        .AddRow("AOT Compiled", $"[{ColorizeBool(BuildInformation.IsAot)}]{BuildInformation.IsAot}[/]")
-                        .AddRow("Application Version", BuildInformation.ApplicationVersion.ToString())
-                        .AddRow("Application Informational Version", BuildInformation.ApplicationInformationalVersion.ToString())
-                        .AddRow("Kryptor Client Utility Version", BuildInformation.ClientVersion.ToString(3))
-                        .AddRow("Kryptor Engine Version", BuildInformation.EngineVersion.ToString(3))
-                        .AddRow("KES API Version", Kes.Version.ToString(2))
-                        .AddRow("KES API Minimum Supported Version", Kes.MinimumSupportedVersion.ToString(2));
-
-                    var envGrid = new Grid()
-                        .AddColumn(GetNiceColumn())
-                        .AddColumn()
-                        .AddRow("Async Compatible", $"{AsyncCompat.IsAsyncCompatible}")
-                        .AddRow("Application data directory", $"{Context.ApplicationDataDirectory}")
-                        .AddRow("Data directory is writable", $"{Context.ApplicationDataDirectoryIsWritable}");
-
-                    var mainPanel = new Panel(mainGrid)
-                        .Header("Build Info");
-
-                    var envPanel = new Panel(envGrid)
-                        .Header("Environment Info");
-
-                    AnsiConsole.Write(new Columns(mainPanel, envPanel));
-
-                    Dictionary<string, CryptoProvider> cryptoProviders = CryptoProviderFactory.GetProviders();
-                    if (cryptoProviders.Count == 0) return;
-
-                    AnsiConsole.WriteLine();
-                    AnsiConsole.Write(new Rule("Registered Crypto Providers").LeftJustified());
-                    AnsiConsole.WriteLine();
-
-                    var providerCards = new List<Panel>();
-
-                    foreach (KeyValuePair<string, CryptoProvider> provider in cryptoProviders)
-                    {
-                        var g = new Grid()
-                            .AddColumn(GetNiceColumn())
-                            .AddColumn()
-                            .AddRow("Aliases", provider.Key.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
-
-                        foreach (var alias in CryptoProviderFactory.GetAliases(provider.Key))
-                        {
-                            g.AddRow("", alias.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
-                        }
-
-                        g.AddRow("Is Secure", $"[{ColorizeBool(provider.Value.IsSecure)}]{provider.Value.IsSecure}[/]");
-
-                        g.AddRow("E&D Chunk Size", $"{provider.Value.EncryptionChunkSize}/{provider.Value.DecryptionChunkSize}");
-
-                        providerCards.Add(new Panel(g)
-                            .Header(provider.Value.Name));
-                    }
-
-                    AnsiConsole.Write(new Columns(providerCards));
+                    DebugInfo();
                 }
                 else
                 {
@@ -111,13 +52,14 @@ namespace SAPTeam.Kryptor.Cli
             Option<int> blockSize = new Option<int>("--block-size", () => Kes.DefaultBlockSize, "Determines the block size for data processing");
             blockSize.AddAlias("-b");
 
-            Option<string> provider = new Option<string>("--provider", () => "3", "Determines the crypto provider to process data");
+            Option<string> provider = new Option<string>("--provider", CryptoProviderFactory.GetDefaultProvider, "Determines the crypto provider to process data");
             provider.AddAlias("-p");
             provider.AddValidator(x =>
             {
                 try
                 {
-                    CryptoProviderFactory.ResolveId(x.Tokens[0].Value);
+                    string id = x.Tokens.Count == 0 ? CryptoProviderFactory.GetDefaultProvider() : x.Tokens[0].Value;
+                    CryptoProviderFactory.ResolveId(id);
                 }
                 catch (Exception ex)
                 {
@@ -269,6 +211,70 @@ namespace SAPTeam.Kryptor.Cli
             root.AddCommand(kcCmd);
             root.AddCommand(wlCmd);
             return root;
+        }
+
+        private static void DebugInfo()
+        {
+            var mainGrid = new Grid()
+                                    .AddColumn(GetNiceColumn())
+                                    .AddColumn()
+                                    .AddRow("Build Time", BuildInformation.BuildTime.ToLocalTime().ToString("MMM dd, yyyy HH:mm:ss"))
+                                    .AddRow("Build Configuration", BuildInformation.Branch.ToString())
+                                    .AddRow("Target Framework", BuildInformation.TargetFramework)
+                                    .AddRow("Target Platform", BuildInformation.TargetPlatform)
+                                    .AddRow("AOT Compiled", $"[{ColorizeBool(BuildInformation.IsAot)}]{BuildInformation.IsAot}[/]")
+                                    .AddRow("Application Version", BuildInformation.ApplicationVersion.ToString())
+                                    .AddRow("Application Informational Version", BuildInformation.ApplicationInformationalVersion.ToString())
+                                    .AddRow("Kryptor Client Utility Version", BuildInformation.ClientVersion.ToString(3))
+                                    .AddRow("Kryptor Engine Version", BuildInformation.EngineVersion.ToString(3))
+                                    .AddRow("KES API Version", Kes.Version.ToString(2))
+                                    .AddRow("KES API Minimum Supported Version", Kes.MinimumSupportedVersion.ToString(2));
+
+            var envGrid = new Grid()
+                .AddColumn(GetNiceColumn())
+                .AddColumn()
+                .AddRow("Async Compatible", $"{AsyncCompat.IsAsyncCompatible}")
+                .AddRow("Application data directory", $"{Context.ApplicationDataDirectory}")
+                .AddRow("Data directory is writable", $"{Context.ApplicationDataDirectoryIsWritable}");
+
+            var mainPanel = new Panel(mainGrid)
+                .Header("Build Info");
+
+            var envPanel = new Panel(envGrid)
+                .Header("Environment Info");
+
+            AnsiConsole.Write(new Columns(mainPanel, envPanel));
+
+            Dictionary<string, CryptoProvider> cryptoProviders = CryptoProviderFactory.GetProviders();
+            if (cryptoProviders.Count == 0) return;
+
+            AnsiConsole.WriteLine();
+            AnsiConsole.Write(new Rule("Registered Crypto Providers").LeftJustified());
+            AnsiConsole.WriteLine();
+
+            var providerCards = new List<Panel>();
+
+            foreach (KeyValuePair<string, CryptoProvider> provider in cryptoProviders)
+            {
+                var g = new Grid()
+                    .AddColumn(GetNiceColumn())
+                    .AddColumn()
+                    .AddRow("Aliases", provider.Key.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
+
+                foreach (var alias in CryptoProviderFactory.GetAliases(provider.Key))
+                {
+                    g.AddRow("", alias.Replace("kryptor:", $"[{Color.DarkCyan}]kryptor:[/]"));
+                }
+
+                g.AddRow("Is Secure", $"[{ColorizeBool(provider.Value.IsSecure)}]{provider.Value.IsSecure}[/]");
+
+                g.AddRow("E&D Chunk Size", $"{provider.Value.EncryptionChunkSize}/{provider.Value.DecryptionChunkSize}");
+
+                providerCards.Add(new Panel(g)
+                    .Header(provider.Value.Name));
+            }
+
+            AnsiConsole.Write(new Columns(providerCards));
         }
 
         private static Color ColorizeBool(bool value) => value ? Color.LightGreen : Color.Red;
