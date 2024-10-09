@@ -108,7 +108,7 @@ Setup(context => {
 
 Task("Restore-Engine")
 	.Description("Restore kryptor engine dependencies")
-	.WithCriteria(!noRestore)
+	.WithCriteria(!noRestore && !noBuild)
 	.Does(() => {
 		DotNetRestore(engineProjectFile, GlobalRestoreSettings);
 	});
@@ -131,7 +131,7 @@ Task("Pack-Engine")
 Task("Restore-Client")
 	.Description("Restore kryptor client utilities dependencies")
 	.IsDependentOn("Restore-Engine")
-	.WithCriteria(!noRestore)
+	.WithCriteria(!noRestore && !noBuild)
 	.Does(() => {
 		DotNetRestore(clientProjectFile, GlobalRestoreSettings);
 	});
@@ -154,7 +154,7 @@ Task("Pack-Client")
 Task("Restore-Cli")
 	.Description("Restore kryptor command line interface dependencies")
 	.IsDependentOn("Restore-Client")
-	.WithCriteria(!noRestore)
+	.WithCriteria(!noRestore && !noBuild)
 	.Does(() => {
 		DotNetRestore(cliProjectFile, GlobalRestoreSettings);
 	});
@@ -197,7 +197,7 @@ Task("Publish-Cli.bundle")
 Task("Restore-Cli.Aot")
 	.Description("Restore kryptor cli native AOT dependencies")
 	.IsDependentOn("Restore-Client")
-	.WithCriteria(!noRestore)
+	.WithCriteria(!noRestore && !noBuild)
 	.Does(() => {
 		var restoreSettings = GlobalRestoreSettings;
 
@@ -236,7 +236,7 @@ Task("Publish-Cli.Aot")
 Task("Restore-Engine.Test")
 	.Description("Restore kryptor engine test dependencies")
 	.IsDependentOn("Restore-Engine")
-	.WithCriteria(!noRestore)
+	.WithCriteria(!noRestore && !noBuild)
 	.Does(() => {
 		DotNetRestore(engineTestProjectFile, GlobalRestoreSettings);
 	});
