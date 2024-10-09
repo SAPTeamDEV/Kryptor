@@ -10,7 +10,8 @@ var runtime = Argument("r", "");
 var framework  = Argument("f", "");
 var output = Argument<string>("o", null);
 
-var noRestore = Argument<bool>("no-restore", false);
+var noRestore = Argument("no-restore", false);
+var noBuild = Argument("no-build", false);
 
 string engineProjectFile = "src/Kryptor/Kryptor.csproj";
 string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
@@ -115,6 +116,7 @@ Task("Restore-Engine")
 Task("Build-Engine")
 	.Description("Build kryptor engine")
 	.IsDependentOn("Restore-Engine")
+	.WithCriteria(!noBuild)
 	.Does(() => {
 		DotNetBuild(engineProjectFile, GlobalBuildSettings);
 	});
@@ -137,6 +139,7 @@ Task("Restore-Client")
 Task("Build-Client")
 	.Description("Build kryptor client utilities")
 	.IsDependentOn("Restore-Client")
+	.WithCriteria(!noBuild)
 	.Does(() => {
 		DotNetBuild(clientProjectFile, GlobalBuildSettings);
 	});
@@ -159,6 +162,7 @@ Task("Restore-Cli")
 Task("Build-Cli")
 	.Description("Build kryptor command line interface")
 	.IsDependentOn("Restore-Cli")
+	.WithCriteria(!noBuild)
 	.Does(() => {
 		DotNetBuild(cliProjectFile, GlobalBuildSettings);
 	});
@@ -240,6 +244,7 @@ Task("Restore-Engine.Test")
 Task("Build-Engine.Test")
 	.Description("Build kryptor engine test")
 	.IsDependentOn("Restore-Engine.Test")
+	.WithCriteria(!noBuild)
 	.Does(() => {
 		DotNetBuild(engineTestProjectFile, GlobalBuildSettings);
 	});
@@ -250,6 +255,12 @@ Task("Test-Engine")
 	.Does(() => {
 		DotNetTest(engineTestProjectFile, GlobalTestSettings);
 	});
+
+Task("Restore-All")
+	.Description("Restore all projects")
+	.IsDependentOn("Restore-Engine")
+	.IsDependentOn("Restore-Client")
+	.IsDependentOn("Restore-Cli");
 
 Task("Build-All")
 	.Description("Build all projects")
