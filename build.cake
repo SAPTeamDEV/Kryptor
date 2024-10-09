@@ -262,11 +262,19 @@ Task("Restore-All")
 	.IsDependentOn("Restore-Client")
 	.IsDependentOn("Restore-Cli");
 
+Task("Restore-Tests")
+	.Description("Restore all test projects")
+	.IsDependentOn("Restore-Engine.Test");
+
 Task("Build-All")
 	.Description("Build all projects")
 	.IsDependentOn("Build-Engine")
 	.IsDependentOn("Build-Client")
 	.IsDependentOn("Build-Cli");
+
+Task("Build-Tests")
+	.Description("Build all test projects")
+	.IsDependentOn("Build-Engine.Test");
 
 Task("Pack-All")
 	.Description("Create NuGet package for all projects")

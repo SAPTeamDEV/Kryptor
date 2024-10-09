@@ -51,17 +51,20 @@ jobs:
             8.0.x
       - name: Install dependencies
         run: |
-          ./build.sh --bootstrap
+          ./build.sh -t restore-all
+          ./build.sh -t restore-tests
           
       - name: Build
         run: |
-          ./build.sh -t build-all -c ${{ matrix.configuration }}
+          ./build.sh -t build-all -c ${{ matrix.configuration }} --no-restore true
+          ./build.sh -t build-tests -c ${{ matrix.configuration }} --no-restore true
         shell: bash
 
       - name: Test
         run: |
-          ./build.sh -t test-all -c ${{ matrix.configuration }}
+          ./build.sh -t test-all -c ${{ matrix.configuration }} --no-build true
         shell: bash
+
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: matrix.os == 'ubuntu' && matrix.configuration == 'Nuget'
@@ -78,7 +81,7 @@ jobs:
       - name: Create NuGet package
         if: github.event_name != 'pull_request'
         run: |
-          ./build.sh -t pack-all  -c ${{ matrix.configuration }}
+          ./build.sh -t pack-all -c ${{ matrix.configuration }} --no-build true
         shell: bash
       
       - name: Deploy to Github packages
