@@ -10,6 +10,8 @@ var runtime = Argument("r", "");
 var framework  = Argument("f", "");
 var output = Argument<string>("o", null);
 
+var noRestore = Argument<bool>("no-restore", false);
+
 string engineProjectFile = "src/Kryptor/Kryptor.csproj";
 string clientProjectFile = "src/Kryptor.Client/Kryptor.Client.csproj";
 
@@ -96,7 +98,6 @@ Setup(context => {
 	}
 
 	if (context.TasksToExecute.Where(task => task.Name.StartsWith("Publish-")).Count() > 0){
-		Information("Lock file ignored due to publish request");
 		ignoreLockFile = true;
 	}
 	else{
@@ -106,6 +107,7 @@ Setup(context => {
 
 Task("Restore-Engine")
 	.Description("Restore kryptor engine dependencies")
+	.WithCriteria(!noRestore)
 	.Does(() => {
 		DotNetRestore(engineProjectFile, GlobalRestoreSettings);
 	});
@@ -127,6 +129,7 @@ Task("Pack-Engine")
 Task("Restore-Client")
 	.Description("Restore kryptor client utilities dependencies")
 	.IsDependentOn("Restore-Engine")
+	.WithCriteria(!noRestore)
 	.Does(() => {
 		DotNetRestore(clientProjectFile, GlobalRestoreSettings);
 	});
@@ -148,6 +151,7 @@ Task("Pack-Client")
 Task("Restore-Cli")
 	.Description("Restore kryptor command line interface dependencies")
 	.IsDependentOn("Restore-Client")
+	.WithCriteria(!noRestore)
 	.Does(() => {
 		DotNetRestore(cliProjectFile, GlobalRestoreSettings);
 	});
@@ -189,6 +193,7 @@ Task("Publish-Cli.bundle")
 Task("Restore-Cli.Aot")
 	.Description("Restore kryptor cli native AOT dependencies")
 	.IsDependentOn("Restore-Client")
+	.WithCriteria(!noRestore)
 	.Does(() => {
 		var restoreSettings = GlobalRestoreSettings;
 
@@ -227,6 +232,7 @@ Task("Publish-Cli.Aot")
 Task("Restore-Engine.Test")
 	.Description("Restore kryptor engine test dependencies")
 	.IsDependentOn("Restore-Engine")
+	.WithCriteria(!noRestore)
 	.Does(() => {
 		DotNetRestore(engineTestProjectFile, GlobalRestoreSettings);
 	});
