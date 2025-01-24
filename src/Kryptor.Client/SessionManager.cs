@@ -234,10 +234,12 @@ namespace SAPTeam.Kryptor.Client
         private void QueueProcessImpl()
         {
             List<SessionHolder> waiting;
+            bool useTaskSet = true;
 
             if (_sessionGroup != null)
             {
                 waiting = _sessionGroup.WaitingSessions;
+                useTaskSet = false;
             }
             else
             {
@@ -246,7 +248,7 @@ namespace SAPTeam.Kryptor.Client
 
             foreach (var sessionHolder in waiting)
             {
-                if (_taskSet.Add(sessionHolder.Id))
+                if (!useTaskSet || _taskSet.Add(sessionHolder.Id))
                 {
                     _taskQueue.Enqueue(sessionHolder);
                 }
@@ -313,7 +315,10 @@ namespace SAPTeam.Kryptor.Client
                         Remove(sessionHolder.Id);
                     }
 
-                    StartQueuedSessions();
+                    if (_sessionGroup == null)
+                    {
+                        StartQueuedSessions();
+                    }
                 });
             }
         }
