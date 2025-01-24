@@ -1,4 +1,8 @@
-﻿using SAPTeam.Kryptor.Helpers;
+﻿using System.Collections.Concurrent;
+using System.Threading;
+using System.Threading.Tasks;
+
+using SAPTeam.Kryptor.Helpers;
 
 namespace SAPTeam.Kryptor.Client
 {
@@ -8,6 +12,8 @@ namespace SAPTeam.Kryptor.Client
         private readonly ISessionHost _sessionHost;
         private bool _cancellationRequested;
         private SessionGroup _sessionGroup;
+        private readonly ConcurrentQueue<SessionHolder> _taskQueue = new ConcurrentQueue<SessionHolder>();
+        private readonly List<Thread> _threads = new List<Thread>();
 
         /// <summary>
         /// Gets or sets the maximum allowed running sessions.
@@ -27,6 +33,15 @@ namespace SAPTeam.Kryptor.Client
         {
             _sessionHost = sessionHost;
             MaxRunningSessions = maxRunningSessions;
+
+            // Initialize the thread pool
+            for (int i = 0; i < maxRunningSessions; i++)
+            {
+                Thread thread = new Thread(ProcessTasks);
+                thread.IsBackground = true;
+                _threads.Add(thread);
+                thread.Start();
+            }
         }
 
         /// <summary>
@@ -227,45 +242,50 @@ namespace SAPTeam.Kryptor.Client
             }
             else
             {
-                runningCount = Holders.Where(x => x.Session.Status == SessionStatus.Running).Count();
-                waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsRady(x)).ToList();
+                runningCount = Holders.Count(x => x.Session.Status == SessionStatus.Running);
+                waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsReady(x)).ToList();
             }
 
             if (waiting.Count == 0 || runningCount >= MaxRunningSessions) return;
 
-            int toBeStarted = Math.Min(MaxRunningSessions - runningCount, waiting.Count);
-            for (int i = 0; i < toBeStarted; i++)
+            foreach (var sessionHolder in waiting)
             {
-                try
+                _taskQueue.Enqueue(sessionHolder);
+            }
+        }
+
+        private void ProcessTasks()
+        {
+            while (true)
+            {
+                if (_taskQueue.TryDequeue(out var sessionHolder))
                 {
-                    SessionHolder sessionHolder = waiting[_sessionGroup != null ? 0 : Math.Min(waiting.Count - 1, i)];
-                    StartManagedSession(sessionHolder);
-                }
-                catch
-                {
-                    // Do not crash the SessionManager for ANY reasons. it may cause unexpected behavior and infinite loops.
-                    if (_sessionHost.Verbose)
+                    try
                     {
-                        throw;
+                        StartManagedSession(sessionHolder);
                     }
+                    catch (Exception ex)
+                    {
+                        sessionHolder.Session.Messages.Add("Error in session start: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(10); // Sleep for a short period to avoid busy-waiting
                 }
             }
         }
 
-        private static bool SafeIsRady(SessionHolder holder)
+        private static bool SafeIsReady(SessionHolder holder)
         {
-            bool ready;
-
             try
             {
-                ready = holder.Session.IsReady(holder.TokenSource.Token);
+                return holder.Session.IsReady(holder.TokenSource.Token);
             }
             catch
             {
-                ready = false;
+                return false;
             }
-
-            return ready;
         }
 
         private void StartManagedSession(SessionHolder sessionHolder)
@@ -273,11 +293,14 @@ namespace SAPTeam.Kryptor.Client
             Task task = sessionHolder.StartTask(_sessionHost, true);
             if (task != null)
             {
-                task.ContinueWith(x => StartQueuedSessions());
+                task.ContinueWith(t =>
+                {
+                    StartQueuedSessions();
+                });
 
                 if (sessionHolder.AutoRemove)
                 {
-                    task.ContinueWith(x => Remove(sessionHolder.Id));
+                    task.ContinueWith(t => Remove(sessionHolder.Id));
                 }
             }
         }
