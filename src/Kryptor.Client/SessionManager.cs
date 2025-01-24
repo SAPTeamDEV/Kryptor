@@ -13,6 +13,7 @@ namespace SAPTeam.Kryptor.Client
         private bool _cancellationRequested;
         private SessionGroup _sessionGroup;
         private readonly ConcurrentQueue<SessionHolder> _taskQueue = new ConcurrentQueue<SessionHolder>();
+        private readonly HashSet<int> _taskSet = new HashSet<int>();
         private readonly List<Thread> _threads = new List<Thread>();
 
         /// <summary>
@@ -232,25 +233,23 @@ namespace SAPTeam.Kryptor.Client
 
         private void QueueProcessImpl()
         {
-            int runningCount;
             List<SessionHolder> waiting;
 
             if (_sessionGroup != null)
             {
-                runningCount = _sessionGroup.Running;
                 waiting = _sessionGroup.WaitingSessions;
             }
             else
             {
-                runningCount = Holders.Count(x => x.Session.Status == SessionStatus.Running);
                 waiting = Holders.Where(x => x.Session.Status == SessionStatus.NotStarted && SafeIsReady(x)).ToList();
             }
 
-            if (waiting.Count == 0 || runningCount >= MaxRunningSessions) return;
-
             foreach (var sessionHolder in waiting)
             {
-                _taskQueue.Enqueue(sessionHolder);
+                if (_taskSet.Add(sessionHolder.Id))
+                {
+                    _taskQueue.Enqueue(sessionHolder);
+                }
             }
         }
 
@@ -262,11 +261,20 @@ namespace SAPTeam.Kryptor.Client
                 {
                     try
                     {
+                        if (sessionHolder.Session.Status != SessionStatus.NotStarted)
+                        {
+                            continue;
+                        }
+
                         StartManagedSession(sessionHolder);
                     }
                     catch (Exception ex)
                     {
-                        sessionHolder.Session.Messages.Add("Error in session start: " + ex.Message);
+                        // Log the exception if verbose mode is enabled
+                        if (_sessionHost.Verbose)
+                        {
+                            Console.WriteLine($"Error starting session: {ex.Message}");
+                        }
                     }
                 }
                 else
@@ -295,13 +303,18 @@ namespace SAPTeam.Kryptor.Client
             {
                 task.ContinueWith(t =>
                 {
+                    lock (_lock)
+                    {
+                        _taskSet.Remove(sessionHolder.Id);
+                    }
+
+                    if (sessionHolder.AutoRemove)
+                    {
+                        Remove(sessionHolder.Id);
+                    }
+
                     StartQueuedSessions();
                 });
-
-                if (sessionHolder.AutoRemove)
-                {
-                    task.ContinueWith(t => Remove(sessionHolder.Id));
-                }
             }
         }
     }
