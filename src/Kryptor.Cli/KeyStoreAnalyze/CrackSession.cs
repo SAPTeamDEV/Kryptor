@@ -45,7 +45,10 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
 
             await container.WaitAll();
 
-            cancellationToken.ThrowIfCancellationRequested();
+            if (!Found)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
 
             return true;
         }
