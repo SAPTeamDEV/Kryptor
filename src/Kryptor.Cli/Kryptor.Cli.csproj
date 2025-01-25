@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0;net9.0</TargetFrameworks>
 
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <OutputType>Exe</OutputType>
@@ -60,12 +60,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.143" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="All" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-    <PackageReference Include="Downloader" Version="3.2.1" Condition="'$(Configuration)' != 'Light'" />
-    <PackageReference Include="SharpCompress" Version="0.38.0" Condition="'$(Configuration)' != 'Light'" />
+    <PackageReference Include="Downloader" Version="3.3.3" Condition="'$(Configuration)' != 'Light'" />
+    <PackageReference Include="SharpCompress" Version="0.39.0" Condition="'$(Configuration)' != 'Light'" />
     <PackageReference Include="Spectre.Console" Version="0.49.1" />
-    <PackageReference Include="Pastel" Version="5.1.0" />
+    <PackageReference Include="Pastel" Version="6.0.1" />
 
     <ProjectReference Include="..\Kryptor\Kryptor.csproj" />
     <ProjectReference Include="..\Kryptor.Client\Kryptor.Client.csproj" />

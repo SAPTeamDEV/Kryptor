@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;net6.0;net8.0;net9.0</TargetFrameworks>
     <AssemblyName>SAPTeam.Kryptor.Client</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <PackageId>$(AssemblyName)</PackageId>
@@ -32,5 +32,5 @@
     </ItemGroup>
 
   <Import Project="$(RepoRootPath)build\Library.props" />
-  
+
 </Project>
