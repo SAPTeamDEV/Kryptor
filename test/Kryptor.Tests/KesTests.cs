@@ -8,7 +8,7 @@ namespace SAPTeam.Kryptor.Tests
         private readonly byte[] testBytes = new byte[16] { 53, 15, 79, 254, 74, 156, 59, 88, 1, 0, 255, 65, 198, 36, 59, 214 };
 
         [Fact]
-        public async void EncryptDecryptTest()
+        public async Task EncryptDecryptTest()
         {
             KeyStore ks = KeyStore.Generate(128);
             CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
@@ -35,7 +35,7 @@ namespace SAPTeam.Kryptor.Tests
         }
 
         [Fact]
-        public async void InvalidKeystoreTest()
+        public async Task InvalidKeystoreTest()
         {
             KeyStore ks = KeyStore.Generate(128);
             CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
@@ -50,7 +50,7 @@ namespace SAPTeam.Kryptor.Tests
         }
 
         [Fact]
-        public async void EncryptOverflow()
+        public async Task EncryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
             CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");
@@ -62,7 +62,7 @@ namespace SAPTeam.Kryptor.Tests
         }
 
         [Fact]
-        public async void DecryptOverflow()
+        public async Task DecryptOverflow()
         {
             KeyStore ks = KeyStore.Generate(128);
             CryptoProvider cp = CryptoProviderFactory.Create(ks, "MixedVector");

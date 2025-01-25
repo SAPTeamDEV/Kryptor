@@ -8,752 +8,124 @@
 
         static BackwardCompatibilityTests() => ks = new KeyStore(keyStoreData);
 
-        [Fact]
-        public void SKTest()
+        private static async Task RunTest(string id, byte[] resource, bool continuous = false, bool removeHash = false, bool dynamicBlockProcessing = false)
         {
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
-                Id = "SK",
+                Id = id,
+                Continuous = continuous,
+                RemoveHash = removeHash,
+                DynamicBlockProcessing = dynamicBlockProcessing,
             };
             cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
 
             MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SK);
+            MemoryStream ms2 = new MemoryStream(resource);
             MemoryStream ms3 = new MemoryStream();
 
             Header header = Header.ReadHeader<Header>(ms2);
             Assert.Equal(cpc, header.Configuration);
 
             Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
+            await kes.DecryptAsync(ms2, ms3);
 
             Assert.Equal(ms.ToArray(), ms3.ToArray());
         }
 
         [Fact]
-        public void TKTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TK);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKTest() => await RunTest("SK", Resources.SK);
 
         [Fact]
-        public void MVTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MV);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKTest() => await RunTest("TK", Resources.TK);
 
         [Fact]
-        public void TPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVTest() => await RunTest("MV", Resources.MV);
 
         [Fact]
-        public void DETest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DE);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPTest() => await RunTest("TP", Resources.TP);
 
         [Fact]
-        public void SKWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuous);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DETest() => await RunTest("DE", Resources.DE);
 
         [Fact]
-        public void TKWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                Continuous = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuous);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousTest() => await RunTest("SK", Resources.SKWithContinuous, continuous: true);
 
         [Fact]
-        public void MVWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuous);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithContinuousTest() => await RunTest("TK", Resources.TKWithContinuous, continuous: true);
 
         [Fact]
-        public void TPWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                Continuous = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuous);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousTest() => await RunTest("MV", Resources.MVWithContinuous, continuous: true);
 
         [Fact]
-        public void DEWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuous);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithContinuousTest() => await RunTest("TP", Resources.TPWithContinuous, continuous: true);
 
         [Fact]
-        public void SKWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousTest() => await RunTest("DE", Resources.DEWithContinuous, continuous: true);
 
         [Fact]
-        public void MVWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithRemoveHashTest() => await RunTest("SK", Resources.SKWithRemoveHash, removeHash: true);
 
         [Fact]
-        public void DEWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithRemoveHashTest() => await RunTest("MV", Resources.MVWithRemoveHash, removeHash: true);
 
         [Fact]
-        public void SKWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithRemoveHashTest() => await RunTest("DE", Resources.DEWithRemoveHash, removeHash: true);
 
         [Fact]
-        public void TKWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TKWithDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithDBPTest() => await RunTest("SK", Resources.SKWithDBP, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithDBPTest() => await RunTest("TK", Resources.TKWithDBP, dynamicBlockProcessing: true);
 
         [Fact]
-        public void TPWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TPWithDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithDBPTest() => await RunTest("MV", Resources.MVWithDBP, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithDBPTest() => await RunTest("TP", Resources.TPWithDBP, dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithDBPTest() => await RunTest("DE", Resources.DEWithDBP, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndRemoveHashTest() => await RunTest("SK", Resources.SKWithContinuousAndRemoveHash, continuous: true, removeHash: true);
 
         [Fact]
-        public void DEWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHash);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousAndRemoveHashTest() => await RunTest("MV", Resources.MVWithContinuousAndRemoveHash, continuous: true, removeHash: true);
 
         [Fact]
-        public void SKWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousAndRemoveHashTest() => await RunTest("DE", Resources.DEWithContinuousAndRemoveHash, continuous: true, removeHash: true);
 
         [Fact]
-        public void TKWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TKWithContinuousAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndDBPTest() => await RunTest("SK", Resources.SKWithContinuousAndDBP, continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithContinuousAndDBPTest() => await RunTest("TK", Resources.TKWithContinuousAndDBP, continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void TPWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.TPWithContinuousAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousAndDBPTest() => await RunTest("MV", Resources.MVWithContinuousAndDBP, continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithContinuousAndDBPTest() => await RunTest("TP", Resources.TPWithContinuousAndDBP, continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousAndDBPTest() => await RunTest("DE", Resources.DEWithContinuousAndDBP, continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithRemoveHashAndDBPTest() => await RunTest("SK", Resources.SKWithRemoveHashAndDBP, removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithRemoveHashAndDBPTest() => await RunTest("MV", Resources.MVWithRemoveHashAndDBP, removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.SKWithContinuousAndRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithRemoveHashAndDBPTest() => await RunTest("DE", Resources.DEWithRemoveHashAndDBP, removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.MVWithContinuousAndRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndRemoveHashAndDBPTest() => await RunTest("SK", Resources.SKWithContinuousAndRemoveHashAndDBP, continuous: true, removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            cpc.Id = CryptoProviderFactory.ResolveId(cpc.Id);
+        public async Task MVWithContinuousAndRemoveHashAndDBPTest() => await RunTest("MV", Resources.MVWithContinuousAndRemoveHashAndDBP, continuous: true, removeHash: true, dynamicBlockProcessing: true);
 
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream(Resources.DEWithContinuousAndRemoveHashAndDBP);
-            MemoryStream ms3 = new MemoryStream();
-
-            Header header = Header.ReadHeader<Header>(ms2);
-            Assert.Equal(cpc, header.Configuration);
-
-            Kes kes = new Kes(ks, header.Configuration);
-            kes.DecryptAsync(ms2, ms3).Wait();
-
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        [Fact]
+        public async Task DEWithContinuousAndRemoveHashAndDBPTest() => await RunTest("DE", Resources.DEWithContinuousAndRemoveHashAndDBP, continuous: true, removeHash: true, dynamicBlockProcessing: true);
     }
 }

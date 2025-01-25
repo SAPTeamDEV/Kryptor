@@ -18,12 +18,14 @@
             ks = new KeyStore(keyStoreData);
         }
 
-        [Fact]
-        public void SKTest()
+        private static async Task TestEncryptionDecryption(string id, bool continuous = false, bool removeHash = false, bool dynamicBlockProcessing = false)
         {
             CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
             {
-                Id = "SK",
+                Id = id,
+                Continuous = continuous,
+                RemoveHash = removeHash,
+                DynamicBlockProcessing = dynamicBlockProcessing,
             };
             Kes kes = new Kes(ks, cpc);
 
@@ -32,762 +34,111 @@
             MemoryStream ms = new MemoryStream(data);
             MemoryStream ms2 = new MemoryStream();
 
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
+            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, };
+            await kes.EncryptAsync(ms, ms2, header);
 
-            File.WriteAllBytes("SK", ms2.ToArray());
+            File.WriteAllBytes($"{id}{(continuous ? "WithContinuous" : "")}{(removeHash ? "WithRemoveHash" : "")}{(dynamicBlockProcessing ? "WithDBP" : "")}", ms2.ToArray());
 
             MemoryStream ms3 = new MemoryStream();
 
-            kes.DecryptAsync(ms2, ms3).Wait();
+            await kes.DecryptAsync(ms2, ms3);
             Assert.Equal(ms.ToArray(), ms3.ToArray());
         }
 
         [Fact]
-        public void TKTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TK", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKTest() => await TestEncryptionDecryption("SK");
 
         [Fact]
-        public void MVTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MV", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKTest() => await TestEncryptionDecryption("TK");
 
         [Fact]
-        public void TPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVTest() => await TestEncryptionDecryption("MV");
 
         [Fact]
-        public void DETest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DE", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPTest() => await TestEncryptionDecryption("TP");
 
         [Fact]
-        public void SKWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithContinuous", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DETest() => await TestEncryptionDecryption("DE");
 
         [Fact]
-        public void TKWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                Continuous = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TKWithContinuous", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousTest() => await TestEncryptionDecryption("SK", continuous: true);
 
         [Fact]
-        public void MVWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithContinuous", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithContinuousTest() => await TestEncryptionDecryption("TK", continuous: true);
 
         [Fact]
-        public void TPWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                Continuous = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TPWithContinuous", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousTest() => await TestEncryptionDecryption("MV", continuous: true);
 
         [Fact]
-        public void DEWithContinuousTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithContinuous", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithContinuousTest() => await TestEncryptionDecryption("TP", continuous: true);
 
         [Fact]
-        public void SKWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousTest() => await TestEncryptionDecryption("DE", continuous: true);
 
         [Fact]
-        public void MVWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithRemoveHashTest() => await TestEncryptionDecryption("SK", removeHash: true);
 
         [Fact]
-        public void DEWithRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithRemoveHashTest() => await TestEncryptionDecryption("MV", removeHash: true);
 
         [Fact]
-        public void SKWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithRemoveHashTest() => await TestEncryptionDecryption("DE", removeHash: true);
 
         [Fact]
-        public void TKWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TKWithDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithDBPTest() => await TestEncryptionDecryption("SK", dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithDBPTest() => await TestEncryptionDecryption("TK", dynamicBlockProcessing: true);
 
         [Fact]
-        public void TPWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TPWithDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithDBPTest() => await TestEncryptionDecryption("MV", dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithDBPTest() => await TestEncryptionDecryption("TP", dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithContinuousAndRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithDBPTest() => await TestEncryptionDecryption("DE", dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithContinuousAndRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndRemoveHashTest() => await TestEncryptionDecryption("SK", continuous: true, removeHash: true);
 
         [Fact]
-        public void DEWithContinuousAndRemoveHashTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                RemoveHash = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithContinuousAndRemoveHash", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousAndRemoveHashTest() => await TestEncryptionDecryption("MV", continuous: true, removeHash: true);
 
         [Fact]
-        public void SKWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithContinuousAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousAndRemoveHashTest() => await TestEncryptionDecryption("DE", continuous: true, removeHash: true);
 
         [Fact]
-        public void TKWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TK",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TKWithContinuousAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndDBPTest() => await TestEncryptionDecryption("SK", continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithContinuousAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TKWithContinuousAndDBPTest() => await TestEncryptionDecryption("TK", continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void TPWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "TP",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("TPWithContinuousAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithContinuousAndDBPTest() => await TestEncryptionDecryption("MV", continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithContinuousAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithContinuousAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task TPWithContinuousAndDBPTest() => await TestEncryptionDecryption("TP", continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithContinuousAndDBPTest() => await TestEncryptionDecryption("DE", continuous: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithRemoveHashAndDBPTest() => await TestEncryptionDecryption("SK", removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task MVWithRemoveHashAndDBPTest() => await TestEncryptionDecryption("MV", removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void SKWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "SK",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            if (!kes.Provider.IsSecure) return;
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("SKWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task DEWithRemoveHashAndDBPTest() => await TestEncryptionDecryption("DE", removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void MVWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "MV",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
-
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("MVWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        public async Task SKWithContinuousAndRemoveHashAndDBPTest() => await TestEncryptionDecryption("SK", continuous: true, removeHash: true, dynamicBlockProcessing: true);
 
         [Fact]
-        public void DEWithContinuousAndRemoveHashAndDBPTest()
-        {
-            CryptoProviderConfiguration cpc = new CryptoProviderConfiguration()
-            {
-                Id = "DE",
-                Continuous = true,
-                RemoveHash = true,
-                DynamicBlockProcessing = true,
-            };
-            Kes kes = new Kes(ks, cpc);
+        public async Task MVWithContinuousAndRemoveHashAndDBPTest() => await TestEncryptionDecryption("MV", continuous: true, removeHash: true, dynamicBlockProcessing: true);
 
-            MemoryStream ms = new MemoryStream(data);
-            MemoryStream ms2 = new MemoryStream();
-
-            Header header = new Header() { Verbosity = HeaderVerbosity.Maximum, }; kes.EncryptAsync(ms, ms2, header).Wait();
-
-            File.WriteAllBytes("DEWithContinuousAndRemoveHashAndDBP", ms2.ToArray());
-
-            MemoryStream ms3 = new MemoryStream();
-
-            kes.DecryptAsync(ms2, ms3).Wait();
-            Assert.Equal(ms.ToArray(), ms3.ToArray());
-        }
+        [Fact]
+        public async Task DEWithContinuousAndRemoveHashAndDBPTest() => await TestEncryptionDecryption("DE", continuous: true, removeHash: true, dynamicBlockProcessing: true);
     }
 }

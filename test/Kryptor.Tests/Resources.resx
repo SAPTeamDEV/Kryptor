@@ -125,13 +125,13 @@
     <value>TestArtifacts\DEWithContinuous;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DEWithContinuousAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\DEWithContinuousAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\DEWithContinuousWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DEWithContinuousAndRemoveHash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\DEWithContinuousAndRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\DEWithContinuousWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DEWithContinuousAndRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\DEWithContinuousAndRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\DEWithContinuousWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DEWithDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\DEWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -140,7 +140,7 @@
     <value>TestArtifacts\DEWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DEWithRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\DEWithRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\DEWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="KeyStoreData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\KeyStoreData;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -152,13 +152,13 @@
     <value>TestArtifacts\MVWithContinuous;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MVWithContinuousAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\MVWithContinuousAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\MVWithContinuousWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MVWithContinuousAndRemoveHash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\MVWithContinuousAndRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\MVWithContinuousWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MVWithContinuousAndRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\MVWithContinuousAndRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\MVWithContinuousWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MVWithDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\MVWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -167,7 +167,7 @@
     <value>TestArtifacts\MVWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MVWithRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\MVWithRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\MVWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SampleData" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\SampleData;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -179,13 +179,13 @@
     <value>TestArtifacts\SKWithContinuous;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SKWithContinuousAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\SKWithContinuousAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\SKWithContinuousWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SKWithContinuousAndRemoveHash" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\SKWithContinuousAndRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\SKWithContinuousWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SKWithContinuousAndRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\SKWithContinuousAndRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\SKWithContinuousWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SKWithDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\SKWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -194,7 +194,7 @@
     <value>TestArtifacts\SKWithRemoveHash;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SKWithRemoveHashAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\SKWithRemoveHashAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\SKWithRemoveHashWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TK" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\TK;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -203,7 +203,7 @@
     <value>TestArtifacts\TKWithContinuous;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TKWithContinuousAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\TKWithContinuousAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\TKWithContinuousWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TKWithDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\TKWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -215,7 +215,7 @@
     <value>TestArtifacts\TPWithContinuous;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TPWithContinuousAndDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>TestArtifacts\TPWithContinuousAndDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>TestArtifacts\TPWithContinuousWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TPWithDBP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TestArtifacts\TPWithDBP;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
