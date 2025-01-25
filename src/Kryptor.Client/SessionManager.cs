@@ -234,12 +234,11 @@ namespace SAPTeam.Kryptor.Client
         private void QueueProcessImpl()
         {
             List<SessionHolder> waiting;
-            bool useTaskSet = true;
+            bool useTaskSet = _sessionGroup == null;
 
             if (_sessionGroup != null)
             {
                 waiting = _sessionGroup.WaitingSessions;
-                useTaskSet = false;
             }
             else
             {
