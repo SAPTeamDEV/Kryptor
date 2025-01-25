@@ -31,19 +31,6 @@
         public Task[] Tasks => SessionPool.Values.Select(x => x.Task).Concat(TaskPool).Where(x => x != null).ToArray();
 
         /// <summary>
-        /// Gets an array of all cancellation tokens.
-        /// </summary>
-        public CancellationTokenSource[] TokenSources
-        {
-            get
-            {
-                tokenSources ??= SessionPool.Values.Select(x => x.TokenSource).ToArray();
-
-                return tokenSources;
-            }
-        }
-
-        /// <summary>
         /// Gets all session holders.
         /// </summary>
         public ICollection<SessionHolder> Holders

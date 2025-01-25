@@ -50,29 +50,16 @@ namespace SAPTeam.Kryptor.Client
         /// </summary>
         /// <remarks>
         /// This method also waits for sessions that are not started yet.
-        /// If the <paramref name="cancellationToken"/> was cancelled, this method will cancel all existing tokens in this container and waits for all of them to end.
-        /// This method intended to be used by sub-session models. in standard session host based model, the monitoring, cancelling and ending is managed by various parts.
+        /// This method intended to be used by sub-session models. in standard session host based model, the monitoring, canceling and ending is managed by various parts.
         /// But in sub-session models, you could achieve all of these features in this method.
-        /// Using this method in session host is not recommended at all because this method is not intended for that porpose.
+        /// Using this method in session host is not recommended at all because this method is not intended for that purpose.
         /// </remarks>
-        /// <param name="cancellationToken">
-        /// The token to monitor for cancellation requests.
-        /// </param>
-        public async Task WaitAll(CancellationToken cancellationToken)
+        public async Task WaitAll()
         {
             while (!Sessions.All(x => x.Status == SessionStatus.Ended))
             {
-                if (cancellationToken.IsCancellationRequested && !_cancellationRequested)
-                {
-                    Cancel();
-
-                    _cancellationRequested = true;
-                }
-
                 await AsyncCompat.Delay(5);
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
         }
 
         /// <summary>
@@ -83,20 +70,9 @@ namespace SAPTeam.Kryptor.Client
         /// A Task must be registered by <see cref="AddMonitoringTask(Task)"/> that waits for not started sessions before calling this method.
         /// This method only intended to be used in <see cref="ISessionHost.End(bool)"/>.
         /// so using it in sub-session models is not recommended as it could be lead to unexpected session exit and losing control of sub-sessions.
-        /// it's highly recommended to use <see cref="WaitAll(CancellationToken)"/> method in that situation.
+        /// it's highly recommended to use <see cref="WaitAll()"/> method in that situation.
         /// </remarks>
         public void WaitForRunningTasks() => Task.WaitAll(Tasks);
-
-        /// <summary>
-        /// Sends cancellation request to all cancellation tokens in this container.
-        /// </summary>
-        public void Cancel()
-        {
-            foreach (CancellationTokenSource token in TokenSources.Where(x => !x.IsCancellationRequested))
-            {
-                token.Cancel();
-            }
-        }
 
         /// <summary>
         /// Sets the provided <paramref name="sessionGroup"/> as the SessionManager's cache system.
@@ -194,9 +170,7 @@ namespace SAPTeam.Kryptor.Client
                 throw new ArgumentException("The session is already started.");
             }
 
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
-
-            SessionHolder sessionHolder = new SessionHolder(session, tokenSource)
+            SessionHolder sessionHolder = new SessionHolder(session)
             {
                 AutoRemove = autoRemove
             };
@@ -275,6 +249,7 @@ namespace SAPTeam.Kryptor.Client
                         if (_sessionHost.Verbose)
                         {
                             Console.WriteLine($"Error starting session: {ex.Message}");
+                            break;
                         }
                     }
                 }
@@ -285,11 +260,11 @@ namespace SAPTeam.Kryptor.Client
             }
         }
 
-        private static bool SafeIsReady(SessionHolder holder)
+        private bool SafeIsReady(SessionHolder holder)
         {
             try
             {
-                return holder.Session.IsReady(holder.TokenSource.Token);
+                return holder.Session.IsReady(_sessionHost.GetCancellationToken());
             }
             catch
             {

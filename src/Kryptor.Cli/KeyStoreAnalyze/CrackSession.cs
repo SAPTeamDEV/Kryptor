@@ -14,8 +14,12 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
         public bool Found { get; private set; }
         public bool Verbose => false;
 
-        public CrackSession(int maxRunningSessions)
+        CancellationTokenSource CancellationTokenSource;
+
+        public CrackSession(int maxRunningSessions, CancellationTokenSource cancellationTokenSource)
         {
+            CancellationTokenSource = cancellationTokenSource;
+
             Progress = -1;
 
             container = new SessionContainer(this, maxRunningSessions);
@@ -39,7 +43,9 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
                 NewSession(session, false, true);
             }
 
-            await container.WaitAll(cancellationToken);
+            await container.WaitAll();
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             return true;
         }
@@ -49,10 +55,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
             CalculationTimer.Stop();
             Found = true;
 
-            foreach (CancellationTokenSource token in container.TokenSources)
-            {
-                token.Cancel();
-            }
+            CancellationTokenSource.Cancel();
         }
 
         public void Start(ClientContext context) => throw new System.NotImplementedException();
@@ -64,5 +67,7 @@ namespace SAPTeam.Kryptor.Cli.KeyStoreAnalyze
         public void MonitorTask(Task task) => throw new System.NotImplementedException();
 
         public Task<TResponse> OnSessionRequest<TResponse>(ISession session, SessionRequest<TResponse> request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
+
+        public CancellationToken GetCancellationToken() => CancellationTokenSource.Token;
     }
 }

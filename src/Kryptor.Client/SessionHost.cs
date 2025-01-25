@@ -23,11 +23,17 @@
         /// <summary>
         /// Initializes all <see cref="SessionHost"/> instances.
         /// </summary>
-        protected SessionHost()
+        /// <param name="cancellationTokenSource">
+        /// The cancellation token source to use in this session host.
+        /// </param>
+        protected SessionHost(CancellationTokenSource cancellationTokenSource = null)
         {
             Container = new SessionContainer(this, Environment.ProcessorCount - 1);
-            MasterToken = new CancellationTokenSource();
+            MasterToken = cancellationTokenSource ?? new CancellationTokenSource();
         }
+
+        /// <inheritdoc/>
+        public CancellationToken GetCancellationToken() => MasterToken.Token;
 
         /// <inheritdoc/>
         public abstract void Start(ClientContext context);
@@ -44,8 +50,6 @@
 
             if (canceled)
             {
-                Container.Cancel();
-
                 MasterToken.Cancel();
 
                 // Tell to the SessionManager to do whatever needed

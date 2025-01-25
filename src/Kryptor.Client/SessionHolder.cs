@@ -20,11 +20,6 @@
         /// </summary>
         public Task Task { get; private set; }
 
-        /// <summary>
-        /// Gets the cancellation token source that controls the running session.
-        /// </summary>
-        public CancellationTokenSource TokenSource { get; set; }
-
         internal bool AutoRemove { get; set; }
 
         /// <summary>
@@ -33,10 +28,7 @@
         /// <param name="session">
         /// The session instance.
         /// </param>
-        /// <param name="tokenSource">
-        /// The cancellation token source that controls the running task.
-        /// </param>
-        public SessionHolder(ISession session, CancellationTokenSource tokenSource)
+        public SessionHolder(ISession session)
         {
             if (session.Status != SessionStatus.NotStarted)
             {
@@ -44,7 +36,6 @@
             }
 
             Session = session;
-            TokenSource = tokenSource;
         }
 
         /// <summary>
@@ -64,7 +55,7 @@
                 return throwIfRunning ? throw new InvalidOperationException("Session is already started.") : null;
             }
 
-            Task = Session.StartAsync(sessionHost, TokenSource.Token);
+            Task = Session.StartAsync(sessionHost, sessionHost.GetCancellationToken());
             return Task;
         }
     }

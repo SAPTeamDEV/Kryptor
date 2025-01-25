@@ -27,6 +27,14 @@
         void End(bool cancelled);
 
         /// <summary>
+        /// Gets the cancellation token of the session host.
+        /// </summary>
+        /// <returns>
+        /// The global cancellation token of this session host.
+        /// </returns>
+        CancellationToken GetCancellationToken();
+
+        /// <summary>
         /// Starts a new session in this session host.
         /// </summary>
         /// <param name="session">
