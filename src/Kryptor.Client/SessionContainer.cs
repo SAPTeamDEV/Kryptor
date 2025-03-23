@@ -88,7 +88,6 @@
         private void ResetCache()
         {
             sessions = null;
-            tokenSources = null;
             holders = null;
         }
     }
