@@ -4,9 +4,9 @@
     "net6.0": {
       "Downloader": {
         "type": "Direct",
-        "requested": "[3.3.3, )",
-        "resolved": "3.3.3",
-        "contentHash": "e/+TQJqYgbtbfsRk590n6iNO/OqqNHU7wV8XSLwfjXVJmZVdqwbIZJrFXOIHtv+VMnJ/a/tB12cbTf6MMQ9qwA==",
+        "requested": "[3.3.4, )",
+        "resolved": "3.3.4",
+        "contentHash": "/M/c80e1L0WW1XrLSSiQhgFxk8rrfbpWiWDn2CeBg1tPD393Neo+v184yG/ThyhE9rrNp36yCrugiCmEbRf+VQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.1"
         }
@@ -257,9 +257,9 @@
     "net8.0": {
       "Downloader": {
         "type": "Direct",
-        "requested": "[3.3.3, )",
-        "resolved": "3.3.3",
-        "contentHash": "e/+TQJqYgbtbfsRk590n6iNO/OqqNHU7wV8XSLwfjXVJmZVdqwbIZJrFXOIHtv+VMnJ/a/tB12cbTf6MMQ9qwA==",
+        "requested": "[3.3.4, )",
+        "resolved": "3.3.4",
+        "contentHash": "/M/c80e1L0WW1XrLSSiQhgFxk8rrfbpWiWDn2CeBg1tPD393Neo+v184yG/ThyhE9rrNp36yCrugiCmEbRf+VQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.1"
         }
@@ -340,9 +340,9 @@
     "net9.0": {
       "Downloader": {
         "type": "Direct",
-        "requested": "[3.3.3, )",
-        "resolved": "3.3.3",
-        "contentHash": "e/+TQJqYgbtbfsRk590n6iNO/OqqNHU7wV8XSLwfjXVJmZVdqwbIZJrFXOIHtv+VMnJ/a/tB12cbTf6MMQ9qwA==",
+        "requested": "[3.3.4, )",
+        "resolved": "3.3.4",
+        "contentHash": "/M/c80e1L0WW1XrLSSiQhgFxk8rrfbpWiWDn2CeBg1tPD393Neo+v184yG/ThyhE9rrNp36yCrugiCmEbRf+VQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.1"
         }
