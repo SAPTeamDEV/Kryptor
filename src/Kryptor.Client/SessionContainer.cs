@@ -9,7 +9,6 @@
         private readonly Dictionary<int, SessionHolder> SessionPool = new Dictionary<int, SessionHolder>();
         private readonly List<Task> TaskPool = new List<Task>();
         private ISession[] sessions;
-        private CancellationTokenSource[] tokenSources;
         private ICollection<SessionHolder> holders;
 
         /// <summary>

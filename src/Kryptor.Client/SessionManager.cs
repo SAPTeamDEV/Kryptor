@@ -10,7 +10,6 @@ namespace SAPTeam.Kryptor.Client
     {
         private readonly object _lock = new object();
         private readonly ISessionHost _sessionHost;
-        private bool _cancellationRequested;
         private SessionGroup _sessionGroup;
         private readonly ConcurrentQueue<SessionHolder> _taskQueue = new ConcurrentQueue<SessionHolder>();
         private readonly HashSet<int> _taskSet = new HashSet<int>();
