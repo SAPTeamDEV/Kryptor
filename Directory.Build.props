@@ -9,6 +9,7 @@
     <PackageOutputPath>$(RepoRootPath)artifacts\packages\$(Configuration)\</PackageOutputPath>
 
     <RepositoryUrl>https://github.com/SAPTeamDEV/Kryptor</RepositoryUrl>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Authors>Alireza Poodineh</Authors>
     <Company>SAP Team</Company>
