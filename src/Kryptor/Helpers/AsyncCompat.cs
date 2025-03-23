@@ -130,11 +130,19 @@ namespace SAPTeam.Kryptor.Helpers
         {
             if (IsAsyncCompatible)
             {
+#if NET8_0_OR_GREATER
+                await stream.ReadExactlyAsync(buffer, offset, count, cancellationToken);
+#else
                 await stream.ReadAsync(buffer, offset, count, cancellationToken);
+#endif
             }
             else
             {
+#if NET8_0_OR_GREATER
+                stream.ReadExactly(buffer, offset, count);
+#else
                 stream.Read(buffer, offset, count);
+#endif
             }
         }
 

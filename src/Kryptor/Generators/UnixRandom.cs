@@ -27,9 +27,13 @@ namespace SAPTeam.Kryptor.Generators
         {
             ProgressChanged?.Invoke(this, -1);
 
-            using (FileStream file = File.OpenRead("/dev/random"))
+            using (FileStream file = File.OpenRead("/dev/urandom"))
             {
+#if NET8_0_OR_GREATER
+                file.ReadExactly(buffer);
+#else
                 file.Read(buffer, 0, buffer.Length);
+#endif
             }
 
             ProgressChanged?.Invoke(this, 100);

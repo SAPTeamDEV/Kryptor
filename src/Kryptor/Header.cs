@@ -128,7 +128,11 @@ namespace SAPTeam.Kryptor
             }
 
             byte[] buffer = new byte[headerSize];
+#if NET8_0_OR_GREATER
+            stream.ReadExactly(buffer, 0, headerSize);
+#else
             stream.Read(buffer, 0, headerSize);
+#endif
 
             T header;
             try
@@ -152,6 +156,7 @@ namespace SAPTeam.Kryptor
         /// <returns>
         /// A new instance of the <see cref="Header"/> class.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2022:Avoid inexact read with 'Stream.Read'", Justification = "This behavior is intended")]
         public static T ReadHeaderClassic<T>(Stream stream)
             where T : Header, new()
         {
@@ -209,7 +214,11 @@ namespace SAPTeam.Kryptor
             stream.Seek(startPos, SeekOrigin.Begin);
 
             byte[] dataBuffer = new byte[endPos - startPos];
+#if NET8_0_OR_GREATER
+            stream.ReadExactly(dataBuffer);
+#else
             stream.Read(dataBuffer, 0, dataBuffer.Length);
+#endif
 
             T header = ReadHeaderInternal<T>(dataBuffer.Base64DecodeToString());
 
